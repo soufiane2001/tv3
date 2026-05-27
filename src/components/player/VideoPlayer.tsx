@@ -37,6 +37,7 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
   const [showControls, setShowControls] = useState(true);
   const [retryCount, setRetryCount] = useState(0);
   const [isOnline, setIsOnline] = useState(true);
+  const bufferingTimer = useRef<NodeJS.Timeout | null>(null);
 
   const streamUrl = `/api/stream/${channel.id}`;
 
@@ -142,6 +143,16 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
     if (!video) return;
     video.volume = isMuted ? 0 : volume / 100;
   }, [volume, isMuted]);
+
+  // If stuck buffering/loading for 40 s, give up and show error
+  useEffect(() => {
+    if (state === 'buffering' || state === 'loading') {
+      bufferingTimer.current = setTimeout(() => setState('error'), 40_000);
+    } else {
+      if (bufferingTimer.current) { clearTimeout(bufferingTimer.current); bufferingTimer.current = null; }
+    }
+    return () => { if (bufferingTimer.current) clearTimeout(bufferingTimer.current); };
+  }, [state]);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);

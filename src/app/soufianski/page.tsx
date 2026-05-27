@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from 'react';
 import {
   RefreshCw, Tv2, FolderOpen, CheckCircle2, XCircle,
   Clock, Loader2, Shield, Plus, Trash2, Eye, EyeOff,
-  ToggleLeft, ToggleRight, Link2, Radio, BarChart2,
+  ToggleLeft, ToggleRight, Link2, Radio, BarChart2, Search, Pencil, Save, X,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -33,12 +33,18 @@ export default function AdminPage() {
   const [newUrl, setNewUrl]         = useState('');
   const [addingSource, setAddingSource] = useState(false);
   const [loadingData, setLoadingData]   = useState(false);
-  const [activeTab, setActiveTab]       = useState<'overview' | 'analytics'>('overview');
+  const [activeTab, setActiveTab]       = useState<'overview' | 'analytics' | 'channels'>('overview');
   const [chName, setChName]         = useState('');
   const [chUrl, setChUrl]           = useState('');
   const [chLogo, setChLogo]         = useState('');
   const [chGroup, setChGroup]       = useState('General');
   const [addingCh, setAddingCh]     = useState(false);
+  // Channel manager tab
+  const [chSearch, setChSearch]     = useState('');
+  const [chResults, setChResults]   = useState<any[]>([]);
+  const [chLoading, setChLoading]   = useState(false);
+  const [editingId, setEditingId]   = useState<string | null>(null);
+  const [editUrl, setEditUrl]       = useState('');
 
   const authHeader = { 'x-admin-password': password, 'Content-Type': 'application/json' };
 
@@ -121,6 +127,28 @@ export default function AdminPage() {
         fetchData(password);
       } else { toast.error(data.error || 'Failed'); }
     } finally { setAddingCh(false); }
+  };
+
+  const searchChannels = async (q: string) => {
+    setChSearch(q);
+    if (!q.trim()) { setChResults([]); return; }
+    setChLoading(true);
+    try {
+      const res  = await fetch(`/api/channels?search=${encodeURIComponent(q)}&limit=15`);
+      const data = await res.json();
+      setChResults(data.data || []);
+    } finally { setChLoading(false); }
+  };
+
+  const saveStreamUrl = async (id: string) => {
+    if (!editUrl.trim()) return;
+    const res  = await fetch(`/api/channels/${id}`, { method: 'PATCH', headers: authHeader, body: JSON.stringify({ streamUrl: editUrl.trim() }) });
+    const data = await res.json();
+    if (data.success) {
+      toast.success('Stream URL updated');
+      setChResults(prev => prev.map(c => c.id === id ? { ...c, streamUrl: editUrl.trim() } : c));
+      setEditingId(null); setEditUrl('');
+    } else { toast.error(data.error || 'Failed'); }
   };
 
   /* ── Login screen ── */
@@ -209,10 +237,98 @@ export default function AdminPage() {
           <BarChart2 className="w-4 h-4" />
           Analytics
         </button>
+        <button
+          onClick={() => setActiveTab('channels')}
+          className={cn(
+            'flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium transition-all',
+            activeTab === 'channels'
+              ? 'bg-purple-600 text-white'
+              : 'text-gray-400 hover:text-white hover:bg-gray-700/60'
+          )}
+        >
+          <Tv2 className="w-4 h-4" />
+          Channels
+        </button>
       </div>
 
       {/* Analytics tab */}
       {activeTab === 'analytics' && <AnalyticsDashboard password={password} />}
+
+      {/* Channels tab */}
+      {activeTab === 'channels' && (
+        <section className="bg-gray-800/60 border border-white/10 rounded-2xl p-6 space-y-5">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <Tv2 className="w-5 h-5 text-purple-400" />
+            Channel Stream URL Editor
+          </h2>
+          <p className="text-gray-500 text-sm">Search a channel and change its stream URL to fix buffering issues.</p>
+
+          {/* Search */}
+          <div className="relative">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+            <input
+              type="text"
+              value={chSearch}
+              onChange={e => searchChannels(e.target.value)}
+              placeholder="Search by channel name (e.g. trt, la 1, bein…)"
+              className="w-full bg-gray-900 border border-white/10 rounded-xl pl-9 pr-4 py-2.5 text-white text-sm placeholder-gray-600 outline-none focus:border-purple-500"
+            />
+            {chLoading && <Loader2 className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500 animate-spin" />}
+          </div>
+
+          {/* Results */}
+          <div className="space-y-2">
+            {chResults.length === 0 && chSearch && !chLoading && (
+              <p className="text-gray-500 text-sm text-center py-4">No channels found.</p>
+            )}
+            {chResults.map(ch => (
+              <div key={ch.id} className="bg-gray-900/50 border border-white/5 rounded-xl p-4 space-y-2">
+                <div className="flex items-center justify-between gap-3">
+                  <div className="flex items-center gap-2 min-w-0">
+                    {ch.logo && <img src={ch.logo} alt="" className="w-7 h-7 object-contain rounded flex-shrink-0" onError={e=>{(e.target as HTMLImageElement).style.display='none'}} />}
+                    <div className="min-w-0">
+                      <p className="text-white text-sm font-medium">{ch.name}</p>
+                      <p className="text-gray-500 text-xs">{ch.groupTitle} · <span className="font-mono">{ch.slug}</span></p>
+                    </div>
+                  </div>
+                  {editingId !== ch.id && (
+                    <button onClick={() => { setEditingId(ch.id); setEditUrl(ch.streamUrl); }}
+                      className="flex items-center gap-1.5 px-3 py-1.5 bg-purple-600/20 hover:bg-purple-600/40 text-purple-400 rounded-lg text-xs transition-colors flex-shrink-0">
+                      <Pencil className="w-3 h-3" /> Edit URL
+                    </button>
+                  )}
+                </div>
+
+                {editingId !== ch.id && (
+                  <p className="text-gray-600 text-xs font-mono truncate">{ch.streamUrl}</p>
+                )}
+
+                {editingId === ch.id && (
+                  <div className="space-y-2 pt-1">
+                    <input
+                      type="url"
+                      value={editUrl}
+                      onChange={e => setEditUrl(e.target.value)}
+                      placeholder="New stream URL"
+                      className="w-full bg-gray-800 border border-purple-500/50 rounded-lg px-3 py-2 text-white text-sm font-mono outline-none focus:border-purple-400"
+                    />
+                    <div className="flex gap-2">
+                      <button onClick={() => saveStreamUrl(ch.id)}
+                        className="flex items-center gap-1.5 px-4 py-1.5 bg-green-600 hover:bg-green-500 text-white rounded-lg text-xs font-medium transition-colors">
+                        <Save className="w-3 h-3" /> Save
+                      </button>
+                      <button onClick={() => { setEditingId(null); setEditUrl(''); }}
+                        className="flex items-center gap-1.5 px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg text-xs transition-colors">
+                        <X className="w-3 h-3" /> Cancel
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
 
       {/* Overview tab */}
       {activeTab === 'overview' && <div className="space-y-8">
