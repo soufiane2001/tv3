@@ -1,0 +1,106 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Category {
+  id           String    @id @default(cuid())
+  name         String    @unique
+  slug         String    @unique
+  channelCount Int       @default(0)
+  channels     Channel[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+}
+
+model Channel {
+  id         String    @id @default(cuid())
+  name       String
+  slug       String    @unique
+  logo       String?
+  streamUrl  String
+  groupTitle String    @default("General")
+  categoryId String?
+  category   Category? @relation(fields: [categoryId], references: [id])
+  isActive   Boolean   @default(true)
+  order      Int       @default(0)
+  tvgId      String?
+  tvgName    String?
+  favorites  Favorite[]
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+}
+
+model Favorite {
+  id         String   @id @default(cuid())
+  channelId  String
+  channel    Channel  @relation(fields: [channelId], references: [id], onDelete: Cascade)
+  sessionId  String
+  createdAt  DateTime @default(now())
+
+  @@unique([channelId, sessionId])
+}
+
+model Setting {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model SyncLog {
+  id               String   @id @default(cuid())
+  status           String   @default("pending")
+  channelsAdded    Int      @default(0)
+  channelsUpdated  Int      @default(0)
+  channelsRemoved  Int      @default(0)
+  totalChannels    Int      @default(0)
+  error            String?
+  createdAt        DateTime @default(now())
+}
+
+model Source {
+  id        String    @id @default(cuid())
+  name      String
+  url       String    @unique
+  isActive  Boolean   @default(true)
+  lastSync  DateTime?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+// ── Analytics ────────────────────────────────────────────
+model PageView {
+  id          String   @id @default(cuid())
+  path        String
+  sessionId   String
+  country     String   @default("Unknown")
+  countryCode String   @default("??")
+  city        String?
+  referrer    String?
+  device      String   @default("desktop")
+  browser     String   @default("Other")
+  duration    Int?
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([path])
+  @@index([sessionId])
+  @@index([country])
+}
+
+model LiveVisitor {
+  id          String   @id @default(cuid())
+  sessionId   String   @unique
+  path        String
+  country     String   @default("Unknown")
+  countryCode String   @default("??")
+  device      String   @default("desktop")
+  lastSeen    DateTime @default(now())
+
+  @@index([lastSeen])
+}

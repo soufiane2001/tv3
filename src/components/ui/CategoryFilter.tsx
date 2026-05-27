@@ -1,0 +1,51 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { cn } from '@/lib/utils';
+import type { Category } from '@/types';
+
+interface CategoryFilterProps {
+  selected: string;
+  onSelect: (slug: string) => void;
+}
+
+export default function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
+  const [categories, setCategories] = useState<Category[]>([]);
+
+  useEffect(() => {
+    fetch('/api/categories')
+      .then((r) => r.json())
+      .then((d) => { if (d.success) setCategories(d.data); });
+  }, []);
+
+  if (categories.length === 0) return null;
+
+  return (
+    <div className="flex gap-2 overflow-x-auto pb-1 flex-wrap sm:flex-nowrap">
+      <button
+        onClick={() => onSelect('')}
+        className={cn(
+          'px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0',
+          !selected
+            ? 'bg-purple-600 text-white'
+            : 'bg-gray-800/60 text-gray-400 hover:text-white hover:bg-gray-700/60'
+        )}
+      >
+        All
+      </button>
+      {categories.slice(0, 10).map((cat) => (
+        <button
+          key={cat.id}
+          onClick={() => onSelect(cat.slug === selected ? '' : cat.slug)}
+          className={cn(
+            'px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0',
+            selected === cat.slug
+              ? 'bg-purple-600 text-white'
+              : 'bg-gray-800/60 text-gray-400 hover:text-white hover:bg-gray-700/60'
+          )}
+        >
+          {cat.name}
+        </button>
+      ))}
+    </div>
+  );
+}

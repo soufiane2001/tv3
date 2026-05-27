@@ -1,65 +1,189 @@
-import Image from "next/image";
+import { prisma } from '@/lib/prisma';
+import Link from 'next/link';
+import { Tv, Radio, ChevronRight, Zap } from 'lucide-react';
+import ChannelCard from '@/components/channels/ChannelCard';
+import type { Metadata } from 'next';
 
-export default function Home() {
+export const metadata: Metadata = {
+  title: 'SportaLive — Watch Live TV Online',
+  description: 'Stream thousands of live TV channels online. Sports, news, entertainment and more.',
+};
+
+export const revalidate = 3600;
+
+async function getHomeData() {
+  try {
+    const [categories, totalChannels, featured] = await Promise.all([
+      prisma.category.findMany({
+        where: { channelCount: { gt: 0 } },
+        orderBy: { channelCount: 'desc' },
+        take: 10,
+      }),
+      prisma.channel.count({ where: { isActive: true } }),
+      prisma.channel.findMany({
+        where: { isActive: true },
+        orderBy: { order: 'asc' },
+        take: 12,
+        include: { category: { select: { name: true, slug: true } } },
+      }),
+    ]);
+
+    const categoryChannels = await Promise.all(
+      categories.slice(0, 5).map(async (cat) => ({
+        category: cat,
+        channels: await prisma.channel.findMany({
+          where: { categoryId: cat.id, isActive: true },
+          orderBy: { order: 'asc' },
+          take: 10,
+          include: { category: { select: { name: true, slug: true } } },
+        }),
+      }))
+    );
+
+    return { categories, totalChannels, featured, categoryChannels };
+  } catch {
+    return { categories: [], totalChannels: 0, featured: [], categoryChannels: [] };
+  }
+}
+
+export default async function HomePage() {
+  const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
+  const noData = totalChannels === 0;
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="space-y-10">
+      {/* Hero */}
+      <section className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-purple-900/40 via-gray-900 to-blue-900/40 border border-white/5 p-8 md:p-12">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(139,92,246,0.15),transparent_60%)]" />
+        <div className="relative z-10">
+          <div className="flex items-center gap-2 text-purple-400 text-sm font-medium mb-4">
+            <Zap className="w-4 h-4" />
+            <span>Live Streaming Platform</span>
+          </div>
+          <h1 className="text-3xl md:text-5xl font-bold text-white leading-tight mb-4">
+            Watch Live TV<br />
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-400">
+              Anywhere, Anytime
+            </span>
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <p className="text-gray-400 text-lg mb-8 max-w-xl">
+            Stream {totalChannels > 0 ? `${totalChannels}+` : 'thousands of'} live channels including sports, news, movies and entertainment.
           </p>
+          <div className="flex flex-wrap gap-3">
+            <Link
+              href="/live"
+              className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-semibold transition-colors shadow-lg shadow-purple-900/40"
+            >
+              <Radio className="w-5 h-5" />
+              Watch Now
+            </Link>
+            <Link
+              href="/live"
+              className="flex items-center gap-2 px-6 py-3 bg-white/10 hover:bg-white/15 text-white rounded-xl font-semibold transition-colors"
+            >
+              Browse Channels
+            </Link>
+          </div>
+
+          {totalChannels > 0 && (
+            <div className="flex gap-6 mt-8 pt-8 border-t border-white/10">
+              <div>
+                <p className="text-2xl font-bold text-white">{totalChannels}+</p>
+                <p className="text-gray-500 text-sm">Live Channels</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-white">{categories.length}+</p>
+                <p className="text-gray-500 text-sm">Categories</p>
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-white">24/7</p>
+                <p className="text-gray-500 text-sm">Always Live</p>
+              </div>
+            </div>
+          )}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+      </section>
+
+      {/* No data prompt */}
+      {noData && (
+        <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
+          <div className="w-16 h-16 rounded-full bg-purple-600/20 flex items-center justify-center">
+            <Tv className="w-8 h-8 text-purple-400" />
+          </div>
+          <h2 className="text-xl font-semibold text-white">No channels yet</h2>
+          <p className="text-gray-500 max-w-sm">
+            Go to the Admin panel to sync your M3U playlist and start watching.
+          </p>
+          <Link
+            href="/admin"
+            className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-medium transition-colors"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            Go to Admin
+          </Link>
         </div>
-      </main>
+      )}
+
+      {/* Featured Channels */}
+      {featured.length > 0 && (
+        <section>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-white">Featured Channels</h2>
+            <Link href="/live" className="flex items-center gap-1 text-purple-400 hover:text-purple-300 text-sm transition-colors">
+              View all <ChevronRight className="w-4 h-4" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4">
+            {featured.map((channel, i) => (
+              <ChannelCard key={channel.id} channel={channel as any} index={i} />
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* Category rows */}
+      {categoryChannels.map(({ category, channels }) =>
+        channels.length > 0 ? (
+          <section key={category.id}>
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-xl font-bold text-white">{category.name}</h2>
+              <Link
+                href={`/category/${category.slug}`}
+                className="flex items-center gap-1 text-purple-400 hover:text-purple-300 text-sm transition-colors"
+              >
+                View all ({category.channelCount}) <ChevronRight className="w-4 h-4" />
+              </Link>
+            </div>
+            <div className="scroll-row">
+              {channels.map((channel, i) => (
+                <div key={channel.id} className="w-44 sm:w-52">
+                  <ChannelCard channel={channel as any} index={i} />
+                </div>
+              ))}
+            </div>
+          </section>
+        ) : null
+      )}
+
+      {/* Categories grid */}
+      {categories.length > 0 && (
+        <section>
+          <h2 className="text-xl font-bold text-white mb-4">Browse by Category</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+            {categories.map((cat) => (
+              <Link
+                key={cat.id}
+                href={`/category/${cat.slug}`}
+                className="flex items-center justify-between p-4 bg-gray-800/60 hover:bg-gray-700/60 border border-white/5 hover:border-purple-500/30 rounded-xl transition-all duration-200 group"
+              >
+                <span className="text-sm font-medium text-gray-300 group-hover:text-white truncate transition-colors">
+                  {cat.name}
+                </span>
+                <span className="text-xs text-gray-600 ml-2 flex-shrink-0">{cat.channelCount}</span>
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
     </div>
   );
 }
