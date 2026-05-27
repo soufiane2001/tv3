@@ -3,7 +3,8 @@ import { NextRequest } from 'next/server';
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
+// VLC UA: IPTV CDNs whitelist common IPTV client agents and block cloud datacenter UAs
+const UA = 'VLC/3.0.20 LibVLC/3.0.20';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -46,6 +47,15 @@ export async function GET(req: NextRequest) {
 
   try {
     const fetchHeaders: Record<string, string> = { 'User-Agent': UA };
+
+    // Forward client's real IP — some IPTV CDNs bind stream tokens to the viewer's IP.
+    // Vercel sets x-forwarded-for to a comma-separated list; take the first (original) IP.
+    const xfwd = req.headers.get('x-forwarded-for');
+    const clientIp = xfwd ? xfwd.split(',')[0].trim() : null;
+    if (clientIp) {
+      fetchHeaders['X-Forwarded-For'] = clientIp;
+      fetchHeaders['X-Real-IP'] = clientIp;
+    }
 
     // Forward Range header so byte-range HLS streams work
     const range = req.headers.get('range');

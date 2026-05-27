@@ -3,7 +3,7 @@ import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
+const UA = 'VLC/3.0.20 LibVLC/3.0.20';
 
 // Convert bare Xtream-Codes TS stream URLs to HLS on the fly
 function toHlsUrl(url: string): string {
