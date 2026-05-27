@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic';
+export const runtime = 'edge';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
 
