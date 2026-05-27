@@ -149,21 +149,30 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
 
 const EVENT_CONTENT: Record<string, {
   teams: [string, string];
+  logos: [string, string];       // real badge images from Wikipedia CDN
+  competitionLogo: string;       // competition logo URL
   competition: string;
   date: string;
   kickoff: string;
   venue?: string;
   broadcastNote: string;
+  broadcastLogo?: string;
   blocks: { lang: string; flag: string; title: string; body: string }[];
   faq: { q: string; a: string }[];
   links: { href: string; label: string }[];
 }> = {
   'la-1': {
     teams: ['Arsenal FC', 'Paris Saint-Germain'],
+    logos: [
+      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
+      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
+    ],
+    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
     competition: 'UEFA Champions League Final 2026',
     date: '27 May 2026',
     kickoff: '21:00 CET · 20:00 UTC',
     broadcastNote: 'Broadcasting free on La 1 (RTVE)',
+    broadcastLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/La_1_logo_2021.svg/200px-La_1_logo_2021.svg.png',
     blocks: [
       {
         lang: 'English', flag: '🇬🇧',
@@ -189,17 +198,21 @@ const EVENT_CONTENT: Record<string, {
     faq: [
       { q: 'How to watch Arsenal vs PSG free?', a: 'Stream is live above — La 1 (RTVE) broadcasts the Champions League Final 2026 free. No account needed.' },
       { q: '¿Cómo ver Arsenal vs PSG gratis?', a: 'El streaming está arriba — La 1 de RTVE emite la Final de la Champions 2026 gratis sin suscripción.' },
-      { q: 'What time is kick-off?', a: '21:00 CET (20:00 UTC) on 27 May 2026. That\'s 8 PM London, 9 PM Madrid & Paris, 3 PM New York.' },
+      { q: 'What time is kick-off?', a: "21:00 CET (20:00 UTC) on 27 May 2026. That's 8 PM London, 9 PM Madrid & Paris, 3 PM New York." },
     ],
     links: [
-      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'        },
-      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'              },
-      { href: '/crystal-palace-vs-rayo-vallecano', label: '🔵 Conference League Final'     },
-      { href: '/live',                        label: '📡 All Live Channels'               },
+      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
+      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
+      { href: '/live',                        label: '📡 All Live Channels'           },
     ],
   },
   'trt': {
     teams: ['Crystal Palace', 'Rayo Vallecano'],
+    logos: [
+      'https://upload.wikimedia.org/wikipedia/en/a/a2/Crystal_Palace_FC_logo_%282022%29.svg',
+      'https://upload.wikimedia.org/wikipedia/en/4/47/Rayo_Vallecano_logo.svg',
+    ],
+    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/0/0e/UEFA_Europa_Conference_League_logo.svg',
     competition: 'UEFA Conference League Final 2026',
     date: '27 May 2026',
     kickoff: '21:00 CET',
@@ -246,12 +259,26 @@ const SLUG_MAP: Record<string, string> = {
   'trt-1': 'trt', 'trt1': 'trt',
 };
 
+function TeamBadge({ src, name, fallbackColor }: { src: string; name: string; fallbackColor: string }) {
+  const [err, setErr] = useState(false);
+  return (
+    <div
+      className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-2xl border border-white/10 bg-gray-900 overflow-hidden"
+      style={{ boxShadow: `0 0 30px ${fallbackColor}40` }}
+    >
+      {!err
+        ? <img src={src} alt={name} className="w-12 h-12 md:w-16 md:h-16 object-contain p-1" onError={() => setErr(true)} />
+        : <span className="text-3xl">{name[0]}</span>
+      }
+    </div>
+  );
+}
+
 function EventContent({ override, channel }: { override: EventOverride; channel: Channel }) {
   const key = SLUG_MAP[channel.slug] ?? channel.slug;
   const data = EVENT_CONTENT[key];
 
   if (!data) {
-    // Minimal fallback for channels without detailed event data
     return (
       <div className="px-4 py-6 border-t border-white/5 space-y-3">
         <p className="text-gray-400 text-sm leading-relaxed">{override.description}</p>
@@ -262,65 +289,80 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
   return (
     <div className="border-t border-white/5 space-y-6 px-4 py-6">
 
-      {/* Match card — UCL styled */}
-      <div className="relative rounded-2xl overflow-hidden border border-[#1e3a6e]"
-        style={{ background: 'linear-gradient(135deg, #05091a 0%, #0d1442 60%, #05091a 100%)' }}>
-        {/* dot grid */}
-        <div className="absolute inset-0 opacity-10"
-          style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
-        <div className="absolute left-0 inset-y-0 w-1/2 bg-gradient-to-r from-red-900/25 to-transparent" />
-        <div className="absolute right-0 inset-y-0 w-1/2 bg-gradient-to-l from-blue-900/25 to-transparent" />
+      {/* ── Broadcast matchday graphic ─────────────────────────────────────── */}
+      <div className="relative rounded-2xl overflow-hidden"
+        style={{ background: 'linear-gradient(160deg, #080c1f 0%, #0c1445 40%, #080c1f 100%)' }}>
 
-        <div className="relative p-5 space-y-4">
-          {/* UCL label */}
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <span className="text-[#c8b87a] text-sm">✦</span>
-              <span className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em]">{data.competition}</span>
-            </div>
-            <span className="flex items-center gap-1 px-2 py-0.5 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider">
-              <span className="w-1 h-1 rounded-full bg-white animate-pulse" />LIVE
-            </span>
-          </div>
+        {/* subtle star grid */}
+        <div className="absolute inset-0 opacity-[0.07]"
+          style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
 
-          {/* Teams */}
+        {/* top: competition header */}
+        <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5">
           <div className="flex items-center gap-3">
-            <div className="flex-1 flex flex-col items-center gap-1.5">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-900 border border-red-400/50 shadow-lg flex items-center justify-center">
-                <span className="text-xl">🔴</span>
-              </div>
-              <p className="text-white font-black text-sm uppercase tracking-wide text-center">{data.teams[0]}</p>
+            <img
+              src={data.competitionLogo}
+              alt={data.competition}
+              className="h-7 w-auto object-contain"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+            />
+            <div>
+              <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em]">{data.competition}</p>
+              {data.venue && <p className="text-gray-500 text-[9px]">{data.venue}</p>}
             </div>
-            <div className="text-center flex-shrink-0 space-y-1">
-              <div className="text-2xl">🏆</div>
-              <p className="text-white/20 font-black text-sm tracking-widest">VS</p>
-            </div>
-            <div className="flex-1 flex flex-col items-center gap-1.5">
-              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] border border-blue-400/50 shadow-lg flex items-center justify-center">
-                <span className="text-xl">🔵</span>
-              </div>
-              <p className="text-white font-black text-sm uppercase tracking-wide text-center">{data.teams[1]}</p>
+          </div>
+          <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
+          </span>
+        </div>
+
+        {/* center: scoreboard */}
+        <div className="relative flex items-center justify-center gap-4 md:gap-10 px-6 py-8">
+
+          {/* Team A */}
+          <div className="flex flex-col items-center gap-3 flex-1">
+            <TeamBadge src={data.logos[0]} name={data.teams[0]} fallbackColor="#ef4444" />
+            <div className="text-center">
+              <p className="text-white font-black text-sm md:text-base leading-tight">{data.teams[0]}</p>
             </div>
           </div>
 
-          {/* Info pills */}
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
-            {[
-              { l: 'Date',     v: data.date      },
-              { l: 'Kick-off', v: data.kickoff   },
-              { l: 'Venue',    v: data.venue ?? 'Europe' },
-              { l: 'Free on',  v: data.broadcastNote.split(' on ')[1] ?? 'Free' },
-            ].map(({ l, v }) => (
-              <div key={l} className="bg-white/5 border border-white/5 rounded-xl p-2">
-                <p className="text-gray-500 uppercase tracking-wider mb-0.5 text-[9px]">{l}</p>
-                <p className="text-white font-semibold text-[11px]">{v}</p>
-              </div>
-            ))}
+          {/* Score area */}
+          <div className="flex flex-col items-center gap-2 flex-shrink-0">
+            <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-xl px-5 py-3 shadow-2xl">
+              <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
+              <span className="text-gray-600 font-black text-3xl px-1">:</span>
+              <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
+            </div>
+            <p className="text-[#c8b87a] text-[10px] uppercase tracking-widest">FINAL</p>
           </div>
+
+          {/* Team B */}
+          <div className="flex flex-col items-center gap-3 flex-1">
+            <TeamBadge src={data.logos[1]} name={data.teams[1]} fallbackColor="#3b82f6" />
+            <div className="text-center">
+              <p className="text-white font-black text-sm md:text-base leading-tight">{data.teams[1]}</p>
+            </div>
+          </div>
+        </div>
+
+        {/* bottom: match info + broadcast */}
+        <div className="relative flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-t border-white/5 bg-black/20">
+          <div className="flex flex-wrap gap-4 text-xs">
+            <span className="text-gray-400">📅 {data.date}</span>
+            <span className="text-gray-400">⏰ {data.kickoff}</span>
+          </div>
+          {data.broadcastLogo ? (
+            <img src={data.broadcastLogo} alt="Broadcast channel"
+              className="h-5 w-auto object-contain opacity-80"
+              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+          ) : (
+            <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
+          )}
         </div>
       </div>
 
-      {/* Multilingual description blocks */}
+      {/* ── Multilingual description blocks ─────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         {data.blocks.map(({ flag, lang, title, body }) => (
           <div key={lang} className="bg-gray-800/40 border border-white/5 rounded-xl p-4 space-y-1"
@@ -335,7 +377,7 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
         ))}
       </div>
 
-      {/* FAQ */}
+      {/* ── FAQ ─────────────────────────────────────────────────────────────── */}
       <div className="space-y-2">
         <div className="flex items-center gap-2 mb-3">
           <MessageCircle className="w-4 h-4 text-purple-400" />
@@ -352,7 +394,7 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
         ))}
       </div>
 
-      {/* Internal links */}
+      {/* ── Internal links ───────────────────────────────────────────────────── */}
       <div className="flex flex-wrap gap-2">
         <div className="flex items-center gap-1 mr-1">
           <Globe className="w-3 h-3 text-gray-500" />

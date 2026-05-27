@@ -458,7 +458,7 @@ export default async function ArsenalVsPsgPage() {
               {related.map(ch => (
                 <Link key={ch.id} href={`/channel/${ch.slug}`}
                   className="flex items-center gap-2 p-3 bg-gray-800/60 hover:bg-gray-700/60 border border-white/5 hover:border-purple-500/30 rounded-xl transition-all group">
-                  {ch.logo && <img src={ch.logo} alt={ch.name} className="w-8 h-8 object-contain rounded flex-shrink-0" onError={(e)=>{(e.target as HTMLImageElement).style.display='none'}} />}
+                  {ch.logo && <img src={ch.logo} alt={ch.name} className="w-8 h-8 object-contain rounded flex-shrink-0" />}
                   <span className="text-xs text-gray-400 group-hover:text-white truncate">{ch.name}</span>
                 </Link>
               ))}
