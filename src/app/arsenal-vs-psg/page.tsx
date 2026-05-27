@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
 import WatchEventClient from './WatchEventClient';
+import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 300;
 
@@ -370,6 +371,9 @@ export default async function ArsenalVsPsgPage() {
         {/* Player */}
         <WatchEventClient channel={la1 as any} />
 
+        {/* Ad banner — below player */}
+        <AdBanner />
+
         {/* Multilingual SEO content blocks */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
@@ -449,6 +453,9 @@ export default async function ArsenalVsPsgPage() {
             </details>
           ))}
         </section>
+
+        {/* Ad banner — mid-page */}
+        <AdBanner />
 
         {/* Related */}
         {related.length > 0 && (
