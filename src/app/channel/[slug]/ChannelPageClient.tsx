@@ -262,30 +262,61 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
   return (
     <div className="border-t border-white/5 space-y-6 px-4 py-6">
 
-      {/* Match card */}
-      <div className="bg-gradient-to-r from-gray-800/60 to-gray-900/60 border border-white/5 rounded-2xl p-5">
-        <div className="flex items-center gap-2 mb-4">
-          <Trophy className="w-4 h-4 text-yellow-400" />
-          <span className="text-yellow-400 text-xs font-bold uppercase tracking-wider">{data.competition}</span>
-          <span className="ml-auto px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">LIVE</span>
-        </div>
-        <div className="flex items-center justify-center gap-4 mb-4">
-          <span className="text-white font-bold text-lg text-right flex-1">{data.teams[0]}</span>
-          <span className="text-gray-500 font-bold text-xl px-3">vs</span>
-          <span className="text-white font-bold text-lg text-left flex-1">{data.teams[1]}</span>
-        </div>
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
-          {[
-            { l: 'Date',      v: data.date      },
-            { l: 'Kick-off',  v: data.kickoff   },
-            { l: 'Venue',     v: data.venue ?? 'Europe' },
-            { l: 'Broadcast', v: data.broadcastNote.split(' ')[3] ?? 'Free' },
-          ].map(({ l, v }) => (
-            <div key={l} className="bg-black/30 rounded-xl p-3">
-              <p className="text-gray-500 uppercase tracking-wider mb-1">{l}</p>
-              <p className="text-white font-semibold">{v}</p>
+      {/* Match card — UCL styled */}
+      <div className="relative rounded-2xl overflow-hidden border border-[#1e3a6e]"
+        style={{ background: 'linear-gradient(135deg, #05091a 0%, #0d1442 60%, #05091a 100%)' }}>
+        {/* dot grid */}
+        <div className="absolute inset-0 opacity-10"
+          style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '24px 24px' }} />
+        <div className="absolute left-0 inset-y-0 w-1/2 bg-gradient-to-r from-red-900/25 to-transparent" />
+        <div className="absolute right-0 inset-y-0 w-1/2 bg-gradient-to-l from-blue-900/25 to-transparent" />
+
+        <div className="relative p-5 space-y-4">
+          {/* UCL label */}
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <span className="text-[#c8b87a] text-sm">✦</span>
+              <span className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em]">{data.competition}</span>
             </div>
-          ))}
+            <span className="flex items-center gap-1 px-2 py-0.5 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider">
+              <span className="w-1 h-1 rounded-full bg-white animate-pulse" />LIVE
+            </span>
+          </div>
+
+          {/* Teams */}
+          <div className="flex items-center gap-3">
+            <div className="flex-1 flex flex-col items-center gap-1.5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-red-600 to-red-900 border border-red-400/50 shadow-lg flex items-center justify-center">
+                <span className="text-xl">🔴</span>
+              </div>
+              <p className="text-white font-black text-sm uppercase tracking-wide text-center">{data.teams[0]}</p>
+            </div>
+            <div className="text-center flex-shrink-0 space-y-1">
+              <div className="text-2xl">🏆</div>
+              <p className="text-white/20 font-black text-sm tracking-widest">VS</p>
+            </div>
+            <div className="flex-1 flex flex-col items-center gap-1.5">
+              <div className="w-12 h-12 rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] border border-blue-400/50 shadow-lg flex items-center justify-center">
+                <span className="text-xl">🔵</span>
+              </div>
+              <p className="text-white font-black text-sm uppercase tracking-wide text-center">{data.teams[1]}</p>
+            </div>
+          </div>
+
+          {/* Info pills */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 text-center text-xs">
+            {[
+              { l: 'Date',     v: data.date      },
+              { l: 'Kick-off', v: data.kickoff   },
+              { l: 'Venue',    v: data.venue ?? 'Europe' },
+              { l: 'Free on',  v: data.broadcastNote.split(' on ')[1] ?? 'Free' },
+            ].map(({ l, v }) => (
+              <div key={l} className="bg-white/5 border border-white/5 rounded-xl p-2">
+                <p className="text-gray-500 uppercase tracking-wider mb-0.5 text-[9px]">{l}</p>
+                <p className="text-white font-semibold text-[11px]">{v}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

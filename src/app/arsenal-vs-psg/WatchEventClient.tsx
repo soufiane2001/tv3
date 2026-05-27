@@ -10,9 +10,12 @@ export default function WatchEventClient({ channel }: { channel: Channel | null 
 
   if (!channel) {
     return (
-      <div className="aspect-video bg-gray-900 rounded-2xl flex flex-col items-center justify-center gap-4 border border-white/10">
+      <div className="aspect-video bg-[#0a0f2e] rounded-2xl flex flex-col items-center justify-center gap-4 border border-[#1e3a6e]">
         <Tv2 className="w-12 h-12 text-gray-600" />
-        <p className="text-gray-500">Channel not yet available. <Link href="/live" className="text-purple-400 hover:underline">Browse all channels</Link></p>
+        <p className="text-gray-500 text-sm text-center px-4">
+          Stream not yet available.{' '}
+          <Link href="/live" className="text-blue-400 hover:underline">Browse all channels →</Link>
+        </p>
       </div>
     );
   }
@@ -20,47 +23,110 @@ export default function WatchEventClient({ channel }: { channel: Channel | null 
   if (!started) {
     return (
       <div
-        className="relative aspect-video bg-gray-900 rounded-2xl flex flex-col items-center justify-center gap-6 border border-red-500/20 cursor-pointer group overflow-hidden"
         onClick={() => setStarted(true)}
+        className="relative aspect-video rounded-2xl overflow-hidden cursor-pointer group select-none"
+        style={{ background: 'linear-gradient(135deg, #0a0f2e 0%, #0d1442 50%, #0a0f2e 100%)' }}
       >
-        {/* Background glow */}
-        <div className="absolute inset-0 bg-gradient-to-br from-red-900/20 via-transparent to-blue-900/20" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(239,68,68,0.1),transparent_70%)]" />
+        {/* ── Star / dot grid background ─────────────────────── */}
+        <div
+          className="absolute inset-0 opacity-20"
+          style={{
+            backgroundImage: `radial-gradient(circle, rgba(255,255,255,0.6) 1px, transparent 1px)`,
+            backgroundSize: '36px 36px',
+          }}
+        />
 
-        {/* Teams */}
-        <div className="relative flex items-center gap-6 md:gap-12">
-          <div className="text-center">
-            <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-red-600/20 border-2 border-red-500/40 flex items-center justify-center mx-auto mb-2">
-              <span className="text-3xl md:text-4xl">🔴</span>
+        {/* ── UCL sparkle stars (decorative) ────────────────── */}
+        {['top-3 left-[8%]','top-6 right-[12%]','top-[18%] left-[22%]','top-[15%] right-[28%]',
+          'bottom-8 left-[15%]','bottom-5 right-[18%]'].map((pos, i) => (
+          <span key={i} className={`absolute ${pos} text-yellow-300/60 text-lg select-none`}
+            style={{ animationDelay: `${i * 0.4}s` }}>✦</span>
+        ))}
+
+        {/* ── Team gradient halves ───────────────────────────── */}
+        <div className="absolute inset-0 bg-gradient-to-r from-red-900/30 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-l from-blue-900/30 via-transparent to-transparent" />
+
+        {/* ── Top header bar ─────────────────────────────────── */}
+        <div className="absolute top-0 left-0 right-0 flex items-center justify-center gap-2 py-3 bg-black/30 backdrop-blur-sm border-b border-white/5">
+          <span className="text-yellow-400 text-xs">✦</span>
+          <span className="text-[#c8b87a] text-xs font-bold uppercase tracking-[0.25em]">UEFA Champions League Final 2026</span>
+          <span className="text-yellow-400 text-xs">✦</span>
+        </div>
+
+        {/* ── Live badge ─────────────────────────────────────── */}
+        <div className="absolute top-12 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 bg-red-600 rounded-full shadow-lg shadow-red-900/50">
+          <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse inline-block" />
+          <span className="text-white text-[10px] font-black uppercase tracking-widest">Live Now</span>
+        </div>
+
+        {/* ── Teams + trophy ─────────────────────────────────── */}
+        <div className="absolute inset-0 flex items-center justify-center mt-4">
+          <div className="flex items-center gap-4 md:gap-10">
+
+            {/* Arsenal */}
+            <div className="text-center space-y-2 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative mx-auto w-16 h-16 md:w-24 md:h-24">
+                <div className="absolute inset-0 rounded-full bg-red-600/30 animate-pulse" />
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-red-600 to-red-900 border-2 border-red-400/60 shadow-2xl shadow-red-900/50 flex items-center justify-center">
+                  <span className="text-2xl md:text-4xl">🔴</span>
+                </div>
+              </div>
+              <div>
+                <p className="text-white font-black text-sm md:text-base uppercase tracking-wider">Arsenal</p>
+                <p className="text-red-400 text-[10px] uppercase tracking-widest">England</p>
+              </div>
             </div>
-            <p className="text-white font-bold text-sm md:text-lg">Arsenal</p>
-          </div>
-          <div className="text-center">
-            <p className="text-gray-500 text-xs mb-1">UEFA Champions League Final</p>
-            <div className="text-2xl md:text-4xl font-black text-white">VS</div>
-            <div className="mt-1 px-2 py-0.5 bg-red-500/20 rounded text-red-400 text-xs font-bold animate-pulse">LIVE</div>
-          </div>
-          <div className="text-center">
-            <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-blue-600/20 border-2 border-blue-500/40 flex items-center justify-center mx-auto mb-2">
-              <span className="text-3xl md:text-4xl">🔵</span>
+
+            {/* Center */}
+            <div className="text-center space-y-1 md:space-y-2">
+              <div className="text-3xl md:text-5xl drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]">🏆</div>
+              <div className="text-white/20 font-black text-lg md:text-2xl tracking-[0.3em]">VS</div>
             </div>
-            <p className="text-white font-bold text-sm md:text-lg">PSG</p>
+
+            {/* PSG */}
+            <div className="text-center space-y-2 group-hover:scale-105 transition-transform duration-300">
+              <div className="relative mx-auto w-16 h-16 md:w-24 md:h-24">
+                <div className="absolute inset-0 rounded-full bg-blue-600/30 animate-pulse" />
+                <div className="relative w-full h-full rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] border-2 border-blue-400/60 shadow-2xl shadow-blue-900/50 flex items-center justify-center">
+                  <span className="text-2xl md:text-4xl">🔵</span>
+                </div>
+              </div>
+              <div>
+                <p className="text-white font-black text-sm md:text-base uppercase tracking-wider">PSG</p>
+                <p className="text-blue-400 text-[10px] uppercase tracking-widest">France</p>
+              </div>
+            </div>
+
           </div>
         </div>
 
-        {/* Play button */}
-        <button className="relative flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-2xl shadow-2xl shadow-red-900/50 transition-all group-hover:scale-105 text-lg">
-          <Play className="w-6 h-6 fill-white" />
-          Watch Live Free — La 1
-        </button>
+        {/* ── Bottom: play button + info ──────────────────────── */}
+        <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-3 pb-5 bg-gradient-to-t from-black/70 to-transparent pt-8">
+          <button className="flex items-center gap-3 px-6 md:px-10 py-3 md:py-4 bg-white text-gray-900 font-black rounded-full shadow-2xl group-hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider">
+            <Play className="w-5 h-5 fill-gray-900 flex-shrink-0" />
+            Watch Free on La 1
+          </button>
+          <p className="text-gray-400 text-[10px] uppercase tracking-widest">HD Quality · No Subscription · No Registration</p>
+        </div>
 
-        <p className="relative text-gray-600 text-xs">Click to start stream · HD quality · No subscription</p>
+        {/* ── Hover overlay shimmer ───────────────────────────── */}
+        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/[0.02] transition-colors duration-300" />
       </div>
     );
   }
 
   return (
     <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60">
+      <div className="px-4 py-2 bg-[#0a0f2e] border-b border-white/5 flex items-center justify-between">
+        <div className="flex items-center gap-2">
+          <span className="text-yellow-400 text-xs">✦</span>
+          <span className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.2em]">UCL Final 2026 · Arsenal vs PSG</span>
+        </div>
+        <span className="flex items-center gap-1 text-red-400 text-[10px] font-bold uppercase">
+          <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block" />Live
+        </span>
+      </div>
       <VideoPlayer channel={channel} autoPlay className="w-full" />
       <div className="bg-gray-900/80 px-4 py-2 flex items-center justify-between">
         <span className="text-xs text-gray-500">Streaming via La 1 — Champions League Final 2026</span>

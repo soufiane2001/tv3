@@ -81,24 +81,74 @@ export default function UclFinalPage() {
 
       <div className="max-w-4xl mx-auto space-y-10">
 
-        {/* Hero */}
-        <section className="relative rounded-2xl overflow-hidden bg-gradient-to-br from-yellow-900/30 via-gray-900 to-purple-900/30 border border-yellow-500/20 p-8 md:p-12 text-center">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(234,179,8,0.08),transparent_70%)]" />
-          <div className="relative">
-            <div className="text-6xl mb-4">🏆</div>
-            <h1 className="text-3xl md:text-5xl font-extrabold text-white mb-3">
-              Champions League Final 2026
-            </h1>
-            <p className="text-yellow-400 text-xl font-bold mb-2">Arsenal FC vs Paris Saint-Germain</p>
-            <p className="text-gray-400 mb-6">27 May 2026 · UEFA Champions League Final · Live Stream Free HD</p>
+        {/* ── UCL Hero ──────────────────────────────────────── */}
+        <section className="relative rounded-3xl overflow-hidden border border-[#1e3a6e]"
+          style={{ background: 'linear-gradient(135deg, #05091a 0%, #0d1442 45%, #05091a 100%)' }}>
 
-            <Link
-              href="/arsenal-vs-psg"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-red-600 hover:bg-red-500 text-white font-bold rounded-2xl text-lg shadow-2xl shadow-red-900/50 transition-all hover:scale-105 animate-pulse"
-            >
-              <span className="w-3 h-3 rounded-full bg-white inline-block" />
-              Watch Live Now — FREE
+          {/* star grid */}
+          <div className="absolute inset-0 opacity-10"
+            style={{ backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.8) 1px, transparent 1px)', backgroundSize: '30px 30px' }} />
+          {/* team glow halves */}
+          <div className="absolute left-0 inset-y-0 w-1/2 bg-gradient-to-r from-red-900/25 to-transparent" />
+          <div className="absolute right-0 inset-y-0 w-1/2 bg-gradient-to-l from-blue-900/25 to-transparent" />
+
+          <div className="relative px-6 py-10 md:py-16 text-center space-y-6">
+
+            {/* UCL label */}
+            <div className="flex items-center justify-center gap-3">
+              <span className="text-[#c8b87a]">✦</span>
+              <span className="text-[#c8b87a] text-xs font-bold uppercase tracking-[0.3em]">UEFA Champions League</span>
+              <span className="text-[#c8b87a]">✦</span>
+            </div>
+
+            {/* Trophy */}
+            <div className="text-7xl md:text-8xl drop-shadow-[0_0_40px_rgba(255,215,0,0.35)]">🏆</div>
+
+            {/* Title */}
+            <div>
+              <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
+                Champions League
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-[#c8b87a] via-yellow-200 to-[#c8b87a]">
+                  Final 2026
+                </span>
+              </h1>
+            </div>
+
+            {/* Teams */}
+            <div className="flex items-center justify-center gap-4 md:gap-8">
+              <div className="text-center">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-red-600 to-red-900 border-2 border-red-400/50 shadow-xl flex items-center justify-center mx-auto mb-2">
+                  <span className="text-2xl md:text-3xl">🔴</span>
+                </div>
+                <p className="text-white font-black text-sm md:text-base uppercase tracking-wider">Arsenal</p>
+                <p className="text-red-400 text-[10px] uppercase tracking-widest">England</p>
+              </div>
+              <div className="text-center">
+                <p className="text-[#c8b87a] text-xs uppercase tracking-[0.3em] mb-1">Final</p>
+                <p className="text-white/30 font-black text-2xl md:text-4xl tracking-widest">VS</p>
+              </div>
+              <div className="text-center">
+                <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] border-2 border-blue-400/50 shadow-xl flex items-center justify-center mx-auto mb-2">
+                  <span className="text-2xl md:text-3xl">🔵</span>
+                </div>
+                <p className="text-white font-black text-sm md:text-base uppercase tracking-wider">PSG</p>
+                <p className="text-blue-400 text-[10px] uppercase tracking-widest">France</p>
+              </div>
+            </div>
+
+            <p className="text-gray-400 text-sm">27 May 2026 · 21:00 CET · La 1 Free Broadcast</p>
+
+            {/* CTA */}
+            <Link href="/arsenal-vs-psg"
+              className="inline-flex items-center gap-3 px-8 py-4 bg-white text-gray-900 font-black rounded-full text-base shadow-2xl hover:scale-105 transition-all uppercase tracking-wider">
+              <span className="w-2.5 h-2.5 rounded-full bg-red-500 animate-pulse" />
+              Watch Live Free
             </Link>
+
+            {/* Sparkle stars */}
+            {['top-4 left-[6%]','top-8 right-[9%]','bottom-6 left-[12%]','bottom-4 right-[7%]'].map((pos, i) => (
+              <span key={i} className={`absolute ${pos} text-yellow-400/40 text-xl`}>✦</span>
+            ))}
           </div>
         </section>
 
