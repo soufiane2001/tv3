@@ -8,14 +8,31 @@ const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Methods': 'GET, OPTIONS',
+  'Access-Control-Allow-Headers': 'Range',
+  'Access-Control-Expose-Headers': 'Content-Length, Content-Range',
 };
 
+// Rewrite all URLs in M3U8 (segments, nested playlists, keys, init segments)
 function rewriteM3u8(text: string, baseUrl: string, proxyBase: string): string {
   return text.split('\n').map(line => {
     const t = line.trim();
-    if (!t || t.startsWith('#')) return line;
-    const full = t.startsWith('http') ? t : new URL(t, baseUrl).href;
-    return proxyBase + encodeURIComponent(full);
+    if (!t) return line;
+
+    // Rewrite URI="..." inside tags like EXT-X-KEY, EXT-X-MAP
+    if (t.startsWith('#') && t.includes('URI="')) {
+      return line.replace(/URI="([^"]+)"/g, (_, uri) => {
+        const full = uri.startsWith('http') ? uri : new URL(uri, baseUrl).href;
+        return `URI="${proxyBase}${encodeURIComponent(full)}"`;
+      });
+    }
+
+    // Non-comment lines are segment/playlist URLs
+    if (!t.startsWith('#')) {
+      const full = t.startsWith('http') ? t : new URL(t, baseUrl).href;
+      return proxyBase + encodeURIComponent(full);
+    }
+
+    return line;
   }).join('\n');
 }
 
@@ -25,35 +42,59 @@ export async function OPTIONS() {
 
 export async function GET(req: NextRequest) {
   const url = req.nextUrl.searchParams.get('url');
-  if (!url) return new Response('Missing url', { status: 400 });
+  if (!url) return new Response('Missing url', { status: 400, headers: CORS });
 
   try {
+    const fetchHeaders: Record<string, string> = { 'User-Agent': UA };
+
+    // Forward Range header so byte-range HLS streams work
+    const range = req.headers.get('range');
+    if (range) fetchHeaders['Range'] = range;
+
     const res = await fetch(url, {
-      headers: { 'User-Agent': UA },
-      signal: AbortSignal.timeout(25_000),
+      headers: fetchHeaders,
+      signal: AbortSignal.timeout(28_000),
+      // follow redirects transparently
+      redirect: 'follow',
     });
 
     const ct = res.headers.get('content-type') ?? '';
+    const isM3u8 = ct.includes('mpegurl') || url.split('?')[0].endsWith('.m3u8');
 
-    // Rewrite nested M3U8 manifests (variant playlists)
-    if (ct.includes('mpegurl') || url.includes('.m3u8')) {
+    // ── M3U8 manifest: rewrite all URLs through proxy ──────────────────
+    if (isM3u8) {
       const text = await res.text();
-      const baseUrl = url.substring(0, url.lastIndexOf('/') + 1);
+      const baseUrl = res.url.substring(0, res.url.lastIndexOf('/') + 1);
       const proxyBase = `${req.nextUrl.origin}/api/proxy?url=`;
       const rewritten = rewriteM3u8(text, baseUrl, proxyBase);
       return new Response(rewritten, {
-        headers: { 'Content-Type': 'application/vnd.apple.mpegurl', 'Cache-Control': 'no-cache', ...CORS },
+        headers: {
+          'Content-Type': 'application/vnd.apple.mpegurl',
+          'Cache-Control': 'no-cache, no-store',
+          ...CORS,
+        },
       });
     }
 
-    // TS segments and other binary content — stream directly
+    // ── TS segments / binary: stream directly with CDN caching ─────────
+    const respHeaders: Record<string, string> = {
+      'Content-Type': ct || 'video/MP2T',
+      // Cache immutable segments at Vercel's CDN for 30s — reduces upstream load on retries
+      'Cache-Control': 'public, s-maxage=30, max-age=30',
+      ...CORS,
+    };
+
+    // Forward Content-Length so HLS.js can track download progress
+    const contentLength = res.headers.get('content-length');
+    if (contentLength) respHeaders['Content-Length'] = contentLength;
+
+    // Forward Content-Range for byte-range responses
+    const contentRange = res.headers.get('content-range');
+    if (contentRange) respHeaders['Content-Range'] = contentRange;
+
     return new Response(res.body, {
       status: res.status,
-      headers: {
-        'Content-Type': ct || 'video/MP2T',
-        'Cache-Control': 'no-cache',
-        ...CORS,
-      },
+      headers: respHeaders,
     });
   } catch (err) {
     return new Response(String(err), { status: 502, headers: CORS });

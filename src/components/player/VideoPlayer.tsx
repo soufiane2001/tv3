@@ -55,22 +55,37 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
       const hls = new Hls({
         enableWorker: true,
         lowLatencyMode: false,
-        // Generous buffer for proxied IPTV streams
+
+        // Buffer — keep enough ahead to survive slow proxy segments
         maxBufferLength: 60,
         maxMaxBufferLength: 120,
         maxBufferSize: 60 * 1024 * 1024,
         backBufferLength: 30,
-        // Longer timeouts for slow upstream servers
-        manifestLoadingTimeOut: 20_000,
-        manifestLoadingMaxRetry: 4,
+
+        // Stall recovery — nudge playhead when buffer hole detected
+        maxBufferHole: 2,          // tolerate 2-second gaps
+        maxStarvationDelay: 10,    // wait 10s before considering stream dead
+        nudgeMaxRetry: 6,          // try nudging 6 times before giving up
+        nudgeOffset: 0.2,          // small nudge to skip tiny holes
+
+        // Timeouts tuned for proxied IPTV (proxy adds ~500ms overhead per request)
+        manifestLoadingTimeOut: 15_000,
+        manifestLoadingMaxRetry: 5,
         manifestLoadingRetryDelay: 1_000,
-        levelLoadingTimeOut: 20_000,
-        levelLoadingMaxRetry: 4,
+        levelLoadingTimeOut: 15_000,
+        levelLoadingMaxRetry: 5,
         fragLoadingTimeOut: 30_000,
-        fragLoadingMaxRetry: 6,
-        fragLoadingRetryDelay: 1_000,
-        // Start playing sooner
-        startFragPrefetch: true,
+        fragLoadingMaxRetry: 8,
+        fragLoadingRetryDelay: 500,   // retry fast — slow servers often recover quickly
+
+        // Bandwidth — be conservative so proxy overhead doesn't cause quality thrashing
+        abrBandWidthFactor: 0.75,      // use only 75% of estimated bandwidth
+        abrBandWidthUpFactor: 0.5,     // be slow to step up quality
+        abrEwmaFastLive: 3,
+        abrEwmaSlowLive: 9,
+
+        // Don't prefetch next segment — reduces concurrent requests to slow upstream
+        startFragPrefetch: false,
       });
 
       hlsRef.current = hls;
@@ -83,20 +98,27 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
       });
 
       let networkRetries = 0;
+      let mediaRetries = 0;
       hls.on(Hls.Events.ERROR, (_, data) => {
         if (data.fatal) {
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 5) {
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
             networkRetries++;
-            setTimeout(() => hls.startLoad(), 2_000 * networkRetries);
-          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.stopLoad();
+            setTimeout(() => hls.startLoad(), 1_500 * networkRetries);
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
+            mediaRetries++;
             hls.recoverMediaError();
           } else {
             setState('error');
           }
-        } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-          hls.startLoad();
-        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-          hls.recoverMediaError();
+        } else {
+          // Non-fatal: reset retry counters on recovery
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+            networkRetries = Math.max(0, networkRetries - 1);
+            hls.startLoad();
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
+          }
         }
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
