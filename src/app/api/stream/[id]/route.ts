@@ -5,6 +5,15 @@ export const dynamic = 'force-dynamic';
 
 const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 Chrome/120 Safari/537.36';
 
+// Convert bare Xtream-Codes TS stream URLs to HLS on the fly
+function toHlsUrl(url: string): string {
+  if (/\.(m3u8|ts|mp4|mkv)(\?.*)?$/i.test(url)) return url;
+  if (/\/live\/[^/]+\/[^/]+\/\d+$/.test(url) || /\/[^/]+\/[^/]+\/\d+$/.test(url)) {
+    return url + '.m3u8';
+  }
+  return url;
+}
+
 // In-memory cache for channel URL lookups — warm within the same serverless instance
 // so repeated manifest refreshes (every 2-6s for live streams) skip the DB call
 const urlCache = new Map<string, { url: string; ts: number }>();
@@ -52,8 +61,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const { id } = await params;
 
     // DB lookup with cache — must finish fast (Vercel Hobby: 10s limit)
-    const upstream = await getStreamUrl(id);
-    if (!upstream) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    const raw = await getStreamUrl(id);
+    if (!raw) return NextResponse.json({ error: 'Not found' }, { status: 404 });
+    // Auto-upgrade bare TS stream URLs to HLS
+    const upstream = toHlsUrl(raw);
 
     // Keep upstream fetch well under Vercel's 10s serverless limit
     const res = await fetch(upstream, {

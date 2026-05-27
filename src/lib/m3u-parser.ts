@@ -11,6 +11,21 @@ function extractName(line: string): string {
   return commaIdx !== -1 ? line.slice(commaIdx + 1).trim() : '';
 }
 
+/**
+ * Converts bare Xtream-Codes live stream URLs to HLS format.
+ * e.g. http://server/live/user/pass/12345  →  http://server/live/user/pass/12345.m3u8
+ * Leaves URLs that already have an extension (or query-string format) untouched.
+ */
+function toHlsUrl(url: string): string {
+  // Already HLS or has recognisable extension
+  if (/\.(m3u8|ts|mp4|mkv|avi|flv)(\?.*)?$/i.test(url)) return url;
+  // Xtream Codes bare live path — append .m3u8 so server returns HLS playlist
+  if (/\/live\/[^/]+\/[^/]+\/\d+$/.test(url) || /\/[^/]+\/[^/]+\/\d+$/.test(url)) {
+    return url + '.m3u8';
+  }
+  return url;
+}
+
 export function parseM3U(content: string): M3UEntry[] {
   const lines = content.split('\n').map((l) => l.trim()).filter(Boolean);
   const entries: M3UEntry[] = [];
@@ -22,8 +37,10 @@ export function parseM3U(content: string): M3UEntry[] {
     const nextLine = lines[i + 1];
     if (!nextLine || nextLine.startsWith('#')) continue;
 
-    const streamUrl = nextLine.trim();
-    if (!streamUrl.startsWith('http')) continue;
+    const rawUrl = nextLine.trim();
+    if (!rawUrl.startsWith('http')) continue;
+
+    const streamUrl = toHlsUrl(rawUrl);
 
     const entry: M3UEntry = {
       name: extractName(line) || extractAttribute(line, 'tvg-name') || 'Unknown',
