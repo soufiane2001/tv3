@@ -479,6 +479,30 @@ export default function AdminPage() {
         </button>
       </section>
 
+      {/* ── Danger Zone ── */}
+      <section className="bg-red-950/20 border border-red-500/20 rounded-2xl p-6 space-y-3">
+        <h2 className="text-lg font-semibold text-red-400 flex items-center gap-2">
+          <Trash2 className="w-5 h-5" />
+          Danger Zone
+        </h2>
+        <p className="text-gray-500 text-sm">Delete all channels from the database. Use this before syncing from a new M3U source to start fresh.</p>
+        <button
+          onClick={async () => {
+            if (!confirm('⚠️ Delete ALL channels? This cannot be undone.')) return;
+            const res  = await fetch('/api/channels', { method: 'DELETE', headers: authHeader });
+            const data = await res.json();
+            if (data.success) {
+              toast.success(`Deleted ${data.deleted} channels`);
+              fetchData(password);
+            } else { toast.error(data.error || 'Failed'); }
+          }}
+          className="flex items-center gap-2 px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white rounded-xl text-sm font-medium transition-colors"
+        >
+          <Trash2 className="w-4 h-4" />
+          Delete All Channels
+        </button>
+      </section>
+
       {/* Sync history */}
       {logs.length > 0 && (
         <section className="bg-gray-800/60 border border-white/10 rounded-2xl p-6">

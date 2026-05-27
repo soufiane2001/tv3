@@ -45,6 +45,24 @@ export async function GET(req: NextRequest) {
   }
 }
 
+export async function DELETE(req: NextRequest) {
+  try {
+    const password = req.headers.get('x-admin-password');
+    if (password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Delete favorites first (FK constraint), then channels, then reset categories
+    await prisma.favorite.deleteMany({});
+    const { count } = await prisma.channel.deleteMany({});
+    await prisma.category.updateMany({ data: { channelCount: 0 } });
+
+    return NextResponse.json({ success: true, deleted: count });
+  } catch (err) {
+    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
+  }
+}
+
 export async function POST(req: NextRequest) {
   try {
     const password = req.headers.get('x-admin-password');
