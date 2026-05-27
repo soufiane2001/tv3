@@ -1,6 +1,8 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
 
+export const revalidate = 3600; // regenerate at most once per hour
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live';
   const now  = new Date();
