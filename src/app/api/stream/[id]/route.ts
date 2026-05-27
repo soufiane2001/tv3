@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 // Proxy stream URL to avoid exposing the direct link in client code
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {

@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { syncM3U } from '@/lib/sync';
 
+export const dynamic = 'force-dynamic';
+
 // Cron endpoint - call this with a cron job or scheduler
 // Example: GET /api/cron/sync?secret=your-secret
 export async function GET(req: NextRequest) {

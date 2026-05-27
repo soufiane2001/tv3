@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { COUNTRY_FLAGS, COUNTRY_NAMES } from '@/lib/analytics';
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(req: NextRequest) {
   if (req.headers.get('x-admin-password') !== process.env.ADMIN_PASSWORD) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { detectDevice, detectBrowser, isBot, getCountryFromHeaders } from '@/lib/analytics';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const ua = req.headers.get('user-agent') || '';

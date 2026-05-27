@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
+export const dynamic = 'force-dynamic';
+
 // Add TRT 1 and any direct-stream channels as manual sources
 export async function POST(req: NextRequest) {
   if (req.headers.get('x-admin-password') !== process.env.ADMIN_PASSWORD) {

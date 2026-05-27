@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { syncM3U } from '@/lib/sync';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: NextRequest) {
   try {
     const password = req.headers.get('x-admin-password');
