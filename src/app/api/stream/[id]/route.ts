@@ -87,14 +87,37 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       relayBase = '';
     }
 
-    const res = await fetch(upstream, {
-      headers: { 'User-Agent': UA },
+    // Try fetching manifest with progressively more permissive headers.
+    // Some CDNs/S3 buckets check Referer; try without first, then with source host.
+    let res = await fetch(upstream, {
+      headers: { 'User-Agent': UA, 'Accept': '*/*' },
       signal: AbortSignal.timeout(7_000),
+      redirect: 'follow',
     });
+
+    // On 403: retry with the source site as Referer (S3 bucket policy may require it)
+    if (res.status === 403) {
+      try {
+        const srcOrigin = `${new URL(upstream).protocol}//${new URL(upstream).hostname}`;
+        res = await fetch(upstream, {
+          headers: {
+            'User-Agent': UA,
+            'Accept': '*/*',
+            'Referer': srcOrigin + '/',
+            'Origin': srcOrigin,
+          },
+          signal: AbortSignal.timeout(7_000),
+          redirect: 'follow',
+        });
+      } catch { /* ignore retry error, fall through to original response */ }
+    }
 
     if (!res.ok) {
       console.error(`[stream/${id}] upstream ${res.status}: ${upstream}`);
-      return NextResponse.json({ error: 'Stream unavailable' }, { status: 502 });
+      return NextResponse.json(
+        { error: 'Stream unavailable', status: res.status, url: upstream },
+        { status: 502 },
+      );
     }
 
     const ct = res.headers.get('content-type') ?? '';
