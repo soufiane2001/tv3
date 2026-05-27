@@ -1,7 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
-import { Heart, Tv2, ChevronLeft, Share2, Radio, Trophy } from 'lucide-react';
+import { Heart, Tv2, ChevronLeft, Share2, Radio, Trophy, Globe, MessageCircle } from 'lucide-react';
 import VideoPlayer from '@/components/player/VideoPlayer';
 import { useFavoritesStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
@@ -115,6 +115,9 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
           </div>
         </div>
 
+        {/* ── Event content block (SEO + UX) ─────────────── */}
+        {eventOverride && <EventContent override={eventOverride} channel={channel} />}
+
         {/* Mobile related */}
         {related.length > 0 && (
           <div className="lg:hidden px-4 py-6">
@@ -136,6 +139,201 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
           </div>
         </aside>
       )}
+    </div>
+  );
+}
+
+// ── Event content section ─────────────────────────────────────────────────────
+// Shown below the player when the channel is airing a known live event.
+// Provides rich context for users + crawlable text for SEO.
+
+const EVENT_CONTENT: Record<string, {
+  teams: [string, string];
+  competition: string;
+  date: string;
+  kickoff: string;
+  venue?: string;
+  broadcastNote: string;
+  blocks: { lang: string; flag: string; title: string; body: string }[];
+  faq: { q: string; a: string }[];
+  links: { href: string; label: string }[];
+}> = {
+  'la-1': {
+    teams: ['Arsenal FC', 'Paris Saint-Germain'],
+    competition: 'UEFA Champions League Final 2026',
+    date: '27 May 2026',
+    kickoff: '21:00 CET · 20:00 UTC',
+    broadcastNote: 'Broadcasting free on La 1 (RTVE)',
+    blocks: [
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Champions League Final 2026 — Free Live Stream',
+        body: 'Watch the UEFA Champions League Final 2026 live between Arsenal FC and Paris Saint-Germain. Free HD stream on La 1 — no subscription, no registration.',
+      },
+      {
+        lang: 'Español', flag: '🇪🇸',
+        title: 'Final Champions League 2026 en Directo',
+        body: 'Ver la Final de la Champions League 2026 en directo y gratis. Arsenal contra PSG en La 1 de RTVE — streaming HD sin suscripción.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Finale Ligue des Champions 2026 — En Direct',
+        body: 'Regardez la Finale de la Ligue des Champions 2026 en direct et gratuitement. Arsenal contre PSG sur La 1 — streaming HD sans abonnement.',
+      },
+      {
+        lang: 'العربية', flag: '🌍',
+        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر',
+        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً — ارسنال ضد باريس سان جيرمان بجودة عالية HD على قناة لا 1، بدون اشتراك.',
+      },
+    ],
+    faq: [
+      { q: 'How to watch Arsenal vs PSG free?', a: 'Stream is live above — La 1 (RTVE) broadcasts the Champions League Final 2026 free. No account needed.' },
+      { q: '¿Cómo ver Arsenal vs PSG gratis?', a: 'El streaming está arriba — La 1 de RTVE emite la Final de la Champions 2026 gratis sin suscripción.' },
+      { q: 'What time is kick-off?', a: '21:00 CET (20:00 UTC) on 27 May 2026. That\'s 8 PM London, 9 PM Madrid & Paris, 3 PM New York.' },
+    ],
+    links: [
+      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'        },
+      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'              },
+      { href: '/crystal-palace-vs-rayo-vallecano', label: '🔵 Conference League Final'     },
+      { href: '/live',                        label: '📡 All Live Channels'               },
+    ],
+  },
+  'trt': {
+    teams: ['Crystal Palace', 'Rayo Vallecano'],
+    competition: 'UEFA Conference League Final 2026',
+    date: '27 May 2026',
+    kickoff: '21:00 CET',
+    venue: 'Estadio de La Cartuja, Seville',
+    broadcastNote: 'Broadcasting free on TRT',
+    blocks: [
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Conference League Final 2026 — Free Live Stream',
+        body: 'Watch Crystal Palace vs Rayo Vallecano live — UEFA Conference League Final 2026. Free HD stream on TRT — no subscription required.',
+      },
+      {
+        lang: 'Türkçe', flag: '🇹🇷',
+        title: 'Konferans Ligi Finali 2026 — Canlı İzle',
+        body: 'Crystal Palace - Rayo Vallecano maçını TRT\'de canlı ve ücretsiz izleyin. UEFA Konferans Ligi Finali 2026 HD yayın.',
+      },
+      {
+        lang: 'العربية', flag: '🌍',
+        title: 'نهائي الدوري الأوروبي الثالث 2026 — بث مباشر',
+        body: 'شاهد كريستال بالاس ضد رايو فاليكانو مجاناً — نهائي دوري المؤتمر الأوروبي 2026 على TRT بجودة HD.',
+      },
+      {
+        lang: 'Español', flag: '🇪🇸',
+        title: 'Final Conference League 2026 — En Directo',
+        body: 'Crystal Palace vs Rayo Vallecano en directo gratis. Final de la UEFA Conference League 2026 en TRT — streaming HD sin suscripción.',
+      },
+    ],
+    faq: [
+      { q: 'Where to watch Crystal Palace vs Rayo Vallecano free?', a: 'Stream is live above on TRT — broadcasting the Conference League Final 2026 for free in HD.' },
+      { q: 'Crystal Palace Rayo Vallecano hangi kanalda?', a: 'TRT\'de canlı yayın üstte — Konferans Ligi Finali 2026 ücretsiz HD yayın.' },
+      { q: '¿Dónde ver Crystal Palace vs Rayo Vallecano gratis?', a: 'Streaming arriba en TRT — Final Conference League 2026 gratis en HD sin registro.' },
+    ],
+    links: [
+      { href: '/crystal-palace-vs-rayo-vallecano', label: '🏆 Match Page'        },
+      { href: '/arsenal-vs-psg',                   label: '⚽ UCL Final — Arsenal vs PSG' },
+      { href: '/live',                             label: '📡 All Live Channels'  },
+    ],
+  },
+};
+
+// Alias slugs map to the same content
+const SLUG_MAP: Record<string, string> = {
+  'la-1-1': 'la-1', 'la-1-2': 'la-1',
+  'trt-1': 'trt', 'trt1': 'trt',
+};
+
+function EventContent({ override, channel }: { override: EventOverride; channel: Channel }) {
+  const key = SLUG_MAP[channel.slug] ?? channel.slug;
+  const data = EVENT_CONTENT[key];
+
+  if (!data) {
+    // Minimal fallback for channels without detailed event data
+    return (
+      <div className="px-4 py-6 border-t border-white/5 space-y-3">
+        <p className="text-gray-400 text-sm leading-relaxed">{override.description}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="border-t border-white/5 space-y-6 px-4 py-6">
+
+      {/* Match card */}
+      <div className="bg-gradient-to-r from-gray-800/60 to-gray-900/60 border border-white/5 rounded-2xl p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <Trophy className="w-4 h-4 text-yellow-400" />
+          <span className="text-yellow-400 text-xs font-bold uppercase tracking-wider">{data.competition}</span>
+          <span className="ml-auto px-2 py-0.5 bg-red-500 text-white text-xs font-bold rounded animate-pulse">LIVE</span>
+        </div>
+        <div className="flex items-center justify-center gap-4 mb-4">
+          <span className="text-white font-bold text-lg text-right flex-1">{data.teams[0]}</span>
+          <span className="text-gray-500 font-bold text-xl px-3">vs</span>
+          <span className="text-white font-bold text-lg text-left flex-1">{data.teams[1]}</span>
+        </div>
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-center text-xs">
+          {[
+            { l: 'Date',      v: data.date      },
+            { l: 'Kick-off',  v: data.kickoff   },
+            { l: 'Venue',     v: data.venue ?? 'Europe' },
+            { l: 'Broadcast', v: data.broadcastNote.split(' ')[3] ?? 'Free' },
+          ].map(({ l, v }) => (
+            <div key={l} className="bg-black/30 rounded-xl p-3">
+              <p className="text-gray-500 uppercase tracking-wider mb-1">{l}</p>
+              <p className="text-white font-semibold">{v}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Multilingual description blocks */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {data.blocks.map(({ flag, lang, title, body }) => (
+          <div key={lang} className="bg-gray-800/40 border border-white/5 rounded-xl p-4 space-y-1"
+            dir={lang === 'العربية' ? 'rtl' : 'ltr'}>
+            <div className="flex items-center gap-2 mb-2">
+              <span>{flag}</span>
+              <span className="text-gray-500 text-xs uppercase tracking-wider">{lang}</span>
+            </div>
+            <h3 className="text-white font-semibold text-sm">{title}</h3>
+            <p className="text-gray-400 text-xs leading-relaxed">{body}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* FAQ */}
+      <div className="space-y-2">
+        <div className="flex items-center gap-2 mb-3">
+          <MessageCircle className="w-4 h-4 text-purple-400" />
+          <h2 className="text-white font-semibold text-sm uppercase tracking-wider">FAQ</h2>
+        </div>
+        {data.faq.map(({ q, a }, i) => (
+          <details key={i} className="bg-gray-800/40 border border-white/5 rounded-xl p-3 group cursor-pointer">
+            <summary className="text-white text-sm font-medium list-none flex justify-between items-center gap-2">
+              {q}
+              <span className="text-purple-400 text-lg flex-shrink-0 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <p className="text-gray-400 text-xs mt-2 leading-relaxed">{a}</p>
+          </details>
+        ))}
+      </div>
+
+      {/* Internal links */}
+      <div className="flex flex-wrap gap-2">
+        <div className="flex items-center gap-1 mr-1">
+          <Globe className="w-3 h-3 text-gray-500" />
+          <span className="text-gray-500 text-xs">More:</span>
+        </div>
+        {data.links.map(({ href, label }) => (
+          <Link key={href} href={href}
+            className="px-3 py-1.5 bg-gray-800/60 hover:bg-purple-600/20 border border-white/10 hover:border-purple-500/30 text-gray-400 hover:text-white text-xs rounded-lg transition-all">
+            {label}
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }
