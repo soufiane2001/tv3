@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { slugify } from '@/lib/utils';
 
 export const dynamic = 'force-dynamic';
 
@@ -39,6 +40,65 @@ export async function GET(req: NextRequest) {
       limit,
       totalPages: Math.ceil(total / limit),
     });
+  } catch (err) {
+    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
+  }
+}
+
+export async function POST(req: NextRequest) {
+  try {
+    const password = req.headers.get('x-admin-password');
+    if (password !== process.env.ADMIN_PASSWORD) {
+      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
+    }
+
+    const body = await req.json();
+    const { name, streamUrl, logo, groupTitle = 'General', slug: customSlug } = body;
+
+    if (!name?.trim() || !streamUrl?.trim()) {
+      return NextResponse.json({ success: false, error: 'name and streamUrl are required' }, { status: 400 });
+    }
+
+    // Find or create category
+    const catName = groupTitle.trim() || 'General';
+    const catSlug = slugify(catName);
+    const category = await prisma.category.upsert({
+      where: { slug: catSlug },
+      update: {},
+      create: { name: catName, slug: catSlug },
+    });
+
+    // Generate unique slug
+    const baseSlug = customSlug?.trim() ? slugify(customSlug) : slugify(name);
+    let slug = baseSlug;
+    let attempt = 0;
+    while (true) {
+      const exists = await prisma.channel.findUnique({ where: { slug } });
+      if (!exists) break;
+      attempt++;
+      slug = `${baseSlug}-${attempt}`;
+    }
+
+    const channel = await prisma.channel.create({
+      data: {
+        name: name.trim(),
+        slug,
+        streamUrl: streamUrl.trim(),
+        logo: logo?.trim() || null,
+        groupTitle: catName,
+        categoryId: category.id,
+        isActive: true,
+      },
+      include: { category: { select: { name: true, slug: true } } },
+    });
+
+    // Update category channel count
+    await prisma.category.update({
+      where: { id: category.id },
+      data: { channelCount: { increment: 1 } },
+    });
+
+    return NextResponse.json({ success: true, data: channel }, { status: 201 });
   } catch (err) {
     return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
   }

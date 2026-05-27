@@ -34,6 +34,11 @@ export default function AdminPage() {
   const [addingSource, setAddingSource] = useState(false);
   const [loadingData, setLoadingData]   = useState(false);
   const [activeTab, setActiveTab]       = useState<'overview' | 'analytics'>('overview');
+  const [chName, setChName]         = useState('');
+  const [chUrl, setChUrl]           = useState('');
+  const [chLogo, setChLogo]         = useState('');
+  const [chGroup, setChGroup]       = useState('General');
+  const [addingCh, setAddingCh]     = useState(false);
 
   const authHeader = { 'x-admin-password': password, 'Content-Type': 'application/json' };
 
@@ -102,6 +107,20 @@ export default function AdminPage() {
       setSources(prev => prev.filter(s => s.id !== id));
       toast.success('Source removed');
     }
+  };
+
+  const addChannel = async () => {
+    if (!chName.trim() || !chUrl.trim()) return;
+    setAddingCh(true);
+    try {
+      const res  = await fetch('/api/channels', { method: 'POST', headers: authHeader, body: JSON.stringify({ name: chName.trim(), streamUrl: chUrl.trim(), logo: chLogo.trim() || undefined, groupTitle: chGroup.trim() || 'General' }) });
+      const data = await res.json();
+      if (data.success) {
+        toast.success(`Channel "${data.data.name}" added`);
+        setChName(''); setChUrl(''); setChLogo(''); setChGroup('General');
+        fetchData(password);
+      } else { toast.error(data.error || 'Failed'); }
+    } finally { setAddingCh(false); }
   };
 
   /* ── Login screen ── */
@@ -295,6 +314,53 @@ export default function AdminPage() {
             </button>
           </div>
         </div>
+      </section>
+
+      {/* ── Add Channel manually ── */}
+      <section className="bg-gray-800/60 border border-white/10 rounded-2xl p-6 space-y-4">
+        <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+          <Tv2 className="w-5 h-5 text-purple-400" />
+          Add Channel Manually
+        </h2>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+          <input
+            type="text"
+            value={chName}
+            onChange={e => setChName(e.target.value)}
+            placeholder="Channel name (e.g. TRT 1)"
+            className="bg-gray-900 border border-white/10 rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 outline-none focus:border-purple-500"
+          />
+          <input
+            type="url"
+            value={chUrl}
+            onChange={e => setChUrl(e.target.value)}
+            placeholder="Stream URL (m3u8 or ts)"
+            className="bg-gray-900 border border-white/10 rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 outline-none focus:border-purple-500"
+          />
+          <input
+            type="url"
+            value={chLogo}
+            onChange={e => setChLogo(e.target.value)}
+            placeholder="Logo URL (optional)"
+            className="bg-gray-900 border border-white/10 rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 outline-none focus:border-purple-500"
+          />
+          <input
+            type="text"
+            value={chGroup}
+            onChange={e => setChGroup(e.target.value)}
+            onKeyDown={e => e.key === 'Enter' && addChannel()}
+            placeholder="Group / Category (e.g. Turkish)"
+            className="bg-gray-900 border border-white/10 rounded-xl px-3 py-2.5 text-white text-sm placeholder-gray-600 outline-none focus:border-purple-500"
+          />
+        </div>
+        <button
+          onClick={addChannel}
+          disabled={addingCh || !chName || !chUrl}
+          className="flex items-center gap-2 px-5 py-2.5 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 text-white rounded-xl text-sm font-medium transition-colors"
+        >
+          {addingCh ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+          Add Channel
+        </button>
       </section>
 
       {/* Sync history */}
