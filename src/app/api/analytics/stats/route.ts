@@ -88,15 +88,15 @@ export async function GET(req: NextRequest) {
     }),
     // Hourly chart: last 24h (1 bucket per hour)
     prisma.$queryRaw<{ hour: string; count: bigint }[]>`
-      SELECT strftime('%Y-%m-%dT%H:00:00', createdAt) as hour, COUNT(*) as count
-      FROM PageView
-      WHERE createdAt >= datetime('now', '-24 hours')
+      SELECT to_char(date_trunc('hour', "createdAt"), 'YYYY-MM-DD"T"HH24:00:00') as hour, COUNT(*) as count
+      FROM "PageView"
+      WHERE "createdAt" >= NOW() - INTERVAL '24 hours'
       GROUP BY hour ORDER BY hour ASC`,
     // Daily chart: last 7 days
     prisma.$queryRaw<{ day: string; count: bigint }[]>`
-      SELECT strftime('%Y-%m-%d', createdAt) as day, COUNT(*) as count
-      FROM PageView
-      WHERE createdAt >= datetime('now', '-7 days')
+      SELECT to_char(date_trunc('day', "createdAt"), 'YYYY-MM-DD') as day, COUNT(*) as count
+      FROM "PageView"
+      WHERE "createdAt" >= NOW() - INTERVAL '7 days'
       GROUP BY day ORDER BY day ASC`,
   ]);
 
