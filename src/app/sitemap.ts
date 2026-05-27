@@ -5,10 +5,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live';
   const now  = new Date();
 
-  const [channels, categories] = await Promise.all([
-    prisma.channel.findMany({ where: { isActive: true }, select: { slug: true, updatedAt: true } }),
-    prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
-  ]);
+  let channels: { slug: string; updatedAt: Date }[] = [];
+  let categories: { slug: string; updatedAt: Date }[] = [];
+  try {
+    [channels, categories] = await Promise.all([
+      prisma.channel.findMany({ where: { isActive: true }, select: { slug: true, updatedAt: true } }),
+      prisma.category.findMany({ select: { slug: true, updatedAt: true } }),
+    ]);
+  } catch { /* DB not available at build time — static pages only */ }
 
   const static_: MetadataRoute.Sitemap = [
     { url: base,          lastModified: now, changeFrequency: 'daily',  priority: 1.0 },
