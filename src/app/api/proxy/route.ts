@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
   try {
     const res = await fetch(url, {
       headers: { 'User-Agent': UA },
-      signal: AbortSignal.timeout(15_000),
+      signal: AbortSignal.timeout(25_000),
     });
 
     const ct = res.headers.get('content-type') ?? '';

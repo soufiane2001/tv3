@@ -54,10 +54,23 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
     if (Hls.isSupported()) {
       const hls = new Hls({
         enableWorker: true,
-        lowLatencyMode: true,
-        backBufferLength: 90,
-        maxBufferSize: 30 * 1024 * 1024,
-        maxBufferLength: 30,
+        lowLatencyMode: false,
+        // Generous buffer for proxied IPTV streams
+        maxBufferLength: 60,
+        maxMaxBufferLength: 120,
+        maxBufferSize: 60 * 1024 * 1024,
+        backBufferLength: 30,
+        // Longer timeouts for slow upstream servers
+        manifestLoadingTimeOut: 20_000,
+        manifestLoadingMaxRetry: 4,
+        manifestLoadingRetryDelay: 1_000,
+        levelLoadingTimeOut: 20_000,
+        levelLoadingMaxRetry: 4,
+        fragLoadingTimeOut: 30_000,
+        fragLoadingMaxRetry: 6,
+        fragLoadingRetryDelay: 1_000,
+        // Start playing sooner
+        startFragPrefetch: true,
       });
 
       hlsRef.current = hls;
@@ -69,9 +82,17 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
         if (autoPlay) video.play().catch(() => setState('paused'));
       });
 
+      let networkRetries = 0;
       hls.on(Hls.Events.ERROR, (_, data) => {
         if (data.fatal) {
-          setState('error');
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 5) {
+            networkRetries++;
+            setTimeout(() => hls.startLoad(), 2_000 * networkRetries);
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+            hls.recoverMediaError();
+          } else {
+            setState('error');
+          }
         } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
           hls.startLoad();
         } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {

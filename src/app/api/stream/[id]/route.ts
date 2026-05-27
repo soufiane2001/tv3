@@ -27,7 +27,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     const upstream = channel.streamUrl;
     const res = await fetch(upstream, {
       headers: { 'User-Agent': UA },
-      signal: AbortSignal.timeout(10_000),
+      signal: AbortSignal.timeout(25_000),
     });
 
     if (!res.ok) return NextResponse.json({ error: 'Stream unavailable' }, { status: 502 });
