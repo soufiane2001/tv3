@@ -12,6 +12,10 @@ export const metadata: Metadata = {
   },
   description: 'Professional IPTV streaming platform - Watch live TV channels online',
   keywords: ['IPTV', 'live TV', 'streaming', 'channels', 'sports', 'entertainment'],
+  icons: {
+    icon: '/icon.svg',
+    shortcut: '/icon.svg',
+  },
   openGraph: { type: 'website', siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive' },
 };
 
