@@ -3,8 +3,8 @@ import { NextRequest } from 'next/server';
 export const dynamic = 'force-dynamic';
 export const runtime = 'edge';
 
-// VLC UA: IPTV CDNs whitelist common IPTV client agents and block cloud datacenter UAs
-const UA = 'VLC/3.0.20 LibVLC/3.0.20';
+// Browser UA — IPTV CDNs allow browser requests; VLC/curl UAs are often blocked
+const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -46,10 +46,15 @@ export async function GET(req: NextRequest) {
   if (!url) return new Response('Missing url', { status: 400, headers: CORS });
 
   try {
-    const fetchHeaders: Record<string, string> = { 'User-Agent': UA };
+    const fetchHeaders: Record<string, string> = {
+      'User-Agent': UA,
+      'Accept': '*/*',
+      'Accept-Language': 'en-US,en;q=0.9',
+      'Accept-Encoding': 'identity',  // no compression — stream binary as-is
+      'Referer': 'https://sportalive.live/',
+    };
 
-    // Forward client's real IP — some IPTV CDNs bind stream tokens to the viewer's IP.
-    // Vercel sets x-forwarded-for to a comma-separated list; take the first (original) IP.
+    // Forward client's real IP — some CDNs bind stream tokens to the viewer's IP
     const xfwd = req.headers.get('x-forwarded-for');
     const clientIp = xfwd ? xfwd.split(',')[0].trim() : null;
     if (clientIp) {
@@ -64,7 +69,6 @@ export async function GET(req: NextRequest) {
     const res = await fetch(url, {
       headers: fetchHeaders,
       signal: AbortSignal.timeout(28_000),
-      // follow redirects transparently
       redirect: 'follow',
     });
 
@@ -86,19 +90,17 @@ export async function GET(req: NextRequest) {
       });
     }
 
-    // ── TS segments / binary: stream directly with CDN caching ─────────
+    // ── TS segments / binary ───────────────────────────────────────────
     const respHeaders: Record<string, string> = {
       'Content-Type': ct || 'video/MP2T',
-      // Cache immutable segments at Vercel's CDN for 30s — reduces upstream load on retries
-      'Cache-Control': 'public, s-maxage=30, max-age=30',
+      // Only cache successful segments; never cache error responses
+      'Cache-Control': res.ok ? 'public, s-maxage=30, max-age=30' : 'no-store',
       ...CORS,
     };
 
-    // Forward Content-Length so HLS.js can track download progress
     const contentLength = res.headers.get('content-length');
     if (contentLength) respHeaders['Content-Length'] = contentLength;
 
-    // Forward Content-Range for byte-range responses
     const contentRange = res.headers.get('content-range');
     if (contentRange) respHeaders['Content-Range'] = contentRange;
 
