@@ -2,6 +2,35 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
+/** Returns true if the current browser looks like a bot / headless tool. */
+function isBotClient(): boolean {
+  try {
+    const nav = navigator as any;
+    const win = window as any;
+
+    // Selenium / WebDriver automation
+    if (nav.webdriver === true) return true;
+    if (document.documentElement.getAttribute('webdriver')) return true;
+
+    // PhantomJS
+    if (win.callPhantom || win._phantom || win.phantom) return true;
+
+    // Nightmare.js / electron-based headless
+    if (win.__nightmare) return true;
+
+    // Headless Chrome: chrome runtime missing
+    if (/HeadlessChrome/i.test(navigator.userAgent)) return true;
+
+    // Empty languages array (many headless browsers)
+    if (Array.isArray(nav.languages) && nav.languages.length === 0) return true;
+
+    // UA contains obvious bot keywords (client-side double-check)
+    if (/bot|crawl|spider|headless|phantom|selenium|puppeteer|playwright/i.test(navigator.userAgent)) return true;
+
+    return false;
+  } catch { return false; }
+}
+
 function getOrCreateSessionId(): string {
   try {
     let sid = sessionStorage.getItem('_asid');
@@ -29,13 +58,15 @@ export default function Tracker() {
   const startRef    = useRef<number>(Date.now());
   const sessionId   = useRef<string>('');
   const pingRef     = useRef<NodeJS.Timeout | null>(null);
+  const isBot       = useRef<boolean>(false);
 
   useEffect(() => {
-    sessionId.current = getOrCreateSessionId();
+    isBot.current = isBotClient();
+    if (!isBot.current) sessionId.current = getOrCreateSessionId();
   }, []);
 
   useEffect(() => {
-    if (!sessionId.current) return;
+    if (isBot.current || !sessionId.current) return;
 
     startRef.current = Date.now();
     const sid = sessionId.current;

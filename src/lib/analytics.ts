@@ -14,8 +14,41 @@ export function detectBrowser(ua: string): string {
   return 'Other';
 }
 
+const BOT_PATTERN = new RegExp([
+  // Generic signals
+  'bot','crawl','spider','slurp','scraper','scanner','indexer','checker','validator',
+  // Search engines
+  'googlebot','google-inspectiontool','bingbot','yahoo','yandex','baiduspider',
+  'duckduckbot','applebot','sogou','exabot','seznambot','naver',
+  // SEO / marketing tools
+  'semrush','ahrefs','moz','rogerbot','dotbot','majestic','screamingfrog',
+  'seokicks','seostar','sistrix','serpstat','linkdexbot','blexbot',
+  // Monitoring / uptime
+  'pingdom','uptimerobot','statuscake','freshping','hetrixtools',
+  'site24x7','nodeping','newrelic','datadog','catchpoint',
+  // Headless / automation
+  'headlesschrome','headless','phantomjs','puppeteer','selenium','playwright',
+  'cypress','nightmare','zombie','mechanize','htmlunit','slimerjs',
+  // Prerender / SSR
+  'prerender','rendertron','googleweblight',
+  // AI crawlers
+  'gptbot','chatgpt','claudebot','anthropic','cohere','perplexity',
+  'ccbot','omgili','diffbot','magpie-crawler',
+  // Download tools
+  'wget','curl','python-requests','python-urllib','go-http-client',
+  'java/','libwww','httpunit','httpclient','okhttp','axios',
+  // Social / link preview
+  'facebookexternalhit','twitterbot','linkedinbot','slackbot','discordbot',
+  'telegrambot','whatsapp','viber','vkshare','xing-contenttabreceiver',
+  'skypeuripreview','line-poker','pinterest',
+  // Misc
+  'archive.org','wayback','webarchive','archive.org_bot',
+  'teoma','ask jeeves','gigabot','netcraft','netresearch',
+].join('|'), 'i');
+
 export function isBot(ua: string): boolean {
-  return /bot|crawl|spider|slurp|teoma|archive|ask|facebookexternalhit|whatsapp|telegrambot/i.test(ua);
+  if (!ua || ua.length < 10) return true; // empty or suspiciously short UA
+  return BOT_PATTERN.test(ua);
 }
 
 /** Get country from request headers (Cloudflare, Vercel, custom proxy). */
