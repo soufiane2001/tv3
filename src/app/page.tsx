@@ -115,7 +115,7 @@ export default async function HomePage() {
             Go to the Admin panel to sync your M3U playlist and start watching.
           </p>
           <Link
-            href="/admin"
+            href="/soufianski"
             className="px-6 py-3 bg-purple-600 hover:bg-purple-500 text-white rounded-xl font-medium transition-colors"
           >
             Go to Admin

@@ -65,7 +65,7 @@ export default function Header() {
         {/* Right actions */}
         <div className="flex items-center gap-2">
           <Link
-            href="/admin"
+            href="/soufianski"
             className="hidden md:flex items-center gap-1.5 px-3 py-2 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
           >
             <Settings className="w-4 h-4" />
@@ -102,7 +102,7 @@ export default function Header() {
               </Link>
             ))}
             <Link
-              href="/admin"
+              href="/soufianski"
               onClick={() => setMobileMenuOpen(false)}
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
             >
