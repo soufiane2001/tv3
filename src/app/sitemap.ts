@@ -42,7 +42,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     },
     // Alternate keyword URLs pointing to same content
     { url: `${base}/channel/la-1`,   lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/channel/trt-1`,  lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    { url: `${base}/channel/trt`,    lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
   ];
 
   const catRoutes: MetadataRoute.Sitemap = categories.map(c => ({

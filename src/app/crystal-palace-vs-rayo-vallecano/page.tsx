@@ -63,7 +63,7 @@ const videoJsonLd = {
 async function getTrt1() {
   try {
     return await prisma.channel.findFirst({
-      where: { slug: { in: ['trt-1', 'trt1'] }, isActive: true },
+      where: { slug: { in: ['trt', 'trt-1', 'trt1'] }, isActive: true },
     });
   } catch { return null; }
 }
@@ -185,7 +185,7 @@ export default async function ConferenceLeagueFinalPage() {
             { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG — UCL Final'        },
             { href: '/champions-league-final-2026', label: '⚽ Champions League Final 2026'       },
             { href: '/world-cup-2026',              label: '🌍 World Cup 2026'                    },
-            { href: '/channel/trt-1',               label: '📺 TRT 1 Canlı'                      },
+            { href: '/channel/trt',                 label: '📺 TRT Canlı'                        },
             { href: '/live',                        label: '📡 All Live Channels'                 },
           ].map(({ href, label }) => (
             <Link key={href} href={href}

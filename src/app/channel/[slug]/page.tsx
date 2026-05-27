@@ -70,6 +70,40 @@ const EVENT_OVERRIDES: Record<string, {
       broadcastDisplayName: 'TRT 1',
     },
   },
+  'trt': {
+    title: '🔴 TRT Canlı — UEFA Conference League Final: Crystal Palace vs Rayo Vallecano LIVE',
+    description: 'Watch TRT live — UEFA Conference League Final 2026: Crystal Palace vs Rayo Vallecano. Free HD live stream. TRT canlı yayın, Conference League final maçı izle. Crystal Palace vs Rayo Vallecano en vivo gratis. مباراة كريستال بالاس رايو فاليكانو بث مباشر.',
+    keywords: [
+      'crystal palace vs rayo vallecano live','conference league final 2026',
+      'crystal palace rayo vallecano final','trt canlı izle','trt live stream',
+      'conference league final live stream free','crystal palace rayo live',
+      'uefa conference league final 2026 live','watch conference league final',
+      'crystal palace vs rayo vallecano stream','trt 1 canlı maç izle',
+      'conference league final trt','crystal palace rayo vallecano canlı',
+      'final conference league 2026 streaming','كريستال بالاس رايو فاليكانو',
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BroadcastEvent',
+      name: 'UEFA Conference League Final 2026 — Crystal Palace vs Rayo Vallecano LIVE on TRT',
+      startDate: '2026-05-28T20:00:00Z',
+      isLiveBroadcast: true,
+      broadcastOfEvent: {
+        '@type': 'SportsEvent',
+        name: 'Crystal Palace FC vs Rayo Vallecano — UEFA Conference League Final 2026',
+        sport: 'Football',
+        startDate: '2026-05-28T20:00:00Z',
+        location: { '@type': 'Place', name: 'Estadio de La Cartuja, Seville' },
+        competitor: [
+          { '@type': 'SportsTeam', name: 'Crystal Palace FC', url: 'https://www.cpfc.co.uk' },
+          { '@type': 'SportsTeam', name: 'Rayo Vallecano', url: 'https://www.rayovallecano.es' },
+        ],
+        organizer: { '@type': 'Organization', name: 'UEFA' },
+      },
+      broadcastDisplayName: 'TRT',
+      videoFormat: 'HD',
+    },
+  },
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
