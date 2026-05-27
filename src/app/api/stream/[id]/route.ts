@@ -17,7 +17,7 @@ function toHlsUrl(url: string): string {
 // In-memory cache for channel URL lookups — warm within the same serverless instance
 // so repeated manifest refreshes (every 2-6s for live streams) skip the DB call
 const urlCache = new Map<string, { url: string; ts: number }>();
-const URL_CACHE_TTL = 5 * 60_000; // 5 minutes
+const URL_CACHE_TTL = 5 * 60_000;
 
 async function getStreamUrl(id: string): Promise<string | null> {
   const cached = urlCache.get(id);
@@ -35,23 +35,34 @@ async function getStreamUrl(id: string): Promise<string | null> {
   return null;
 }
 
-function rewriteM3u8(text: string, baseUrl: string, proxyBase: string): string {
+// Rewrite M3U8 playlist: proxy all URLs, carry relay base so /api/proxy can
+// fall back to the IPTV origin server when the CDN returns 403.
+function rewriteM3u8(
+  text: string,
+  baseUrl: string,
+  proxyBase: string,
+  relayBase: string,   // e.g. "http://goat2027.alwanvipsaw.store:80"
+): string {
+  const relayParam = `&relay=${encodeURIComponent(relayBase)}`;
+
   return text.split('\n').map(line => {
     const t = line.trim();
     if (!t) return line;
 
-    // Rewrite URI="..." inside tags (EXT-X-KEY, EXT-X-MAP, etc.)
+    // Rewrite URI="…" inside tag attributes (EXT-X-KEY, EXT-X-MAP, …)
     if (t.startsWith('#') && t.includes('URI="')) {
       return line.replace(/URI="([^"]+)"/g, (_, uri) => {
-        const full = uri.startsWith('http') ? uri : new URL(uri, baseUrl).href;
-        return `URI="${proxyBase}${encodeURIComponent(full)}"`;
+        const abs = uri.startsWith('http') ? uri : new URL(uri, baseUrl).href;
+        return `URI="${proxyBase}${encodeURIComponent(abs)}${relayParam}"`;
       });
     }
 
+    // Non-comment lines = segment / sub-playlist URLs
     if (!t.startsWith('#')) {
-      const full = t.startsWith('http') ? t : new URL(t, baseUrl).href;
-      return proxyBase + encodeURIComponent(full);
+      const abs = t.startsWith('http') ? t : new URL(t, baseUrl).href;
+      return `${proxyBase}${encodeURIComponent(abs)}${relayParam}`;
     }
+
     return line;
   }).join('\n');
 }
@@ -60,19 +71,31 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
 
-    // DB lookup with cache — must finish fast (Vercel Hobby: 10s limit)
     const raw = await getStreamUrl(id);
     if (!raw) return NextResponse.json({ error: 'Not found' }, { status: 404 });
-    // Auto-upgrade bare TS stream URLs to HLS
+
     const upstream = toHlsUrl(raw);
 
-    // Keep upstream fetch well under Vercel's 10s serverless limit
+    // Extract the IPTV origin base (protocol + host) to use as relay fallback.
+    // When the CDN (e.g. 95.179.178.148) blocks Vercel IPs with 403, the proxy
+    // will retry the same path through this origin server instead.
+    let relayBase: string;
+    try {
+      const u = new URL(upstream);
+      relayBase = `${u.protocol}//${u.host}`;
+    } catch {
+      relayBase = '';
+    }
+
     const res = await fetch(upstream, {
       headers: { 'User-Agent': UA },
       signal: AbortSignal.timeout(7_000),
     });
 
-    if (!res.ok) return NextResponse.json({ error: 'Stream unavailable' }, { status: 502 });
+    if (!res.ok) {
+      console.error(`[stream/${id}] upstream ${res.status}: ${upstream}`);
+      return NextResponse.json({ error: 'Stream unavailable' }, { status: 502 });
+    }
 
     const ct = res.headers.get('content-type') ?? '';
     const proxyBase = `${req.nextUrl.origin}/api/proxy?url=`;
@@ -80,10 +103,9 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     if (isM3u8) {
       const text = await res.text();
-      // Use the final URL (after redirects) as base for relative paths
       const finalUrl = res.url || upstream;
       const baseUrl = finalUrl.substring(0, finalUrl.lastIndexOf('/') + 1);
-      const rewritten = rewriteM3u8(text, baseUrl, proxyBase);
+      const rewritten = rewriteM3u8(text, baseUrl, proxyBase, relayBase);
       return new Response(rewritten, {
         headers: {
           'Content-Type': 'application/vnd.apple.mpegurl',
@@ -93,7 +115,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       });
     }
 
-    // Direct TS stream (uncommon but handle it)
+    // Direct TS stream (rare — Xtream Codes usually returns HLS)
     return new Response(res.body, {
       headers: {
         'Content-Type': ct || 'video/MP2T',
@@ -102,6 +124,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       },
     });
   } catch (err) {
+    console.error('[stream] error:', err);
     return NextResponse.json({ error: String(err) }, { status: 500 });
   }
 }
