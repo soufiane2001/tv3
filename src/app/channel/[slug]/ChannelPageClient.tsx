@@ -3,6 +3,7 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Heart, Tv2, ChevronLeft, Share2, Radio, Trophy, Globe, MessageCircle } from 'lucide-react';
 import VideoPlayer from '@/components/player/VideoPlayer';
+import AdBanner from '@/components/ads/AdBanner';
 import { useFavoritesStore } from '@/store/useStore';
 import { cn } from '@/lib/utils';
 import toast from 'react-hot-toast';
@@ -114,6 +115,13 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
             </button>
           </div>
         </div>
+
+        {/* ── Ad banner — below player, max visibility ─────── */}
+        {(channel.slug.startsWith('la-1') || channel.slug === 'la1') && (
+          <div className="px-4 py-3 border-t border-white/5">
+            <AdBanner />
+          </div>
+        )}
 
         {/* ── Event content block (SEO + UX) ─────────────── */}
         {eventOverride && <EventContent override={eventOverride} channel={channel} />}
@@ -361,6 +369,9 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
           )}
         </div>
       </div>
+
+      {/* ── Ad banner — mid-content placement ───────────────────────────────── */}
+      {(key === 'la-1') && <AdBanner />}
 
       {/* ── Multilingual description blocks ─────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
