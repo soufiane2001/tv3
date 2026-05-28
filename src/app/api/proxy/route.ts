@@ -136,63 +136,76 @@ export async function GET(req: NextRequest) {
   const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim();
   const range = req.headers.get('range');
 
-  const buildHeaders = (ua: string): Record<string, string> => ({
+  // The source server's own origin — used as Referer for Referer-gated servers
+  const srcOrigin = `${parsed.protocol}//${parsed.host}`;
+
+  // Headers without Referer (mimics VLC / native players — most permissive)
+  const buildHeadersClean = (ua: string): Record<string, string> => ({
     'User-Agent': ua,
     'Accept': '*/*',
     'Accept-Language': 'en-US,en;q=0.9',
-    'Accept-Encoding': 'identity',        // keep binary data uncompressed
-    'Referer': 'https://sportalive.live/',
-    'Origin': 'https://sportalive.live',
+    'Accept-Encoding': 'identity',
     ...(clientIp && { 'X-Forwarded-For': clientIp, 'X-Real-IP': clientIp }),
     ...(range && { 'Range': range }),
   });
 
+  // Headers with source server as Referer (for Referer-gated CDNs)
+  const buildHeadersSrcRef = (ua: string): Record<string, string> => ({
+    ...buildHeadersClean(ua),
+    'Referer': srcOrigin + '/',
+    'Origin': srcOrigin,
+  });
+
+  // Headers with our own domain as Referer (last resort)
+  const buildHeaders = (ua: string): Record<string, string> => ({
+    ...buildHeadersClean(ua),
+    'Referer': 'https://sportalive.live/',
+    'Origin': 'https://sportalive.live',
+  });
+
   // ── Fetch with retry strategy ──────────────────────────────────────────────
   //
-  // Strategy (in order, stop at first success):
-  //   1. Direct fetch with each UA in UA_LIST
-  //   2. On 403: try HTTPS upgrade (some CDNs allow HTTPS but block HTTP)
-  //   3. On 403: relay through IPTV origin server (same path, different host)
-  //
-  // Why relay works: goat2027.alwanvipsaw.store does NOT block Vercel IPs.
-  // The CDN (95.179.178.148) does. If the IPTV server has the segment at the
-  // same path, routing through it bypasses the CDN block entirely.
+  // Order (stop at first non-403 response):
+  //   1. No Referer — mimics VLC; works on servers that block unknown Referers
+  //   2. Source server as Referer — works on Referer-gated CDNs
+  //   3. HTTPS upgrade
+  //   4. Relay through IPTV origin server
 
   let res: Response | null = null;
 
   try {
     for (const ua of UA_LIST) {
-      const h = buildHeaders(ua);
 
-      // 1. Direct
-      const direct = await upstream(rawUrl, h, 20_000);
-      if (direct.status !== 403 && direct.status !== 401) {
-        res = direct;
-        break;
-      }
+      // 1. No Referer (VLC-style)
+      const clean = await upstream(rawUrl, buildHeadersClean(ua), 20_000);
+      if (clean.status !== 403 && clean.status !== 401) { res = clean; break; }
 
-      // 2. HTTPS upgrade (if currently HTTP)
+      // 2. Source server as Referer
+      const srcRef = await upstream(rawUrl, buildHeadersSrcRef(ua), 20_000);
+      if (srcRef.status !== 403 && srcRef.status !== 401) { res = srcRef; break; }
+
+      // 3. HTTPS upgrade (if currently HTTP)
       if (parsed.protocol === 'http:') {
         const httpsUrl = rawUrl.replace(/^http:\/\//, 'https://');
         try {
-          const secure = await upstream(httpsUrl, h, 10_000);
+          const secure = await upstream(httpsUrl, buildHeadersClean(ua), 10_000);
           if (secure.ok) { res = secure; break; }
-        } catch { /* HTTPS not supported by CDN — continue */ }
+        } catch { /* HTTPS not supported — continue */ }
       }
 
-      // 3. Relay: same path through the IPTV origin server
+      // 4. Relay: same path through the IPTV origin server
       if (relayOrigin) {
         const relayUrl = relayOrigin + parsed.pathname + parsed.search;
         try {
-          const relayed = await upstream(relayUrl, h, 20_000);
+          const relayed = await upstream(relayUrl, buildHeadersClean(ua), 20_000);
           if (relayed.ok) { res = relayed; break; }
         } catch { /* relay unreachable — continue */ }
       }
     }
 
-    // All strategies exhausted — do one clean fetch to get proper error response
+    // All strategies exhausted — one final attempt to get proper error response
     if (!res) {
-      res = await upstream(rawUrl, buildHeaders(UA_LIST[0]), 10_000);
+      res = await upstream(rawUrl, buildHeadersClean(UA_LIST[0]), 10_000);
     }
 
     const ct = res.headers.get('content-type') ?? '';
