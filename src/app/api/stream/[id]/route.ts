@@ -35,6 +35,38 @@ async function getStreamUrl(id: string): Promise<string | null> {
   return null;
 }
 
+// Public broadcaster CDNs that have open CORS and allow residential IPs.
+// For these, we return the manifest with absolute (non-proxied) URLs so the
+// browser fetches segments directly with the user's residential IP — same as VLC.
+function isPublicCdn(hostname: string): boolean {
+  return (
+    hostname.endsWith('.rtve.es') ||
+    hostname.endsWith('.cloudfront.net') ||
+    hostname.endsWith('.akamaized.net') ||
+    hostname.endsWith('.akamaihd.net') ||
+    hostname.endsWith('.fastly.net') ||
+    hostname.endsWith('.llnwd.net')
+  );
+}
+
+// Resolve relative URLs to absolute without proxying — for public CDN streams.
+function makeAbsoluteM3u8(text: string, baseUrl: string): string {
+  return text.split('\n').map(line => {
+    const t = line.trim();
+    if (!t) return line;
+    if (t.startsWith('#') && t.includes('URI="')) {
+      return line.replace(/URI="([^"]+)"/g, (_, uri) => {
+        const abs = uri.startsWith('http') ? uri : new URL(uri, baseUrl).href;
+        return `URI="${abs}"`;
+      });
+    }
+    if (!t.startsWith('#')) {
+      return t.startsWith('http') ? t : new URL(t, baseUrl).href;
+    }
+    return line;
+  }).join('\n');
+}
+
 // Rewrite M3U8 playlist: proxy all URLs, carry relay base so /api/proxy can
 // fall back to the IPTV origin server when the CDN returns 403.
 function rewriteM3u8(
@@ -128,6 +160,23 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const text = await res.text();
       const finalUrl = res.url || upstream;
       const baseUrl = finalUrl.substring(0, finalUrl.lastIndexOf('/') + 1);
+
+      // Public CDNs (RTVE, CloudFront, Akamai…): return manifest with absolute
+      // URLs but WITHOUT proxy rewriting. The browser fetches segments directly
+      // from its own residential IP — CORS is open on these CDNs, and the CDN
+      // allows residential IPs (same as VLC). Avoids Vercel datacenter IP blocks.
+      const upstreamHost = new URL(finalUrl).hostname;
+      if (isPublicCdn(upstreamHost)) {
+        const absolute = makeAbsoluteM3u8(text, baseUrl);
+        return new Response(absolute, {
+          headers: {
+            'Content-Type': 'application/vnd.apple.mpegurl',
+            'Access-Control-Allow-Origin': '*',
+            'Cache-Control': 'no-cache, no-store',
+          },
+        });
+      }
+
       const rewritten = rewriteM3u8(text, baseUrl, proxyBase, relayBase);
       return new Response(rewritten, {
         headers: {
