@@ -114,6 +114,60 @@ const EVENT_OVERRIDES: Record<string, {
     keywords: ['la 1 en directo','arsenal psg la 1','champions league final 2026','arsenal vs psg live','la 1 live stream'],
     jsonLd: { '@context': 'https://schema.org', '@type': 'BroadcastEvent', name: 'Arsenal vs PSG — UCL Final 2026 on La 1', isLiveBroadcast: true, startDate: '2026-05-27T20:00:00Z' },
   },
+  'm6': {
+    title: '🔴 M6 En Direct — Finale Ligue des Champions 2026 : Arsenal vs PSG LIVE',
+    description: 'Regarder M6 en direct gratuitement — Finale UEFA Champions League 2026 : Arsenal vs Paris Saint-Germain en live HD. M6 streaming gratuit sans inscription. Watch Arsenal vs PSG Champions League Final free on M6. Arsenal PSG M6 en direct. ارسنال باريس سان جيرمان بث مباشر نهائي دوري الأبطال M6.',
+    keywords: [
+      // French — primary audience
+      'm6 en direct','m6 direct','regarder m6 gratuitement','m6 streaming gratuit',
+      'm6 live stream','m6 direct gratuit','m6 en ligne gratuit','voir m6 en direct',
+      'finale champions league 2026 m6','arsenal psg m6 en direct',
+      'finale ligue des champions 2026 en direct m6','m6 finale champions league',
+      'arsenal psg finale m6','regarder finale champions league m6 gratuit',
+      'arsenal contre psg m6 en direct','m6 football en direct',
+      // English
+      'm6 live free','m6 france live stream','watch m6 online free',
+      'arsenal vs psg live m6','champions league final 2026 m6',
+      'ucl final 2026 m6 stream','arsenal psg m6 live',
+      // Arabic
+      'قناة m6 بث مباشر','ارسنال باريس m6 مباشر',
+      'نهائي أبطال أوروبا 2026 m6','مشاهدة m6 مجاناً',
+      // Spanish / other
+      'm6 france en directo','ver m6 online gratis','final champions m6',
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BroadcastEvent',
+      name: 'UEFA Champions League Final 2026 — Arsenal vs PSG LIVE sur M6',
+      description: 'Diffusion en direct de la Finale de la Ligue des Champions 2026 entre Arsenal FC et Paris Saint-Germain sur M6.',
+      startDate: '2026-05-30T20:00:00Z',
+      endDate: '2026-05-30T22:30:00Z',
+      isLiveBroadcast: true,
+      inLanguage: 'fr',
+      videoFormat: 'HD',
+      broadcastDisplayName: 'M6',
+      potentialAction: {
+        '@type': 'WatchAction',
+        target: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/m6`,
+      },
+      broadcastOfEvent: {
+        '@type': 'SportsEvent',
+        name: 'Arsenal FC vs Paris Saint-Germain — UEFA Champions League Final 2026',
+        sport: 'Football',
+        startDate: '2026-05-30T20:00:00Z',
+        competitor: [
+          { '@type': 'SportsTeam', name: 'Arsenal FC', alternateName: 'Arsenal' },
+          { '@type': 'SportsTeam', name: 'Paris Saint-Germain', alternateName: ['PSG', 'Paris SG'] },
+        ],
+        organizer: { '@type': 'Organization', name: 'UEFA', url: 'https://www.uefa.com' },
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'M6 — Métropole Télévision',
+        url: 'https://www.m6.fr',
+      },
+    },
+  },
   'trt-1': {
     title: '🔴 TRT 1 Canlı — Conference League Final: Crystal Palace vs Rayo Vallecano 2026',
     description: 'Watch TRT 1 live — UEFA Conference League Final 2026: Crystal Palace vs Rayo Vallecano. TRT 1 canlı yayın, conference league final 2026 live stream free. Crystal Palace Rayo Vallecano en vivo.',

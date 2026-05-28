@@ -117,7 +117,7 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
         </div>
 
         {/* ── Ad banner — below player, max visibility ─────── */}
-        {(channel.slug.startsWith('la-1') || channel.slug === 'la1') && (
+        {(channel.slug.startsWith('la-1') || channel.slug === 'la1' || channel.slug === 'm6') && (
           <div className="px-4 py-3 border-t border-white/5">
             <AdBanner />
           </div>
@@ -211,6 +211,52 @@ const EVENT_CONTENT: Record<string, {
     links: [
       { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
       { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
+      { href: '/live',                        label: '📡 All Live Channels'           },
+    ],
+  },
+  'm6': {
+    teams: ['Arsenal FC', 'Paris Saint-Germain'],
+    logos: [
+      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
+      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
+    ],
+    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
+    competition: 'UEFA Champions League Final 2026',
+    date: '30 Mai 2026',
+    kickoff: '21:00 CET · 20:00 UTC',
+    broadcastNote: 'Diffusé gratuitement sur M6',
+    broadcastLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/M6_logo_2023.svg/200px-M6_logo_2023.svg.png',
+    blocks: [
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Finale Ligue des Champions 2026 — M6 En Direct',
+        body: 'Regardez la Finale de la Ligue des Champions 2026 en direct et gratuitement sur M6. Arsenal contre Paris Saint-Germain — streaming HD sans abonnement, sans inscription.',
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Champions League Final 2026 — Live on M6',
+        body: 'Watch the UEFA Champions League Final 2026 live on M6 — Arsenal FC vs Paris Saint-Germain. Free HD stream, no subscription, no registration needed.',
+      },
+      {
+        lang: 'العربية', flag: '🌍',
+        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر على M6',
+        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً على قناة M6 — ارسنال ضد باريس سان جيرمان بجودة HD بدون اشتراك.',
+      },
+      {
+        lang: 'Español', flag: '🇪🇸',
+        title: 'Final Champions League 2026 — M6 En Directo',
+        body: 'Ver la Final de la UEFA Champions League 2026 gratis en M6 — Arsenal contra PSG en HD sin registro ni suscripción.',
+      },
+    ],
+    faq: [
+      { q: 'Comment regarder la finale Champions League sur M6 gratuitement ?', a: 'Le stream est en direct ci-dessus — M6 diffuse la Finale de la Champions League 2026 gratuitement en HD. Aucun compte nécessaire.' },
+      { q: 'À quelle heure est le coup d\'envoi Arsenal vs PSG ?', a: '21h00 CET (20h00 UTC) le 30 mai 2026 — 21h Paris, 20h Londres, 15h New York.' },
+      { q: 'How to watch Arsenal vs PSG free on M6?', a: 'Stream is live above — M6 broadcasts the Champions League Final 2026 free. Click play and it starts instantly.' },
+    ],
+    links: [
+      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
+      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
+      { href: '/channel/la-1',                label: '📺 La 1 En Directo'            },
       { href: '/live',                        label: '📡 All Live Channels'           },
     ],
   },
@@ -371,7 +417,7 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
       </div>
 
       {/* ── Ad banner — mid-content placement ───────────────────────────────── */}
-      {(key === 'la-1') && <AdBanner />}
+      {(key === 'la-1' || key === 'm6') && <AdBanner />}
 
       {/* ── Multilingual description blocks ─────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
