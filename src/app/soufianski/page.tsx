@@ -39,6 +39,10 @@ export default function AdminPage() {
   const [chLogo, setChLogo]         = useState('');
   const [chGroup, setChGroup]       = useState('General');
   const [addingCh, setAddingCh]     = useState(false);
+  // Category manager
+  const [categories, setCategories] = useState<any[]>([]);
+  const [editingCatId, setEditingCatId] = useState<string | null>(null);
+  const [editCatName, setEditCatName]   = useState('');
   // Channel manager tab
   const [chSearch, setChSearch]     = useState('');
   const [chResults, setChResults]   = useState<any[]>([]);
@@ -58,6 +62,7 @@ export default function AdminPage() {
         fetch('/api/sources',  { headers: { 'x-admin-password': pwd } }).then(r => r.json()),
       ]);
       setStats({ channels: chRes.total || 0, categories: catRes.data?.length || 0 });
+      if (catRes.success)  setCategories(catRes.data || []);
       if (logsRes.success) setLogs(logsRes.data || []);
       if (srcRes.success)  setSources(srcRes.data || []);
     } finally {
@@ -138,6 +143,17 @@ export default function AdminPage() {
       const data = await res.json();
       setChResults(data.data || []);
     } finally { setChLoading(false); }
+  };
+
+  const renameCategory = async (id: string) => {
+    if (!editCatName.trim()) return;
+    const res  = await fetch(`/api/categories/${id}`, { method: 'PATCH', headers: authHeader, body: JSON.stringify({ name: editCatName.trim() }) });
+    const data = await res.json();
+    if (data.success) {
+      setCategories(prev => prev.map(c => c.id === id ? data.data : c));
+      toast.success(`Renamed to "${data.data.name}"`);
+      setEditingCatId(null); setEditCatName('');
+    } else { toast.error(data.error || 'Failed'); }
   };
 
   const saveStreamUrl = async (id: string) => {
@@ -345,6 +361,51 @@ export default function AdminPage() {
           <StatCard icon={Link2}      label="Sources"    value={sources.length}   color="green"  />
           <StatCard icon={Radio}      label="Active Src" value={sources.filter(s=>s.isActive).length} color="yellow" />
         </div>
+      )}
+
+      {/* ── Categories ── */}
+      {categories.length > 0 && (
+        <section className="bg-gray-800/60 border border-white/10 rounded-2xl p-6 space-y-4">
+          <h2 className="text-lg font-semibold text-white flex items-center gap-2">
+            <FolderOpen className="w-5 h-5 text-purple-400" />
+            Categories
+          </h2>
+          <div className="space-y-2">
+            {categories.map(cat => (
+              <div key={cat.id} className="flex items-center gap-3 bg-gray-900/50 border border-white/5 rounded-xl px-4 py-3">
+                {editingCatId === cat.id ? (
+                  <>
+                    <input
+                      autoFocus
+                      type="text"
+                      value={editCatName}
+                      onChange={e => setEditCatName(e.target.value)}
+                      onKeyDown={e => { if (e.key === 'Enter') renameCategory(cat.id); if (e.key === 'Escape') { setEditingCatId(null); setEditCatName(''); } }}
+                      className="flex-1 bg-gray-800 border border-purple-500/50 rounded-lg px-3 py-1.5 text-white text-sm outline-none focus:border-purple-400"
+                    />
+                    <button onClick={() => renameCategory(cat.id)} className="p-1.5 bg-green-600 hover:bg-green-500 text-white rounded-lg transition-colors">
+                      <Save className="w-3.5 h-3.5" />
+                    </button>
+                    <button onClick={() => { setEditingCatId(null); setEditCatName(''); }} className="p-1.5 bg-gray-700 hover:bg-gray-600 text-gray-300 rounded-lg transition-colors">
+                      <X className="w-3.5 h-3.5" />
+                    </button>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex-1 min-w-0">
+                      <span className="text-white text-sm font-medium">{cat.name}</span>
+                      <span className="text-gray-600 text-xs ml-2 font-mono">{cat.slug}</span>
+                    </div>
+                    <span className="text-gray-500 text-xs">{cat.channelCount} ch</span>
+                    <button onClick={() => { setEditingCatId(cat.id); setEditCatName(cat.name); }} className="p-1.5 text-gray-600 hover:text-purple-400 hover:bg-purple-400/10 rounded-lg transition-all">
+                      <Pencil className="w-3.5 h-3.5" />
+                    </button>
+                  </>
+                )}
+              </div>
+            ))}
+          </div>
+        </section>
       )}
 
       {/* ── M3U Sources ── */}
