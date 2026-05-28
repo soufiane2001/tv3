@@ -116,12 +116,10 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
           </div>
         </div>
 
-        {/* ── Ad banner — below player, max visibility ─────── */}
-        {(channel.slug.startsWith('la-1') || channel.slug === 'la1' || channel.slug === 'm6') && (
-          <div className="px-4 py-3 border-t border-white/5">
-            <AdBanner />
-          </div>
-        )}
+        {/* ── Ad banner — below player, all channels ──────── */}
+        <div className="px-4 py-3 border-t border-white/5">
+          <AdBanner />
+        </div>
 
         {/* ── Event content block (SEO + UX) ─────────────── */}
         {eventOverride && <EventContent override={eventOverride} channel={channel} />}
@@ -417,7 +415,7 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
       </div>
 
       {/* ── Ad banner — mid-content placement ───────────────────────────────── */}
-      {(key === 'la-1' || key === 'm6') && <AdBanner />}
+      <AdBanner />
 
       {/* ── Multilingual description blocks ─────────────────────────────────── */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
