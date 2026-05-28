@@ -91,7 +91,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     // Some CDNs/S3 buckets check Referer; try without first, then with source host.
     let res = await fetch(upstream, {
       headers: { 'User-Agent': UA, 'Accept': '*/*' },
-      signal: AbortSignal.timeout(7_000),
+      signal: AbortSignal.timeout(12_000),
       redirect: 'follow',
     });
 
@@ -106,7 +106,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
             'Referer': srcOrigin + '/',
             'Origin': srcOrigin,
           },
-          signal: AbortSignal.timeout(7_000),
+          signal: AbortSignal.timeout(10_000),
           redirect: 'follow',
         });
       } catch { /* ignore retry error, fall through to original response */ }
@@ -146,8 +146,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         'Cache-Control': 'no-cache',
       },
     });
-  } catch (err) {
+  } catch (err: any) {
+    const isTimeout = err?.name === 'AbortError' || err?.name === 'TimeoutError';
     console.error('[stream] error:', err);
-    return NextResponse.json({ error: String(err) }, { status: 500 });
+    return NextResponse.json(
+      { error: isTimeout ? 'Stream timeout — server unreachable' : String(err) },
+      { status: 502 },
+    );
   }
 }
