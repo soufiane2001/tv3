@@ -1,7 +1,8 @@
 import { NextRequest } from 'next/server';
 
 export const dynamic = 'force-dynamic';
-export const runtime = 'edge'; // 30s limit needed for segment streaming; Node.js = 10s on Hobby
+// Switched from 'edge' to Node.js runtime: Node.js IPs are not blocked by some IPTV CDNs
+// that firewall Vercel's edge network. Node.js = 10s on Hobby (sufficient for HLS segments).
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
