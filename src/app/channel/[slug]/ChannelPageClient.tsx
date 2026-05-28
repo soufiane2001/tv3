@@ -258,6 +258,52 @@ const EVENT_CONTENT: Record<string, {
       { href: '/live',                        label: '📡 All Live Channels'           },
     ],
   },
+  'canal-sport': {
+    teams: ['Arsenal FC', 'Paris Saint-Germain'],
+    logos: [
+      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
+      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
+    ],
+    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
+    competition: 'UEFA Champions League Final 2026',
+    date: '30 Mai 2026',
+    kickoff: '21:00 CET · 20:00 UTC',
+    broadcastNote: 'Diffusé sur Canal+ Sport HD',
+    blocks: [
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Finale Ligue des Champions 2026 — Canal+ Sport En Direct',
+        body: 'Regardez la Finale de la Ligue des Champions 2026 en direct sur Canal+ Sport HD. Arsenal contre Paris Saint-Germain — streaming HD sans inscription, diffusion gratuite en live.',
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Champions League Final 2026 — Live on Canal+ Sport',
+        body: 'Watch the UEFA Champions League Final 2026 live on Canal+ Sport HD — Arsenal FC vs Paris Saint-Germain. Free HD stream, no subscription, no registration needed.',
+      },
+      {
+        lang: 'العربية', flag: '🌍',
+        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر على Canal+ Sport',
+        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً على قناة Canal+ Sport HD — ارسنال ضد باريس سان جيرمان بجودة HD بدون اشتراك.',
+      },
+      {
+        lang: 'Español', flag: '🇪🇸',
+        title: 'Final Champions League 2026 — Canal+ Sport En Directo',
+        body: 'Ver la Final de la UEFA Champions League 2026 gratis en Canal+ Sport HD — Arsenal contra PSG en HD sin registro ni suscripción.',
+      },
+    ],
+    faq: [
+      { q: 'Comment regarder la finale Champions League sur Canal+ Sport gratuitement ?', a: 'Le stream est en direct ci-dessus — Canal+ Sport HD diffuse la Finale de la Champions League 2026. Aucun compte nécessaire, cliquez sur lecture.' },
+      { q: 'À quelle heure est le coup d\'envoi Arsenal vs PSG ?', a: '21h00 CET (20h00 UTC) le 30 mai 2026 — 21h Paris, 20h Londres, 15h New York.' },
+      { q: 'How to watch Arsenal vs PSG free on Canal+ Sport?', a: 'Stream is live above — Canal+ Sport HD broadcasts the Champions League Final 2026 free. Click play and it starts instantly.' },
+    ],
+    links: [
+      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
+      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
+      { href: '/channel/m6',                  label: '📺 M6 En Direct'               },
+      { href: '/channel/la-1',                label: '📺 La 1 En Directo'            },
+      { href: '/live',                        label: '📡 All Live Channels'           },
+    ],
+  },
   'trt': {
     teams: ['Crystal Palace', 'Rayo Vallecano'],
     logos: [
@@ -309,6 +355,8 @@ const EVENT_CONTENT: Record<string, {
 const SLUG_MAP: Record<string, string> = {
   'la-1-1': 'la-1', 'la-1-2': 'la-1',
   'trt-1': 'trt', 'trt1': 'trt',
+  'canal-sport-hd': 'canal-sport', 'canal-plus-sport': 'canal-sport',
+  'canalplus-sport': 'canal-sport', 'canal-sport-1': 'canal-sport',
 };
 
 function TeamBadge({ src, name, fallbackColor }: { src: string; name: string; fallbackColor: string }) {

@@ -168,6 +168,69 @@ const EVENT_OVERRIDES: Record<string, {
       },
     },
   },
+  'canal-sport': {
+    title: '🔴 Canal+ Sport En Direct — Finale Champions League 2026 : Arsenal vs PSG LIVE',
+    description: 'Regarder Canal+ Sport en direct gratuitement — Finale UEFA Champions League 2026 : Arsenal vs Paris Saint-Germain en live HD. Canal+ Sport streaming gratuit sans inscription. Watch Arsenal vs PSG Champions League Final free on Canal+ Sport. ارسنال باريس سان جيرمان بث مباشر نهائي دوري الأبطال Canal+ Sport.',
+    keywords: [
+      // French — primary
+      'canal+ sport en direct','canal plus sport en direct','canal sport direct',
+      'regarder canal+ sport gratuitement','canal+ sport streaming gratuit',
+      'canal+ sport live stream','canal sport en ligne','voir canal+ sport en direct',
+      'finale champions league 2026 canal+ sport','arsenal psg canal+ sport',
+      'finale ligue des champions 2026 canal sport','canal+ sport finale champions',
+      'arsenal psg canal sport en direct','canal sport football en direct',
+      'arsenal contre psg canal+ sport live','canal plus sport finale 2026',
+      'canal+ sport hd en direct','canal sport hd live',
+      // English
+      'canal plus sport live','canal+ sport live free','watch canal sport online free',
+      'arsenal vs psg canal sport','champions league final 2026 canal sport',
+      'canal sport hd stream','arsenal psg canal+ live',
+      // Arabic
+      'قناة كانال سبورت بث مباشر','ارسنال باريس canal sport مباشر',
+      'نهائي أبطال أوروبا 2026 canal sport','مشاهدة كانال سبورت مجاناً',
+      'كانال بلوس سبورت بث مباشر',
+      // Spanish / other
+      'canal+ sport en directo','ver canal sport online gratis','final champions canal sport',
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BroadcastEvent',
+      name: 'UEFA Champions League Final 2026 — Arsenal vs PSG LIVE sur Canal+ Sport',
+      description: 'Diffusion en direct de la Finale de la Ligue des Champions 2026 entre Arsenal FC et Paris Saint-Germain sur Canal+ Sport HD.',
+      startDate: '2026-05-30T20:00:00Z',
+      endDate: '2026-05-30T22:30:00Z',
+      isLiveBroadcast: true,
+      inLanguage: 'fr',
+      videoFormat: 'HD',
+      broadcastDisplayName: 'Canal+ Sport',
+      potentialAction: {
+        '@type': 'WatchAction',
+        target: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/canal-sport`,
+      },
+      broadcastOfEvent: {
+        '@type': 'SportsEvent',
+        name: 'Arsenal FC vs Paris Saint-Germain — UEFA Champions League Final 2026',
+        sport: 'Football',
+        startDate: '2026-05-30T20:00:00Z',
+        competitor: [
+          { '@type': 'SportsTeam', name: 'Arsenal FC', alternateName: 'Arsenal' },
+          { '@type': 'SportsTeam', name: 'Paris Saint-Germain', alternateName: ['PSG', 'Paris SG'] },
+        ],
+        organizer: { '@type': 'Organization', name: 'UEFA', url: 'https://www.uefa.com' },
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: 'Canal+ Sport — Groupe Canal+',
+        url: 'https://www.canalplus.com',
+      },
+    },
+  },
+  'canal-sport-hd': {
+    title: '🔴 Canal+ Sport HD En Direct — Finale Champions League 2026 : Arsenal vs PSG',
+    description: 'Canal+ Sport HD en direct — Finale UEFA Champions League 2026 : Arsenal vs PSG. Stream HD gratuit sans inscription. Canal plus sport hd live stream free. نهائي دوري الأبطال 2026 بث مباشر.',
+    keywords: ['canal+ sport hd en direct','canal sport hd live','canal plus sport hd','arsenal psg canal sport hd','champions league final 2026 canal sport','canal sport hd stream free'],
+    jsonLd: { '@context': 'https://schema.org', '@type': 'BroadcastEvent', name: 'Arsenal vs PSG — UCL Final 2026 on Canal+ Sport HD', isLiveBroadcast: true, startDate: '2026-05-30T20:00:00Z' },
+  },
   'trt-1': {
     title: '🔴 TRT 1 Canlı — Conference League Final: Crystal Palace vs Rayo Vallecano 2026',
     description: 'Watch TRT 1 live — UEFA Conference League Final 2026: Crystal Palace vs Rayo Vallecano. TRT 1 canlı yayın, conference league final 2026 live stream free. Crystal Palace Rayo Vallecano en vivo.',
