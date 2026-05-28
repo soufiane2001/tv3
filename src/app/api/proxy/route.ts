@@ -140,6 +140,11 @@ export async function GET(req: NextRequest) {
   // The source server's own origin — used as Referer for Referer-gated servers
   const srcOrigin = `${parsed.protocol}//${parsed.host}`;
 
+  // Root registrable domain (e.g. ztnr.rtve.es → rtve.es) — broadcasters like RTVE
+  // require their human-facing domain as Referer, not the CDN subdomain.
+  const rootDomain = parsed.hostname.split('.').slice(-2).join('.');
+  const rootOrigin = `${parsed.protocol}//${rootDomain}`;
+
   // Headers without Referer (mimics VLC / native players — most permissive)
   const buildHeadersClean = (ua: string): Record<string, string> => ({
     'User-Agent': ua,
@@ -150,11 +155,18 @@ export async function GET(req: NextRequest) {
     ...(range && { 'Range': range }),
   });
 
-  // Headers with source server as Referer (for Referer-gated CDNs)
+  // Headers with source CDN subdomain as Referer
   const buildHeadersSrcRef = (ua: string): Record<string, string> => ({
     ...buildHeadersClean(ua),
     'Referer': srcOrigin + '/',
     'Origin': srcOrigin,
+  });
+
+  // Headers with root domain as Referer (e.g. rtve.es for ztnr.rtve.es CDN)
+  const buildHeadersRootRef = (ua: string): Record<string, string> => ({
+    ...buildHeadersClean(ua),
+    'Referer': `https://www.${rootDomain}/`,
+    'Origin': `https://www.${rootDomain}`,
   });
 
   // Headers with our own domain as Referer (last resort)
@@ -168,9 +180,10 @@ export async function GET(req: NextRequest) {
   //
   // Order (stop at first non-403 response):
   //   1. No Referer — mimics VLC; works on servers that block unknown Referers
-  //   2. Source server as Referer — works on Referer-gated CDNs
-  //   3. HTTPS upgrade
-  //   4. Relay through IPTV origin server
+  //   2. Source CDN as Referer
+  //   3. Root domain as Referer (e.g. rtve.es) — for broadcast CDNs
+  //   4. HTTPS upgrade
+  //   5. Relay through IPTV origin server
 
   let res: Response | null = null;
 
@@ -181,11 +194,17 @@ export async function GET(req: NextRequest) {
       const clean = await upstream(rawUrl, buildHeadersClean(ua), 20_000);
       if (clean.status !== 403 && clean.status !== 401) { res = clean; break; }
 
-      // 2. Source server as Referer
+      // 2. Source CDN as Referer
       const srcRef = await upstream(rawUrl, buildHeadersSrcRef(ua), 20_000);
       if (srcRef.status !== 403 && srcRef.status !== 401) { res = srcRef; break; }
 
-      // 3. HTTPS upgrade (if currently HTTP)
+      // 3. Root domain as Referer (www.rtve.es for RTVE CDN, etc.)
+      if (rootOrigin !== srcOrigin) {
+        const rootRef = await upstream(rawUrl, buildHeadersRootRef(ua), 20_000);
+        if (rootRef.status !== 403 && rootRef.status !== 401) { res = rootRef; break; }
+      }
+
+      // 4. HTTPS upgrade (if currently HTTP)
       if (parsed.protocol === 'http:') {
         const httpsUrl = rawUrl.replace(/^http:\/\//, 'https://');
         try {
@@ -194,7 +213,7 @@ export async function GET(req: NextRequest) {
         } catch { /* HTTPS not supported — continue */ }
       }
 
-      // 4. Relay: same path through the IPTV origin server
+      // 5. Relay: same path through the IPTV origin server
       if (relayOrigin) {
         const relayUrl = relayOrigin + parsed.pathname + parsed.search;
         try {
