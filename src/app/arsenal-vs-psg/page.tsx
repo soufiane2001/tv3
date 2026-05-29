@@ -283,7 +283,7 @@ async function findChannel(slugs: string[], namePatterns: string[]) {
 
 async function getStreams() {
   try {
-    const [la1, m6, canalSport] = await Promise.all([
+    const [la1, m6, canalSport, rti1] = await Promise.all([
       findChannel(
         ['la-1', 'la-1-1', 'la-1-2', 'la1', 'la-1-hd', 'la-1-es', 'spain-la-1', 'la-1-rtve', 'rtve-la1', 'es-la1'],
         ['La 1', 'La1', 'RTVE La', 'La Un'],
@@ -296,9 +296,13 @@ async function getStreams() {
         ['canal-sport', 'canal-sport-hd', 'canal-plus-sport', 'canalplus-sport', 'canal-sport-1'],
         ['Canal+ Sport', 'Canal Sport', 'CanalSport'],
       ),
+      findChannel(
+        ['rti-1', 'rti1', 'rti-1-ci', 'rti'],
+        ['RTI 1', 'RTI1', 'RTI'],
+      ),
     ]);
-    return { la1, m6, canalSport };
-  } catch { return { la1: null, m6: null, canalSport: null }; }
+    return { la1, m6, canalSport, rti1 };
+  } catch { return { la1: null, m6: null, canalSport: null, rti1: null }; }
 }
 
 async function getRelatedSports() {
@@ -323,7 +327,7 @@ async function getRelatedSports() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ArsenalVsPsgPage() {
-  const [{ la1, m6, canalSport }, related] = await Promise.all([getStreams(), getRelatedSports()]);
+  const [{ la1, m6, canalSport, rti1 }, related] = await Promise.all([getStreams(), getRelatedSports()]);
 
   return (
     <>
@@ -431,9 +435,10 @@ export default async function ArsenalVsPsgPage() {
 
         {/* Player */}
         <WatchEventClient streams={[
-          { label: 'M6',          sublabel: 'France · Gratuit', channel: m6 as any         },
-          { label: 'Canal+ Sport',sublabel: 'France · HD',      channel: canalSport as any },
-          { label: 'La 1',        sublabel: 'RTVE · España',    channel: la1 as any        },
+          { label: 'M6',          sublabel: 'France · Gratuit',      channel: m6 as any         },
+          { label: 'Canal+ Sport',sublabel: 'France · HD',           channel: canalSport as any },
+          { label: 'La 1',        sublabel: 'RTVE · España',         channel: la1 as any        },
+          { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any     },
         ]} />
 
         {/* Ad banner — below player */}
@@ -468,7 +473,8 @@ export default async function ArsenalVsPsgPage() {
                   { flag:'🇹🇳', country:'Tunisia',      ch:'beIN Sports',         free:'💳 Sub',   href:'/live' },
                   { flag:'🇧🇪', country:'Belgium',      ch:'RTBF / La Une',       free:'✅ Free',  href:'/live' },
                   { flag:'🇹🇷', country:'Turkey',       ch:'TRT Spor',            free:'✅ Free',  href:'/live' },
-                  { flag:'🌍', country:'Worldwide',     ch:'SportaLive (La 1·M6)', free:'✅ Free', href:'/arsenal-vs-psg' },
+                  { flag:'🇨🇮', country:"Côte d'Ivoire",  ch:'RTI 1',               free:'✅ Free',  href:'/channel/rti-1' },
+                  { flag:'🌍', country:'Worldwide',     ch:'SportaLive (La 1·M6·RTI 1)', free:'✅ Free', href:'/arsenal-vs-psg' },
                 ].map(({ flag, country, ch, free, href }) => (
                   <tr key={country} className="hover:bg-white/[0.03] transition-colors">
                     <td className="px-4 py-3 text-gray-300">{flag} {country}</td>

@@ -260,6 +260,56 @@ const EVENT_OVERRIDES: Record<string, {
       broadcastDisplayName: 'TRT 1',
     },
   },
+  'rti-1': {
+    title: "🔴 RTI 1 En Direct — Finale Champions League 2026 : Arsenal vs PSG LIVE | Côte d'Ivoire",
+    description: "Regarder RTI 1 Côte d'Ivoire en direct gratuitement — Finale UEFA Champions League 2026 : Arsenal vs Paris Saint-Germain en live HD. RTI 1 streaming gratuit sans inscription. Watch Arsenal vs PSG Champions League Final free on RTI 1. RTI 1 direct gratuit.",
+    keywords: [
+      // French — primary (Ivorian diaspora in France/Belgium)
+      "rti 1 en direct", "rti 1 direct", "regarder rti 1 gratuitement", "rti 1 streaming gratuit",
+      "rti 1 live stream", "rti 1 côte d'ivoire en direct", "rti1 direct gratuit",
+      "finale champions league 2026 rti 1", "arsenal psg rti 1 en direct",
+      "finale ligue des champions rti 1", "regarder finale champions rti 1 gratuit",
+      "arsenal contre psg rti 1", "rti 1 football en direct", "rti 1 live gratuit",
+      "television ivoirienne en direct", "rti côte d'ivoire en direct",
+      // English
+      "rti 1 live free", "rti 1 ivory coast live stream", "watch rti 1 online free",
+      "arsenal vs psg rti 1", "champions league final 2026 rti 1",
+      // Arabic
+      "قناة RTI 1 بث مباشر", "نهائي أبطال أوروبا 2026 RTI 1",
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org',
+      '@type': 'BroadcastEvent',
+      name: "UEFA Champions League Final 2026 — Arsenal vs PSG LIVE sur RTI 1",
+      description: "Diffusion en direct de la Finale de la Ligue des Champions 2026 entre Arsenal FC et Paris Saint-Germain sur RTI 1 (Côte d'Ivoire).",
+      startDate: '2026-05-30T20:00:00Z',
+      endDate: '2026-05-30T22:30:00Z',
+      isLiveBroadcast: true,
+      inLanguage: 'fr',
+      videoFormat: 'HD',
+      broadcastDisplayName: "RTI 1 — Côte d'Ivoire",
+      potentialAction: {
+        '@type': 'WatchAction',
+        target: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/rti-1`,
+      },
+      broadcastOfEvent: {
+        '@type': 'SportsEvent',
+        name: 'Arsenal FC vs Paris Saint-Germain — UEFA Champions League Final 2026',
+        sport: 'Football',
+        startDate: '2026-05-30T20:00:00Z',
+        competitor: [
+          { '@type': 'SportsTeam', name: 'Arsenal FC', alternateName: 'Arsenal' },
+          { '@type': 'SportsTeam', name: 'Paris Saint-Germain', alternateName: ['PSG', 'Paris SG'] },
+        ],
+        organizer: { '@type': 'Organization', name: 'UEFA', url: 'https://www.uefa.com' },
+      },
+      publisher: {
+        '@type': 'Organization',
+        name: "RTI — Radiodiffusion Télévision Ivoirienne",
+        url: 'https://www.rti.ci',
+      },
+    },
+  },
   'trt': {
     title: '🔴 TRT Canlı — UEFA Conference League Final: Crystal Palace vs Rayo Vallecano LIVE',
     description: 'Watch TRT live — UEFA Conference League Final 2026: Crystal Palace vs Rayo Vallecano. Free HD live stream. TRT canlı yayın, Conference League final maçı izle. Crystal Palace vs Rayo Vallecano en vivo gratis. مباراة كريستال بالاس رايو فاليكانو بث مباشر.',

@@ -354,6 +354,54 @@ const EVENT_CONTENT: Record<string, {
     ],
   },
 
+  // ── West Africa ─────────────────────────────────────────────────────────────
+  'rti-1': {
+    teams: ['Arsenal FC', 'Paris Saint-Germain'],
+    logos: [
+      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
+      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
+    ],
+    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
+    competition: 'UEFA Champions League Final 2026',
+    date: '30 Mai 2026',
+    kickoff: '21:00 CET · 20:00 UTC',
+    broadcastNote: "Diffusé gratuitement sur RTI 1 — Côte d'Ivoire",
+    blocks: [
+      {
+        lang: 'Français', flag: '🇨🇮',
+        title: "Finale Ligue des Champions 2026 — RTI 1 En Direct",
+        body: "Regardez la Finale de la Ligue des Champions 2026 en direct et gratuitement sur RTI 1 (Côte d'Ivoire). Arsenal contre Paris Saint-Germain — streaming HD sans abonnement, sans inscription.",
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Champions League Final 2026 — Live on RTI 1',
+        body: "Watch the UEFA Champions League Final 2026 live on RTI 1 (Côte d'Ivoire) — Arsenal FC vs Paris Saint-Germain. Free HD stream, no subscription needed.",
+      },
+      {
+        lang: 'العربية', flag: '🌍',
+        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر على RTI 1',
+        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً على قناة RTI 1 — ارسنال ضد باريس سان جيرمان بجودة HD بدون اشتراك.',
+      },
+      {
+        lang: 'Español', flag: '🇪🇸',
+        title: 'Final Champions League 2026 — RTI 1 En Directo',
+        body: "Ver la Final de la UEFA Champions League 2026 gratis en RTI 1 (Costa de Marfil) — Arsenal contra PSG en HD sin registro.",
+      },
+    ],
+    faq: [
+      { q: "Comment regarder la finale Champions League sur RTI 1 gratuitement ?", a: "Le stream est en direct ci-dessus — RTI 1 diffuse la Finale de la Champions League 2026 gratuitement en HD. Aucun compte nécessaire." },
+      { q: "À quelle heure est le coup d'envoi Arsenal vs PSG ?", a: "21h00 CET (20h00 UTC) le 30 mai 2026 — 21h Abidjan (GMT+1), 20h Londres, 15h New York." },
+      { q: "How to watch Arsenal vs PSG free on RTI 1?", a: "Stream is live above — RTI 1 broadcasts the Champions League Final 2026 free. Click play and it starts instantly." },
+    ],
+    links: [
+      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
+      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
+      { href: '/channel/m6',                  label: '📺 M6 En Direct'               },
+      { href: '/channel/canal-sport',         label: '📺 Canal+ Sport'               },
+      { href: '/live',                        label: '📡 All Live Channels'           },
+    ],
+  },
+
   // ── Moroccan / Maghreb channels ─────────────────────────────────────────────
   '2m': {
     type: 'channel',

@@ -81,6 +81,7 @@ const STREAMS = [
   { label: '📺 La 1 En Directo',                href: '/channel/la-1',          badge: 'HD'  },
   { label: '📺 M6 En Direct',                   href: '/channel/m6',            badge: 'HD'  },
   { label: '📺 Canal+ Sport',                   href: '/channel/canal-sport',   badge: 'HD'  },
+  { label: "📺 RTI 1 — Côte d'Ivoire",          href: '/channel/rti-1',         badge: 'HD'  },
 ];
 
 export default function UclFinalPage() {
