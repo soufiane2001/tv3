@@ -9,11 +9,12 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const now   = new Date();
-  const h1ago = new Date(now.getTime() - 60 * 60_000);
-  const h24   = new Date(now.getTime() - 24 * 60 * 60_000);
-  const d7    = new Date(now.getTime() - 7  * 24 * 60 * 60_000);
-  const d30   = new Date(now.getTime() - 30 * 24 * 60 * 60_000);
+  const now          = new Date();
+  const h1ago        = new Date(now.getTime() - 60 * 60_000);
+  const h24          = new Date(now.getTime() - 24 * 60 * 60_000);
+  const d7           = new Date(now.getTime() - 7  * 24 * 60 * 60_000);
+  const d30          = new Date(now.getTime() - 30 * 24 * 60 * 60_000);
+  const todayMidnight = new Date(now); todayMidnight.setHours(0, 0, 0, 0);
 
   const [
     liveVisitors,
@@ -36,14 +37,14 @@ export async function GET(req: NextRequest) {
     }),
     // Pageviews today (since midnight)
     prisma.pageView.count({
-      where: { createdAt: { gte: new Date(now.setHours(0, 0, 0, 0)) } },
+      where: { createdAt: { gte: todayMidnight } },
     }),
     // Pageviews last hour
     prisma.pageView.count({ where: { createdAt: { gte: h1ago } } }),
-    // Unique sessions today
+    // Unique sessions today (last 24h)
     prisma.pageView.groupBy({
       by: ['sessionId'],
-      where: { createdAt: { gte: new Date(now.getTime() - 24 * 60 * 60_000) } },
+      where: { createdAt: { gte: h24 } },
     }).then(r => r.length),
     // Top pages (24h)
     prisma.pageView.groupBy({

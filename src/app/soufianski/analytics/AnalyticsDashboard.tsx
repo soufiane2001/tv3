@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect, useCallback, useRef } from 'react';
 import {
-  AreaChart, Area, BarChart, Bar, XAxis, YAxis, CartesianGrid,
-  Tooltip, ResponsiveContainer, Cell,
+  AreaChart, Area, XAxis, YAxis, CartesianGrid,
+  Tooltip, ResponsiveContainer,
 } from 'recharts';
 import {
   Users, Eye, Globe, Clock, Monitor, Smartphone, Tablet,
@@ -41,49 +41,50 @@ function fmtDay(d: string) {
 }
 
 export default function AnalyticsDashboard({ password }: { password: string }) {
-  const [data, setData]         = useState<StatsData | null>(null);
-  const [loading, setLoading]   = useState(true);
-  const [sseOnline, setSseOnline] = useState(false);
-  const [tab, setTab]           = useState<'24h'|'7d'>('24h');
-  const [showLive, setShowLive] = useState(true);
-  const sseRef                  = useRef<EventSource | null>(null);
-  const pollRef                 = useRef<NodeJS.Timeout | null>(null);
+  const [data, setData]           = useState<StatsData | null>(null);
+  const [loading, setLoading]     = useState(true);
+  const [liveOnline, setLiveOnline] = useState(false);
+  const [tab, setTab]             = useState<'24h'|'7d'>('24h');
+  const [showLive, setShowLive]   = useState(true);
+  const statsTimerRef             = useRef<NodeJS.Timeout | null>(null);
+  const liveTimerRef              = useRef<NodeJS.Timeout | null>(null);
 
   const fetchStats = useCallback(async () => {
     try {
       const res = await fetch('/api/analytics/stats', {
         headers: { 'x-admin-password': password },
       });
+      if (!res.ok) return;
       const d = await res.json();
       setData(d);
     } catch { /* ignore */ }
     finally { setLoading(false); }
   }, [password]);
 
-  // Initial load + polling every 15s for stats
+  // Poll live visitors every 5s for real-time count
+  const fetchLive = useCallback(async () => {
+    try {
+      const res = await fetch(`/api/analytics/live?pwd=${encodeURIComponent(password)}`);
+      if (!res.ok) { setLiveOnline(false); return; }
+      const liveData = await res.json();
+      setData(prev => prev ? { ...prev, live: liveData } : prev);
+      setLiveOnline(true);
+    } catch { setLiveOnline(false); }
+  }, [password]);
+
+  // Initial stats load + refresh every 30s
   useEffect(() => {
     fetchStats();
-    pollRef.current = setInterval(fetchStats, 15_000);
-    return () => { if (pollRef.current) clearInterval(pollRef.current); };
+    statsTimerRef.current = setInterval(fetchStats, 30_000);
+    return () => { if (statsTimerRef.current) clearInterval(statsTimerRef.current); };
   }, [fetchStats]);
 
-  // SSE for real-time live count
+  // Live visitor polling every 5s
   useEffect(() => {
-    const es = new EventSource(`/api/analytics/live?pwd=${encodeURIComponent(password)}`, {});
-    // The header can't be set via EventSource directly, so we patch data via polling instead
-    // Just use the polling stats for live count
-    sseRef.current = es;
-    es.onopen    = () => setSseOnline(true);
-    es.onerror   = () => setSseOnline(false);
-    es.onmessage = (e) => {
-      try {
-        const d = JSON.parse(e.data);
-        setData(prev => prev ? { ...prev, live: d } : prev);
-        setSseOnline(true);
-      } catch { /* */ }
-    };
-    return () => es.close();
-  }, [password]);
+    fetchLive();
+    liveTimerRef.current = setInterval(fetchLive, 5_000);
+    return () => { if (liveTimerRef.current) clearInterval(liveTimerRef.current); };
+  }, [fetchLive]);
 
   if (loading) {
     return (
@@ -108,18 +109,18 @@ export default function AnalyticsDashboard({ password }: { password: string }) {
       {/* ── Live pulse header ── */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
-          {sseOnline ? (
+          {liveOnline ? (
             <span className="flex items-center gap-1.5 text-green-400 text-sm">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-              Real-time connected
+              Live — updated every 5s
             </span>
           ) : (
             <span className="flex items-center gap-1.5 text-gray-500 text-sm">
-              <WifiOff className="w-3.5 h-3.5" /> Polling
+              <WifiOff className="w-3.5 h-3.5" /> Connecting…
             </span>
           )}
         </div>
-        <button onClick={fetchStats} className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors">
+        <button onClick={() => { fetchStats(); fetchLive(); }} className="flex items-center gap-1.5 text-gray-400 hover:text-white text-sm transition-colors">
           <RefreshCw className="w-4 h-4" /> Refresh
         </button>
       </div>

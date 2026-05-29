@@ -79,7 +79,7 @@ export default function Tracker() {
       keepalive: true,
     }).catch(() => {});
 
-    // Keep-alive ping every 30s (updates lastSeen for live visitor)
+    // Keep-alive ping every 20s so the visitor stays within the 3-min live window
     if (pingRef.current) clearInterval(pingRef.current);
     pingRef.current = setInterval(() => {
       fetch('/api/analytics/track', {
@@ -88,13 +88,17 @@ export default function Tracker() {
         body: JSON.stringify({ path: pathname, sessionId: sid }),
         keepalive: true,
       }).catch(() => {});
-    }, 30_000);
+    }, 20_000);
 
-    // Send duration when leaving
+    // Send duration when leaving — use Blob so sendBeacon sends application/json
     const sendDuration = () => {
       const duration = Math.round((Date.now() - startRef.current) / 1000);
       if (duration < 2) return;
-      navigator.sendBeacon('/api/analytics/track', JSON.stringify({ path: pathname, sessionId: sid, duration }));
+      const blob = new Blob(
+        [JSON.stringify({ path: pathname, sessionId: sid, duration })],
+        { type: 'application/json' },
+      );
+      navigator.sendBeacon('/api/analytics/track', blob);
     };
 
     window.addEventListener('beforeunload', sendDuration);
