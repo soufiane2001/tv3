@@ -333,12 +333,43 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+// Slug aliases: canonical slug → list of DB slugs + name patterns to try
+const SLUG_ALIASES: Record<string, { slugs: string[]; names: string[] }> = {
+  'la-1':        { slugs: ['la-1','la-1-1','la-1-2','la1','la-1-hd','la-1-es','spain-la-1','la-1-rtve','rtve-la1','es-la1','la-primera'], names: ['La 1','La1','RTVE La','La Un','La Primera'] },
+  'm6':          { slugs: ['m6','m6-hd','m6-1','m6-fr'], names: ['M6'] },
+  'canal-sport': { slugs: ['canal-sport','canal-sport-hd','canal-plus-sport','canalplus-sport'], names: ['Canal+ Sport','Canal Sport','CanalSport'] },
+  'trt':         { slugs: ['trt','trt-1','trt1'], names: ['TRT','TRT 1','TRT1'] },
+  'trt-1':       { slugs: ['trt-1','trt1','trt'], names: ['TRT 1','TRT1','TRT'] },
+};
+
+async function resolveChannel(slug: string) {
+  // 1. Exact match
+  const exact = await prisma.channel.findUnique({ where: { slug, isActive: true }, include: { category: true } }).catch(() => null);
+  if (exact) return exact;
+
+  // 2. Alias lookup (handles slug mismatches from M3U generation)
+  const alias = SLUG_ALIASES[slug];
+  if (alias) {
+    for (const s of alias.slugs) {
+      if (s === slug) continue;
+      const bySlug = await prisma.channel.findUnique({ where: { slug: s, isActive: true }, include: { category: true } }).catch(() => null);
+      if (bySlug) return bySlug;
+    }
+    for (const name of alias.names) {
+      const byName = await prisma.channel.findFirst({
+        where: { name: { contains: name, mode: 'insensitive' }, isActive: true },
+        include: { category: true },
+        orderBy: { order: 'asc' },
+      }).catch(() => null);
+      if (byName) return byName;
+    }
+  }
+  return null;
+}
+
 export default async function ChannelPage({ params }: Props) {
   const { slug } = await params;
-  const channel = await prisma.channel.findUnique({
-    where: { slug, isActive: true },
-    include: { category: true },
-  });
+  const channel = await resolveChannel(slug);
   if (!channel) notFound();
 
   const related = await prisma.channel.findMany({

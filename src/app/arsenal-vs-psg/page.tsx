@@ -259,12 +259,39 @@ const faqJsonLd = {
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
+async function findChannel(slugs: string[], namePatterns: string[]) {
+  // Try slug first (exact), then fall back to name contains (handles slug mismatches from M3U)
+  const bySlug = await prisma.channel.findFirst({
+    where: { slug: { in: slugs }, isActive: true },
+    orderBy: { order: 'asc' },
+  }).catch(() => null);
+  if (bySlug) return bySlug;
+
+  for (const pattern of namePatterns) {
+    const byName = await prisma.channel.findFirst({
+      where: { name: { contains: pattern, mode: 'insensitive' }, isActive: true },
+      orderBy: { order: 'asc' },
+    }).catch(() => null);
+    if (byName) return byName;
+  }
+  return null;
+}
+
 async function getStreams() {
   try {
     const [la1, m6, canalSport] = await Promise.all([
-      prisma.channel.findFirst({ where: { slug: { in: ['la-1', 'la-1-1', 'la-1-2', 'la1'] }, isActive: true } }).catch(() => null),
-      prisma.channel.findFirst({ where: { slug: { in: ['m6', 'm6-hd', 'm6-1'] }, isActive: true } }).catch(() => null),
-      prisma.channel.findFirst({ where: { slug: { in: ['canal-sport', 'canal-sport-hd', 'canal-plus-sport', 'canalplus-sport'] }, isActive: true } }).catch(() => null),
+      findChannel(
+        ['la-1', 'la-1-1', 'la-1-2', 'la1', 'la-1-hd', 'la-1-es', 'spain-la-1', 'la-1-rtve', 'rtve-la1', 'es-la1'],
+        ['La 1', 'La1', 'RTVE La', 'La Un'],
+      ),
+      findChannel(
+        ['m6', 'm6-hd', 'm6-1', 'm6-fr', 'france-m6'],
+        ['M6'],
+      ),
+      findChannel(
+        ['canal-sport', 'canal-sport-hd', 'canal-plus-sport', 'canalplus-sport', 'canal-sport-1'],
+        ['Canal+ Sport', 'Canal Sport', 'CanalSport'],
+      ),
     ]);
     return { la1, m6, canalSport };
   } catch { return { la1: null, m6: null, canalSport: null }; }
