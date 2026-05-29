@@ -9,8 +9,8 @@ export const revalidate = 300;
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
-const TITLE = 'Arsenal vs PSG LIVE — Champions League Final 2026 Free HD Stream | La 1 En Directo';
-const DESC  = 'Watch Arsenal vs Paris Saint-Germain LIVE FREE — UEFA Champions League Final 2026 on La 1. HD stream, no subscription, no registration. Arsenal PSG en vivo gratis · Arsenal contre PSG en direct gratuit · ارسنال ضد باريس سان جيرمان بث مباشر مجاناً نهائي دوري أبطال أوروبا 2026.';
+const TITLE = 'Arsenal vs PSG LIVE — UCL Final 2026 Free Stream | La 1 · M6 · Canal+ Sport';
+const DESC  = 'Watch Arsenal vs PSG LIVE FREE — UEFA Champions League Final 2026. Stream HD on La 1, M6 or Canal+ Sport. No subscription. Arsenal PSG en vivo gratis · Arsenal contre PSG en direct M6 gratuit · ارسنال ضد باريس بث مباشر مجاناً · Arsenal PSG lineup prediction 30 May 2026.';
 
 const KEYWORDS = [
   // English — intent: watch, live, free
@@ -40,14 +40,41 @@ const KEYWORDS = [
   'مشاهدة نهائي دوري الأبطال مجاناً','ارسنال باريس نهائي 2026',
   'بث مباشر مجاني نهائي أبطال أوروبا','ارسنال باريس سان جيرمان مباشر',
   'نهائي يوفا 2026 بث مباشر','مشاهدة ارسنال باريس بدون اشتراك',
-  // German / Italian / Portuguese
+  // German / Italian / Portuguese / Turkish
   'arsenal psg champions league finale 2026 live stream',
-  'arsenal psg finale live kostenlos','arsenal psg finale live stream gratis',
-  'arsenal vs psg final ao vivo gratis','arsenal psg finale champions 2026',
+  'arsenal psg finale live kostenlos','arsenal psg live stream kostenlos',
+  'arsenal vs psg final ao vivo gratis','arsenal psg final ao vivo grátis',
+  'arsenal psg finale champions 2026','arsenal psg diretta gratis',
+  'finale champions league 2026 streaming gratis','arsenal psg canlı izle',
+  'şampiyonlar ligi finali 2026 izle','arsenal psg finale champions 2026 in diretta',
+  // Lineup / formation (huge day-before traffic)
+  'arsenal vs psg lineup','arsenal psg predicted lineup 2026',
+  'arsenal vs psg starting 11','arsenal psg formation champions league final',
+  'alignement arsenal psg finale','composition arsenal psg finale 2026',
+  'تشكيلة ارسنال باريس نهائي 2026','تشكيلة نهائي دوري أبطال أوروبا 2026',
+  'arsenal psg aufstellung','arsenal psg formazioni finale 2026',
+  'arsenal psg escalação final','arsenal psg muhtemel 11',
+  // Predictions / odds (informational traffic)
+  'arsenal vs psg prediction','arsenal psg match preview 2026',
+  'arsenal psg who will win','arsenal vs psg odds champions league final',
+  'pronostic arsenal psg finale 2026','arsenal psg prono ligue des champions',
+  'توقعات مباراة ارسنال باريس نهائي','من سيفوز نهائي دوري الأبطال 2026',
+  'arsenal psg prognose finale','arsenal psg pronostico finale champions',
+  'arsenal psg prognóstico final champions',
+  // Where to watch by country
+  'where to watch champions league final 2026 usa',
+  'champions league final 2026 on tv usa','ucl final 2026 us channel',
+  'où voir finale champions league 2026 france','finale champions m6 gratuit',
+  'arsenal psg m6 en direct gratuit','final champions league 2026 gratis',
+  'كيف اشاهد نهائي أبطال أوروبا 2026','قنوات نهائي دوري الأبطال 2026',
+  'champions league finale 2026 deutschland fernsehen',
+  'arsenal psg bein sports arabic','arsenal psg beinsports mena',
   // Long-tail informational (E-E-A-T)
   'arsenal vs psg champions league final 2026 where to watch',
   'la 1 arsenal psg live stream free','arsenal psg final 2026 broadcast',
   'champions league 2026 final tv channel free',
+  'arsenal psg h2h record','arsenal psg head to head history',
+  'arsenal vs psg key players to watch','arsenal psg saka dembele final',
 ].join(', ');
 
 export const metadata: Metadata = {
@@ -88,8 +115,8 @@ const matchJsonLd = {
   name: 'UEFA Champions League Final 2026 — Arsenal FC vs Paris Saint-Germain',
   alternateName: ['Arsenal vs PSG UCL Final 2026', 'UCL Final 2026', 'Champions League Final 2026'],
   description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain. Watch live for free on La 1 (RTVE).',
-  startDate: '2026-05-27T20:00:00Z',
-  endDate:   '2026-05-27T22:30:00Z',
+  startDate: '2026-05-30T20:00:00Z',
+  endDate:   '2026-05-30T22:30:00Z',
   sport: 'https://en.wikipedia.org/wiki/Association_football',
   url: `${SITE}/arsenal-vs-psg`,
   image: `${SITE}/og-arsenal-psg.jpg`,
@@ -133,8 +160,8 @@ const broadcastJsonLd = {
   '@type': 'BroadcastEvent',
   name: 'Arsenal vs PSG — UCL Final 2026 on La 1 LIVE',
   description: 'Free live broadcast of UEFA Champions League Final 2026 — Arsenal vs PSG on La 1 (RTVE).',
-  startDate: '2026-05-27T20:00:00Z',
-  endDate:   '2026-05-27T22:30:00Z',
+  startDate: '2026-05-30T20:00:00Z',
+  endDate:   '2026-05-30T22:30:00Z',
   isLiveBroadcast: true,
   inLanguage: 'es',
   videoFormat: 'HD',
@@ -146,7 +173,7 @@ const broadcastJsonLd = {
   broadcastOfEvent: {
     '@type': 'SportsEvent',
     name: 'Arsenal FC vs Paris Saint-Germain — UEFA Champions League Final 2026',
-    startDate: '2026-05-27T20:00:00Z',
+    startDate: '2026-05-30T20:00:00Z',
   },
   publisher: {
     '@type': 'Organization',
@@ -167,7 +194,7 @@ const videoJsonLd = {
   publication: {
     '@type': 'BroadcastEvent',
     isLiveBroadcast: true,
-    startDate: '2026-05-27T20:00:00Z',
+    startDate: '2026-05-30T20:00:00Z',
   },
   author: { '@type': 'Organization', name: 'SportaLive', url: SITE },
 };
@@ -208,7 +235,7 @@ const faqJsonLd = {
       name: 'What time is the Arsenal vs PSG Champions League Final 2026?',
       acceptedAnswer: {
         '@type': 'Answer',
-        text: 'The UEFA Champions League Final 2026 between Arsenal and PSG kicks off on 27 May 2026 at 21:00 CET (20:00 UTC / 9 PM Paris & Madrid / 8 PM London / 3 PM New York / 10 PM Cairo).',
+        text: 'The UEFA Champions League Final 2026 between Arsenal and PSG kicks off on 30 May 2026 at 21:00 CET (20:00 UTC / 9 PM Paris & Madrid / 8 PM London / 3 PM New York / 10 PM Cairo).',
       },
     },
     {
@@ -232,12 +259,15 @@ const faqJsonLd = {
 
 // ─── Data fetching ─────────────────────────────────────────────────────────────
 
-async function getLa1Channel() {
+async function getStreams() {
   try {
-    return await prisma.channel.findFirst({
-      where: { slug: { in: ['la-1', 'la-1-1', 'la-1-2', 'la1'] }, isActive: true },
-    });
-  } catch { return null; }
+    const [la1, m6, canalSport] = await Promise.all([
+      prisma.channel.findFirst({ where: { slug: { in: ['la-1', 'la-1-1', 'la-1-2', 'la1'] }, isActive: true } }).catch(() => null),
+      prisma.channel.findFirst({ where: { slug: { in: ['m6', 'm6-hd', 'm6-1'] }, isActive: true } }).catch(() => null),
+      prisma.channel.findFirst({ where: { slug: { in: ['canal-sport', 'canal-sport-hd', 'canal-plus-sport', 'canalplus-sport'] }, isActive: true } }).catch(() => null),
+    ]);
+    return { la1, m6, canalSport };
+  } catch { return { la1: null, m6: null, canalSport: null }; }
 }
 
 async function getRelatedSports() {
@@ -262,7 +292,7 @@ async function getRelatedSports() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ArsenalVsPsgPage() {
-  const [la1, related] = await Promise.all([getLa1Channel(), getRelatedSports()]);
+  const [{ la1, m6, canalSport }, related] = await Promise.all([getStreams(), getRelatedSports()]);
 
   return (
     <>
@@ -347,14 +377,14 @@ export default async function ArsenalVsPsgPage() {
                 </span>
               </h1>
               <p className="text-gray-400 text-sm md:text-base">
-                27 May 2026 · 21:00 CET · Free Live Stream on La 1
+                30 May 2026 · 21:00 CET · Free Live Stream on La 1
               </p>
             </div>
 
             {/* Info pills */}
             <div className="flex flex-wrap justify-center gap-2 text-xs">
               {[
-                { icon: '📅', text: '27 May 2026' },
+                { icon: '📅', text: '30 May 2026' },
                 { icon: '⏰', text: '21:00 CET · 20:00 UTC' },
                 { icon: '📺', text: 'La 1 — RTVE (Free)' },
                 { icon: '🌍', text: 'Watch Online HD' },
@@ -369,79 +399,317 @@ export default async function ArsenalVsPsgPage() {
         </section>
 
         {/* Player */}
-        <WatchEventClient channel={la1 as any} />
+        <WatchEventClient streams={[
+          { label: 'La 1', sublabel: 'RTVE · España · Free', channel: la1 as any },
+          { label: 'M6',   sublabel: 'France · Gratuit',      channel: m6 as any  },
+          { label: 'Canal+ Sport', sublabel: 'France · HD',   channel: canalSport as any },
+        ]} />
 
         {/* Ad banner — below player */}
         <AdBanner />
 
-        {/* Multilingual SEO content blocks */}
+        {/* ── Where to Watch by Country ──────────────────────────── */}
+        <section className="space-y-4">
+          <h2 className="text-white font-bold text-xl">📺 Where to Watch Arsenal vs PSG — By Country</h2>
+          <div className="overflow-x-auto rounded-2xl border border-white/5">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-white/5 text-gray-400 text-xs uppercase tracking-wider">
+                  <th className="text-left px-4 py-3">Country</th>
+                  <th className="text-left px-4 py-3">Channel</th>
+                  <th className="text-left px-4 py-3">Free?</th>
+                  <th className="text-left px-4 py-3">Stream</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-white/5">
+                {[
+                  { flag:'🇪🇸', country:'Spain',        ch:'La 1 (RTVE)',          free:'✅ Free',  href:'/channel/la-1' },
+                  { flag:'🇫🇷', country:'France',       ch:'M6 / Canal+ Sport',   free:'✅ M6 Free',href:'/channel/m6' },
+                  { flag:'🇬🇧', country:'UK',           ch:'TNT Sports / BT Sport',free:'💳 Sub',   href:'/live' },
+                  { flag:'🇺🇸', country:'USA',          ch:'Paramount+ / CBS',    free:'💳 Sub',   href:'/live' },
+                  { flag:'🇩🇪', country:'Germany',      ch:'DAZN',                free:'💳 Sub',   href:'/live' },
+                  { flag:'🇮🇹', country:'Italy',        ch:'Sky Sport / Mediaset', free:'💳 Sub',  href:'/live' },
+                  { flag:'🇵🇹', country:'Portugal',     ch:'Sport TV',            free:'💳 Sub',   href:'/live' },
+                  { flag:'🇲🇦', country:'Morocco',      ch:'beIN Sports Arabia',  free:'💳 Sub',   href:'/live' },
+                  { flag:'🇸🇦', country:'Saudi Arabia', ch:'SSC Sport / beIN',    free:'💳 Sub',   href:'/live' },
+                  { flag:'🇩🇿', country:'Algeria',      ch:'beIN Sports',         free:'💳 Sub',   href:'/live' },
+                  { flag:'🇪🇬', country:'Egypt',        ch:'beIN Sports',         free:'💳 Sub',   href:'/live' },
+                  { flag:'🇹🇳', country:'Tunisia',      ch:'beIN Sports',         free:'💳 Sub',   href:'/live' },
+                  { flag:'🇧🇪', country:'Belgium',      ch:'RTBF / La Une',       free:'✅ Free',  href:'/live' },
+                  { flag:'🇹🇷', country:'Turkey',       ch:'TRT Spor',            free:'✅ Free',  href:'/live' },
+                  { flag:'🌍', country:'Worldwide',     ch:'SportaLive (La 1·M6)', free:'✅ Free', href:'/arsenal-vs-psg' },
+                ].map(({ flag, country, ch, free, href }) => (
+                  <tr key={country} className="hover:bg-white/[0.03] transition-colors">
+                    <td className="px-4 py-3 text-gray-300">{flag} {country}</td>
+                    <td className="px-4 py-3 text-white font-medium">{ch}</td>
+                    <td className="px-4 py-3 text-green-400 text-xs font-bold">{free}</td>
+                    <td className="px-4 py-3">
+                      <Link href={href} className="text-purple-400 hover:text-purple-300 text-xs underline">Watch →</Link>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          <p className="text-gray-600 text-xs">arsenal vs psg where to watch · champions league final 2026 tv channel · où voir finale champions · ver final champions gratis · قنوات نهائي أبطال أوروبا 2026</p>
+        </section>
+
+        {/* ── Predicted Lineups ──────────────────────────────────── */}
+        <section className="space-y-4" id="lineups">
+          <h2 className="text-white font-bold text-xl">⚽ Predicted Lineups — Arsenal vs PSG</h2>
+          <p className="text-gray-500 text-xs">Composition probable · تشكيلة متوقعة · Alineación prevista · Aufstellung · Formazione</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+            {/* Arsenal */}
+            <div className="bg-red-950/30 border border-red-500/20 rounded-2xl p-5 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-xl">🔴</div>
+                <div>
+                  <p className="text-white font-black uppercase tracking-wider">Arsenal FC</p>
+                  <p className="text-red-400 text-xs">4-3-3 · Predicted XI</p>
+                </div>
+              </div>
+              <div className="space-y-1 text-sm">
+                {[
+                  { pos: 'GK',  name: 'D. Raya' },
+                  { pos: 'RB',  name: 'B. White' },
+                  { pos: 'CB',  name: 'W. Saliba' },
+                  { pos: 'CB',  name: 'G. Magalhães' },
+                  { pos: 'LB',  name: 'J. Timber' },
+                  { pos: 'DM',  name: 'D. Rice' },
+                  { pos: 'CM',  name: 'M. Ødegaard ©' },
+                  { pos: 'CM',  name: 'K. Havertz' },
+                  { pos: 'RW',  name: 'B. Saka ⭐' },
+                  { pos: 'ST',  name: 'G. Jesus' },
+                  { pos: 'LW',  name: 'G. Martinelli' },
+                ].map(({ pos, name }) => (
+                  <div key={name} className="flex items-center gap-3 py-1 border-b border-white/5">
+                    <span className="w-9 text-center text-[10px] font-bold text-red-400 bg-red-500/10 rounded px-1 py-0.5">{pos}</span>
+                    <span className="text-gray-200">{name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* PSG */}
+            <div className="bg-blue-950/30 border border-blue-500/20 rounded-2xl p-5 space-y-4">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] flex items-center justify-center text-xl">🔵</div>
+                <div>
+                  <p className="text-white font-black uppercase tracking-wider">Paris Saint-Germain</p>
+                  <p className="text-blue-400 text-xs">4-3-3 · Composition probable</p>
+                </div>
+              </div>
+              <div className="space-y-1 text-sm">
+                {[
+                  { pos: 'GK',  name: 'G. Donnarumma' },
+                  { pos: 'RB',  name: 'A. Hakimi' },
+                  { pos: 'CB',  name: 'Marquinhos ©' },
+                  { pos: 'CB',  name: 'W. Pacho' },
+                  { pos: 'LB',  name: 'N. Mendes' },
+                  { pos: 'DM',  name: 'Vitinha' },
+                  { pos: 'CM',  name: 'F. Ruiz' },
+                  { pos: 'CM',  name: 'J. Neves' },
+                  { pos: 'RW',  name: 'O. Dembélé ⭐' },
+                  { pos: 'ST',  name: 'G. Ramos' },
+                  { pos: 'LW',  name: 'B. Barcola' },
+                ].map(({ pos, name }) => (
+                  <div key={name} className="flex items-center gap-3 py-1 border-b border-white/5">
+                    <span className="w-9 text-center text-[10px] font-bold text-blue-400 bg-blue-500/10 rounded px-1 py-0.5">{pos}</span>
+                    <span className="text-gray-200">{name}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          <p className="text-gray-600 text-xs">arsenal psg predicted lineup · composition probable arsenal psg · تشكيلة ارسنال باريس نهائي · arsenal psg aufstellung · arsenal psg formazioni</p>
+        </section>
+
+        {/* ── Key Players & H2H ─────────────────────────────────── */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5">
 
-          {/* English */}
-          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
-            <h2 className="text-white font-bold">🏆 Champions League Final 2026 Live Stream Free</h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Watch the <strong className="text-white">UEFA Champions League Final 2026</strong> live between
-              <strong className="text-red-400"> Arsenal FC</strong> and
-              <strong className="text-blue-400"> Paris Saint-Germain</strong>.
-              Free HD stream — no subscription, no registration. Stream the biggest club match of 2026 right here.
-            </p>
-            <p className="text-gray-600 text-xs">arsenal vs psg · ucl final 2026 · champions league final stream free</p>
+          {/* Key Players */}
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-3">
+            <h2 className="text-white font-bold">⭐ Key Players to Watch</h2>
+            <div className="space-y-2">
+              {[
+                { name: 'Bukayo Saka',     team: 'Arsenal',  desc: 'England\'s best — electric right wing, direct & clinical.',   color: 'text-red-400' },
+                { name: 'Ousmane Dembélé', team: 'PSG',      desc: 'France winger — explosive pace, UCL pedigree.',               color: 'text-blue-400' },
+                { name: 'Martin Ødegaard', team: 'Arsenal',  desc: 'Norwegian captain — creative engine, dictates tempo.',        color: 'text-red-400' },
+                { name: 'Achraf Hakimi',   team: 'PSG',      desc: 'Morocco\'s star — attacking right-back, dangerous crosses.',  color: 'text-blue-400' },
+                { name: 'Declan Rice',     team: 'Arsenal',  desc: 'England\'s midfield wall — sets the defensive platform.',     color: 'text-red-400' },
+                { name: 'Marquinhos',      team: 'PSG',      desc: 'Brazilian captain — leads PSG defence in big moments.',       color: 'text-blue-400' },
+              ].map(({ name, team, desc, color }) => (
+                <div key={name} className="flex gap-3 py-2 border-b border-white/5">
+                  <span className={`text-xs font-bold ${color} flex-shrink-0 w-16`}>{team}</span>
+                  <div>
+                    <p className="text-white text-sm font-semibold">{name}</p>
+                    <p className="text-gray-500 text-xs leading-relaxed">{desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* French */}
-          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
-            <h2 className="text-white font-bold">🔴 Arsenal contre PSG — Finale Ligue des Champions 2026</h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Regardez la <strong className="text-white">Finale de la Ligue des Champions 2026</strong> en direct et gratuitement.
-              <strong className="text-red-400"> Arsenal</strong> contre
-              <strong className="text-blue-400"> PSG</strong> — streaming HD sans abonnement ni inscription.
-            </p>
-            <p className="text-gray-600 text-xs">finale champions 2026 · arsenal psg en direct · streaming gratuit ucl</p>
-          </div>
+          {/* H2H + Match Info */}
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-4">
+            <h2 className="text-white font-bold">📊 Match Info & H2H</h2>
 
-          {/* Arabic */}
-          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2" dir="rtl">
-            <h2 className="text-white font-bold">🔴 ارسنال ضد باريس سان جيرمان — بث مباشر مجاناً</h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              شاهد <strong className="text-white">نهائي دوري أبطال أوروبا 2026</strong> بث مباشر مجاناً بجودة HD.
-              <strong className="text-red-400"> ارسنال</strong> ضد
-              <strong className="text-blue-400"> باريس سان جيرمان</strong> — بدون اشتراك، مجاناً على قناة لا 1.
-            </p>
-            <p className="text-gray-600 text-xs">بث مباشر مجاني · نهائي أبطال أوروبا 2026 · ارسنال باريس</p>
-          </div>
+            <div className="space-y-2 text-sm">
+              {[
+                { label: 'Competition', value: 'UEFA Champions League Final 2026' },
+                { label: 'Date',        value: '30 May 2026' },
+                { label: 'Kick-off',    value: '21:00 CET / 20:00 UTC' },
+                { label: 'Stage',       value: 'Final' },
+              ].map(({ label, value }) => (
+                <div key={label} className="flex justify-between border-b border-white/5 py-1.5">
+                  <span className="text-gray-500">{label}</span>
+                  <span className="text-white font-medium">{value}</span>
+                </div>
+              ))}
+            </div>
 
-          {/* Spanish */}
-          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
-            <h2 className="text-white font-bold">🔴 Arsenal vs PSG en Directo — Final Champions 2026</h2>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Ver la <strong className="text-white">Final de la Champions League 2026</strong> en directo y gratis.
-              <strong className="text-red-400"> Arsenal</strong> contra
-              <strong className="text-blue-400"> PSG</strong> — streaming HD sin pagar, en La 1 de RTVE.
-            </p>
-            <p className="text-gray-600 text-xs">arsenal psg en vivo · final champions la 1 · ver gratis online</p>
+            <h3 className="text-white font-semibold text-sm pt-2">🕒 Kick-off Times Worldwide</h3>
+            <div className="grid grid-cols-2 gap-1 text-xs">
+              {[
+                ['🇬🇧 London',        '20:00'],
+                ['🇫🇷 Paris',         '21:00'],
+                ['🇪🇸 Madrid',        '21:00'],
+                ['🇩🇿 Algiers',       '22:00'],
+                ['🇲🇦 Casablanca',    '21:00'],
+                ['🇸🇦 Riyadh',        '23:00'],
+                ['🇪🇬 Cairo',         '22:00'],
+                ['🇺🇸 New York',      '15:00'],
+                ['🇺🇸 Los Angeles',   '12:00'],
+                ['🇧🇷 São Paulo',     '16:00'],
+                ['🇦🇺 Sydney',        '06:00+1'],
+                ['🇯🇵 Tokyo',         '04:00+1'],
+              ].map(([city, time]) => (
+                <div key={city} className="flex justify-between px-2 py-1 bg-white/[0.03] rounded">
+                  <span className="text-gray-400">{city}</span>
+                  <span className="text-white font-bold">{time}</span>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
 
-        {/* FAQ — E-E-A-T */}
+        {/* ── Multilingual Match Preview ────────────────────────── */}
+        <section className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
+            <h2 className="text-white font-bold">🏆 Champions League Final 2026 — Match Preview</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              The <strong className="text-white">UEFA Champions League Final 2026</strong> pits
+              <strong className="text-red-400"> Arsenal FC</strong> against
+              <strong className="text-blue-400"> Paris Saint-Germain</strong> in what promises to be the biggest club match of the decade.
+              Arsenal, England's dominant force, face a PSG side finally fulfilling their Champions League ambitions.
+              Watch live free on SportaLive — La 1, M6, or Canal+ Sport. No registration, no subscription.
+            </p>
+            <p className="text-gray-600 text-xs">arsenal vs psg preview · ucl final 2026 · champions league final stream free</p>
+          </div>
+
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
+            <h2 className="text-white font-bold">🔴 Avant-match — Arsenal contre PSG, Finale LDC 2026</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              La <strong className="text-white">Finale de la Ligue des Champions 2026</strong> oppose
+              <strong className="text-red-400"> Arsenal</strong> au
+              <strong className="text-blue-400"> PSG</strong> dans un choc franco-anglais historique.
+              Regardez gratuitement sur <strong className="text-white">M6 en direct</strong> ou Canal+ Sport via SportaLive.
+              Sans abonnement, sans inscription — disponible partout dans le monde.
+            </p>
+            <p className="text-gray-600 text-xs">arsenal psg finale · pronostic arsenal psg · m6 finale champions 2026</p>
+          </div>
+
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2" dir="rtl">
+            <h2 className="text-white font-bold">🔴 نهائي دوري أبطال أوروبا 2026 — ارسنال ضد باريس سان جيرمان</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              يجمع <strong className="text-white">نهائي دوري أبطال أوروبا 2026</strong>
+              <strong className="text-red-400"> ارسنال</strong> بـ
+              <strong className="text-blue-400"> باريس سان جيرمان</strong> في أضخم مواجهة في تاريخ الكرة الأوروبية.
+              شاهد المباراة مجاناً وبجودة HD على موقع SportaLive — بدون اشتراك، بدون تسجيل.
+              متاح لجميع المشاهدين في المغرب، الجزائر، تونس، مصر، السعودية وكل العالم العربي.
+            </p>
+            <p className="text-gray-600 text-xs">بث مباشر نهائي 2026 · ارسنال باريس مجاناً · مشاهدة نهائي أبطال أوروبا</p>
+          </div>
+
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
+            <h2 className="text-white font-bold">🔴 Arsenal vs PSG en Directo — Final Champions 2026</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              La <strong className="text-white">Final de la Champions League 2026</strong> entre
+              <strong className="text-red-400"> Arsenal</strong> y
+              <strong className="text-blue-400"> PSG</strong> se juega el <strong className="text-white">30 de mayo a las 21:00 CET</strong>.
+              Ver gratis en La 1 de RTVE. Streaming HD sin pagar, sin registro — disponible desde España, Latinoamérica y todo el mundo.
+            </p>
+            <p className="text-gray-600 text-xs">arsenal psg en vivo · final champions la 1 · ver gratis online 2026</p>
+          </div>
+
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
+            <h2 className="text-white font-bold">🏆 Arsenal gegen PSG — Champions League Finale 2026</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              Das <strong className="text-white">Champions League Finale 2026</strong> zwischen
+              <strong className="text-red-400"> Arsenal</strong> und
+              <strong className="text-blue-400"> PSG</strong> findet am 30. Mai 2026 um 21:00 Uhr statt.
+              Kostenlos live streamen auf SportaLive — kein Abo, keine Anmeldung notwendig.
+            </p>
+            <p className="text-gray-600 text-xs">arsenal psg finale live stream · champions league finale kostenlos 2026</p>
+          </div>
+
+          <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
+            <h2 className="text-white font-bold">🏆 Arsenal vs PSG — Final Champions ao Vivo Grátis 2026</h2>
+            <p className="text-gray-400 text-sm leading-relaxed">
+              A <strong className="text-white">Final da Champions League 2026</strong> entre
+              <strong className="text-red-400"> Arsenal</strong> e
+              <strong className="text-blue-400"> PSG</strong> acontece a 30 de maio de 2026 às 21h00 CET.
+              Assiste ao vivo e de graça no SportaLive — sem subscrição, sem registo.
+            </p>
+            <p className="text-gray-600 text-xs">arsenal psg ao vivo grátis · final champions 2026 streaming · onde ver arsenal psg</p>
+          </div>
+        </section>
+
+        {/* ── FAQ — Expanded Multilingual ───────────────────────── */}
         <section className="space-y-3">
           <h2 className="text-white font-bold text-xl">Frequently Asked Questions</h2>
           {[
             {
               q: 'How to watch Arsenal vs PSG Champions League Final 2026 free?',
-              a: 'Watch right here on SportaLive — we stream La 1 (RTVE) live in HD for free. No account, no subscription needed. Click Watch above and the stream starts instantly.',
+              a: 'Watch right here on SportaLive — we stream La 1, M6 and Canal+ Sport live in HD for free. No account, no subscription. Click a stream tab above and it starts instantly.',
             },
             {
               q: 'What channel shows the UCL Final 2026?',
-              a: 'La 1 (RTVE) shows it free-to-air in Spain. BT Sport / TNT Sports in the UK. beIN Sports in MENA. DAZN in several other markets. On SportaLive you can watch La 1 live for free.',
+              a: 'La 1 (RTVE, Spain — free), M6 (France — free), Canal+ Sport (France), TNT Sports/BT Sport (UK), Paramount+/CBS Sports (USA), DAZN (Germany), beIN Sports (MENA). On SportaLive you can watch La 1 and M6 for free worldwide.',
             },
             {
               q: 'What time is Arsenal vs PSG kick-off?',
-              a: '21:00 CET / 20:00 UTC on 27 May 2026. That\'s 8 PM London, 9 PM Madrid & Paris, 3 PM New York, 11 PM Cairo.',
+              a: '21:00 CET / 20:00 UTC on 30 May 2026. That\'s 20:00 London, 21:00 Madrid & Paris, 22:00 Cairo & Algiers, 23:00 Riyadh, 15:00 New York, 12:00 Los Angeles.',
             },
             {
-              q: '¿Dónde ver Arsenal vs PSG gratis?',
-              a: 'Aquí mismo en SportaLive, retransmitiendo La 1 de RTVE en directo y gratis en HD. Sin registro, sin suscripción.',
+              q: 'What is the predicted Arsenal lineup for the UCL Final 2026?',
+              a: 'Predicted Arsenal XI (4-3-3): Raya; B. White, Saliba, Gabriel, Timber; Rice, Ødegaard, Havertz; Saka, Jesus, Martinelli.',
+            },
+            {
+              q: 'What is the predicted PSG lineup for the Champions League Final 2026?',
+              a: 'Predicted PSG XI (4-3-3): Donnarumma; Hakimi, Marquinhos, Pacho, Nuno Mendes; Vitinha, Fabian Ruiz, J. Neves; Dembélé, G. Ramos, Barcola.',
+            },
+            {
+              q: '¿Dónde ver Arsenal vs PSG gratis? ¿A qué hora es la final?',
+              a: 'En SportaLive, retransmitiendo La 1 de RTVE en directo y gratis en HD. La final es el 30 de mayo a las 21:00 CET. Sin registro, sin suscripción.',
+            },
+            {
+              q: 'Comment regarder Arsenal vs PSG en direct gratuit sur M6 ?',
+              a: 'Sur SportaLive, sélectionne l\'onglet M6 ci-dessus — flux HD gratuit sans inscription ni abonnement. La finale commence le 30 mai à 21h00 heure française.',
+            },
+            {
+              q: 'كيف أشاهد نهائي ارسنال باريس مجاناً؟',
+              a: 'ادخل على sportalive.live واضغط على زر مشاهدة — نبث قناة لا 1 مجاناً بجودة HD. المباراة في 30 مايو الساعة 21:00 بتوقيت أوروبا الوسطى (22:00 بتوقيت القاهرة والجزائر، 23:00 بتوقيت الرياض).',
+            },
+            {
+              q: 'Wie kann man Arsenal vs PSG kostenlos schauen?',
+              a: 'Auf SportaLive kannst du La 1 und M6 kostenlos und in HD streamen — kein Konto, kein Abo. Das Finale beginnt am 30. Mai 2026 um 21:00 Uhr CET.',
+            },
+            {
+              q: 'Come vedere Arsenal PSG finale Champions 2026 gratis?',
+              a: 'Su SportaLive puoi guardare La 1 e M6 in diretta gratis in HD — nessun abbonamento, nessuna registrazione. La finale è il 30 maggio alle 21:00 ora italiana.',
             },
           ].map(({ q, a }, i) => (
             <details key={i} className="bg-gray-800/40 border border-white/5 rounded-xl p-4 cursor-pointer group">
@@ -476,11 +744,13 @@ export default async function ArsenalVsPsgPage() {
         {/* Internal links */}
         <section className="flex flex-wrap gap-3 justify-center pb-4">
           {[
-            { href: '/crystal-palace-vs-rayo-vallecano', label: '🏆 Conference League Final'   },
-            { href: '/champions-league-final-2026',      label: '⚽ Champions League 2026'     },
+            { href: '/arsenal-psg-lineup',               label: '📋 Arsenal PSG Lineups'       },
+            { href: '/arsenal-psg-prediction',           label: '🔮 Arsenal PSG Prediction'    },
+            { href: '/champions-league-final-2026',      label: '🏆 UCL Final 2026'            },
             { href: '/channel/la-1',                     label: '📺 La 1 En Directo'           },
+            { href: '/channel/m6',                       label: '📺 M6 En Direct'              },
+            { href: '/channel/canal-sport',              label: '📺 Canal+ Sport'              },
             { href: '/live',                             label: '📡 All Live Channels'         },
-            { href: '/category/deportivos',              label: '⚽ Sports Channels'           },
           ].map(({ href, label }) => (
             <Link key={href} href={href}
               className="px-4 py-2 bg-gray-800/60 hover:bg-purple-600/20 border border-white/10 hover:border-purple-500/30 text-gray-400 hover:text-white text-sm rounded-xl transition-all">

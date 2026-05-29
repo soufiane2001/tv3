@@ -102,7 +102,7 @@ export default async function ConferenceLeagueFinalPage() {
         </div>
 
         {/* Player */}
-        <WatchEventClient channel={trt1 as any} />
+        <WatchEventClient streams={[{ label: 'TRT 1', sublabel: 'Turkey · Free', channel: trt1 as any }]} />
 
         {/* Multilingual keyword blocks */}
         <section className="grid grid-cols-1 md:grid-cols-2 gap-5">

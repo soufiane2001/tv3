@@ -24,25 +24,19 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   // ── High-priority event pages ─────────────────────────────
   const events: MetadataRoute.Sitemap = [
-    {
-      url: `${base}/arsenal-vs-psg`,
-      lastModified: now, changeFrequency: 'hourly', priority: 1.0,
-    },
-    {
-      url: `${base}/champions-league-final-2026`,
-      lastModified: now, changeFrequency: 'hourly', priority: 1.0,
-    },
-    {
-      url: `${base}/crystal-palace-vs-rayo-vallecano`,
-      lastModified: now, changeFrequency: 'hourly', priority: 1.0,
-    },
-    {
-      url: `${base}/world-cup-2026`,
-      lastModified: now, changeFrequency: 'daily', priority: 0.95,
-    },
-    // Alternate keyword URLs pointing to same content
-    { url: `${base}/channel/la-1`,   lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/channel/trt`,    lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    // UCL Final — primary stream
+    { url: `${base}/arsenal-vs-psg`,              lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    // UCL Final — pre-match informational (lineup + prediction capture day-before traffic)
+    { url: `${base}/arsenal-psg-lineup`,          lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    { url: `${base}/arsenal-psg-prediction`,      lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    { url: `${base}/champions-league-final-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    { url: `${base}/crystal-palace-vs-rayo-vallecano`, lastModified: now, changeFrequency: 'hourly', priority: 0.9 },
+    { url: `${base}/world-cup-2026`,              lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
+    // Free broadcast channels for the UCL Final
+    { url: `${base}/channel/la-1`,        lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    { url: `${base}/channel/m6`,          lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    { url: `${base}/channel/canal-sport`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    { url: `${base}/channel/trt`,         lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
   ];
 
   const catRoutes: MetadataRoute.Sitemap = categories.map(c => ({
@@ -53,8 +47,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const chRoutes: MetadataRoute.Sitemap = channels.map(c => ({
     url: `${base}/channel/${c.slug}`,
     lastModified: c.updatedAt, changeFrequency: 'daily',
-    // Boost La 1 and TRT 1 in sitemap
-    priority: ['la-1','la-1-1','la-1-2','trt-1'].includes(c.slug) ? 0.95 : 0.65,
+    priority: ['la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd'].includes(c.slug) ? 0.95 : 0.65,
   }));
 
   return [...static_, ...events, ...catRoutes, ...chRoutes];

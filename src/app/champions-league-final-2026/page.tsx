@@ -28,7 +28,7 @@ const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SportsEvent',
   name: 'UEFA Champions League Final 2026',
-  startDate: '2026-05-27T20:00:00Z',
+  startDate: '2026-05-30T20:00:00Z',
   description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain.',
   sport: 'Football',
   url: `${process.env.NEXT_PUBLIC_SITE_URL}/champions-league-final-2026`,
@@ -67,10 +67,10 @@ const faqJsonLd = {
 };
 
 const STREAMS = [
-  { label: '🔴 Arsenal vs PSG — La 1 Live',    href: '/arsenal-vs-psg',       badge: 'LIVE', hot: true },
+  { label: '🔴 Arsenal vs PSG — Watch Live',    href: '/arsenal-vs-psg',       badge: 'LIVE', hot: true },
   { label: '📺 La 1 En Directo',                href: '/channel/la-1',          badge: 'HD'  },
-  { label: '⚽ All Sports Channels',            href: '/category/deportivos',   badge: ''    },
-  { label: '📡 All Live Channels',              href: '/live',                  badge: ''    },
+  { label: '📺 M6 En Direct',                   href: '/channel/m6',            badge: 'HD'  },
+  { label: '📺 Canal+ Sport',                   href: '/channel/canal-sport',   badge: 'HD'  },
 ];
 
 export default function UclFinalPage() {
@@ -136,7 +136,7 @@ export default function UclFinalPage() {
               </div>
             </div>
 
-            <p className="text-gray-400 text-sm">27 May 2026 · 21:00 CET · La 1 Free Broadcast</p>
+            <p className="text-gray-400 text-sm">30 May 2026 · 21:00 CET · La 1 Free Broadcast</p>
 
             {/* CTA */}
             <Link href="/arsenal-vs-psg"
