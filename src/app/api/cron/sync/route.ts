@@ -7,7 +7,8 @@ export const dynamic = 'force-dynamic';
 // Example: GET /api/cron/sync?secret=your-secret
 export async function GET(req: NextRequest) {
   const secret = req.nextUrl.searchParams.get('secret');
-  if (secret !== process.env.ADMIN_PASSWORD) {
+  const { checkAdminPassword } = await import('@/lib/security');
+  if (!checkAdminPassword(secret)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

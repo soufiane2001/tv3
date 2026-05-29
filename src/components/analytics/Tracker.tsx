@@ -72,7 +72,7 @@ export default function Tracker() {
     const sid = sessionId.current;
 
     // Send pageview
-    fetch('/api/analytics/track', {
+    fetch('/api/a', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ path: pathname, sessionId: sid, referrer: getReferrer() }),
@@ -82,10 +82,10 @@ export default function Tracker() {
     // Keep-alive ping every 20s so the visitor stays within the 3-min live window
     if (pingRef.current) clearInterval(pingRef.current);
     pingRef.current = setInterval(() => {
-      fetch('/api/analytics/track', {
+      fetch('/api/a', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: pathname, sessionId: sid }),
+        body: JSON.stringify({ path: pathname, sessionId: sid, ping: true }),
         keepalive: true,
       }).catch(() => {});
     }, 20_000);
@@ -98,7 +98,7 @@ export default function Tracker() {
         [JSON.stringify({ path: pathname, sessionId: sid, duration })],
         { type: 'application/json' },
       );
-      navigator.sendBeacon('/api/analytics/track', blob);
+      navigator.sendBeacon('/api/a', blob);
     };
 
     window.addEventListener('beforeunload', sendDuration);

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { COUNTRY_FLAGS } from '@/lib/analytics';
+import { checkAdminPassword } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
@@ -10,7 +11,7 @@ export const dynamic = 'force-dynamic';
 export async function GET(req: NextRequest) {
   const { searchParams } = new URL(req.url);
   const pwd = searchParams.get('pwd') ?? req.headers.get('x-admin-password');
-  if (pwd !== process.env.ADMIN_PASSWORD) {
+  if (!checkAdminPassword(pwd)) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { slugify } from '@/lib/utils';
+import { adminGuard } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
@@ -40,36 +41,30 @@ export async function GET(req: NextRequest) {
       limit,
       totalPages: Math.ceil(total / limit),
     });
-  } catch (err) {
-    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ success: false, error: String(e) }, { status: 500 });
   }
 }
 
 export async function DELETE(req: NextRequest) {
-  try {
-    const password = req.headers.get('x-admin-password');
-    if (password !== process.env.ADMIN_PASSWORD) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    }
+  const err = adminGuard(req);
+  if (err) return err;
 
-    // Delete favorites first (FK constraint), then channels, then reset categories
+  try {
     await prisma.favorite.deleteMany({});
     const { count } = await prisma.channel.deleteMany({});
     await prisma.category.updateMany({ data: { channelCount: 0 } });
-
     return NextResponse.json({ success: true, deleted: count });
-  } catch (err) {
-    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ success: false, error: String(e) }, { status: 500 });
   }
 }
 
 export async function POST(req: NextRequest) {
-  try {
-    const password = req.headers.get('x-admin-password');
-    if (password !== process.env.ADMIN_PASSWORD) {
-      return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-    }
+  const err = adminGuard(req);
+  if (err) return err;
 
+  try {
     const body = await req.json();
     const { name, streamUrl, logo, groupTitle = 'General', slug: customSlug } = body;
 
@@ -77,7 +72,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: false, error: 'name and streamUrl are required' }, { status: 400 });
     }
 
-    // Find or create category
     const catName = groupTitle.trim() || 'General';
     const catSlug = slugify(catName);
     const category = await prisma.category.upsert({
@@ -86,7 +80,6 @@ export async function POST(req: NextRequest) {
       create: { name: catName, slug: catSlug },
     });
 
-    // Generate unique slug
     const baseSlug = customSlug?.trim() ? slugify(customSlug) : slugify(name);
     let slug = baseSlug;
     let attempt = 0;
@@ -110,14 +103,13 @@ export async function POST(req: NextRequest) {
       include: { category: { select: { name: true, slug: true } } },
     });
 
-    // Update category channel count
     await prisma.category.update({
       where: { id: category.id },
       data: { channelCount: { increment: 1 } },
     });
 
     return NextResponse.json({ success: true, data: channel }, { status: 201 });
-  } catch (err) {
-    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ success: false, error: String(e) }, { status: 500 });
   }
 }

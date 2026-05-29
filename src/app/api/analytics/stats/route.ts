@@ -1,13 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { COUNTRY_FLAGS, COUNTRY_NAMES } from '@/lib/analytics';
+import { adminGuard } from '@/lib/security';
 
 export const dynamic = 'force-dynamic';
 
 export async function GET(req: NextRequest) {
-  if (req.headers.get('x-admin-password') !== process.env.ADMIN_PASSWORD) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  }
+  const err = adminGuard(req);
+  if (err) return err;
 
   const now          = new Date();
   const h1ago        = new Date(now.getTime() - 60 * 60_000);

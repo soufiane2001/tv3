@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
+import { adminGuard } from '@/lib/security';
 
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD ?? '';
+export const dynamic = 'force-dynamic';
 
 function slugify(str: string) {
   return str.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
@@ -11,9 +12,8 @@ export async function PATCH(
   req: NextRequest,
   { params }: { params: Promise<{ id: string }> },
 ) {
-  if (req.headers.get('x-admin-password') !== ADMIN_PASSWORD) {
-    return NextResponse.json({ success: false, error: 'Unauthorized' }, { status: 401 });
-  }
+  const err = adminGuard(req);
+  if (err) return err;
 
   const { id } = await params;
   const { name } = await req.json();
@@ -28,7 +28,7 @@ export async function PATCH(
       data: { name: name.trim(), slug: slugify(name.trim()) },
     });
     return NextResponse.json({ success: true, data: category });
-  } catch (err) {
-    return NextResponse.json({ success: false, error: String(err) }, { status: 500 });
+  } catch (e) {
+    return NextResponse.json({ success: false, error: String(e) }, { status: 500 });
   }
 }
