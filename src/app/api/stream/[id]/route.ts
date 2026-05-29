@@ -135,7 +135,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     // Try fetching manifest with progressively more permissive headers.
     // Some CDNs/S3 buckets check Referer; try without first, then with source host.
     let res = await fetch(upstream, {
-      headers: { 'User-Agent': UA, 'Accept': '*/*' },
+      headers: { 'User-Agent': UA, 'Accept': '*/*', 'Accept-Encoding': 'identity' },
       signal: AbortSignal.timeout(12_000),
       redirect: 'follow',
     });
@@ -185,12 +185,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const finalUrl = res.url || upstream;
       const baseUrl = finalUrl.substring(0, finalUrl.lastIndexOf('/') + 1);
 
-      // If the upstream CDN has CORS open OR is a known public CDN, return the
-      // manifest with absolute (non-proxied) segment URLs. The browser then fetches
-      // segments directly using the user's residential IP — identical to VLC.
-      // This bypasses Vercel datacenter IP blocks on IPTV servers.
+      // Only bypass proxy if stream is HTTPS — HTTP absolute URLs would trigger
+      // mixed-content blocks on our HTTPS site. HTTP streams must stay proxied
+      // (/api/proxy is HTTPS, so the browser→proxy leg is always secure).
       const upstreamHost = new URL(finalUrl).hostname;
-      if (isPublicCdn(upstreamHost) || hasCorsOpen(res)) {
+      const isHttpsStream = finalUrl.startsWith('https://');
+      if (isHttpsStream && (isPublicCdn(upstreamHost) || hasCorsOpen(res))) {
         const absolute = makeAbsoluteM3u8(text, baseUrl);
         return new Response(absolute, {
           headers: {
