@@ -35,9 +35,7 @@ async function getStreamUrl(id: string): Promise<string | null> {
   return null;
 }
 
-// Public broadcaster CDNs that have open CORS and allow residential IPs.
-// For these, we return the manifest with absolute (non-proxied) URLs so the
-// browser fetches segments directly with the user's residential IP — same as VLC.
+// Known public CDNs with open CORS — always bypass proxy for these.
 function isPublicCdn(hostname: string): boolean {
   return (
     hostname.endsWith('.rtve.es') ||
@@ -45,8 +43,23 @@ function isPublicCdn(hostname: string): boolean {
     hostname.endsWith('.akamaized.net') ||
     hostname.endsWith('.akamaihd.net') ||
     hostname.endsWith('.fastly.net') ||
-    hostname.endsWith('.llnwd.net')
+    hostname.endsWith('.llnwd.net') ||
+    // French public/commercial broadcasters
+    hostname.endsWith('.m6web.fr') ||
+    hostname.endsWith('.m6cdn.fr') ||
+    hostname.endsWith('.6play.fr') ||
+    hostname.endsWith('.ftven.fr') ||
+    hostname.endsWith('.france.tv') ||
+    hostname.endsWith('.tf1.fr')
   );
+}
+
+// Dynamic CORS detection: if upstream explicitly allows cross-origin requests,
+// let the browser fetch segments directly (user's residential IP = same as VLC).
+// This bypasses Vercel IP blocks on IPTV servers without any header tricks.
+function hasCorsOpen(res: Response): boolean {
+  const acao = res.headers.get('access-control-allow-origin');
+  return acao !== null; // '*' or specific origin — either way browser can fetch
 }
 
 // Resolve relative URLs to absolute without proxying — for public CDN streams.
@@ -127,21 +140,32 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       redirect: 'follow',
     });
 
-    // On 403: retry with the source site as Referer (S3 bucket policy may require it)
-    if (res.status === 403) {
-      try {
-        const srcOrigin = `${new URL(upstream).protocol}//${new URL(upstream).hostname}`;
-        res = await fetch(upstream, {
-          headers: {
-            'User-Agent': UA,
-            'Accept': '*/*',
-            'Referer': srcOrigin + '/',
-            'Origin': srcOrigin,
-          },
-          signal: AbortSignal.timeout(10_000),
-          redirect: 'follow',
-        });
-      } catch { /* ignore retry error, fall through to original response */ }
+    // On 403: try progressively different Referer strategies
+    if (res.status === 403 || res.status === 401) {
+      const srcOrigin = `${new URL(upstream).protocol}//${new URL(upstream).hostname}`;
+      const rootDomain = new URL(upstream).hostname.split('.').slice(-2).join('.');
+
+      const refererCandidates = [
+        // 1. Source host as Referer
+        { Referer: srcOrigin + '/', Origin: srcOrigin },
+        // 2. Root domain as Referer (e.g. m6.fr for sub.m6.fr)
+        { Referer: `https://www.${rootDomain}/`, Origin: `https://www.${rootDomain}` },
+        // 3. Common French TV Referers (for M6, Canal+, TF1 streams)
+        { Referer: 'https://www.m6.fr/', Origin: 'https://www.m6.fr' },
+        { Referer: 'https://www.canalplus.com/', Origin: 'https://www.canalplus.com' },
+        { Referer: 'https://www.tf1.fr/', Origin: 'https://www.tf1.fr' },
+      ];
+
+      for (const hdrs of refererCandidates) {
+        if (res.status !== 403 && res.status !== 401) break;
+        try {
+          res = await fetch(upstream, {
+            headers: { 'User-Agent': UA, 'Accept': '*/*', ...hdrs },
+            signal: AbortSignal.timeout(10_000),
+            redirect: 'follow',
+          });
+        } catch { /* continue */ }
+      }
     }
 
     if (!res.ok) {
@@ -161,12 +185,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const finalUrl = res.url || upstream;
       const baseUrl = finalUrl.substring(0, finalUrl.lastIndexOf('/') + 1);
 
-      // Public CDNs (RTVE, CloudFront, Akamai…): return manifest with absolute
-      // URLs but WITHOUT proxy rewriting. The browser fetches segments directly
-      // from its own residential IP — CORS is open on these CDNs, and the CDN
-      // allows residential IPs (same as VLC). Avoids Vercel datacenter IP blocks.
+      // If the upstream CDN has CORS open OR is a known public CDN, return the
+      // manifest with absolute (non-proxied) segment URLs. The browser then fetches
+      // segments directly using the user's residential IP — identical to VLC.
+      // This bypasses Vercel datacenter IP blocks on IPTV servers.
       const upstreamHost = new URL(finalUrl).hostname;
-      if (isPublicCdn(upstreamHost)) {
+      if (isPublicCdn(upstreamHost) || hasCorsOpen(res)) {
         const absolute = makeAbsoluteM3u8(text, baseUrl);
         return new Response(absolute, {
           headers: {
