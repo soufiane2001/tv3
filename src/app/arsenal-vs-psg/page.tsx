@@ -427,9 +427,9 @@ export default async function ArsenalVsPsgPage() {
 
         {/* Player */}
         <WatchEventClient streams={[
-          { label: 'La 1', sublabel: 'RTVE · España · Free', channel: la1 as any },
-          { label: 'M6',   sublabel: 'France · Gratuit',      channel: m6 as any  },
-          { label: 'Canal+ Sport', sublabel: 'France · HD',   channel: canalSport as any },
+          { label: 'M6',          sublabel: 'France · Gratuit', channel: m6 as any         },
+          { label: 'Canal+ Sport',sublabel: 'France · HD',      channel: canalSport as any },
+          { label: 'La 1',        sublabel: 'RTVE · España',    channel: la1 as any        },
         ]} />
 
         {/* Ad banner — below player */}
