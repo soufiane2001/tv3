@@ -37,6 +37,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/channel/m6`,          lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/canal-sport`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/trt`,         lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
+    // Moroccan channels hub + individual pages
+    { url: `${base}/chaines-marocaines`,   lastModified: now, changeFrequency: 'daily',  priority: 0.9  },
+    { url: `${base}/channel/2m`,           lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
+    { url: `${base}/channel/al-aoula`,     lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
+    { url: `${base}/channel/arryadia`,     lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
+    { url: `${base}/channel/medi-1`,       lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
+    { url: `${base}/channel/arrabia`,      lastModified: now, changeFrequency: 'daily',  priority: 0.80 },
+    { url: `${base}/channel/al-maghribia`, lastModified: now, changeFrequency: 'daily',  priority: 0.80 },
   ];
 
   const catRoutes: MetadataRoute.Sitemap = categories.map(c => ({
@@ -47,7 +55,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const chRoutes: MetadataRoute.Sitemap = channels.map(c => ({
     url: `${base}/channel/${c.slug}`,
     lastModified: c.updatedAt, changeFrequency: 'daily',
-    priority: ['la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd'].includes(c.slug) ? 0.95 : 0.65,
+    priority: ['la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd'].includes(c.slug) ? 0.95
+      : ['2m','al-aoula','arryadia','medi-1','arrabia','al-maghribia','2m-maroc','2m-hd','al-arryadia','arryadia-hd'].includes(c.slug) ? 0.85
+      : 0.65,
   }));
 
   return [...static_, ...events, ...catRoutes, ...chRoutes];

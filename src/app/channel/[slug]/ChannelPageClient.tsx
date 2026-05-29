@@ -154,14 +154,18 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
 // Provides rich context for users + crawlable text for SEO.
 
 const EVENT_CONTENT: Record<string, {
-  teams: [string, string];
-  logos: [string, string];       // real badge images from Wikipedia CDN
-  competitionLogo: string;       // competition logo URL
-  competition: string;
-  date: string;
-  kickoff: string;
+  type?: 'channel';              // if set: TV channel info banner; default = match scoreboard
+  channelIcon?: string;
+  channelName?: string;
+  tagline?: string;
+  teams?: [string, string];
+  logos?: [string, string];
+  competitionLogo?: string;
+  competition?: string;
+  date?: string;
+  kickoff?: string;
   venue?: string;
-  broadcastNote: string;
+  broadcastNote?: string;
   broadcastLogo?: string;
   blocks: { lang: string; flag: string; title: string; body: string }[];
   faq: { q: string; a: string }[];
@@ -349,6 +353,213 @@ const EVENT_CONTENT: Record<string, {
       { href: '/live',                             label: '📡 All Live Channels'  },
     ],
   },
+
+  // ── Moroccan / Maghreb channels ─────────────────────────────────────────────
+  '2m': {
+    type: 'channel',
+    channelIcon: '🇲🇦',
+    channelName: '2M Maroc — القناة الثانية المغربية',
+    tagline: 'La Deuxième Chaîne Marocaine · القناة الثانية',
+    broadcastNote: 'Disponible gratuitement en direct HD · متاح مجاناً بجودة عالية',
+    blocks: [
+      {
+        lang: 'العربية', flag: '🇲🇦',
+        title: 'مشاهدة قناة 2M المغربية بث مباشر مجاناً',
+        body: 'شاهد قناة 2M المغربية بث مباشر مجاناً وبجودة عالية HD. أفلام، مسلسلات، أخبار، كرة القدم — بدون اشتراك، بدون تسجيل. متاح من جميع أنحاء العالم.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Regarder 2M Maroc en Direct Gratuit',
+        body: 'Regardez 2M Maroc en direct et gratuitement en HD. Films, séries, actualités, football marocain — sans abonnement, sans inscription. Disponible depuis la France, la Belgique et partout dans le monde.',
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Watch 2M Morocco Live Stream Free',
+        body: 'Stream 2M Morocco live in HD for free. News, films, series and Moroccan football — no subscription required. Watch from anywhere worldwide.',
+      },
+      {
+        lang: 'Español', flag: '🇪🇸',
+        title: '2M Marruecos En Directo Gratis',
+        body: 'Ver 2M Marruecos en directo gratis en HD. Noticias, películas y fútbol marroquí — sin suscripción ni registro.',
+      },
+    ],
+    faq: [
+      { q: 'كيف أشاهد قناة 2M المغربية مجاناً على الإنترنت؟', a: 'اضغط على زر التشغيل أعلاه لمشاهدة قناة 2M بث مباشر مجاناً وبجودة HD، بدون اشتراك أو تسجيل.' },
+      { q: 'Comment regarder 2M Maroc depuis la France ?', a: 'Cliquez sur lecture ci-dessus — 2M Maroc est disponible en direct gratuit HD sur SportaLive depuis n\'importe où dans le monde.' },
+      { q: 'How to watch 2M Morocco online free?', a: 'Click play above — 2M Morocco live stream is free in HD on SportaLive. No account needed, works from anywhere.' },
+    ],
+    links: [
+      { href: '/channel/al-aoula',    label: '📺 Al Aoula — القناة الأولى' },
+      { href: '/channel/arryadia',    label: '⚽ Arryadia — الرياضية'      },
+      { href: '/chaines-marocaines',  label: '🇲🇦 Toutes les chaînes marocaines' },
+      { href: '/live',                label: '📡 All Live Channels'        },
+    ],
+  },
+  'al-aoula': {
+    type: 'channel',
+    channelIcon: '🇲🇦',
+    channelName: 'Al Aoula — القناة الأولى المغربية',
+    tagline: 'La Première Chaîne Nationale (SNRT) · القناة الأولى',
+    broadcastNote: 'SNRT — Première chaîne publique marocaine · القناة العامة الأولى',
+    blocks: [
+      {
+        lang: 'العربية', flag: '🇲🇦',
+        title: 'مشاهدة القناة الأولى المغربية بث مباشر مجاناً',
+        body: 'شاهد القناة الأولى المغربية (الأولى) بث مباشر مجاناً وبجودة HD. أخبار الوطن، البرامج الاجتماعية، كرة القدم — بدون اشتراك، بدون تسجيل. SNRT الأولى مباشر.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Regarder Al Aoula en Direct Gratuit',
+        body: 'Regardez Al Aoula (Première chaîne marocaine SNRT) en direct gratuit en HD. Actualités, culture, sport — sans abonnement. Disponible depuis la France et le monde entier.',
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Watch Al Aoula Morocco Live Stream Free',
+        body: 'Stream Al Aoula (SNRT 1) Morocco live in HD for free. News, culture, Moroccan football — no subscription required. Watch from anywhere.',
+      },
+    ],
+    faq: [
+      { q: 'كيف أشاهد القناة الأولى المغربية مجاناً؟', a: 'اضغط على زر التشغيل أعلاه لمشاهدة القناة الأولى (الأولى) المغربية بث مباشر مجاناً وبجودة HD بدون اشتراك.' },
+      { q: 'Comment regarder Al Aoula en direct depuis l\'étranger ?', a: 'Cliquez sur lecture ci-dessus — Al Aoula est disponible gratuitement en HD sur SportaLive depuis la France, la Belgique et partout dans le monde.' },
+      { q: 'Is Al Aoula free to watch online?', a: 'Yes — Al Aoula Morocco live stream is completely free on SportaLive in HD. No account or subscription needed.' },
+    ],
+    links: [
+      { href: '/channel/2m',          label: '📺 2M Maroc En Direct'        },
+      { href: '/channel/arryadia',    label: '⚽ Arryadia — الرياضية'       },
+      { href: '/channel/medi-1',      label: '📰 Medi 1 TV — ميدي 1'       },
+      { href: '/chaines-marocaines',  label: '🇲🇦 Toutes les chaînes marocaines' },
+      { href: '/live',                label: '📡 All Live Channels'         },
+    ],
+  },
+  'arryadia': {
+    type: 'channel',
+    channelIcon: '⚽',
+    channelName: 'Arryadia — القناة الرياضية المغربية',
+    tagline: 'SNRT Sport · قناة الرياضة المغربية · Botola Pro',
+    broadcastNote: 'Football marocain, Botola Pro, matchs de l\'équipe nationale · كرة القدم المغربية',
+    blocks: [
+      {
+        lang: 'العربية', flag: '🇲🇦',
+        title: 'مشاهدة القناة الرياضية المغربية بث مباشر مجاناً',
+        body: 'شاهد قناة الرياضية المغربية (Arryadia) بث مباشر مجاناً وبجودة HD. الدوري المغربي (البطولة الاحترافية)، منتخب المغرب، كأس العرش — بدون اشتراك.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Regarder Arryadia en Direct Gratuit',
+        body: 'Regardez Arryadia (SNRT Sport) en direct gratuit HD. Botola Pro, équipe nationale marocaine, Coupe du Trône — sans abonnement ni inscription.',
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Watch Arryadia Morocco Sport Live Free',
+        body: 'Stream Arryadia (SNRT Sport) Morocco live free in HD. Botola Pro, Moroccan national team, Throne Cup football — no subscription needed.',
+      },
+    ],
+    faq: [
+      { q: 'كيف أشاهد القناة الرياضية المغربية مجاناً؟', a: 'اضغط على زر التشغيل أعلاه لمشاهدة قناة الرياضية (Arryadia) بث مباشر مجاناً وبجودة HD بدون اشتراك.' },
+      { q: 'Comment regarder Arryadia en direct gratuit ?', a: 'Cliquez sur lecture ci-dessus — Arryadia SNRT Sport est disponible gratuitement en HD sur SportaLive depuis n\'importe où.' },
+      { q: 'Does Arryadia show Moroccan Premier League (Botola Pro)?', a: 'Yes — Arryadia broadcasts Botola Pro (Moroccan Premier League), Moroccan national team matches and Throne Cup games live.' },
+    ],
+    links: [
+      { href: '/channel/2m',          label: '📺 2M Maroc En Direct'        },
+      { href: '/channel/al-aoula',    label: '📺 Al Aoula — الأولى'         },
+      { href: '/chaines-marocaines',  label: '🇲🇦 Toutes les chaînes marocaines' },
+      { href: '/live',                label: '📡 All Live Channels'         },
+    ],
+  },
+  'arrabia': {
+    type: 'channel',
+    channelIcon: '🇲🇦',
+    channelName: 'Arrabia — الثالثة المغربية',
+    tagline: 'SNRT 3 · Troisième chaîne marocaine · الثالثة',
+    broadcastNote: 'SNRT 3 — Arrabia en direct gratuit',
+    blocks: [
+      {
+        lang: 'العربية', flag: '🇲🇦',
+        title: 'مشاهدة قناة الثالثة المغربية بث مباشر مجاناً',
+        body: 'شاهد قناة الثالثة المغربية (Arrabia) بث مباشر مجاناً وبجودة HD. برامج متنوعة، ثقافة، ترفيه — بدون اشتراك، بدون تسجيل.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Regarder Arrabia (SNRT 3) en Direct Gratuit',
+        body: 'Regardez Arrabia, la troisième chaîne marocaine (SNRT 3), en direct gratuit HD. Programmes variés, culture, divertissement — sans abonnement.',
+      },
+    ],
+    faq: [
+      { q: 'كيف أشاهد قناة الثالثة (Arrabia) مجاناً؟', a: 'اضغط على زر التشغيل أعلاه لمشاهدة الثالثة المغربية بث مباشر مجاناً وبجودة HD.' },
+      { q: 'Comment regarder Arrabia SNRT 3 en direct ?', a: 'Cliquez sur lecture ci-dessus — Arrabia (SNRT 3) est disponible gratuitement en HD sur SportaLive.' },
+    ],
+    links: [
+      { href: '/channel/2m',          label: '📺 2M Maroc'                  },
+      { href: '/channel/al-aoula',    label: '📺 Al Aoula'                  },
+      { href: '/chaines-marocaines',  label: '🇲🇦 Chaînes marocaines'       },
+      { href: '/live',                label: '📡 All Live Channels'         },
+    ],
+  },
+  'medi-1': {
+    type: 'channel',
+    channelIcon: '📰',
+    channelName: 'Medi 1 TV — ميدي 1',
+    tagline: 'Information · Actualités · Cultura · الأخبار والثقافة',
+    broadcastNote: 'Medi 1 TV — Actualités du Maroc et du monde · أخبار المغرب والعالم',
+    blocks: [
+      {
+        lang: 'العربية', flag: '🇲🇦',
+        title: 'مشاهدة قناة ميدي 1 بث مباشر مجاناً',
+        body: 'شاهد قناة ميدي 1 (Medi 1 TV) بث مباشر مجاناً وبجودة HD. أخبار المغرب والعالم، تحليلات سياسية، برامج ثقافية — بدون اشتراك، بدون تسجيل.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Regarder Medi 1 TV en Direct Gratuit',
+        body: 'Regardez Medi 1 TV en direct gratuit HD. Actualités du Maroc et du monde, analyse politique, culture — sans abonnement ni inscription. Disponible depuis la France.',
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: 'Watch Medi 1 Morocco Live Free',
+        body: 'Stream Medi 1 TV Morocco live in HD for free. Moroccan and world news, political analysis, culture — no subscription required. Watch from anywhere.',
+      },
+    ],
+    faq: [
+      { q: 'كيف أشاهد قناة ميدي 1 مجاناً؟', a: 'اضغط على زر التشغيل أعلاه لمشاهدة قناة ميدي 1 بث مباشر مجاناً وبجودة HD بدون اشتراك.' },
+      { q: 'Comment regarder Medi 1 TV en direct depuis la France ?', a: 'Cliquez sur lecture ci-dessus — Medi 1 TV est disponible gratuitement HD sur SportaLive depuis n\'importe quel pays.' },
+      { q: 'Is Medi 1 TV available in HD?', a: 'Yes — Medi 1 TV streams in HD quality for free on SportaLive. No subscription or registration required.' },
+    ],
+    links: [
+      { href: '/channel/2m',          label: '📺 2M Maroc'                  },
+      { href: '/channel/al-aoula',    label: '📺 Al Aoula'                  },
+      { href: '/channel/arryadia',    label: '⚽ Arryadia Sport'            },
+      { href: '/chaines-marocaines',  label: '🇲🇦 Toutes les chaînes marocaines' },
+      { href: '/live',                label: '📡 All Channels'              },
+    ],
+  },
+  'al-maghribia': {
+    type: 'channel',
+    channelIcon: '🌍',
+    channelName: 'Al Maghribia — المغربية',
+    tagline: 'Pour la diaspora marocaine dans le monde · قناة الجالية المغربية',
+    broadcastNote: 'SNRT Al Maghribia — Chaîne de la diaspora marocaine',
+    blocks: [
+      {
+        lang: 'العربية', flag: '🌍',
+        title: 'مشاهدة قناة المغربية بث مباشر مجاناً',
+        body: 'شاهد قناة المغربية (Al Maghribia) بث مباشر مجاناً. القناة المخصصة للجالية المغربية في الخارج — أخبار، ثقافة، ترفيه — بدون اشتراك.',
+      },
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: 'Regarder Al Maghribia en Direct Gratuit',
+        body: 'Regardez Al Maghribia (SNRT) en direct gratuit HD. Chaîne dédiée à la diaspora marocaine — actualités, culture, divertissement — sans abonnement.',
+      },
+    ],
+    faq: [
+      { q: 'كيف أشاهد قناة المغربية مجاناً؟', a: 'اضغط على زر التشغيل أعلاه لمشاهدة المغربية بث مباشر مجاناً وبجودة HD بدون اشتراك.' },
+      { q: 'Comment regarder Al Maghribia depuis l\'étranger ?', a: 'Cliquez sur lecture ci-dessus — Al Maghribia est disponible gratuitement sur SportaLive depuis France, Belgique et partout.' },
+    ],
+    links: [
+      { href: '/channel/2m',          label: '📺 2M Maroc'                  },
+      { href: '/channel/al-aoula',    label: '📺 Al Aoula'                  },
+      { href: '/chaines-marocaines',  label: '🇲🇦 Chaînes marocaines'       },
+      { href: '/live',                label: '📡 All Live Channels'         },
+    ],
+  },
 };
 
 // Alias slugs map to the same content
@@ -357,6 +568,12 @@ const SLUG_MAP: Record<string, string> = {
   'trt-1': 'trt', 'trt1': 'trt',
   'canal-sport-hd': 'canal-sport', 'canal-plus-sport': 'canal-sport',
   'canalplus-sport': 'canal-sport', 'canal-sport-1': 'canal-sport',
+  // Moroccan channels
+  'al-aoula-1': 'al-aoula', 'alaoula': 'al-aoula', 'snrt-1': 'al-aoula',
+  'al-arryadia': 'arryadia', 'arryadia-hd': 'arryadia', 'snrt-sport': 'arryadia',
+  'medi1': 'medi-1', 'medi1tv': 'medi-1',
+  '2m-maroc': '2m', '2m-hd': '2m',
+  'almaghribia': 'al-maghribia',
 };
 
 function TeamBadge({ src, name, fallbackColor }: { src: string; name: string; fallbackColor: string }) {
@@ -389,78 +606,95 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
   return (
     <div className="border-t border-white/5 space-y-6 px-4 py-6">
 
-      {/* ── Broadcast matchday graphic ─────────────────────────────────────── */}
-      <div className="relative rounded-2xl overflow-hidden"
-        style={{ background: 'linear-gradient(160deg, #080c1f 0%, #0c1445 40%, #080c1f 100%)' }}>
-
-        {/* subtle star grid */}
-        <div className="absolute inset-0 opacity-[0.07]"
-          style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-
-        {/* top: competition header */}
-        <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5">
-          <div className="flex items-center gap-3">
-            <img
-              src={data.competitionLogo}
-              alt={data.competition}
-              className="h-7 w-auto object-contain"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-            />
-            <div>
-              <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em]">{data.competition}</p>
-              {data.venue && <p className="text-gray-500 text-[9px]">{data.venue}</p>}
+      {/* ── Channel info banner (TV channels without a specific match) ─────── */}
+      {data.type === 'channel' ? (
+        <div className="relative rounded-2xl overflow-hidden border border-white/5"
+          style={{ background: 'linear-gradient(160deg, #0a150a 0%, #0d200d 40%, #150a0a 100%)' }}>
+          <div className="absolute inset-0 opacity-[0.05]"
+            style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+          <div className="relative flex items-center gap-4 px-5 py-5">
+            {data.channelIcon && (
+              <span className="text-4xl flex-shrink-0">{data.channelIcon}</span>
+            )}
+            <div className="flex-1 min-w-0">
+              <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em] mb-0.5">
+                🔴 EN DIRECT · بث مباشر · LIVE
+              </p>
+              <h2 className="text-white font-black text-lg leading-tight">{data.channelName}</h2>
+              {data.tagline && <p className="text-gray-400 text-xs mt-1">{data.tagline}</p>}
             </div>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider flex-shrink-0">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
+            </span>
           </div>
-          <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
-          </span>
-        </div>
-
-        {/* center: scoreboard */}
-        <div className="relative flex items-center justify-center gap-4 md:gap-10 px-6 py-8">
-
-          {/* Team A */}
-          <div className="flex flex-col items-center gap-3 flex-1">
-            <TeamBadge src={data.logos[0]} name={data.teams[0]} fallbackColor="#ef4444" />
-            <div className="text-center">
-              <p className="text-white font-black text-sm md:text-base leading-tight">{data.teams[0]}</p>
+          {data.broadcastNote && (
+            <div className="relative px-5 py-2 border-t border-white/5 bg-black/20">
+              <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
             </div>
-          </div>
-
-          {/* Score area */}
-          <div className="flex flex-col items-center gap-2 flex-shrink-0">
-            <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-xl px-5 py-3 shadow-2xl">
-              <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
-              <span className="text-gray-600 font-black text-3xl px-1">:</span>
-              <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
-            </div>
-            <p className="text-[#c8b87a] text-[10px] uppercase tracking-widest">FINAL</p>
-          </div>
-
-          {/* Team B */}
-          <div className="flex flex-col items-center gap-3 flex-1">
-            <TeamBadge src={data.logos[1]} name={data.teams[1]} fallbackColor="#3b82f6" />
-            <div className="text-center">
-              <p className="text-white font-black text-sm md:text-base leading-tight">{data.teams[1]}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* bottom: match info + broadcast */}
-        <div className="relative flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-t border-white/5 bg-black/20">
-          <div className="flex flex-wrap gap-4 text-xs">
-            <span className="text-gray-400">📅 {data.date}</span>
-            <span className="text-gray-400">⏰ {data.kickoff}</span>
-          </div>
-          {data.broadcastLogo ? (
-            <img src={data.broadcastLogo} alt="Broadcast channel"
-              className="h-5 w-auto object-contain opacity-80"
-              onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-          ) : (
-            <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
           )}
         </div>
-      </div>
+      ) : (
+        /* ── Broadcast matchday graphic (sports events) ───────────────────── */
+        <div className="relative rounded-2xl overflow-hidden"
+          style={{ background: 'linear-gradient(160deg, #080c1f 0%, #0c1445 40%, #080c1f 100%)' }}>
+
+          <div className="absolute inset-0 opacity-[0.07]"
+            style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+
+          <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5">
+            <div className="flex items-center gap-3">
+              {data.competitionLogo && (
+                <img src={data.competitionLogo} alt={data.competition}
+                  className="h-7 w-auto object-contain"
+                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                />
+              )}
+              <div>
+                <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em]">{data.competition}</p>
+                {data.venue && <p className="text-gray-500 text-[9px]">{data.venue}</p>}
+              </div>
+            </div>
+            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider">
+              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
+            </span>
+          </div>
+
+          {data.teams && data.logos && (
+            <div className="relative flex items-center justify-center gap-4 md:gap-10 px-6 py-8">
+              <div className="flex flex-col items-center gap-3 flex-1">
+                <TeamBadge src={data.logos[0]} name={data.teams[0]} fallbackColor="#ef4444" />
+                <p className="text-white font-black text-sm md:text-base leading-tight text-center">{data.teams[0]}</p>
+              </div>
+              <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-xl px-5 py-3 shadow-2xl">
+                  <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
+                  <span className="text-gray-600 font-black text-3xl px-1">:</span>
+                  <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
+                </div>
+                <p className="text-[#c8b87a] text-[10px] uppercase tracking-widest">FINAL</p>
+              </div>
+              <div className="flex flex-col items-center gap-3 flex-1">
+                <TeamBadge src={data.logos[1]} name={data.teams[1]} fallbackColor="#3b82f6" />
+                <p className="text-white font-black text-sm md:text-base leading-tight text-center">{data.teams[1]}</p>
+              </div>
+            </div>
+          )}
+
+          <div className="relative flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-t border-white/5 bg-black/20">
+            <div className="flex flex-wrap gap-4 text-xs">
+              {data.date   && <span className="text-gray-400">📅 {data.date}</span>}
+              {data.kickoff && <span className="text-gray-400">⏰ {data.kickoff}</span>}
+            </div>
+            {data.broadcastLogo ? (
+              <img src={data.broadcastLogo} alt="Broadcast channel"
+                className="h-5 w-auto object-contain opacity-80"
+                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
+            ) : data.broadcastNote ? (
+              <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
+            ) : null}
+          </div>
+        </div>
+      )}
 
       {/* ── Ad banner — mid-content placement ───────────────────────────────── */}
       <AdBanner />
