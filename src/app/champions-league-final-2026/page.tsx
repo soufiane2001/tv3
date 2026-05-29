@@ -29,14 +29,24 @@ const jsonLd = {
   '@type': 'SportsEvent',
   name: 'UEFA Champions League Final 2026',
   startDate: '2026-05-30T20:00:00Z',
-  description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain.',
+  endDate: '2026-05-30T22:30:00Z',
+  description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain. Watch live free on SportaLive.',
   sport: 'Football',
   url: `${process.env.NEXT_PUBLIC_SITE_URL}/champions-league-final-2026`,
+  location: {
+    '@type': 'Place',
+    name: 'UEFA Champions League Final 2026 Venue',
+    address: { '@type': 'PostalAddress', addressCountry: 'DE', addressLocality: 'Munich' },
+  },
   competitor: [
-    { '@type': 'SportsTeam', name: 'Arsenal FC' },
-    { '@type': 'SportsTeam', name: 'Paris Saint-Germain' },
+    { '@type': 'SportsTeam', name: 'Arsenal FC',             sameAs: 'https://en.wikipedia.org/wiki/Arsenal_F.C.' },
+    { '@type': 'SportsTeam', name: 'Paris Saint-Germain FC', sameAs: 'https://en.wikipedia.org/wiki/Paris_Saint-Germain_F.C.' },
   ],
-  organizer: { '@type': 'Organization', name: 'UEFA' },
+  performer: [
+    { '@type': 'SportsTeam', name: 'Arsenal FC' },
+    { '@type': 'SportsTeam', name: 'Paris Saint-Germain FC' },
+  ],
+  organizer: { '@type': 'Organization', name: 'UEFA', url: 'https://www.uefa.com' },
 };
 
 const faqJsonLd = {

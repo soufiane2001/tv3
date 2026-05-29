@@ -114,10 +114,15 @@ const matchJsonLd = {
   '@type': 'SportsEvent',
   name: 'UEFA Champions League Final 2026 — Arsenal FC vs Paris Saint-Germain',
   alternateName: ['Arsenal vs PSG UCL Final 2026', 'UCL Final 2026', 'Champions League Final 2026'],
-  description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain. Watch live for free on La 1 (RTVE).',
+  description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain. Watch live for free on La 1, M6 and Canal+ Sport.',
   startDate: '2026-05-30T20:00:00Z',
   endDate:   '2026-05-30T22:30:00Z',
   sport: 'https://en.wikipedia.org/wiki/Association_football',
+  location: {
+    '@type': 'Place',
+    name: 'UEFA Champions League Final 2026 Venue',
+    address: { '@type': 'PostalAddress', addressCountry: 'DE', addressLocality: 'Munich' },
+  },
   url: `${SITE}/arsenal-vs-psg`,
   image: `${SITE}/og-arsenal-psg.jpg`,
   eventStatus: 'https://schema.org/EventScheduled',
@@ -148,11 +153,10 @@ const matchJsonLd = {
     url: 'https://www.uefa.com',
     sameAs: 'https://en.wikipedia.org/wiki/UEFA',
   },
-  superEvent: {
-    '@type': 'SportsEvent',
-    name: 'UEFA Champions League 2025-26',
-    url: 'https://www.uefa.com/uefachampionsleague/',
-  },
+  performer: [
+    { '@type': 'SportsTeam', name: 'Arsenal FC',            sameAs: 'https://en.wikipedia.org/wiki/Arsenal_F.C.' },
+    { '@type': 'SportsTeam', name: 'Paris Saint-Germain FC', sameAs: 'https://en.wikipedia.org/wiki/Paris_Saint-Germain_F.C.' },
+  ],
 };
 
 const broadcastJsonLd = {
