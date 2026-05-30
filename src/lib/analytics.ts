@@ -21,7 +21,7 @@ const BOT_PATTERN = new RegExp([
   'googlebot','google-inspectiontool','bingbot','yahoo','yandex','baiduspider',
   'duckduckbot','applebot','sogou','exabot','seznambot','naver',
   // SEO / marketing tools
-  'semrush','ahrefs','moz','rogerbot','dotbot','majestic','screamingfrog',
+  'semrush','ahrefs','rogerbot','dotbot','majestic','screamingfrog',
   'seokicks','seostar','sistrix','serpstat','linkdexbot','blexbot',
   // Monitoring / uptime
   'pingdom','uptimerobot','statuscake','freshping','hetrixtools',
