@@ -5,6 +5,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import Tracker from '@/components/analytics/Tracker';
 import GlobalAdScripts from '@/components/ads/GlobalAdScripts';
 import StickyBottomAd from '@/components/ads/StickyBottomAd';
+import ExitIntentAd from '@/components/ads/ExitIntentAd';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <main className="flex-1 min-w-0 py-6 lg:pl-6">{children}</main>
         </div>
         <StickyBottomAd />
+        <ExitIntentAd />
         <Toaster
           position="bottom-left"
           toastOptions={{
