@@ -4,6 +4,8 @@ import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
 import AdBanner from '@/components/ads/AdBanner';
 import WC2026StreamClient from '@/components/worldcup/WC2026StreamClient';
+import MatchBlog from '@/components/match/MatchBlog';
+import { blogs } from '@/data/wc2026-blogs';
 
 export const revalidate = 3600;
 
