@@ -80,8 +80,9 @@ export default function Tracker() {
       }).catch(() => {});
     }, 20_000);
 
-    // Tab close: send leave signal so visitor disappears immediately from Live Now
+    // Tab/browser close — pagehide is reliable on mobile (iOS Safari ignores beforeunload)
     const onLeave = () => {
+      if (pingRef.current) clearInterval(pingRef.current); // stop pings so they can't race the delete
       const duration = Math.round((Date.now() - startRef.current) / 1000);
       beacon({ path, sessionId: sid, leave: true, ...(duration >= 2 && { duration }) });
     };
@@ -92,9 +93,11 @@ export default function Tracker() {
       if (duration >= 2) beacon({ path, sessionId: sid, duration });
     };
 
-    window.addEventListener('beforeunload', onLeave);
+    window.addEventListener('pagehide', onLeave);
+    window.addEventListener('beforeunload', onLeave); // desktop fallback
     return () => {
       onNavigate();
+      window.removeEventListener('pagehide', onLeave);
       window.removeEventListener('beforeunload', onLeave);
       if (pingRef.current) clearInterval(pingRef.current);
     };
