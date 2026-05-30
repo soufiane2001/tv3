@@ -9,8 +9,8 @@ export const revalidate = 300;
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
-const TITLE = 'Arsenal vs PSG LIVE — UCL Final 2026 Free Stream | La 1 · M6 · Canal+ Sport';
-const DESC  = 'Watch Arsenal vs PSG LIVE FREE — UEFA Champions League Final 2026. Stream HD on La 1, M6 or Canal+ Sport. No subscription. Arsenal PSG en vivo gratis · Arsenal contre PSG en direct M6 gratuit · ارسنال ضد باريس بث مباشر مجاناً · Arsenal PSG lineup prediction 30 May 2026.';
+const TITLE = 'Arsenal vs PSG LIVE — UCL Final 2026 Free Stream | PSG Squad Lineup · La 1 · M6';
+const DESC  = '🔴 LIVE — Watch Arsenal vs PSG Champions League Final 2026 FREE. PSG squad & Arsenal lineup. Stream HD on La 1, M6, Canal+ Sport. No subscription. Dove vedere · Donde ver · بث مباشر مجاناً.';
 
 const KEYWORDS = [
   // English — intent: watch, live, free
@@ -367,8 +367,12 @@ export default async function ArsenalVsPsgPage() {
               <div className="flex-1 flex flex-col items-center md:items-end gap-3">
                 <div className="relative">
                   <div className="absolute inset-0 rounded-full bg-red-500/20 blur-xl scale-150" />
-                  <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-red-600 to-red-900 border-2 border-red-400/50 shadow-2xl shadow-red-900/50 flex items-center justify-center">
-                    <span className="text-4xl md:text-5xl">🔴</span>
+                  <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/5 border-2 border-red-400/50 shadow-2xl shadow-red-900/50 flex items-center justify-center overflow-hidden">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/150px-Arsenal_FC.svg.png"
+                      alt="Arsenal FC logo"
+                      className="w-14 h-14 md:w-20 md:h-20 object-contain drop-shadow-lg"
+                    />
                   </div>
                 </div>
                 <div className="text-center md:text-right">
@@ -391,8 +395,12 @@ export default async function ArsenalVsPsgPage() {
               <div className="flex-1 flex flex-col items-center md:items-start gap-3">
                 <div className="relative">
                   <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl scale-150" />
-                  <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] border-2 border-blue-400/50 shadow-2xl shadow-blue-900/50 flex items-center justify-center">
-                    <span className="text-4xl md:text-5xl">🔵</span>
+                  <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/5 border-2 border-blue-400/50 shadow-2xl shadow-blue-900/50 flex items-center justify-center overflow-hidden">
+                    <img
+                      src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/150px-Paris_Saint-Germain_F.C..svg.png"
+                      alt="Paris Saint-Germain PSG logo"
+                      className="w-14 h-14 md:w-20 md:h-20 object-contain drop-shadow-lg"
+                    />
                   </div>
                 </div>
                 <div className="text-center md:text-left">
@@ -500,7 +508,9 @@ export default async function ArsenalVsPsgPage() {
             {/* Arsenal */}
             <div className="bg-red-950/30 border border-red-500/20 rounded-2xl p-5 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-red-900 flex items-center justify-center text-xl">🔴</div>
+                <div className="w-10 h-10 rounded-full bg-white/5 border border-red-400/30 flex items-center justify-center overflow-hidden">
+                  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/60px-Arsenal_FC.svg.png" alt="Arsenal" className="w-8 h-8 object-contain" />
+                </div>
                 <div>
                   <p className="text-white font-black uppercase tracking-wider">Arsenal FC</p>
                   <p className="text-red-400 text-xs">4-3-3 · Predicted XI</p>
@@ -531,7 +541,9 @@ export default async function ArsenalVsPsgPage() {
             {/* PSG */}
             <div className="bg-blue-950/30 border border-blue-500/20 rounded-2xl p-5 space-y-4">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-[#003B7C] to-[#001440] flex items-center justify-center text-xl">🔵</div>
+                <div className="w-10 h-10 rounded-full bg-white/5 border border-blue-400/30 flex items-center justify-center overflow-hidden">
+                  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/60px-Paris_Saint-Germain_F.C..svg.png" alt="PSG" className="w-8 h-8 object-contain" />
+                </div>
                 <div>
                   <p className="text-white font-black uppercase tracking-wider">Paris Saint-Germain</p>
                   <p className="text-blue-400 text-xs">4-3-3 · Composition probable</p>
