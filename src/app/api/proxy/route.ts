@@ -15,12 +15,12 @@ const CORS = {
 
 // Try these UAs in order on 403. CDNs differ in what they block/allow.
 const UA_LIST = [
-  // Modern Chrome desktop — most permissive CDN whitelist
+  // VLC — IPTV servers most commonly whitelist VLC UAs (same as what the user uses)
+  'VLC/3.0.21 LibVLC/3.0.21',
+  // Modern Chrome desktop
   'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-  // Mobile Safari — IPTV CDNs often whitelist iOS as end-user device
+  // Mobile Safari — IPTV CDNs often whitelist iOS
   'Mozilla/5.0 (iPhone; CPU iPhone OS 17_4 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.4 Mobile/15E148 Safari/604.1',
-  // Android Chrome
-  'Mozilla/5.0 (Linux; Android 14; Pixel 8) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Mobile Safari/537.36',
 ];
 
 // Block SSRF: loopback, private, link-local ranges
@@ -187,45 +187,45 @@ export async function GET(req: NextRequest) {
 
   let res: Response | null = null;
 
+  // Vercel Hobby functions have a 10s max. Keep total retry budget under 8s.
+  // VLC UA is now first — IPTV servers typically whitelist it like end-user players.
   try {
-    for (const ua of UA_LIST) {
-
-      // 1. No Referer (VLC-style)
-      const clean = await upstream(rawUrl, buildHeadersClean(ua), 20_000);
-      if (clean.status !== 403 && clean.status !== 401) { res = clean; break; }
-
-      // 2. Source CDN as Referer
-      const srcRef = await upstream(rawUrl, buildHeadersSrcRef(ua), 20_000);
-      if (srcRef.status !== 403 && srcRef.status !== 401) { res = srcRef; break; }
-
-      // 3. Root domain as Referer (www.rtve.es for RTVE CDN, etc.)
-      if (rootOrigin !== srcOrigin) {
-        const rootRef = await upstream(rawUrl, buildHeadersRootRef(ua), 20_000);
-        if (rootRef.status !== 403 && rootRef.status !== 401) { res = rootRef; break; }
+    // ── Fast parallel probe: try VLC + Chrome UA simultaneously ─────────────
+    const [vlcRes, chromeRes] = await Promise.allSettled([
+      upstream(rawUrl, buildHeadersClean(UA_LIST[0]), 7_000),
+      upstream(rawUrl, buildHeadersClean(UA_LIST[1]), 7_000),
+    ]);
+    for (const r of [vlcRes, chromeRes]) {
+      if (r.status === 'fulfilled' && r.value.status !== 403 && r.value.status !== 401) {
+        res = r.value; break;
       }
+    }
 
-      // 4. HTTPS upgrade (if currently HTTP)
-      if (parsed.protocol === 'http:') {
-        const httpsUrl = rawUrl.replace(/^http:\/\//, 'https://');
-        try {
-          const secure = await upstream(httpsUrl, buildHeadersClean(ua), 10_000);
-          if (secure.ok) { res = secure; break; }
-        } catch { /* HTTPS not supported — continue */ }
-      }
+    if (!res) {
+      // ── Sequential fallback: try with Referer headers ─────────────────────
+      for (const ua of UA_LIST) {
+        // Source CDN Referer
+        const srcRef = await upstream(rawUrl, buildHeadersSrcRef(ua), 5_000).catch(() => null);
+        if (srcRef && srcRef.status !== 403 && srcRef.status !== 401) { res = srcRef; break; }
 
-      // 5. Relay: same path through the IPTV origin server
-      if (relayOrigin) {
-        const relayUrl = relayOrigin + parsed.pathname + parsed.search;
-        try {
-          const relayed = await upstream(relayUrl, buildHeadersClean(ua), 20_000);
-          if (relayed.ok) { res = relayed; break; }
-        } catch { /* relay unreachable — continue */ }
+        // Root domain Referer
+        if (rootOrigin !== srcOrigin) {
+          const rootRef = await upstream(rawUrl, buildHeadersRootRef(ua), 5_000).catch(() => null);
+          if (rootRef && rootRef.status !== 403 && rootRef.status !== 401) { res = rootRef; break; }
+        }
       }
+    }
+
+    // ── Relay through IPTV origin server ──────────────────────────────────
+    if (!res && relayOrigin) {
+      const relayUrl = relayOrigin + parsed.pathname + parsed.search;
+      const relayed = await upstream(relayUrl, buildHeadersClean(UA_LIST[0]), 5_000).catch(() => null);
+      if (relayed?.ok) res = relayed;
     }
 
     // All strategies exhausted — one final attempt to get proper error response
     if (!res) {
-      res = await upstream(rawUrl, buildHeadersClean(UA_LIST[0]), 10_000);
+      res = await upstream(rawUrl, buildHeadersClean(UA_LIST[0]), 5_000);
     }
 
     const ct = res.headers.get('content-type') ?? '';

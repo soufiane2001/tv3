@@ -3,7 +3,10 @@ import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
 
-const UA = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+// VLC UA first — IPTV servers often whitelist it; Chrome as fallback
+const UA_VLC    = 'VLC/3.0.21 LibVLC/3.0.21';
+const UA_CHROME = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
+const UA        = UA_VLC;
 
 // Convert bare Xtream-Codes TS stream URLs to HLS on the fly
 function toHlsUrl(url: string): string {
@@ -132,41 +135,39 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       relayBase = '';
     }
 
-    // Try fetching manifest with progressively more permissive headers.
-    // Some CDNs/S3 buckets check Referer; try without first, then with source host.
-    let res = await fetch(upstream, {
-      headers: { 'User-Agent': UA, 'Accept': '*/*', 'Accept-Encoding': 'identity' },
-      signal: AbortSignal.timeout(12_000),
-      redirect: 'follow',
-    });
+    // Parallel probe: try VLC UA and Chrome UA simultaneously (Vercel 10s budget)
+    const fetchWith = (ua: string, extra?: Record<string, string>) =>
+      fetch(upstream, {
+        headers: { 'User-Agent': ua, 'Accept': '*/*', 'Accept-Encoding': 'identity', ...extra },
+        signal: AbortSignal.timeout(7_000),
+        redirect: 'follow',
+      }).catch(() => null);
 
-    // On 403: try progressively different Referer strategies
-    if (res.status === 403 || res.status === 401) {
+    let res: Response | null = null;
+    const [r1, r2] = await Promise.all([fetchWith(UA_VLC), fetchWith(UA_CHROME)]);
+    for (const r of [r1, r2]) {
+      if (r && r.status !== 403 && r.status !== 401) { res = r; break; }
+    }
+
+    // On 403: try Referer strategies (sequential, short timeouts)
+    if (!res) {
       const srcOrigin = `${new URL(upstream).protocol}//${new URL(upstream).hostname}`;
       const rootDomain = new URL(upstream).hostname.split('.').slice(-2).join('.');
 
       const refererCandidates = [
-        // 1. Source host as Referer
-        { Referer: srcOrigin + '/', Origin: srcOrigin },
-        // 2. Root domain as Referer (e.g. m6.fr for sub.m6.fr)
-        { Referer: `https://www.${rootDomain}/`, Origin: `https://www.${rootDomain}` },
-        // 3. Common French TV Referers (for M6, Canal+, TF1 streams)
-        { Referer: 'https://www.m6.fr/', Origin: 'https://www.m6.fr' },
-        { Referer: 'https://www.canalplus.com/', Origin: 'https://www.canalplus.com' },
-        { Referer: 'https://www.tf1.fr/', Origin: 'https://www.tf1.fr' },
+        { 'User-Agent': UA_VLC,    'Referer': srcOrigin + '/',              'Origin': srcOrigin },
+        { 'User-Agent': UA_VLC,    'Referer': `https://www.${rootDomain}/`, 'Origin': `https://www.${rootDomain}` },
+        { 'User-Agent': UA_CHROME, 'Referer': 'https://www.m6.fr/',         'Origin': 'https://www.m6.fr' },
+        { 'User-Agent': UA_CHROME, 'Referer': 'https://www.canalplus.com/', 'Origin': 'https://www.canalplus.com' },
       ];
 
       for (const hdrs of refererCandidates) {
-        if (res.status !== 403 && res.status !== 401) break;
-        try {
-          res = await fetch(upstream, {
-            headers: { 'User-Agent': UA, 'Accept': '*/*', ...hdrs },
-            signal: AbortSignal.timeout(10_000),
-            redirect: 'follow',
-          });
-        } catch { /* continue */ }
+        const r = await fetchWith(hdrs['User-Agent'], hdrs);
+        if (r && r.status !== 403 && r.status !== 401) { res = r; break; }
       }
     }
+
+    if (!res) res = r1 ?? r2 ?? await fetchWith(UA_VLC);
 
     if (!res.ok) {
       console.error(`[stream/${id}] upstream ${res.status}: ${upstream}`);
