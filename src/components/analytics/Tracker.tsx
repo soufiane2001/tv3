@@ -6,13 +6,32 @@ function isBotClient(): boolean {
   try {
     const nav = navigator as any;
     const win = window as any;
+
+    // Automation flags
     if (nav.webdriver === true) return true;
     if (document.documentElement.getAttribute('webdriver')) return true;
     if (win.callPhantom || win._phantom || win.phantom) return true;
     if (win.__nightmare) return true;
+    if (win.domAutomation || win.domAutomationController) return true;
+    if (win._selenium || win.__driver_evaluate || win.__webdriver_evaluate) return true;
+
+    // Headless / known bot UA
     if (/HeadlessChrome/i.test(navigator.userAgent)) return true;
-    if (Array.isArray(nav.languages) && nav.languages.length === 0) return true;
     if (/bot|crawl|spider|headless|phantom|selenium|puppeteer|playwright/i.test(navigator.userAgent)) return true;
+
+    // No languages = headless default
+    if (Array.isArray(nav.languages) && nav.languages.length === 0) return true;
+
+    // No plugins at all = headless Chrome (real Chrome always has plugins)
+    if (nav.plugins && nav.plugins.length === 0 && /chrome/i.test(navigator.userAgent)) return true;
+
+    // Screen size 0 = no real display
+    if (window.screen.width === 0 || window.screen.height === 0) return true;
+
+    // sessionStorage unavailable = restricted environment
+    try { sessionStorage.setItem('_t', '1'); sessionStorage.removeItem('_t'); }
+    catch { return true; }
+
     return false;
   } catch { return false; }
 }
