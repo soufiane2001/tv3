@@ -6,16 +6,13 @@ import Tracker from '@/components/analytics/Tracker';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live'),
   title: {
     default: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive',
     template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive'}`,
   },
   description: 'Regardez les matchs de foot et + 1000 chaînes TV en direct gratuitement. Beinsport, MBC, Al Jazeera, chaînes sportives et d\'infos.',
   keywords: ['IPTV', 'streaming gratuit', 'chaînes en direct', 'foot en direct', 'beinsport gratuit', 'بث مباشر', 'مشاهدة مباشرة', 'live TV', 'chaînes arabes'],
-  icons: {
-    icon: '/icon.svg',
-    shortcut: '/icon.svg',
-  },
   openGraph: { type: 'website', siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive' },
 };
 
