@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Tv, Search, Heart, Radio, Menu, X, Settings } from 'lucide-react';
+import { Tv, Search, Heart, Radio, Menu, X, Settings, Trophy } from 'lucide-react';
 import { useState } from 'react';
 import SearchBar from '@/components/ui/SearchBar';
 import { cn } from '@/lib/utils';
@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation';
 const navLinks = [
   { href: '/', label: 'Home', icon: Tv },
   { href: '/live', label: 'Live TV', icon: Radio },
+  { href: '/wc2026', label: 'WC 2026', icon: Trophy },
   { href: '/favorites', label: 'Favorites', icon: Heart },
 ];
 
@@ -40,9 +41,13 @@ export default function Header() {
               href={href}
               className={cn(
                 'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                pathname === href
-                  ? 'bg-purple-600/20 text-purple-300'
-                  : 'text-gray-400 hover:text-white hover:bg-white/5'
+                href === '/wc2026'
+                  ? pathname === href
+                    ? 'bg-green-600/30 text-green-300'
+                    : 'text-green-400 hover:text-white hover:bg-green-600/20 border border-green-500/30'
+                  : pathname === href
+                    ? 'bg-purple-600/20 text-purple-300'
+                    : 'text-gray-400 hover:text-white hover:bg-white/5'
               )}
             >
               <Icon className="w-4 h-4" />
@@ -92,9 +97,13 @@ export default function Header() {
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors',
-                  pathname === href
-                    ? 'bg-purple-600/20 text-purple-300'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  href === '/wc2026'
+                    ? pathname === href
+                      ? 'bg-green-600/30 text-green-300'
+                      : 'text-green-400 hover:text-white hover:bg-green-600/20'
+                    : pathname === href
+                      ? 'bg-purple-600/20 text-purple-300'
+                      : 'text-gray-400 hover:text-white hover:bg-white/5'
                 )}
               >
                 <Icon className="w-5 h-5" />
