@@ -2,31 +2,17 @@
 import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
 
-/** Returns true if the current browser looks like a bot / headless tool. */
 function isBotClient(): boolean {
   try {
     const nav = navigator as any;
     const win = window as any;
-
-    // Selenium / WebDriver automation
     if (nav.webdriver === true) return true;
     if (document.documentElement.getAttribute('webdriver')) return true;
-
-    // PhantomJS
     if (win.callPhantom || win._phantom || win.phantom) return true;
-
-    // Nightmare.js / electron-based headless
     if (win.__nightmare) return true;
-
-    // Headless Chrome: chrome runtime missing
     if (/HeadlessChrome/i.test(navigator.userAgent)) return true;
-
-    // Empty languages array (many headless browsers)
     if (Array.isArray(nav.languages) && nav.languages.length === 0) return true;
-
-    // UA contains obvious bot keywords (client-side double-check)
     if (/bot|crawl|spider|headless|phantom|selenium|puppeteer|playwright/i.test(navigator.userAgent)) return true;
-
     return false;
   } catch { return false; }
 }
@@ -47,64 +33,69 @@ function getReferrer(): string {
     const ref = document.referrer;
     if (!ref) return '';
     const url = new URL(ref);
-    // Only store external referrers
     if (url.hostname === window.location.hostname) return '';
     return url.hostname;
   } catch { return ''; }
 }
 
+function beacon(payload: object) {
+  navigator.sendBeacon('/api/a', new Blob([JSON.stringify(payload)], { type: 'application/json' }));
+}
+
 export default function Tracker() {
-  const pathname    = usePathname();
-  const startRef    = useRef<number>(Date.now());
-  const sessionId   = useRef<string>('');
-  const pingRef     = useRef<NodeJS.Timeout | null>(null);
-  const isBot       = useRef<boolean>(false);
+  const pathname  = usePathname();
+  const startRef  = useRef<number>(Date.now());
+  const sidRef    = useRef<string>('');
+  const pingRef   = useRef<NodeJS.Timeout | null>(null);
+  const isBotRef  = useRef<boolean>(false);
 
   useEffect(() => {
-    isBot.current = isBotClient();
-    if (!isBot.current) sessionId.current = getOrCreateSessionId();
+    isBotRef.current = isBotClient();
+    if (!isBotRef.current) sidRef.current = getOrCreateSessionId();
   }, []);
 
   useEffect(() => {
-    if (isBot.current || !sessionId.current) return;
+    if (isBotRef.current || !sidRef.current) return;
 
     startRef.current = Date.now();
-    const sid = sessionId.current;
+    const sid  = sidRef.current;
+    const path = pathname;
 
-    // Send pageview
+    // Initial pageview
     fetch('/api/a', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path: pathname, sessionId: sid, referrer: getReferrer() }),
+      body: JSON.stringify({ path, sessionId: sid, referrer: getReferrer() }),
       keepalive: true,
     }).catch(() => {});
 
-    // Keep-alive ping every 20s so the visitor stays within the 3-min live window
+    // Keep-alive ping every 20s
     if (pingRef.current) clearInterval(pingRef.current);
     pingRef.current = setInterval(() => {
       fetch('/api/a', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ path: pathname, sessionId: sid, ping: true }),
+        body: JSON.stringify({ path, sessionId: sid, ping: true }),
         keepalive: true,
       }).catch(() => {});
     }, 20_000);
 
-    // Send duration when leaving — use Blob so sendBeacon sends application/json
-    const sendDuration = () => {
+    // Tab close: send leave signal so visitor disappears immediately from Live Now
+    const onLeave = () => {
       const duration = Math.round((Date.now() - startRef.current) / 1000);
-      if (duration < 2) return;
-      const blob = new Blob(
-        [JSON.stringify({ path: pathname, sessionId: sid, duration })],
-        { type: 'application/json' },
-      );
-      navigator.sendBeacon('/api/a', blob);
+      beacon({ path, sessionId: sid, leave: true, ...(duration >= 2 && { duration }) });
     };
 
-    window.addEventListener('beforeunload', sendDuration);
+    // SPA navigation cleanup: record duration only, keep live visitor alive (new page will re-register)
+    const onNavigate = () => {
+      const duration = Math.round((Date.now() - startRef.current) / 1000);
+      if (duration >= 2) beacon({ path, sessionId: sid, duration });
+    };
+
+    window.addEventListener('beforeunload', onLeave);
     return () => {
-      sendDuration();
-      window.removeEventListener('beforeunload', sendDuration);
+      onNavigate();
+      window.removeEventListener('beforeunload', onLeave);
       if (pingRef.current) clearInterval(pingRef.current);
     };
   }, [pathname]);

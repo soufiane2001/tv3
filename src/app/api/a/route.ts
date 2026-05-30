@@ -10,11 +10,29 @@ export async function POST(req: NextRequest) {
     if (isBot(ua)) return NextResponse.json({ ok: true });
 
     const body = await req.json().catch(() => ({}));
-    const { path = '/', sessionId, referrer, duration, ping } = body;
+    const { path = '/', sessionId, referrer, duration, ping, leave } = body;
     if (!sessionId || !path) return NextResponse.json({ ok: false });
 
     // Ignore internal paths
     if (path.startsWith('/api') || path.startsWith('/_next')) {
+      return NextResponse.json({ ok: true });
+    }
+
+    // Tab close — remove from live visitors immediately
+    if (leave) {
+      await prisma.liveVisitor.deleteMany({ where: { sessionId } });
+      if (duration && duration >= 2) {
+        const latest = await prisma.pageView.findFirst({
+          where: { sessionId, path },
+          orderBy: { createdAt: 'desc' },
+        });
+        if (latest) {
+          await prisma.pageView.update({
+            where: { id: latest.id },
+            data: { duration: Math.min(duration, 3600) },
+          });
+        }
+      }
       return NextResponse.json({ ok: true });
     }
 
