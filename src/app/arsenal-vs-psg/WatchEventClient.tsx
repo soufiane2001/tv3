@@ -1,8 +1,9 @@
 'use client';
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 import Link from 'next/link';
 import { Play, Tv2, ExternalLink } from 'lucide-react';
 import VideoPlayer from '@/components/player/VideoPlayer';
+import AdInterstitial from '@/components/ads/AdInterstitial';
 import type { Channel } from '@/types';
 
 interface StreamOption {
@@ -13,7 +14,11 @@ interface StreamOption {
 
 export default function WatchEventClient({ streams }: { streams: StreamOption[] }) {
   const [started, setStarted] = useState(false);
+  const [showAd, setShowAd] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
+
+  const handlePlayClick = () => { setShowAd(true); };
+  const handleAdComplete = useCallback(() => { setShowAd(false); setStarted(true); }, []);
 
   const active = streams[activeIdx] ?? streams[0];
   const channel = active?.channel ?? null;
@@ -62,12 +67,21 @@ export default function WatchEventClient({ streams }: { streams: StreamOption[] 
     );
   }
 
+  if (showAd) {
+    return (
+      <div className="space-y-3">
+        <StreamTabs />
+        <AdInterstitial onComplete={handleAdComplete} />
+      </div>
+    );
+  }
+
   if (!started) {
     return (
       <div className="space-y-3">
         <StreamTabs />
         <div
-          onClick={() => setStarted(true)}
+          onClick={handlePlayClick}
           className="relative min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group select-none"
           style={{ background: 'linear-gradient(135deg, #0a0f2e 0%, #0d1442 50%, #0a0f2e 100%)' }}
         >

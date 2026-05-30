@@ -471,10 +471,10 @@ export default async function ArsenalVsPsgPage() {
 
         {/* Player */}
         <WatchEventClient streams={[
+          { label: 'beIN Sports', sublabel: 'UHD · عربي',             channel: bein as any       },
           { label: 'La 1',        sublabel: 'RTVE · España',           channel: la1 as any        },
           { label: 'M6',          sublabel: 'France · Gratuit',        channel: m6 as any         },
           { label: 'Canal+ Sport',sublabel: 'France · HD',             channel: canalSport as any },
-          { label: 'beIN Sports', sublabel: 'UHD · عربي',             channel: bein as any       },
           { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any       },
         ]} />
 

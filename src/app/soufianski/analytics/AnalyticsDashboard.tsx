@@ -248,12 +248,13 @@ export default function AnalyticsDashboard({ password }: { password: string }) {
         <section className="bg-gray-800/60 border border-white/5 rounded-2xl p-5">
           <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
             <Globe className="w-4 h-4 text-blue-400" /> Countries
+            <span className="ml-auto text-gray-500 text-xs font-normal">{d.topCountries.length} pays</span>
           </h3>
-          <div className="space-y-3">
+          <div className="space-y-3 max-h-[400px] overflow-y-auto pr-1 scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-transparent">
             {d.topCountries.length === 0 && <p className="text-gray-600 text-sm">No data yet</p>}
             {d.topCountries.map((c, i) => (
               <div key={i} className="flex items-center gap-2">
-                <span className="text-lg flex-shrink-0">{c.flag}</span>
+                <span className="text-base flex-shrink-0">{c.flag}</span>
                 <div className="flex-1 min-w-0">
                   <p className="text-gray-300 text-xs truncate">{c.country}</p>
                   <div className="mt-1 h-1 bg-gray-700 rounded-full overflow-hidden">

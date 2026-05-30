@@ -54,13 +54,13 @@ export async function GET(req: NextRequest) {
       orderBy: { _count: { path: 'desc' } },
       take: 10,
     }),
-    // Top countries (24h)
+    // Top countries (24h) — no limit, show all
     prisma.pageView.groupBy({
       by: ['country', 'countryCode'],
       where: { createdAt: { gte: h24 } },
       _count: { country: true },
       orderBy: { _count: { country: 'desc' } },
-      take: 10,
+      take: 50,
     }),
     // Avg duration (where recorded)
     prisma.pageView.aggregate({
