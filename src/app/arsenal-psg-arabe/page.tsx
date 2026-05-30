@@ -156,6 +156,19 @@ export default async function ArsenalPsgArabePage() {
 
       <div className="max-w-4xl mx-auto space-y-8" dir="rtl">
 
+        {/* البث أولاً */}
+        <section>
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h1 className="text-white font-extrabold text-lg md:text-2xl leading-tight">
+              🔴 ارسنال ضد باريس — <span className="text-yellow-400">نهائي أبطال أوروبا مباشر</span>
+            </h1>
+            <span className="flex items-center gap-1.5 text-red-400 text-xs font-bold bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />مباشر الآن
+            </span>
+          </div>
+          <ArabicMatchClient servers={servers} />
+        </section>
+
         {/* Hero */}
         <section className="relative rounded-3xl overflow-hidden border border-[#1e3a6e]"
           style={{ background: 'linear-gradient(135deg, #05091a 0%, #0d1442 45%, #05091a 100%)' }}>
@@ -209,12 +222,6 @@ export default async function ArsenalPsgArabePage() {
               ))}
             </div>
           </div>
-        </section>
-
-        {/* Player */}
-        <section>
-          <h2 className="text-white font-bold text-lg mb-3">📺 مشاهدة المباراة — اختر السيرفر</h2>
-          <ArabicMatchClient servers={servers} />
         </section>
 
         {/* Kickoff times */}

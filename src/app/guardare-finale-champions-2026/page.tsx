@@ -119,6 +119,19 @@ export default async function GuardareFinalePage() {
       <JsonLd data={faqJsonLd} />
       <div className="max-w-4xl mx-auto space-y-8">
 
+        {/* Player in cima */}
+        <section>
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h1 className="text-white font-extrabold text-lg md:text-2xl leading-tight">
+              🔴 Arsenal vs PSG — <span className="text-yellow-400">Finale Champions 2026 IN DIRETTA</span>
+            </h1>
+            <span className="flex items-center gap-1.5 text-red-400 text-xs font-bold bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />IN DIRETTA
+            </span>
+          </div>
+          <ItalianStreamClient servers={servers} />
+        </section>
+
         {/* Hero */}
         <section className="relative rounded-3xl overflow-hidden border border-[#1e3a6e]"
           style={{ background: 'linear-gradient(135deg,#05091a 0%,#0d1442 50%,#05091a 100%)' }}>
@@ -159,12 +172,6 @@ export default async function GuardareFinalePage() {
               ))}
             </div>
           </div>
-        </section>
-
-        {/* Player */}
-        <section>
-          <h2 className="text-white font-bold text-lg mb-3">📺 Guarda in Diretta — Scegli il Server</h2>
-          <ItalianStreamClient servers={servers} />
         </section>
 
         {/* FAQ */}

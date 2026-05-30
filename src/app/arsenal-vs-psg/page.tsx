@@ -364,6 +364,27 @@ export default async function ArsenalVsPsgPage() {
 
       <div className="max-w-6xl mx-auto space-y-8">
 
+        {/* ── PLAYER FIRST — users want to watch immediately ── */}
+        <section>
+          <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+            <h1 className="text-white font-extrabold text-lg md:text-2xl leading-tight">
+              🔴 Arsenal vs PSG — <span className="text-yellow-400">UCL Final 2026 LIVE</span>
+            </h1>
+            <span className="flex items-center gap-1.5 text-red-400 text-xs font-bold bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />EN DIRECT
+            </span>
+          </div>
+          <WatchEventClient streams={[
+            { label: 'beIN Sports', sublabel: 'UHD · عربي',             channel: bein as any       },
+            { label: 'La 1',        sublabel: 'RTVE · España',           channel: la1 as any        },
+            { label: 'M6',          sublabel: 'France · Gratuit',        channel: m6 as any         },
+            { label: 'Canal+ Sport',sublabel: 'France · HD',             channel: canalSport as any },
+            { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any       },
+          ]} />
+        </section>
+
+        <AdBanner />
+
         {/* ── UCL Hero ─────────────────────────────────────────── */}
         <section className="relative rounded-3xl overflow-hidden border border-[#1e3a6e]"
           style={{ background: 'linear-gradient(135deg, #05091a 0%, #0d1442 50%, #05091a 100%)' }}>
@@ -466,19 +487,7 @@ export default async function ArsenalVsPsgPage() {
           </div>
         </section>
 
-        {/* Ad — above player (prime placement) */}
-        <AdBanner />
-
-        {/* Player */}
-        <WatchEventClient streams={[
-          { label: 'beIN Sports', sublabel: 'UHD · عربي',             channel: bein as any       },
-          { label: 'La 1',        sublabel: 'RTVE · España',           channel: la1 as any        },
-          { label: 'M6',          sublabel: 'France · Gratuit',        channel: m6 as any         },
-          { label: 'Canal+ Sport',sublabel: 'France · HD',             channel: canalSport as any },
-          { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any       },
-        ]} />
-
-        {/* Ad banner — below player */}
+        {/* Ad banner — below hero */}
         <AdBanner />
 
         {/* ── Where to Watch by Country ──────────────────────────── */}
