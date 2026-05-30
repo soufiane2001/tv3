@@ -3,6 +3,8 @@ import './globals.css';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import Tracker from '@/components/analytics/Tracker';
+import GlobalAdScripts from '@/components/ads/GlobalAdScripts';
+import StickyBottomAd from '@/components/ads/StickyBottomAd';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
@@ -21,11 +23,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className="h-full dark">
       <body className="min-h-full bg-gray-950 text-white antialiased">
         <Tracker />
+        <GlobalAdScripts />
         <Header />
         <div className="flex max-w-screen-2xl mx-auto px-4 pt-16">
           <Sidebar />
           <main className="flex-1 min-w-0 py-6 lg:pl-6">{children}</main>
         </div>
+        <StickyBottomAd />
         <Toaster
           position="bottom-left"
           toastOptions={{

@@ -460,6 +460,9 @@ export default async function ArsenalVsPsgPage() {
           </div>
         </section>
 
+        {/* Ad — above player (prime placement) */}
+        <AdBanner />
+
         {/* Player */}
         <WatchEventClient streams={[
           { label: 'M6',          sublabel: 'France · Gratuit',      channel: m6 as any         },
