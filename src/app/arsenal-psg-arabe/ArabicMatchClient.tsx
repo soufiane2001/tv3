@@ -64,16 +64,18 @@ export default function ArabicMatchClient({ servers }: { servers: Server[] }) {
         <Tabs />
         <div
           onClick={() => setStarted(true)}
-          className="relative aspect-video rounded-2xl overflow-hidden cursor-pointer group select-none"
-          style={{ background: 'linear-gradient(135deg, #05091a 0%, #0d1442 50%, #05091a 100%)' }}
+          className="relative aspect-video rounded-2xl overflow-hidden cursor-pointer group select-none bg-black"
         >
-          <div className="absolute inset-0 opacity-10"
-            style={{ backgroundImage: 'radial-gradient(circle,rgba(255,255,255,0.7) 1px,transparent 1px)', backgroundSize: '30px 30px' }} />
-          <div className="absolute left-0 inset-y-0 w-1/2 bg-gradient-to-r from-red-900/25 to-transparent" />
-          <div className="absolute right-0 inset-y-0 w-1/2 bg-gradient-to-l from-blue-900/25 to-transparent" />
+          {/* Match image as background */}
+          <img
+            src="https://assets-fr.imgfoot.com/media/cache/642x382/psg-ars.jpg"
+            alt="ارسنال ضد باريس — نهائي 2026"
+            className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-80 transition-opacity duration-300"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
 
           {/* Top bar */}
-          <div className="absolute top-0 left-0 right-0 flex items-center justify-center gap-2 py-3 bg-black/40 backdrop-blur-sm border-b border-white/5">
+          <div className="absolute top-0 left-0 right-0 flex items-center justify-center gap-2 py-3 bg-black/50 backdrop-blur-sm border-b border-white/5">
             <span className="text-yellow-400 text-xs">✦</span>
             <span className="text-yellow-300 text-xs font-bold tracking-widest">نهائي دوري أبطال أوروبا 2026</span>
             <span className="text-yellow-400 text-xs">✦</span>
@@ -83,36 +85,6 @@ export default function ArabicMatchClient({ servers }: { servers: Server[] }) {
           <div className="absolute top-14 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-4 py-1.5 bg-red-600 rounded-full shadow-lg">
             <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
             <span className="text-white text-xs font-black">مباشر الآن</span>
-          </div>
-
-          {/* Teams */}
-          <div className="absolute inset-0 flex items-center justify-center mt-6">
-            <div className="flex items-center gap-6 md:gap-14">
-              <div className="text-center space-y-2 group-hover:scale-105 transition-transform duration-300">
-                <div className="relative mx-auto w-16 h-16 md:w-24 md:h-24">
-                  <div className="absolute inset-0 rounded-full bg-red-600/30 animate-pulse" />
-                  <div className="relative w-full h-full rounded-full bg-white/5 border-2 border-red-400/60 shadow-xl flex items-center justify-center overflow-hidden">
-                    <img src="/logos/arsenal.svg" alt="ارسنال" className="w-12 h-12 md:w-18 md:h-18 object-contain" />
-                  </div>
-                </div>
-                <p className="text-white font-black text-sm md:text-base">ارسنال</p>
-              </div>
-
-              <div className="text-center">
-                <div className="text-3xl md:text-5xl drop-shadow-[0_0_20px_rgba(255,215,0,0.5)]">🏆</div>
-                <div className="text-white/20 font-black text-lg md:text-2xl tracking-[0.3em] mt-1">ضد</div>
-              </div>
-
-              <div className="text-center space-y-2 group-hover:scale-105 transition-transform duration-300">
-                <div className="relative mx-auto w-16 h-16 md:w-24 md:h-24">
-                  <div className="absolute inset-0 rounded-full bg-blue-600/30 animate-pulse" />
-                  <div className="relative w-full h-full rounded-full bg-white/5 border-2 border-blue-400/60 shadow-xl flex items-center justify-center overflow-hidden">
-                    <img src="/logos/psg.svg" alt="باريس سان جيرمان" className="w-12 h-12 md:w-18 md:h-18 object-contain" />
-                  </div>
-                </div>
-                <p className="text-white font-black text-sm md:text-base">باريس</p>
-              </div>
-            </div>
           </div>
 
           {/* Play */}

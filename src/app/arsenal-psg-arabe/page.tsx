@@ -165,29 +165,17 @@ export default async function ArsenalPsgArabePage() {
               <span className="text-yellow-400">✦</span>
             </div>
 
-            <div className="text-6xl md:text-7xl drop-shadow-[0_0_40px_rgba(255,215,0,0.35)]">🏆</div>
-
-            {/* Teams */}
-            <div className="flex items-center justify-center gap-6 md:gap-16">
-              <div className="text-center space-y-2">
-                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/5 border-2 border-red-400/50 shadow-2xl flex items-center justify-center overflow-hidden mx-auto">
-                  <img src="/logos/arsenal.svg" alt="ارسنال" className="w-12 h-12 md:w-18 md:h-18 object-contain" />
-                </div>
-                <p className="text-white font-black text-base md:text-xl">ارسنال</p>
-                <p className="text-red-400 text-[10px] uppercase tracking-widest">إنجلترا</p>
-              </div>
-
-              <div className="text-center">
-                <p className="text-yellow-400 text-xs uppercase tracking-widest mb-1">نهائي</p>
-                <p className="text-white/20 font-black text-3xl md:text-4xl tracking-widest">ضد</p>
-              </div>
-
-              <div className="text-center space-y-2">
-                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full bg-white/5 border-2 border-blue-400/50 shadow-2xl flex items-center justify-center overflow-hidden mx-auto">
-                  <img src="/logos/psg.svg" alt="باريس سان جيرمان" className="w-12 h-12 md:w-18 md:h-18 object-contain" />
-                </div>
-                <p className="text-white font-black text-base md:text-xl">باريس سان جيرمان</p>
-                <p className="text-blue-400 text-[10px] uppercase tracking-widest">فرنسا</p>
+            {/* Match image */}
+            <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-black/60 border border-white/10 mx-auto max-w-xl">
+              <img
+                src="https://assets-fr.imgfoot.com/media/cache/642x382/psg-ars.jpg"
+                alt="ارسنال ضد باريس سان جيرمان — نهائي دوري أبطال أوروبا 2026"
+                className="w-full h-auto object-cover"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+              <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-1.5 bg-red-600 rounded-full shadow-lg">
+                <span className="w-2 h-2 rounded-full bg-white animate-pulse" />
+                <span className="text-white text-xs font-black whitespace-nowrap">مباشر الآن</span>
               </div>
             </div>
 
