@@ -217,8 +217,6 @@ export default async function ArsenalPsgArabePage() {
           <ArabicMatchClient servers={servers} />
         </section>
 
-        <AdBanner />
-
         {/* Kickoff times */}
         <section className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-4">
           <h2 className="text-white font-bold text-lg">⏰ مواعيد المباراة بالتوقيت العالمي</h2>

@@ -168,8 +168,6 @@ export default async function VerFinalChampionsPage() {
           <SpanishStreamClient servers={servers} />
         </section>
 
-        <AdBanner />
-
         {/* Horarios */}
         <section className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-4">
           <h2 className="text-white font-bold text-lg">⏰ Horarios por País</h2>

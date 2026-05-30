@@ -167,8 +167,6 @@ export default async function GuardareFinalePage() {
           <ItalianStreamClient servers={servers} />
         </section>
 
-        <AdBanner />
-
         {/* FAQ */}
         <section className="space-y-3">
           <h2 className="text-white font-bold text-xl">Domande Frequenti</h2>
