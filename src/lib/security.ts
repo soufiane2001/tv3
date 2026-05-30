@@ -1,16 +1,20 @@
-import { timingSafeEqual } from 'crypto';
 import { NextRequest, NextResponse } from 'next/server';
 
-/** Timing-safe password comparison to prevent timing attacks. */
+/** Timing-safe string comparison (pure JS, no crypto import needed). */
+function safeEqual(a: string, b: string): boolean {
+  if (a.length !== b.length) return false;
+  let diff = 0;
+  for (let i = 0; i < a.length; i++) {
+    diff |= a.charCodeAt(i) ^ b.charCodeAt(i);
+  }
+  return diff === 0;
+}
+
+/** Check admin password against ADMIN_PASSWORD env var. */
 export function checkAdminPassword(provided: string | null): boolean {
   const expected = process.env.ADMIN_PASSWORD ?? '';
   if (!provided || !expected) return false;
-  try {
-    const a = Buffer.from(provided);
-    const b = Buffer.from(expected);
-    if (a.length !== b.length) return false;
-    return timingSafeEqual(a, b);
-  } catch { return false; }
+  return safeEqual(provided, expected);
 }
 
 /** Validate that the request Origin is the site itself or localhost. */
