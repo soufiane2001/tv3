@@ -369,7 +369,7 @@ export default async function ArsenalVsPsgPage() {
                   <div className="absolute inset-0 rounded-full bg-red-500/20 blur-xl scale-150" />
                   <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/5 border-2 border-red-400/50 shadow-2xl shadow-red-900/50 flex items-center justify-center overflow-hidden">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/150px-Arsenal_FC.svg.png"
+                      src="/logos/arsenal.svg"
                       alt="Arsenal FC logo"
                       className="w-14 h-14 md:w-20 md:h-20 object-contain drop-shadow-lg"
                     />
@@ -397,7 +397,7 @@ export default async function ArsenalVsPsgPage() {
                   <div className="absolute inset-0 rounded-full bg-blue-500/20 blur-xl scale-150" />
                   <div className="relative w-20 h-20 md:w-28 md:h-28 rounded-full bg-white/5 border-2 border-blue-400/50 shadow-2xl shadow-blue-900/50 flex items-center justify-center overflow-hidden">
                     <img
-                      src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/150px-Paris_Saint-Germain_F.C..svg.png"
+                      src="/logos/psg.svg"
                       alt="Paris Saint-Germain PSG logo"
                       className="w-14 h-14 md:w-20 md:h-20 object-contain drop-shadow-lg"
                     />
@@ -509,7 +509,7 @@ export default async function ArsenalVsPsgPage() {
             <div className="bg-red-950/30 border border-red-500/20 rounded-2xl p-5 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/5 border border-red-400/30 flex items-center justify-center overflow-hidden">
-                  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Arsenal_FC.svg/60px-Arsenal_FC.svg.png" alt="Arsenal" className="w-8 h-8 object-contain" />
+                  <img src="/logos/arsenal.svg" alt="Arsenal" className="w-8 h-8 object-contain" />
                 </div>
                 <div>
                   <p className="text-white font-black uppercase tracking-wider">Arsenal FC</p>
@@ -542,7 +542,7 @@ export default async function ArsenalVsPsgPage() {
             <div className="bg-blue-950/30 border border-blue-500/20 rounded-2xl p-5 space-y-4">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-white/5 border border-blue-400/30 flex items-center justify-center overflow-hidden">
-                  <img src="https://upload.wikimedia.org/wikipedia/en/thumb/a/a7/Paris_Saint-Germain_F.C..svg/60px-Paris_Saint-Germain_F.C..svg.png" alt="PSG" className="w-8 h-8 object-contain" />
+                  <img src="/logos/psg.svg" alt="PSG" className="w-8 h-8 object-contain" />
                 </div>
                 <div>
                   <p className="text-white font-black uppercase tracking-wider">Paris Saint-Germain</p>
