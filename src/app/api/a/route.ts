@@ -37,6 +37,10 @@ export async function POST(req: NextRequest) {
     }
 
     const { country, countryCode, city } = getCountryFromHeaders(req.headers);
+
+    // Exclude owner traffic from Lithuania
+    if (countryCode === 'LT') return NextResponse.json({ ok: true });
+
     const device  = detectDevice(ua);
     const browser = detectBrowser(ua);
 
