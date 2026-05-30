@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     description: 'Watch Mexico vs South Africa FIFA World Cup 2026 Group A FREE in HD — no registration.',
     type: 'website',
     siteName: 'SportaLive',
-    images: [{ url: `${SITE}/og-wc2026.jpg`, width: 1200, height: 630, alt: 'Mexico vs South Africa World Cup 2026 Live Stream' }],
+    images: [{ url: `${SITE}/api/og?home=Mexico&away=South+Africa&hf=mx&af=za&date=Jun+11`, width: 1200, height: 630, alt: 'Mexico vs South Africa World Cup 2026 Live Stream' }],
   },
   twitter: {
     card: 'summary_large_image',

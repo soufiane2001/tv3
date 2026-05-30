@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     title: "🔴 LIVE: Côte d'Ivoire vs Ecuador — World Cup 2026 FREE",
     description: "Watch Côte d'Ivoire vs Ecuador FIFA World Cup 2026 Group E FREE in HD.",
     type: 'website', siteName: 'SportaLive',
-    images: [{ url: `${SITE}/og-wc2026.jpg`, width: 1200, height: 630, alt: "Ivory Coast vs Ecuador World Cup 2026 Live Stream" }],
+    images: [{ url: `${SITE}/api/og?home=Ivory+Coast&away=Ecuador&hf=ci&af=ec&date=Jun+15`, width: 1200, height: 630, alt: "Ivory Coast vs Ecuador World Cup 2026 Live Stream" }],
   },
   twitter: { card: 'summary_large_image', title: "🔴 Côte d'Ivoire vs Ecuador LIVE — World Cup 2026", description: 'Watch free HD on SportaLive.', images: [`${SITE}/og-wc2026.jpg`] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },

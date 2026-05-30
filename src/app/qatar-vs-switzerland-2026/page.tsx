@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: '🔴 LIVE: Qatar vs Switzerland — World Cup 2026 FREE',
     description: "Watch Qatar vs Switzerland FIFA World Cup 2026 Group B FREE in HD at Levi's Stadium.",
     type: 'website', siteName: 'SportaLive',
-    images: [{ url: `${SITE}/og-wc2026.jpg`, width: 1200, height: 630, alt: 'Qatar vs Switzerland World Cup 2026 Live Stream' }],
+    images: [{ url: `${SITE}/api/og?home=Qatar&away=Switzerland&hf=qa&af=ch&date=Jun+15`, width: 1200, height: 630, alt: 'Qatar vs Switzerland World Cup 2026 Live Stream' }],
   },
   twitter: { card: 'summary_large_image', title: '🔴 Qatar vs Switzerland LIVE — World Cup 2026', description: 'Watch free HD on SportaLive.', images: [`${SITE}/og-wc2026.jpg`] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },

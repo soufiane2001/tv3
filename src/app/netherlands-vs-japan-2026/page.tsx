@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: '🔴 LIVE: Netherlands vs Japan — World Cup 2026 FREE',
     description: 'Watch Netherlands vs Japan FIFA World Cup 2026 Group F FREE in HD at AT&T Stadium Dallas.',
     type: 'website', siteName: 'SportaLive',
-    images: [{ url: `${SITE}/og-wc2026.jpg`, width: 1200, height: 630, alt: 'Netherlands vs Japan World Cup 2026 Live Stream' }],
+    images: [{ url: `${SITE}/api/og?home=Netherlands&away=Japan&hf=nl&af=jp&date=Jun+16`, width: 1200, height: 630, alt: 'Netherlands vs Japan World Cup 2026 Live Stream' }],
   },
   twitter: { card: 'summary_large_image', title: '🔴 Netherlands vs Japan LIVE — World Cup 2026', description: 'Watch free HD on SportaLive.', images: [`${SITE}/og-wc2026.jpg`] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },

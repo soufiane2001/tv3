@@ -48,7 +48,7 @@ export const metadata: Metadata = {
     title: '🔴 LIVE: Brazil vs Morocco — World Cup 2026 FREE',
     description: 'Watch Brazil vs Morocco FIFA World Cup 2026 Group C FREE in HD — beIN Sport, M6, La 1.',
     type: 'website', siteName: 'SportaLive',
-    images: [{ url: `${SITE}/og-wc2026.jpg`, width: 1200, height: 630, alt: 'Brazil vs Morocco World Cup 2026 Live Stream' }],
+    images: [{ url: `${SITE}/api/og?home=Brazil&away=Morocco&hf=br&af=ma&date=Jun+15`, width: 1200, height: 630, alt: 'Brazil vs Morocco World Cup 2026 Live Stream' }],
   },
   twitter: { card: 'summary_large_image', title: '🔴 Brazil vs Morocco LIVE — World Cup 2026', description: 'Watch free HD on SportaLive — beIN Sport, M6, La 1.', images: [`${SITE}/og-wc2026.jpg`] },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
