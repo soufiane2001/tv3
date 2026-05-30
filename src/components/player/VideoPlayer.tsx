@@ -20,11 +20,12 @@ import type { Channel, PlayerState } from '@/types';
 interface VideoPlayerProps {
   channel: Channel;
   onClose?: () => void;
+  onError?: () => void;
   autoPlay?: boolean;
   className?: string;
 }
 
-export default function VideoPlayer({ channel, onClose, autoPlay = true, className }: VideoPlayerProps) {
+export default function VideoPlayer({ channel, onClose, onError, autoPlay = true, className }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -111,6 +112,7 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
             hls.recoverMediaError();
           } else {
             setState('error');
+            onError?.();
           }
         } else {
           // Non-fatal: reset retry counters on recovery
@@ -257,17 +259,28 @@ export default function VideoPlayer({ channel, onClose, autoPlay = true, classNa
 
       {/* Error overlay */}
       {state === 'error' && (
-        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 gap-4">
-          <WifiOff className="w-16 h-16 text-red-400" />
-          <p className="text-white font-semibold text-lg">Stream unavailable</p>
-          <p className="text-white/50 text-sm">The stream could not be loaded</p>
-          <button
-            onClick={(e) => { e.stopPropagation(); handleRetry(); }}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors"
-          >
-            <RefreshCw className="w-4 h-4" />
-            Retry {retryCount > 0 && `(${retryCount})`}
-          </button>
+        <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 gap-3 px-4">
+          <WifiOff className="w-12 h-12 text-red-400" />
+          <p className="text-white font-semibold text-base">Stream indisponible</p>
+          <p className="text-white/50 text-xs text-center">Essayez un autre serveur ou ouvrez dans VLC</p>
+          <div className="flex flex-wrap gap-2 justify-center">
+            <button
+              onClick={(e) => { e.stopPropagation(); handleRetry(); }}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors text-sm"
+            >
+              <RefreshCw className="w-4 h-4" />
+              Réessayer {retryCount > 0 && `(${retryCount})`}
+            </button>
+            <a
+              href={`/api/stream/${channel.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => e.stopPropagation()}
+              className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors text-sm"
+            >
+              Ouvrir dans VLC
+            </a>
+          </div>
         </div>
       )}
 

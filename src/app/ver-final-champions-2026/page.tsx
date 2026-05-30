@@ -96,20 +96,22 @@ async function findChannel(slugs: string[], patterns: string[]) {
 }
 
 async function getServers() {
-  const [la1, m6, canal] = await Promise.all([
+  const [la1, m6, canal, bein] = await Promise.all([
     findChannel(['la-1','la-1-1','la-1-2','la1','la-1-hd','la-1-rtve'], ['La 1','La1','RTVE La']),
     findChannel(['m6','m6-hd','m6-fr'], ['M6']),
     findChannel(['canal-sport','canal-plus-sport','canal-sport-hd'], ['Canal+ Sport','Canal Sport']),
+    findChannel(['ar-bein-sport-uhd-1','bein-sport-uhd-1','bein-sport-1-uhd','bein-sport-uhd'], ['beIN Sports UHD','beIN Sport UHD','bein sport uhd']),
   ]);
-  return { la1, m6, canal };
+  return { la1, m6, canal, bein };
 }
 
 export default async function VerFinalChampionsPage() {
-  const { la1, m6, canal } = await getServers();
+  const { la1, m6, canal, bein } = await getServers();
   const servers = [
     { label: 'La 1 — RTVE', sublabel: 'Gratis · España',  channel: la1 as any   },
     { label: 'M6',           sublabel: 'Gratis · Francia', channel: m6 as any    },
     { label: 'Canal+ Sport', sublabel: 'HD · Francia',     channel: canal as any },
+    { label: 'beIN Sports',  sublabel: 'UHD · عربي',      channel: bein as any  },
   ];
 
   return (

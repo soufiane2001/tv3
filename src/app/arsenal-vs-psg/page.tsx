@@ -69,6 +69,8 @@ const KEYWORDS = [
   'كيف اشاهد نهائي أبطال أوروبا 2026','قنوات نهائي دوري الأبطال 2026',
   'champions league finale 2026 deutschland fernsehen',
   'arsenal psg bein sports arabic','arsenal psg beinsports mena',
+  'bein sport arsenal psg uhd','beinsports uhd arsenal psg live',
+  'بين سبورت نهائي ارسنال باريس','bein sports uhd live stream free',
   // Long-tail informational (E-E-A-T)
   'arsenal vs psg champions league final 2026 where to watch',
   'la 1 arsenal psg live stream free','arsenal psg final 2026 broadcast',
@@ -302,7 +304,7 @@ async function findChannel(slugs: string[], namePatterns: string[]) {
 
 async function getStreams() {
   try {
-    const [la1, m6, canalSport, rti1] = await Promise.all([
+    const [la1, m6, canalSport, rti1, bein] = await Promise.all([
       findChannel(
         ['la-1', 'la-1-1', 'la-1-2', 'la1', 'la-1-hd', 'la-1-es', 'spain-la-1', 'la-1-rtve', 'rtve-la1', 'es-la1'],
         ['La 1', 'La1', 'RTVE La', 'La Un'],
@@ -319,9 +321,13 @@ async function getStreams() {
         ['rti-1', 'rti1', 'rti-1-ci', 'rti'],
         ['RTI 1', 'RTI1', 'RTI'],
       ),
+      findChannel(
+        ['ar-bein-sport-uhd-1', 'bein-sport-uhd-1', 'bein-sport-1-uhd', 'bein-sport-uhd', 'beinsport-uhd-1'],
+        ['beIN Sports UHD', 'beIN Sport UHD', 'BeIN Sports 1', 'bein sport uhd'],
+      ),
     ]);
-    return { la1, m6, canalSport, rti1 };
-  } catch { return { la1: null, m6: null, canalSport: null, rti1: null }; }
+    return { la1, m6, canalSport, rti1, bein };
+  } catch { return { la1: null, m6: null, canalSport: null, rti1: null, bein: null }; }
 }
 
 async function getRelatedSports() {
@@ -346,7 +352,7 @@ async function getRelatedSports() {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default async function ArsenalVsPsgPage() {
-  const [{ la1, m6, canalSport, rti1 }, related] = await Promise.all([getStreams(), getRelatedSports()]);
+  const [{ la1, m6, canalSport, rti1, bein }, related] = await Promise.all([getStreams(), getRelatedSports()]);
 
   return (
     <>
@@ -465,10 +471,11 @@ export default async function ArsenalVsPsgPage() {
 
         {/* Player */}
         <WatchEventClient streams={[
-          { label: 'M6',          sublabel: 'France · Gratuit',      channel: m6 as any         },
-          { label: 'Canal+ Sport',sublabel: 'France · HD',           channel: canalSport as any },
-          { label: 'La 1',        sublabel: 'RTVE · España',         channel: la1 as any        },
-          { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any     },
+          { label: 'La 1',        sublabel: 'RTVE · España',           channel: la1 as any        },
+          { label: 'M6',          sublabel: 'France · Gratuit',        channel: m6 as any         },
+          { label: 'Canal+ Sport',sublabel: 'France · HD',             channel: canalSport as any },
+          { label: 'beIN Sports', sublabel: 'UHD · عربي',             channel: bein as any       },
+          { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any       },
         ]} />
 
         {/* Ad banner — below player */}

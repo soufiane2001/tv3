@@ -39,6 +39,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/channel/la-1`,        lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/m6`,          lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/canal-sport`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
+    { url: `${base}/channel/ar-bein-sport-uhd-1`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/trt`,         lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
     { url: `${base}/channel/rti-1`,       lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
     // Moroccan channels hub + individual pages

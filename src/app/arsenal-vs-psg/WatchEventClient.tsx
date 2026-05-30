@@ -23,6 +23,11 @@ export default function WatchEventClient({ streams }: { streams: StreamOption[] 
     setStarted(false);
   };
 
+  const handleStreamError = () => {
+    const nextIdx = streams.findIndex((s, i) => i !== activeIdx && s.channel !== null);
+    if (nextIdx !== -1) { setActiveIdx(nextIdx); setStarted(false); }
+  };
+
   const StreamTabs = () => (
     <div className="flex gap-2 flex-wrap">
       {streams.map((s, i) => (
@@ -164,7 +169,7 @@ export default function WatchEventClient({ streams }: { streams: StreamOption[] 
             <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse inline-block" />Live
           </span>
         </div>
-        <VideoPlayer channel={channel} autoPlay className="w-full" />
+        <VideoPlayer channel={channel} autoPlay onError={handleStreamError} className="w-full" />
         <div className="bg-gray-900/80 px-4 py-2 flex items-center justify-between">
           <span className="text-xs text-gray-500">Streaming via {active.label} — Champions League Final 2026</span>
           <Link href={`/channel/${channel.slug}`} className="flex items-center gap-1 text-purple-400 hover:text-purple-300 text-xs transition-colors">

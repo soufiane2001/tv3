@@ -23,6 +23,11 @@ export default function ArabicMatchClient({ servers }: { servers: Server[] }) {
     setStarted(false);
   };
 
+  const handleStreamError = () => {
+    const nextIdx = servers.findIndex((s, i) => i !== activeIdx && s.channel !== null);
+    if (nextIdx !== -1) { setActiveIdx(nextIdx); setStarted(false); }
+  };
+
   const Tabs = () => (
     <div className="flex gap-2 flex-wrap justify-end" dir="rtl">
       {servers.map((s, i) => (
@@ -113,7 +118,7 @@ export default function ArabicMatchClient({ servers }: { servers: Server[] }) {
           </span>
           <span className="text-yellow-300 text-xs font-bold">ارسنال ضد باريس — نهائي أبطال أوروبا 2026 · {active.label}</span>
         </div>
-        <VideoPlayer channel={channel} autoPlay className="w-full" />
+        <VideoPlayer channel={channel} autoPlay onError={handleStreamError} className="w-full" />
         <div className="bg-gray-900/80 px-4 py-2 flex items-center justify-between" dir="rtl">
           <Link href={`/channel/${channel.slug}`} className="text-yellow-400 hover:text-yellow-300 text-xs transition-colors">
             صفحة القناة الكاملة →

@@ -10,8 +10,8 @@ export const revalidate = 300;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 export const metadata: Metadata = {
-  title: 'ارسنال ضد باريس بث مباشر مجاني — نهائي دوري أبطال أوروبا 2026',
-  description: 'شاهد مباراة ارسنال ضد باريس سان جيرمان نهائي دوري أبطال أوروبا 2026 بث مباشر مجاني HD — ثلاثة سيرفرات: La 1 · M6 · Canal+ Sport. بدون اشتراك، بدون تسجيل.',
+  title: 'ارسنال ضد باريس بث مباشر مجاني — نهائي دوري أبطال أوروبا 2026 | beIN Sports UHD',
+  description: '🔴 بث مباشر — شاهد ارسنال ضد باريس نهائي دوري أبطال أوروبا 2026 مجاناً HD — beIN Sports UHD · La 1 · M6 · Canal+ Sport. بدون اشتراك، بدون تسجيل. الساعة 22:00 مصر!',
   keywords: [
     'ارسنال ضد باريس بث مباشر', 'نهائي دوري أبطال أوروبا 2026 بث مباشر',
     'مشاهدة ارسنال باريس مجاناً', 'ارسنال باريس سان جيرمان مباشر',
@@ -20,6 +20,9 @@ export const metadata: Metadata = {
     'بث مباشر نهائي 2026 عربي', 'arsenal vs psg arabic stream',
     'نهائي أبطال أوروبا 2026 مجاناً', 'مباراة ارسنال باريس مباشر',
     'تشكيلة ارسنال باريس نهائي 2026', 'توقعات نهائي دوري الأبطال',
+    'bein sport نهائي دوري الأبطال 2026', 'beIN Sports UHD بث مباشر',
+    'بين سبورت نهائي ارسنال باريس', 'bein sports arsenal psg',
+    'مشاهدة بين سبورت مجاناً', 'beinsport بث مباشر مجاني',
     'La 1 بث مباشر عربي', 'M6 مباشر عربي', 'Canal Plus Sport مباشر',
   ].join(', '),
   alternates: { canonical: `${SITE}/arsenal-psg-arabe` },
@@ -85,7 +88,7 @@ const faqJsonLd = {
     {
       '@type': 'Question',
       name: 'ما هي القنوات التي تبث نهائي ارسنال باريس؟',
-      acceptedAnswer: { '@type': 'Answer', text: 'يبث نهائي ارسنال ضد باريس على قناة La 1 الإسبانية وM6 الفرنسية مجاناً. على SportaLive نوفر البث المباشر لهذه القنوات الثلاث: La 1 وM6 وCanal+ Sport.' },
+      acceptedAnswer: { '@type': 'Answer', text: 'يبث نهائي ارسنال ضد باريس على قناة beIN Sports UHD للجمهور العربي، وLa 1 الإسبانية مجاناً، وM6 الفرنسية مجاناً. على SportaLive نوفر البث المباشر لأربع قنوات: beIN Sports UHD وLa 1 وM6 وCanal+ Sport، كلها بدون اشتراك.' },
     },
     {
       '@type': 'Question',
@@ -114,7 +117,7 @@ async function findChannel(slugs: string[], namePatterns: string[]) {
 
 async function getServers() {
   try {
-    const [la1, m6, canalSport] = await Promise.all([
+    const [la1, m6, canalSport, bein] = await Promise.all([
       findChannel(
         ['la-1','la-1-1','la-1-2','la1','la-1-hd','la-1-es','spain-la-1','la-1-rtve'],
         ['La 1','La1','RTVE La','La Un'],
@@ -127,18 +130,23 @@ async function getServers() {
         ['canal-sport','canal-sport-hd','canal-plus-sport','canalplus-sport','canal-sport-1'],
         ['Canal+ Sport','Canal Sport','CanalSport'],
       ),
+      findChannel(
+        ['ar-bein-sport-uhd-1','bein-sport-uhd-1','bein-sport-1-uhd','bein-sport-uhd','beinsport-uhd-1'],
+        ['beIN Sports UHD','beIN Sport UHD','BeIN Sports 1','bein sport uhd'],
+      ),
     ]);
-    return { la1, m6, canalSport };
-  } catch { return { la1: null, m6: null, canalSport: null }; }
+    return { la1, m6, canalSport, bein };
+  } catch { return { la1: null, m6: null, canalSport: null, bein: null }; }
 }
 
 export default async function ArsenalPsgArabePage() {
-  const { la1, m6, canalSport } = await getServers();
+  const { la1, m6, canalSport, bein } = await getServers();
 
   const servers = [
-    { label: 'La 1',        sublabel: 'إسبانيا · مجاني', channel: la1 as any        },
-    { label: 'M6',          sublabel: 'فرنسا · مجاني',   channel: m6 as any         },
-    { label: 'Canal+ Sport',sublabel: 'فرنسا · HD',       channel: canalSport as any },
+    { label: 'beIN Sports UHD', sublabel: 'عربي · UHD',      channel: bein as any       },
+    { label: 'La 1',            sublabel: 'إسبانيا · مجاني', channel: la1 as any        },
+    { label: 'M6',              sublabel: 'فرنسا · مجاني',   channel: m6 as any         },
+    { label: 'Canal+ Sport',    sublabel: 'فرنسا · HD',       channel: canalSport as any },
   ];
 
   return (

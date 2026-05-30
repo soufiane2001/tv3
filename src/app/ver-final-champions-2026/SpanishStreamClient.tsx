@@ -13,6 +13,11 @@ export default function SpanishStreamClient({ servers }: { servers: Server[] }) 
   const active = servers[activeIdx] ?? servers[0];
   const channel = active?.channel ?? null;
 
+  const handleStreamError = () => {
+    const nextIdx = servers.findIndex((s, i) => i !== activeIdx && s.channel !== null);
+    if (nextIdx !== -1) { setActiveIdx(nextIdx); setStarted(false); }
+  };
+
   const Tabs = () => (
     <div className="flex gap-2 flex-wrap">
       {servers.map((s, i) => (
@@ -65,7 +70,7 @@ export default function SpanishStreamClient({ servers }: { servers: Server[] }) 
           <span className="text-yellow-300 text-xs font-bold">Arsenal vs PSG — Final Champions 2026 · {active.label}</span>
           <span className="flex items-center gap-1.5 text-red-400 text-xs font-bold"><span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />En Directo</span>
         </div>
-        <VideoPlayer channel={channel} autoPlay className="w-full" />
+        <VideoPlayer channel={channel} autoPlay onError={handleStreamError} className="w-full" />
         <div className="bg-gray-900/80 px-4 py-2 flex items-center justify-between">
           <span className="text-xs text-gray-500">Streaming vía {active.label}</span>
           <Link href={`/channel/${channel.slug}`} className="text-yellow-400 hover:text-yellow-300 text-xs">Página completa →</Link>
