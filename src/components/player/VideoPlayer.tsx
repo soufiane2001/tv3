@@ -231,7 +231,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       ref={containerRef}
       className={cn(
         'relative bg-black rounded-xl overflow-hidden group select-none',
-        isFullscreen ? 'fixed inset-0 z-[9999] rounded-none' : 'aspect-[4/3] sm:aspect-video',
+        isFullscreen ? 'fixed inset-0 z-[9999] rounded-none' : 'min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video',
         className
       )}
       onMouseMove={handleMouseMove}

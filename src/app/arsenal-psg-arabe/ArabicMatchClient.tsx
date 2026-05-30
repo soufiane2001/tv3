@@ -52,7 +52,7 @@ export default function ArabicMatchClient({ servers }: { servers: Server[] }) {
     return (
       <div className="space-y-4" dir="rtl">
         <Tabs />
-        <div className="aspect-[4/3] sm:aspect-video bg-gray-900 rounded-2xl flex flex-col items-center justify-center gap-4 border border-white/5">
+        <div className="min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video bg-gray-900 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-4 border border-white/5">
           <Tv2 className="w-12 h-12 text-gray-600" />
           <p className="text-gray-500 text-sm text-center">
             البث غير متاح حالياً.{' '}
@@ -69,7 +69,7 @@ export default function ArabicMatchClient({ servers }: { servers: Server[] }) {
         <Tabs />
         <div
           onClick={() => setStarted(true)}
-          className="relative aspect-[4/3] sm:aspect-video rounded-2xl overflow-hidden cursor-pointer group select-none bg-black"
+          className="relative min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group select-none bg-black"
         >
           {/* Match image as background */}
           <img

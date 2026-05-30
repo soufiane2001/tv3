@@ -32,7 +32,7 @@ export default function ItalianStreamClient({ servers }: { servers: Server[] }) 
 
   if (!channel) return (
     <div className="space-y-4"><Tabs />
-      <div className="aspect-[4/3] sm:aspect-video bg-gray-900 rounded-2xl flex flex-col items-center justify-center gap-4 border border-white/5">
+      <div className="min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video bg-gray-900 rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-4 border border-white/5">
         <Tv2 className="w-12 h-12 text-gray-600" />
         <p className="text-gray-500 text-sm">Stream non disponibile. <Link href="/live" className="text-yellow-400 hover:underline">Vedi tutti i canali →</Link></p>
       </div>
@@ -41,7 +41,7 @@ export default function ItalianStreamClient({ servers }: { servers: Server[] }) 
 
   if (!started) return (
     <div className="space-y-4"><Tabs />
-      <div onClick={() => setStarted(true)} className="relative aspect-[4/3] sm:aspect-video rounded-2xl overflow-hidden cursor-pointer group select-none bg-black">
+      <div onClick={() => setStarted(true)} className="relative min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group select-none bg-black">
         <img src="https://assets-fr.imgfoot.com/media/cache/642x382/psg-ars.jpg" alt="Arsenal vs PSG Finale Champions League 2026" className="absolute inset-0 w-full h-full object-cover opacity-70 group-hover:opacity-80 transition-opacity" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/40" />
         <div className="absolute top-0 left-0 right-0 flex items-center justify-center gap-2 py-3 bg-black/50 backdrop-blur-sm border-b border-white/5">

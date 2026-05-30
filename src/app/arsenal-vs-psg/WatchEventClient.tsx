@@ -51,7 +51,7 @@ export default function WatchEventClient({ streams }: { streams: StreamOption[] 
     return (
       <div className="space-y-3">
         <StreamTabs />
-        <div className="aspect-[4/3] sm:aspect-video bg-[#0a0f2e] rounded-2xl flex flex-col items-center justify-center gap-4 border border-[#1e3a6e]">
+        <div className="min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video bg-[#0a0f2e] rounded-xl sm:rounded-2xl flex flex-col items-center justify-center gap-4 border border-[#1e3a6e]">
           <Tv2 className="w-12 h-12 text-gray-600" />
           <p className="text-gray-500 text-sm text-center px-4">
             Stream not yet available.{' '}
@@ -68,7 +68,7 @@ export default function WatchEventClient({ streams }: { streams: StreamOption[] 
         <StreamTabs />
         <div
           onClick={() => setStarted(true)}
-          className="relative aspect-[4/3] sm:aspect-video rounded-2xl overflow-hidden cursor-pointer group select-none"
+          className="relative min-h-[56vw] sm:min-h-0 aspect-[3/2] sm:aspect-video rounded-xl sm:rounded-2xl overflow-hidden cursor-pointer group select-none"
           style={{ background: 'linear-gradient(135deg, #0a0f2e 0%, #0d1442 50%, #0a0f2e 100%)' }}
         >
           {/* Star grid */}
