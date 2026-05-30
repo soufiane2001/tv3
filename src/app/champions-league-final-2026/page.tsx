@@ -40,8 +40,25 @@ const jsonLd = {
   url: `${process.env.NEXT_PUBLIC_SITE_URL}/champions-league-final-2026`,
   location: {
     '@type': 'Place',
-    name: 'UEFA Champions League Final 2026 Venue',
-    address: { '@type': 'PostalAddress', addressCountry: 'DE', addressLocality: 'Munich' },
+    name: 'Allianz Arena',
+    address: {
+      '@type': 'PostalAddress',
+      streetAddress: 'Werner-Heisenberg-Allee 25',
+      addressLocality: 'Munich',
+      addressRegion: 'Bavaria',
+      postalCode: '80939',
+      addressCountry: 'DE',
+    },
+    geo: { '@type': 'GeoCoordinates', latitude: 48.2188, longitude: 11.6247 },
+  },
+  offers: {
+    '@type': 'Offer',
+    name: 'Free Live Stream — Champions League Final 2026',
+    price: '0',
+    priceCurrency: 'EUR',
+    availability: 'https://schema.org/InStock',
+    url: `${process.env.NEXT_PUBLIC_SITE_URL}/arsenal-vs-psg`,
+    validFrom: '2026-05-30T00:00:00Z',
   },
   competitor: [
     { '@type': 'SportsTeam', name: 'Arsenal FC',             sameAs: 'https://en.wikipedia.org/wiki/Arsenal_F.C.' },
