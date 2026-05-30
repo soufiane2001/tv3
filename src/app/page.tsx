@@ -5,8 +5,8 @@ import ChannelCard from '@/components/channels/ChannelCard';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'SportaLive — Watch Live TV Online',
-  description: 'Stream thousands of live TV channels online. Sports, news, entertainment and more.',
+  title: 'SportaLive — Chaînes TV en Direct Gratuit | بث مباشر',
+  description: 'Regardez + 1000 chaînes TV en direct et gratuitement : foot, sport, info, divertissement. Beinsport, MBC, Al Jazeera. بث مباشر بدون تسجيل.',
 };
 
 export const revalidate = 3600;

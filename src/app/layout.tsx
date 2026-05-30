@@ -10,8 +10,8 @@ export const metadata: Metadata = {
     default: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive',
     template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive'}`,
   },
-  description: 'Professional IPTV streaming platform - Watch live TV channels online',
-  keywords: ['IPTV', 'live TV', 'streaming', 'channels', 'sports', 'entertainment'],
+  description: 'Regardez les matchs de foot et + 1000 chaînes TV en direct gratuitement. Beinsport, MBC, Al Jazeera, chaînes sportives et d\'infos.',
+  keywords: ['IPTV', 'streaming gratuit', 'chaînes en direct', 'foot en direct', 'beinsport gratuit', 'بث مباشر', 'مشاهدة مباشرة', 'live TV', 'chaînes arabes'],
   icons: {
     icon: '/icon.svg',
     shortcut: '/icon.svg',
