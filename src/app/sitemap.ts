@@ -31,6 +31,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/arsenal-psg-prediction`,      lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/champions-league-final-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/arsenal-psg-arabe`,           lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    { url: `${base}/ver-final-champions-2026`,    lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    { url: `${base}/guardare-finale-champions-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/crystal-palace-vs-rayo-vallecano`, lastModified: now, changeFrequency: 'hourly', priority: 0.9 },
     { url: `${base}/world-cup-2026`,              lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
     // Free broadcast channels for the UCL Final
