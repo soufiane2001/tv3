@@ -168,6 +168,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     }
 
     if (!res) res = r1 ?? r2 ?? await fetchWith(UA_VLC);
+    if (!res) return NextResponse.json({ error: 'Stream unreachable' }, { status: 502 });
 
     if (!res.ok) {
       console.error(`[stream/${id}] upstream ${res.status}: ${upstream}`);
