@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import './globals.css';
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
+import LanguageProvider from '@/components/layout/LanguageProvider';
 import Tracker from '@/components/analytics/Tracker';
 import GlobalAdScripts from '@/components/ads/GlobalAdScripts';
 import StickyBottomAd from '@/components/ads/StickyBottomAd';
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" className="h-full dark">
       <body className="min-h-full bg-gray-950 text-white antialiased">
+        <LanguageProvider>
         <Tracker />
         <GlobalAdScripts />
         <Header />
@@ -32,6 +34,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         </div>
         <StickyBottomAd />
         <ExitIntentAd />
+        </LanguageProvider>
         <Toaster
           position="bottom-left"
           toastOptions={{

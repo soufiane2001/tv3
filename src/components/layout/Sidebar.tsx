@@ -2,12 +2,17 @@
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
+import { Trophy } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { useLanguage } from '@/components/layout/LanguageProvider';
+import { t } from '@/lib/i18n';
 import type { Category } from '@/types';
 
 export default function Sidebar() {
   const [categories, setCategories] = useState<Category[]>([]);
   const pathname = usePathname();
+  const { lang } = useLanguage();
+  const tx = t[lang];
 
   useEffect(() => {
     fetch('/api/categories')
@@ -19,9 +24,24 @@ export default function Sidebar() {
     <aside className="hidden lg:flex flex-col w-56 flex-shrink-0 pt-16">
       <div className="sticky top-16 overflow-y-auto max-h-[calc(100vh-4rem)] py-6 pr-2">
         <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider px-3 mb-3">
-          Categories
+          {tx.categories}
         </p>
         <nav className="flex flex-col gap-0.5">
+          {/* WC 2026 — highlighted */}
+          <Link
+            href="/wc2026"
+            className={cn(
+              'flex items-center gap-2 px-3 py-2 rounded-lg text-sm transition-colors font-medium',
+              pathname === '/wc2026'
+                ? 'bg-green-600/20 text-green-300'
+                : 'text-green-400 hover:text-white hover:bg-green-600/10'
+            )}
+          >
+            <Trophy className="w-3.5 h-3.5 flex-shrink-0" />
+            <span>{tx.wc2026}</span>
+          </Link>
+
+          {/* All Channels */}
           <Link
             href="/live"
             className={cn(
@@ -31,8 +51,9 @@ export default function Sidebar() {
                 : 'text-gray-400 hover:text-white hover:bg-white/5'
             )}
           >
-            <span>All Channels</span>
+            <span>{tx.allChannels}</span>
           </Link>
+
           {categories.map((cat) => (
             <Link
               key={cat.id}

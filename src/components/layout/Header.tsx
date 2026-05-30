@@ -1,24 +1,25 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Tv, Search, Heart, Radio, Menu, X, Settings, Trophy } from 'lucide-react';
+import { Tv, Heart, Radio, Menu, X, Settings, Trophy } from 'lucide-react';
 import { useState } from 'react';
 import SearchBar from '@/components/ui/SearchBar';
 import { cn } from '@/lib/utils';
-import { useRouter } from 'next/navigation';
-
-const navLinks = [
-  { href: '/', label: 'Home', icon: Tv },
-  { href: '/live', label: 'Live TV', icon: Radio },
-  { href: '/wc2026', label: 'WC 2026', icon: Trophy },
-  { href: '/favorites', label: 'Favorites', icon: Heart },
-];
+import { useLanguage } from '@/components/layout/LanguageProvider';
+import { t, LANGS, type Lang } from '@/lib/i18n';
 
 export default function Header() {
   const pathname = usePathname();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const router = useRouter();
+  const { lang, setLang } = useLanguage();
+  const tx = t[lang];
+
+  const navLinks = [
+    { href: '/',          label: tx.home,      icon: Tv },
+    { href: '/live',      label: tx.live,      icon: Radio },
+    { href: '/wc2026',    label: tx.wc2026,    icon: Trophy, green: true },
+    { href: '/favorites', label: tx.favorites, icon: Heart },
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950/90 backdrop-blur-xl border-b border-white/5">
@@ -29,19 +30,19 @@ export default function Header() {
             <Tv className="w-4 h-4 text-white" />
           </div>
           <span className="font-bold text-white text-lg hidden sm:block">
-            Stream<span className="text-purple-400">TV</span>
+            Sport<span className="text-purple-400">aLive</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1 ml-4">
-          {navLinks.map(({ href, label, icon: Icon }) => (
+          {navLinks.map(({ href, label, icon: Icon, green }) => (
             <Link
               key={href}
               href={href}
               className={cn(
                 'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                href === '/wc2026'
+                green
                   ? pathname === href
                     ? 'bg-green-600/30 text-green-300'
                     : 'text-green-400 hover:text-white hover:bg-green-600/20 border border-green-500/30'
@@ -58,20 +59,33 @@ export default function Header() {
 
         {/* Search */}
         <div className="flex-1 max-w-xs ml-auto">
-          {showSearch || true ? (
-            <SearchBar
-              navigateToSearch
-              placeholder="Search channels..."
-              className="w-full"
-            />
-          ) : null}
+          <SearchBar
+            navigateToSearch
+            placeholder={tx.search}
+            className="w-full"
+          />
         </div>
 
-        {/* Right actions */}
-        <div className="flex items-center gap-2">
+        {/* Language switcher + Admin */}
+        <div className="flex items-center gap-1">
+          {LANGS.map(l => (
+            <button
+              key={l.code}
+              onClick={() => setLang(l.code as Lang)}
+              title={l.flag}
+              className={cn(
+                'px-2 py-1 rounded-md text-xs font-bold transition-all',
+                lang === l.code
+                  ? 'bg-purple-600/30 text-purple-300'
+                  : 'text-gray-500 hover:text-white hover:bg-white/5'
+              )}
+            >
+              {l.flag} {l.label}
+            </button>
+          ))}
           <Link
             href="/soufianski"
-            className="hidden md:flex items-center gap-1.5 px-3 py-2 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-colors"
+            className="hidden md:flex items-center gap-1.5 px-3 py-2 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-colors ml-1"
           >
             <Settings className="w-4 h-4" />
           </Link>
@@ -90,14 +104,14 @@ export default function Header() {
       {mobileMenuOpen && (
         <div className="md:hidden border-t border-white/5 bg-gray-950/95 backdrop-blur-xl">
           <nav className="flex flex-col p-3 gap-1">
-            {navLinks.map(({ href, label, icon: Icon }) => (
+            {navLinks.map(({ href, label, icon: Icon, green }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
                   'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors',
-                  href === '/wc2026'
+                  green
                     ? pathname === href
                       ? 'bg-green-600/30 text-green-300'
                       : 'text-green-400 hover:text-white hover:bg-green-600/20'
@@ -116,7 +130,7 @@ export default function Header() {
               className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
             >
               <Settings className="w-5 h-5" />
-              Admin
+              {tx.admin}
             </Link>
           </nav>
         </div>
