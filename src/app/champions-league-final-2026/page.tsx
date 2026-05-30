@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
+import MatchBlog from '@/components/match/MatchBlog';
+import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 600;
 
@@ -8,15 +10,42 @@ export const metadata: Metadata = {
   title: 'Finale Champions League 2026 En Direct — Arsenal vs PSG | Dove Vedere | Donde Ver',
   description: 'Regardez la finale Arsenal vs PSG gratuitement. Dove vedere la finale di Champions League gratis. Dónde ver la final de la Champions League 2026 gratis. بث مباشر مجاني نهائي 2026.',
   keywords: [
+    // English
     'champions league final 2026','ucl final 2026 live stream','arsenal vs psg',
     'arsenal psg live free','watch ucl final online','champions league final live',
+    'arsenal psg champions league final 2026','watch champions league final free',
+    'ucl final munich 2026','allianz arena final 2026','arsenal vs psg final live stream',
+    // French
     'finale champions league 2026','ligue des champions finale streaming',
-    'نهائي دوري أبطال أوروبا 2026','champions league final en directo 2026',
-    'arsenal psg 2026','ucl final watch free','champions league 2026 final stream',
-    'dove vedere finale champions league 2026','dove vedere arsenal psg',
-    'dove vedere la finale di champions league','finale champions league dove vedere',
+    'arsenal psg finale 2026 gratuit','finale ligue des champions 2026 direct',
+    'regarder finale champions league 2026','arsenal psg m6 gratuit',
+    // Arabic
+    'نهائي دوري أبطال أوروبا 2026','ارسنال باريس سان جيرمان بث مباشر',
+    'نهائي دوري أبطال أوروبا مجانا','ارسنال ضد باريس نهائي 2026',
+    'مشاهدة نهائي تشامبيونز ليج 2026 مجاناً','بث مباشر نهائي كأس دوري الأبطال',
+    // Spanish
+    'champions league final en directo 2026','arsenal psg 2026',
     'donde ver la final de la champions','donde ver arsenal psg 2026',
     'a qué hora es la final de la champions league','final champions league hora',
+    'ver final champions gratis la 1','arsenal psg la 1 directo gratis',
+    // Italian
+    'dove vedere finale champions league 2026','dove vedere arsenal psg',
+    'dove vedere la finale di champions league','finale champions league dove vedere',
+    'arsenal psg finale champions canale 5','finale champions league 2026 streaming gratis',
+    // Portuguese
+    'arsenal psg final champions 2026','assistir final champions league 2026 online',
+    'onde ver final champions league 2026 gratis','arsenal psg ao vivo gratis',
+    // German
+    'champions league finale 2026','arsenal psg champions league finale live stream',
+    'champions league finale kostenlos schauen','ucl finale 2026 münchen',
+    // Turkish
+    'arsenal psg champions league finali 2026','şampiyonlar ligi finali 2026 canlı',
+    'arsenal psg trt canlı izle','champions league finali canlı ücretsiz',
+    // Dutch
+    'arsenal psg champions league finale 2026','champions league finale gratis kijken',
+    'arsenal psg finale live stream gratis',
+    // Korean
+    'arsenal psg 챔피언스리그 결승 2026','챔피언스리그 결승 무료 시청',
     'psg vs arsenal c1','psg squad arsenal champions league',
   ].join(', '),
   openGraph: {
@@ -240,6 +269,9 @@ export default function UclFinalPage() {
             ))}
           </div>
         </section>
+
+        {/* Blog & News */}
+        <MatchBlog data={uclBlogs['arsenal-vs-psg']} />
 
         {/* Related pages */}
         <section className="flex flex-wrap gap-3">

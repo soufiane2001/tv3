@@ -4,6 +4,8 @@ import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
 import AdBanner from '@/components/ads/AdBanner';
 import SpanishStreamClient from './SpanishStreamClient';
+import MatchBlog from '@/components/match/MatchBlog';
+import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 300;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
@@ -208,6 +210,9 @@ export default async function VerFinalChampionsPage() {
             </details>
           ))}
         </section>
+
+        {/* Blog & News */}
+        <MatchBlog data={uclBlogs['arsenal-vs-psg']} />
 
         <AdBanner />
 

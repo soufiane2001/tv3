@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
 import WatchEventClient from '../arsenal-vs-psg/WatchEventClient';
+import MatchBlog from '@/components/match/MatchBlog';
+import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 300;
 
@@ -13,13 +15,38 @@ export const metadata: Metadata = {
   title: TITLE,
   description: DESC,
   keywords: [
+    // English
     'crystal palace vs rayo vallecano','conference league final 2026','crystal palace rayo live',
     'uefa conference league final','watch conference league final free','trt 1 live stream',
     'crystal palace rayo vallecano stream','conference league 2026 final stream',
+    'crystal palace conference league final live','rayo vallecano conference league final',
+    'watch uecl final 2026 online free','conference league final 2026 live stream hd',
+    // French
     'crystal palace rayo en directo','finale conference league 2026',
+    'finale ligue des conférences 2026','crystal palace rayo en direct gratuit',
+    'regarder finale conference league 2026 gratuit','trt 1 streaming direct',
+    // Arabic
     'كريستال بالاس رايو فاليكانو بث مباشر','نهائي الدوري الأوروبي الثالث 2026',
-    'trt 1 canlı izle','crystal palace rayo canlı','conference league final live free',
-    'crystal palace europa conference league','rayo vallecano conference league',
+    'مشاهدة نهائي كونفرنس ليج 2026','كريستال بالاس رايو بث مباشر مجاني',
+    'نهائي دوري المؤتمر الأوروبي 2026 مجاناً',
+    // Turkish
+    'trt 1 canlı izle','crystal palace rayo canlı','konferans ligi finali 2026 canlı',
+    'crystal palace rayo vallecano trt 1 izle','uecl finali 2026 ücretsiz izle',
+    // Spanish
+    'crystal palace rayo vallecano final conference league','ver final conference league gratis',
+    'crystal palace rayo en vivo gratis','final conference league 2026 streaming',
+    // Portuguese
+    'crystal palace rayo vallecano ao vivo','final conference league 2026 gratis',
+    'assistir final conference league online','crystal palace rayo final europa conference',
+    // Italian
+    'crystal palace rayo vallecano finale conference league','dove vedere finale conference league 2026',
+    'crystal palace rayo diretta gratis',
+    // German
+    'crystal palace rayo konferenzliga finale 2026','crystal palace rayo live stream kostenlos',
+    // Dutch
+    'crystal palace rayo vallecano finale conference league kijken','gratis stream conference league finale',
+    // Korean
+    'crystal palace vs rayo vallecano 실시간','컨퍼런스 리그 결승 2026 무료 시청',
   ].join(', '),
   openGraph: {
     title: '🔴 LIVE: Crystal Palace vs Rayo Vallecano — Conference League Final 2026',
@@ -178,6 +205,9 @@ export default async function ConferenceLeagueFinalPage() {
             </div>
           </section>
         )}
+
+        {/* Blog & News */}
+        <MatchBlog data={uclBlogs['crystal-palace-vs-rayo']} />
 
         {/* Internal links */}
         <section className="flex flex-wrap gap-3 justify-center pb-4">

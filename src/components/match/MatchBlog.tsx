@@ -2,7 +2,8 @@ import type { FC } from 'react';
 
 export interface BlogTeam {
   name: string;
-  flag: string;            // flagcdn code e.g. 'br'
+  flag?: string;           // flagcdn country code e.g. 'br' (national teams)
+  logo?: string;           // direct image URL (club teams)
   form: ('W' | 'D' | 'L')[];
   news: string;
   keyPlayers: { name: string; role: string }[];
@@ -58,13 +59,15 @@ const MatchBlog: FC<{ data: MatchBlogData }> = ({ data }) => {
           >
             {/* Header */}
             <div className="flex items-center gap-3">
-              <img
-                src={`https://flagcdn.com/w40/${team.flag}.png`}
-                alt={team.name}
-                width={32}
-                height={22}
-                className="rounded object-cover"
-              />
+              {team.logo ? (
+                <img src={team.logo} alt={team.name} width={32} height={32} className="rounded object-contain" />
+              ) : team.flag ? (
+                <img src={`https://flagcdn.com/w40/${team.flag}.png`} alt={team.name} width={32} height={22} className="rounded object-cover" />
+              ) : (
+                <div className="w-8 h-8 rounded-full bg-purple-600/20 border border-purple-500/30 flex items-center justify-center text-white text-xs font-bold flex-shrink-0">
+                  {team.name[0]}
+                </div>
+              )}
               <h3 className="text-white font-bold">{team.name}</h3>
             </div>
 
@@ -133,11 +136,15 @@ const MatchBlog: FC<{ data: MatchBlogData }> = ({ data }) => {
         <h2 className="text-white font-bold text-lg">🔮 Prediction</h2>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-3 bg-white/5 rounded-xl px-5 py-3">
-            <img src={`https://flagcdn.com/w40/${home.flag}.png`} alt={home.name} width={28} height={19} className="rounded" />
+            {home.logo ? <img src={home.logo} alt={home.name} width={28} height={28} className="rounded object-contain" />
+              : home.flag ? <img src={`https://flagcdn.com/w40/${home.flag}.png`} alt={home.name} width={28} height={19} className="rounded" />
+              : <span className="text-white text-sm font-bold">{home.name[0]}</span>}
             <span className="text-white text-2xl font-black">{prediction.score.split('-')[0]}</span>
             <span className="text-gray-500 font-bold">–</span>
             <span className="text-white text-2xl font-black">{prediction.score.split('-')[1]}</span>
-            <img src={`https://flagcdn.com/w40/${away.flag}.png`} alt={away.name} width={28} height={19} className="rounded" />
+            {away.logo ? <img src={away.logo} alt={away.name} width={28} height={28} className="rounded object-contain" />
+              : away.flag ? <img src={`https://flagcdn.com/w40/${away.flag}.png`} alt={away.name} width={28} height={19} className="rounded" />
+              : <span className="text-white text-sm font-bold">{away.name[0]}</span>}
           </div>
         </div>
         <p className="text-gray-400 text-sm">{prediction.analysis}</p>
