@@ -5,14 +5,19 @@ import JsonLd from '@/components/seo/JsonLd';
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: 'Champions League Final 2026 Live Stream — Arsenal vs PSG Free Online',
-  description: 'Watch the UEFA Champions League Final 2026 live for free. Arsenal vs PSG streaming HD — La 1 en directo. Finale Ligue des Champions en direct. نهائي دوري أبطال أوروبا 2026 بث مباشر مجاني.',
+  title: 'Finale Champions League 2026 En Direct — Arsenal vs PSG | Dove Vedere | Donde Ver',
+  description: 'Regardez la finale Arsenal vs PSG gratuitement. Dove vedere la finale di Champions League gratis. Dónde ver la final de la Champions League 2026 gratis. بث مباشر مجاني نهائي 2026.',
   keywords: [
     'champions league final 2026','ucl final 2026 live stream','arsenal vs psg',
     'arsenal psg live free','watch ucl final online','champions league final live',
     'finale champions league 2026','ligue des champions finale streaming',
     'نهائي دوري أبطال أوروبا 2026','champions league final en directo 2026',
     'arsenal psg 2026','ucl final watch free','champions league 2026 final stream',
+    'dove vedere finale champions league 2026','dove vedere arsenal psg',
+    'dove vedere la finale di champions league','finale champions league dove vedere',
+    'donde ver la final de la champions','donde ver arsenal psg 2026',
+    'a qué hora es la final de la champions league','final champions league hora',
+    'psg vs arsenal c1','psg squad arsenal champions league',
   ].join(', '),
   openGraph: {
     title: '🏆 Champions League Final 2026 — Arsenal vs PSG Live',
@@ -72,6 +77,21 @@ const faqJsonLd = {
       '@type': 'Question',
       name: 'كيف أشاهد نهائي دوري أبطال أوروبا 2026 مجاناً؟',
       acceptedAnswer: { '@type': 'Answer', text: 'شاهد مباراة ارسنال وباريس سان جيرمان مباشرة مجاناً على منصة SportaLive.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Dove vedere la finale di Champions League 2026 gratis?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Puoi vedere la finale Arsenal vs PSG gratis su SportaLive. La partita viene trasmessa in diretta HD su Canale 5 e La 1. Nessuna registrazione richiesta.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Dónde ver la final de la Champions League 2026?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Puedes ver la final Arsenal vs PSG gratis en SportaLive. La 1 de TVE transmite el partido en directo y en HD sin coste. Sin registro.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'A qué hora es la final de la Champions League 2026?',
+      acceptedAnswer: { '@type': 'Answer', text: 'La final de la Champions League 2026 Arsenal vs PSG empieza a las 21:00 CET (22:00 Marruecos, 23:00 Arabia Saudí) el 30 de mayo de 2026.' },
     },
   ],
 };
