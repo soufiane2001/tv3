@@ -1,10 +1,12 @@
 'use client';
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
-// Loads popunder + push scripts once per session globally.
-// Placed in layout so they fire on every page regardless of AdBanner placement.
 export default function GlobalAdScripts() {
+  const pathname = usePathname();
+
   useEffect(() => {
+    if (pathname.startsWith('/soufianski')) return;
     if ((window as any).__adsLoaded) return;
     (window as any).__adsLoaded = true;
 

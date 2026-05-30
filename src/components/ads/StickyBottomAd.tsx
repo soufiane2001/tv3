@@ -1,10 +1,14 @@
 'use client';
 import { useEffect, useState } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function StickyBottomAd() {
   const [visible, setVisible] = useState(true);
+  const pathname = usePathname();
+  const isAdmin = pathname.startsWith('/soufianski');
 
   useEffect(() => {
+    if (isAdmin) return;
     (window as any).atOptions = {
       key: 'df26d38cb80e4c6a441d5b2c6061053d',
       format: 'iframe',
@@ -16,9 +20,9 @@ export default function StickyBottomAd() {
     s.src = 'https://www.highperformanceformat.com/df26d38cb80e4c6a441d5b2c6061053d/invoke.js';
     s.async = true;
     document.getElementById('sticky-ad-slot')?.appendChild(s);
-  }, []);
+  }, [isAdmin]);
 
-  if (!visible) return null;
+  if (!visible || isAdmin) return null;
 
   return (
     <div className="fixed bottom-0 left-0 right-0 z-50 flex justify-center items-center bg-gray-950/95 border-t border-white/10 shadow-2xl"
