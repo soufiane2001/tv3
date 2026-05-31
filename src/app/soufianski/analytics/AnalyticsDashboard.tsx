@@ -6,11 +6,14 @@ import {
 } from 'recharts';
 import {
   Users, Eye, Globe, Clock, Monitor, Smartphone, Tablet,
-  TrendingUp, RefreshCw, Wifi, WifiOff, ChevronUp, ChevronDown,
+  TrendingUp, RefreshCw, Wifi, WifiOff, ChevronUp, ChevronDown, MapPin,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface LiveVisitor { path: string; country: string; countryCode: string; flag: string; device: string; lastSeen: string }
+interface PageGeoCity { city: string; count: number }
+interface PageGeoCountry { country: string; countryCode: string; flag: string; count: number; cities: PageGeoCity[] }
+interface PageGeoEntry { path: string; total: number; countries: PageGeoCountry[] }
 interface StatsData {
   live: { count: number; visitors: LiveVisitor[] };
   totals: { viewsToday: number; viewsHour: number; uniqueToday: number; avgDuration: number };
@@ -21,6 +24,7 @@ interface StatsData {
   browsers: { browser: string; count: number }[];
   chart24h: { hour: string; count: number }[];
   chart7d: { day: string; count: number }[];
+  pageGeo: PageGeoEntry[];
 }
 
 const DEVICE_ICONS: Record<string, any> = { desktop: Monitor, mobile: Smartphone, tablet: Tablet };
@@ -325,6 +329,9 @@ export default function AnalyticsDashboard({ password }: { password: string }) {
           </div>
         </section>
       )}
+
+      {/* ── Pages × Countries × Cities ── */}
+      {d.pageGeo.length > 0 && <PageGeoSection pages={d.pageGeo} />}
     </div>
   );
 }
@@ -347,5 +354,135 @@ function StatCard({ icon: Icon, label, value, sub, color, pulse }: {
       <p className="text-2xl font-bold text-white">{value}</p>
       <p className="text-gray-500 text-xs mt-0.5">{label} · {sub}</p>
     </div>
+  );
+}
+
+// ── Pages × Countries × Cities breakdown ─────────────────────────────────────
+
+function PageGeoSection({ pages }: { pages: PageGeoEntry[] }) {
+  const [openPage, setOpenPage] = useState<string | null>(null);
+  const [openCountry, setOpenCountry] = useState<string | null>(null);
+  const [search, setSearch] = useState('');
+
+  const filtered = pages.filter(p =>
+    !search || p.path.toLowerCase().includes(search.toLowerCase())
+  );
+
+  return (
+    <section className="bg-gray-800/60 border border-white/5 rounded-2xl overflow-hidden">
+      <div className="flex items-center justify-between px-5 py-4 border-b border-white/5">
+        <h3 className="text-white font-semibold flex items-center gap-2">
+          <MapPin className="w-4 h-4 text-emerald-400" />
+          Pages × Countries × Cities
+          <span className="text-gray-500 text-xs font-normal ml-1">24h</span>
+        </h3>
+        <input
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          placeholder="Filter pages…"
+          className="bg-gray-900/60 border border-white/10 rounded-lg px-3 py-1 text-xs text-gray-300 placeholder-gray-600 outline-none focus:border-purple-500/50 w-36"
+        />
+      </div>
+
+      <div className="divide-y divide-white/5 max-h-[600px] overflow-y-auto">
+        {filtered.length === 0 && (
+          <p className="text-gray-600 text-sm px-5 py-4">No data yet</p>
+        )}
+        {filtered.map(page => {
+          const isOpen = openPage === page.path;
+          const maxCountry = page.countries[0]?.count || 1;
+          return (
+            <div key={page.path}>
+              {/* Page row */}
+              <button
+                onClick={() => { setOpenPage(isOpen ? null : page.path); setOpenCountry(null); }}
+                className="w-full flex items-center gap-3 px-5 py-3 hover:bg-white/3 transition-colors text-left"
+              >
+                {isOpen
+                  ? <ChevronDown className="w-3.5 h-3.5 text-purple-400 flex-shrink-0" />
+                  : <ChevronDown className="w-3.5 h-3.5 text-gray-600 flex-shrink-0 -rotate-90" />
+                }
+                <span className="flex-1 text-sm font-mono text-gray-200 truncate">{page.path}</span>
+                <span className="text-xs text-gray-400 font-medium flex-shrink-0">{page.total} views</span>
+                {/* Mini country flags preview */}
+                <span className="hidden sm:flex items-center gap-0.5 flex-shrink-0">
+                  {page.countries.slice(0, 5).map((c, i) => (
+                    <span key={i} className="text-base" title={`${c.country}: ${c.count}`}>{c.flag}</span>
+                  ))}
+                  {page.countries.length > 5 && (
+                    <span className="text-gray-600 text-xs ml-1">+{page.countries.length - 5}</span>
+                  )}
+                </span>
+              </button>
+
+              {/* Country breakdown */}
+              {isOpen && (
+                <div className="bg-gray-900/40 border-t border-white/5 px-5 py-3 space-y-2">
+                  {page.countries.map(country => {
+                    const ck = `${page.path}|${country.countryCode}`;
+                    const isCountryOpen = openCountry === ck;
+                    return (
+                      <div key={country.countryCode}>
+                        {/* Country row */}
+                        <button
+                          onClick={() => setOpenCountry(isCountryOpen ? null : ck)}
+                          className="w-full flex items-center gap-2 py-1.5 text-left group"
+                        >
+                          <span className="text-base flex-shrink-0">{country.flag}</span>
+                          <div className="flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2 mb-1">
+                              <span className="text-gray-300 text-xs font-medium">{country.country}</span>
+                              <span className="text-gray-400 text-xs flex-shrink-0">{country.count}</span>
+                            </div>
+                            <div className="h-1 bg-gray-700 rounded-full overflow-hidden">
+                              <div
+                                className="h-full bg-blue-500 rounded-full transition-all"
+                                style={{ width: `${(country.count / maxCountry) * 100}%` }}
+                              />
+                            </div>
+                          </div>
+                          {country.cities.length > 0 && (
+                            <ChevronDown className={cn(
+                              'w-3 h-3 text-gray-600 flex-shrink-0 transition-transform',
+                              isCountryOpen ? 'rotate-0' : '-rotate-90'
+                            )} />
+                          )}
+                        </button>
+
+                        {/* Cities */}
+                        {isCountryOpen && country.cities.length > 0 && (
+                          <div className="ml-8 mb-2 space-y-1 bg-gray-900/50 rounded-lg p-2">
+                            {country.cities.map((city, ci) => (
+                              <div key={ci} className="flex items-center gap-2">
+                                <span className="text-gray-600 text-[10px]">📍</span>
+                                <div className="flex-1 min-w-0">
+                                  <div className="flex items-center justify-between gap-1">
+                                    <span className="text-gray-400 text-[11px] truncate">{city.city || '—'}</span>
+                                    <span className="text-gray-500 text-[11px] flex-shrink-0">{city.count}</span>
+                                  </div>
+                                  <div className="mt-0.5 h-0.5 bg-gray-700 rounded-full overflow-hidden">
+                                    <div
+                                      className="h-full bg-emerald-500/70 rounded-full"
+                                      style={{ width: `${(city.count / country.cities[0].count) * 100}%` }}
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            ))}
+                            {!country.cities.some(c => c.city) && (
+                              <p className="text-gray-600 text-[11px]">City data not available</p>
+                            )}
+                          </div>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
+          );
+        })}
+      </div>
+    </section>
   );
 }

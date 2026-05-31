@@ -29,6 +29,7 @@ export async function GET(req: NextRequest) {
     browserBreakdown,
     chart24h,
     chart7d,
+    pageGeoRaw,
   ] = await Promise.all([
     // Active right now
     prisma.liveVisitor.findMany({
@@ -101,7 +102,49 @@ export async function GET(req: NextRequest) {
       FROM "PageView"
       WHERE "createdAt" >= NOW() - INTERVAL '7 days'
       GROUP BY day ORDER BY day ASC`,
+    // Per-page country+city breakdown (24h)
+    prisma.$queryRaw<{ path: string; country: string; countryCode: string; city: string | null; count: bigint }[]>`
+      SELECT path, country, "countryCode", city, COUNT(*) as count
+      FROM "PageView"
+      WHERE "createdAt" >= NOW() - INTERVAL '24 hours'
+      GROUP BY path, country, "countryCode", city
+      ORDER BY path, count DESC`,
   ]);
+
+  // Build page → country → cities tree
+  const pageGeoMap = new Map<string, Map<string, { country: string; countryCode: string; count: number; cities: Map<string, number> }>>();
+  for (const row of pageGeoRaw) {
+    if (!pageGeoMap.has(row.path)) pageGeoMap.set(row.path, new Map());
+    const countryMap = pageGeoMap.get(row.path)!;
+    const ck = row.countryCode || '??';
+    if (!countryMap.has(ck)) {
+      countryMap.set(ck, { country: row.country || 'Unknown', countryCode: ck, count: 0, cities: new Map() });
+    }
+    const entry = countryMap.get(ck)!;
+    const n = Number(row.count);
+    entry.count += n;
+    const cityName = row.city || '';
+    if (cityName) entry.cities.set(cityName, (entry.cities.get(cityName) || 0) + n);
+  }
+
+  const pageGeo = Array.from(pageGeoMap.entries())
+    .map(([path, countryMap]) => {
+      const countries = Array.from(countryMap.values())
+        .sort((a, b) => b.count - a.count)
+        .map(c => ({
+          country: c.country,
+          countryCode: c.countryCode,
+          flag: COUNTRY_FLAGS[c.countryCode] || '🌐',
+          count: c.count,
+          cities: Array.from(c.cities.entries())
+            .map(([city, count]) => ({ city, count }))
+            .sort((a, b) => b.count - a.count)
+            .slice(0, 8),
+        }));
+      return { path, total: countries.reduce((s, c) => s + c.count, 0), countries };
+    })
+    .sort((a, b) => b.total - a.total)
+    .slice(0, 30);
 
   return NextResponse.json({
     live: {
@@ -135,5 +178,6 @@ export async function GET(req: NextRequest) {
     browsers: browserBreakdown.map(b => ({ browser: b.browser, count: b._count.browser })),
     chart24h: chart24h.map(r => ({ hour: r.hour, count: Number(r.count) })),
     chart7d: chart7d.map(r => ({ day: r.day, count: Number(r.count) })),
+    pageGeo,
   });
 }
