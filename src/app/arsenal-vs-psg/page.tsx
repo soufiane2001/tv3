@@ -371,15 +371,15 @@ export default async function ArsenalVsPsgPage() {
               🔴 Arsenal vs PSG — <span className="text-yellow-400">UCL Final 2026 LIVE</span>
             </h1>
             <span className="flex items-center gap-1.5 text-red-400 text-xs font-bold bg-red-500/10 border border-red-500/20 px-3 py-1 rounded-full">
-              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />EN DIRECT
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />LIVE
             </span>
           </div>
           <WatchEventClient streams={[
             { label: 'beIN Sports', sublabel: 'UHD · عربي',             channel: bein as any       },
             { label: 'La 1',        sublabel: 'RTVE · España',           channel: la1 as any        },
-            { label: 'M6',          sublabel: 'France · Gratuit',        channel: m6 as any         },
+            { label: 'M6',          sublabel: 'France · Free',           channel: m6 as any         },
             { label: 'Canal+ Sport',sublabel: 'France · HD',             channel: canalSport as any },
-            { label: 'RTI 1',       sublabel: "Côte d'Ivoire · Gratuit", channel: rti1 as any       },
+            { label: 'RTI 1',       sublabel: "Ivory Coast · Free",      channel: rti1 as any       },
           ]} />
         </section>
 

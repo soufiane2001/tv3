@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Tv, Heart, Radio, Menu, X, Settings, Trophy } from 'lucide-react';
+import { Tv, Heart, Radio, Menu, X, Trophy } from 'lucide-react';
 import { useState } from 'react';
 import SearchBar from '@/components/ui/SearchBar';
 import { cn } from '@/lib/utils';
@@ -83,12 +83,7 @@ export default function Header() {
               {l.flag} {l.label}
             </button>
           ))}
-          <Link
-            href="/soufianski"
-            className="hidden md:flex items-center gap-1.5 px-3 py-2 text-sm text-gray-500 hover:text-white hover:bg-white/5 rounded-lg transition-colors ml-1"
-          >
-            <Settings className="w-4 h-4" />
-          </Link>
+          {/* Admin link removed from public nav */}
 
           {/* Mobile menu button */}
           <button
@@ -124,14 +119,7 @@ export default function Header() {
                 {label}
               </Link>
             ))}
-            <Link
-              href="/soufianski"
-              onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
-            >
-              <Settings className="w-5 h-5" />
-              {tx.admin}
-            </Link>
+            {/* Admin link removed from public nav */}
           </nav>
         </div>
       )}

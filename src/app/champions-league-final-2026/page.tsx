@@ -7,8 +7,8 @@ import { uclBlogs } from '@/data/ucl-blogs';
 export const revalidate = 600;
 
 export const metadata: Metadata = {
-  title: 'Finale Champions League 2026 En Direct — Arsenal vs PSG | Dove Vedere | Donde Ver',
-  description: 'Regardez la finale Arsenal vs PSG gratuitement. Dove vedere la finale di Champions League gratis. Dónde ver la final de la Champions League 2026 gratis. بث مباشر مجاني نهائي 2026.',
+  title: 'Champions League Final 2026 LIVE — Arsenal vs PSG Free Stream | Dove Vedere | Donde Ver',
+  description: 'Watch Arsenal vs PSG Champions League Final 2026 FREE in HD. Dove vedere la finale di Champions League gratis. Dónde ver la final de la Champions League 2026 gratis. بث مباشر مجاني نهائي 2026.',
   keywords: [
     // English
     'champions league final 2026','ucl final 2026 live stream','arsenal vs psg',

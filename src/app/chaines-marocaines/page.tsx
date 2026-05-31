@@ -84,7 +84,7 @@ const CHANNELS = [
     slug: '2m',
     name: '2M Maroc',
     arabic: 'القناة الثانية المغربية',
-    desc: 'Films, séries, actualités, football',
+    desc: 'Films, series, news, football',
     descAr: 'أفلام، مسلسلات، أخبار، كرة قدم',
     icon: '📺',
     badge: 'SNRT',
@@ -95,7 +95,7 @@ const CHANNELS = [
     slug: 'al-aoula',
     name: 'Al Aoula',
     arabic: 'القناة الأولى المغربية',
-    desc: 'Première chaîne nationale — culture & info',
+    desc: 'National 1st channel — culture & news',
     descAr: 'الأولى الوطنية — ثقافة وأخبار',
     icon: '🏛️',
     badge: 'SNRT 1',
@@ -106,7 +106,7 @@ const CHANNELS = [
     slug: 'arryadia',
     name: 'Arryadia',
     arabic: 'القناة الرياضية المغربية',
-    desc: 'Botola Pro, équipe nationale, sport',
+    desc: 'Botola Pro, national team, sport',
     descAr: 'البطولة الاحترافية، المنتخب، الرياضة',
     icon: '⚽',
     badge: 'SNRT Sport',
@@ -117,7 +117,7 @@ const CHANNELS = [
     slug: 'medi-1',
     name: 'Medi 1 TV',
     arabic: 'ميدي 1',
-    desc: 'Information, actualités Maroc & monde',
+    desc: 'News, Morocco & world',
     descAr: 'أخبار المغرب والعالم',
     icon: '📰',
     badge: 'INFO',
@@ -128,7 +128,7 @@ const CHANNELS = [
     slug: 'arrabia',
     name: 'Arrabia',
     arabic: 'الثالثة المغربية',
-    desc: 'Troisième chaîne — divertissement & culture',
+    desc: '3rd channel — entertainment & culture',
     descAr: 'الثالثة — ترفيه وثقافة',
     icon: '🎭',
     badge: 'SNRT 3',
@@ -139,7 +139,7 @@ const CHANNELS = [
     slug: 'al-maghribia',
     name: 'Al Maghribia',
     arabic: 'المغربية',
-    desc: 'Chaîne de la diaspora marocaine mondiale',
+    desc: 'Channel for Moroccan diaspora worldwide',
     descAr: 'قناة الجالية المغربية في العالم',
     icon: '🌍',
     badge: 'SNRT',
@@ -175,9 +175,9 @@ export default function ChainesMarocainesPage() {
 
             <div>
               <h1 className="text-3xl md:text-5xl font-extrabold text-white leading-tight">
-                Chaînes Marocaines
+                Moroccan Channels
                 <span className="block text-transparent bg-clip-text bg-gradient-to-r from-green-400 via-emerald-200 to-green-400">
-                  En Direct Gratuit
+                  Free Live Stream
                 </span>
               </h1>
               <p className="text-gray-400 text-lg mt-2 font-arabic" dir="rtl">
@@ -186,7 +186,7 @@ export default function ChainesMarocainesPage() {
             </div>
 
             <p className="text-gray-400 text-sm max-w-xl mx-auto">
-              Regardez 2M, Al Aoula, Arryadia, Medi 1 et plus — gratuitement en HD, sans abonnement.
+              Watch 2M, Al Aoula, Arryadia, Medi 1 and more — free in HD, no subscription.
             </p>
 
             <div className="flex items-center justify-center gap-2 flex-wrap">
@@ -194,8 +194,8 @@ export default function ChainesMarocainesPage() {
                 <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />LIVE
               </span>
               <span className="px-3 py-1 bg-white/5 border border-white/10 text-gray-400 text-xs rounded-full">HD</span>
-              <span className="px-3 py-1 bg-white/5 border border-white/10 text-gray-400 text-xs rounded-full">Gratuit · مجاني</span>
-              <span className="px-3 py-1 bg-white/5 border border-white/10 text-gray-400 text-xs rounded-full">Sans inscription</span>
+              <span className="px-3 py-1 bg-white/5 border border-white/10 text-gray-400 text-xs rounded-full">Free · مجاني</span>
+              <span className="px-3 py-1 bg-white/5 border border-white/10 text-gray-400 text-xs rounded-full">No Registration</span>
             </div>
           </div>
         </section>
@@ -203,7 +203,7 @@ export default function ChainesMarocainesPage() {
         {/* ── Channel grid ─────────────────────────────────── */}
         <section>
           <h2 className="text-white font-bold text-xl mb-5">
-            📺 Toutes les chaînes marocaines — <span dir="rtl" className="text-gray-400">جميع القنوات المغربية</span>
+            📺 All Moroccan Channels — <span dir="rtl" className="text-gray-400">جميع القنوات المغربية</span>
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {CHANNELS.map(ch => (
@@ -247,18 +247,18 @@ export default function ChainesMarocainesPage() {
 
         {/* ── French intro block ──────────────────────────── */}
         <section className="bg-gray-800/40 border border-white/5 rounded-2xl p-6 space-y-3">
-          <h2 className="text-white font-bold text-lg">Comment regarder les chaînes marocaines en direct depuis l&apos;étranger ?</h2>
+          <h2 className="text-white font-bold text-lg">How to watch Moroccan channels free from anywhere?</h2>
           <p className="text-gray-300 text-sm leading-relaxed">
-            SportaLive propose un streaming gratuit en HD de toutes les grandes chaînes marocaines.
-            Que vous soyez en France, Belgique, Espagne, Canada ou ailleurs dans le monde, regardez
-            2M Maroc, Al Aoula, Arryadia Sport, Medi 1 TV, Arrabia et Al Maghribia sans abonnement,
-            sans inscription et sans VPN.
+            SportaLive streams all major Moroccan TV channels free in HD.
+            Whether you&apos;re in France, Belgium, Spain, Canada, or anywhere in the world, watch
+            2M Maroc, Al Aoula, Arryadia Sport, Medi 1 TV, Arrabia and Al Maghribia — no subscription,
+            no registration, no VPN needed.
           </p>
           <ul className="space-y-1.5 text-sm text-gray-400">
-            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> Gratuit, sans abonnement</li>
-            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> Qualité HD</li>
-            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> Disponible depuis tous les pays</li>
-            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> Sans inscription ni compte requis</li>
+            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> Free, no subscription</li>
+            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> HD quality</li>
+            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> Available from every country</li>
+            <li className="flex items-center gap-2"><span className="text-green-400">✓</span> No account or registration required</li>
           </ul>
         </section>
 

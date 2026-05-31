@@ -144,13 +144,13 @@ export default async function ConferenceLeagueFinalPage() {
             <p className="text-gray-600 text-xs">conference league final 2026 · crystal palace rayo live · trt 1 stream</p>
           </div>
           <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2">
-            <h2 className="text-white font-bold">🔵 Crystal Palace vs Rayo — Finale Conference League</h2>
+            <h2 className="text-white font-bold">🔵 Crystal Palace vs Rayo — Conference League Final</h2>
             <p className="text-gray-400 text-sm">
-              Regardez la <strong className="text-white">Finale de la Conference League 2026</strong> en direct gratuit.
-              <strong className="text-blue-400"> Crystal Palace</strong> contre
-              <strong className="text-red-400"> Rayo Vallecano</strong> sur TRT 1. Streaming HD sans abonnement.
+              Watch the <strong className="text-white">Conference League Final 2026</strong> live free.
+              <strong className="text-blue-400"> Crystal Palace</strong> vs
+              <strong className="text-red-400"> Rayo Vallecano</strong> on TRT 1. HD stream, no subscription.
             </p>
-            <p className="text-gray-600 text-xs">finale conference league 2026 · crystal palace rayo en direct · trt 1 streaming</p>
+            <p className="text-gray-600 text-xs">conference league final 2026 · crystal palace rayo live · trt 1 stream</p>
           </div>
           <div className="bg-gray-800/40 border border-white/5 rounded-2xl p-5 space-y-2" dir="rtl">
             <h2 className="text-white font-bold">🔴 كريستال بالاس ضد رايو فاليكانو — بث مباشر</h2>

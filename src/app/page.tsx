@@ -5,8 +5,8 @@ import ChannelCard from '@/components/channels/ChannelCard';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'SportaLive — TV en Direct GRATUIT 🔴 Foot, Sport, Beinsport',
-  description: '🔴 EN DIRECT maintenant — Finale Champions League + 600 chaînes sport & info GRATUITES. Beinsport, MBC, Al Jazeera, RTVE. Sans inscription. بث مباشر مجاني الآن.',
+  title: 'SportaLive — Watch Live TV Free 🔴 Football, Sports, beIN Sports',
+  description: '🔴 LIVE NOW — 600+ free HD sports & news channels. beIN Sports, MBC, Al Jazeera, RTVE. No subscription, no registration. بث مباشر مجاني الآن.',
 };
 
 export const revalidate = 3600;

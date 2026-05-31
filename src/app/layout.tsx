@@ -15,8 +15,8 @@ export const metadata: Metadata = {
     default: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive',
     template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive'}`,
   },
-  description: 'Regardez les matchs de foot et + 1000 chaînes TV en direct gratuitement. Beinsport, MBC, Al Jazeera, chaînes sportives et d\'infos.',
-  keywords: ['IPTV', 'streaming gratuit', 'chaînes en direct', 'foot en direct', 'beinsport gratuit', 'بث مباشر', 'مشاهدة مباشرة', 'live TV', 'chaînes arabes'],
+  description: 'Watch live football and 1000+ free TV channels in HD — beIN Sports, MBC, Al Jazeera, sports & news. No subscription, no registration. بث مباشر مجاني.',
+  keywords: ['IPTV', 'live tv free', 'live stream', 'watch football free', 'beinsport free', 'بث مباشر', 'مشاهدة مباشرة', 'live TV', 'free channels'],
   openGraph: { type: 'website', siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive' },
 };
 

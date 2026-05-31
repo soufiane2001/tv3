@@ -124,7 +124,7 @@ export default function WC2026StreamClient({ servers, match }: Props) {
           {/* Live badge */}
           <div className="absolute top-10 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 bg-red-600 rounded-full shadow-lg shadow-red-900/50 z-10">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse inline-block" />
-            <span className="text-white text-[10px] font-black uppercase tracking-widest">🔴 EN DIRECT</span>
+            <span className="text-white text-[10px] font-black uppercase tracking-widest">🔴 LIVE</span>
           </div>
 
           {/* Teams display */}

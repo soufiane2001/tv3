@@ -189,8 +189,8 @@ export default function WC2026Page() {
         {/* Multilingual SEO block */}
         <section className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
           <div className="bg-gray-800/30 border border-white/5 rounded-xl p-4 space-y-1">
-            <p className="text-white font-semibold">🇫🇷 Coupe du Monde 2026</p>
-            <p className="text-gray-400">Regardez tous les matchs du Mondial 2026 en streaming gratuit HD — M6, beIN Sports, sans abonnement.</p>
+            <p className="text-white font-semibold">🇬🇧 World Cup 2026</p>
+            <p className="text-gray-400">Watch all FIFA World Cup 2026 matches live free in HD — M6, beIN Sports, no subscription needed.</p>
           </div>
           <div className="bg-gray-800/30 border border-white/5 rounded-xl p-4 space-y-1" dir="rtl">
             <p className="text-white font-semibold">🇸🇦 كأس العالم 2026</p>
