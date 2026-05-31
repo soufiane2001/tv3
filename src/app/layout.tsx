@@ -7,6 +7,7 @@ import Tracker from '@/components/analytics/Tracker';
 import GlobalAdScripts from '@/components/ads/GlobalAdScripts';
 import StickyBottomAd from '@/components/ads/StickyBottomAd';
 import ExitIntentAd from '@/components/ads/ExitIntentAd';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
@@ -35,6 +36,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <StickyBottomAd />
         <ExitIntentAd />
         </LanguageProvider>
+        <SpeedInsights />
         <Toaster
           position="bottom-left"
           toastOptions={{
