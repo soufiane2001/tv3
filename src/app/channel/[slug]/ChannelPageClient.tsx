@@ -154,253 +154,15 @@ export default function ChannelPageClient({ channel, related, eventOverride }: P
 // Provides rich context for users + crawlable text for SEO.
 
 const EVENT_CONTENT: Record<string, {
-  type?: 'channel';              // if set: TV channel info banner; default = match scoreboard
+  type?: 'channel';
   channelIcon?: string;
   channelName?: string;
   tagline?: string;
-  teams?: [string, string];
-  logos?: [string, string];
-  competitionLogo?: string;
-  competition?: string;
-  date?: string;
-  kickoff?: string;
-  venue?: string;
   broadcastNote?: string;
-  broadcastLogo?: string;
   blocks: { lang: string; flag: string; title: string; body: string }[];
   faq: { q: string; a: string }[];
   links: { href: string; label: string }[];
 }> = {
-  'la-1': {
-    teams: ['Arsenal FC', 'Paris Saint-Germain'],
-    logos: [
-      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
-      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
-    ],
-    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
-    competition: 'UEFA Champions League Final 2026',
-    date: '27 May 2026',
-    kickoff: '21:00 CET · 20:00 UTC',
-    broadcastNote: 'Broadcasting free on La 1 (RTVE)',
-    broadcastLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7b/La_1_logo_2021.svg/200px-La_1_logo_2021.svg.png',
-    blocks: [
-      {
-        lang: 'English', flag: '🇬🇧',
-        title: 'Champions League Final 2026 — Free Live Stream',
-        body: 'Watch the UEFA Champions League Final 2026 live between Arsenal FC and Paris Saint-Germain. Free HD stream on La 1 — no subscription, no registration.',
-      },
-      {
-        lang: 'Español', flag: '🇪🇸',
-        title: 'Final Champions League 2026 en Directo',
-        body: 'Ver la Final de la Champions League 2026 en directo y gratis. Arsenal contra PSG en La 1 de RTVE — streaming HD sin suscripción.',
-      },
-      {
-        lang: 'Français', flag: '🇫🇷',
-        title: 'Finale Ligue des Champions 2026 — En Direct',
-        body: 'Regardez la Finale de la Ligue des Champions 2026 en direct et gratuitement. Arsenal contre PSG sur La 1 — streaming HD sans abonnement.',
-      },
-      {
-        lang: 'العربية', flag: '🌍',
-        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر',
-        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً — ارسنال ضد باريس سان جيرمان بجودة عالية HD على قناة لا 1، بدون اشتراك.',
-      },
-    ],
-    faq: [
-      { q: 'How to watch Arsenal vs PSG free?', a: 'Stream is live above — La 1 (RTVE) broadcasts the Champions League Final 2026 free. No account needed.' },
-      { q: '¿Cómo ver Arsenal vs PSG gratis?', a: 'El streaming está arriba — La 1 de RTVE emite la Final de la Champions 2026 gratis sin suscripción.' },
-      { q: 'What time is kick-off?', a: "21:00 CET (20:00 UTC) on 27 May 2026. That's 8 PM London, 9 PM Madrid & Paris, 3 PM New York." },
-    ],
-    links: [
-      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
-      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
-      { href: '/live',                        label: '📡 All Live Channels'           },
-    ],
-  },
-  'm6': {
-    teams: ['Arsenal FC', 'Paris Saint-Germain'],
-    logos: [
-      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
-      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
-    ],
-    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
-    competition: 'UEFA Champions League Final 2026',
-    date: '30 Mai 2026',
-    kickoff: '21:00 CET · 20:00 UTC',
-    broadcastNote: 'Diffusé gratuitement sur M6',
-    broadcastLogo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/74/M6_logo_2023.svg/200px-M6_logo_2023.svg.png',
-    blocks: [
-      {
-        lang: 'Français', flag: '🇫🇷',
-        title: 'Finale Ligue des Champions 2026 — M6 En Direct',
-        body: 'Regardez la Finale de la Ligue des Champions 2026 en direct et gratuitement sur M6. Arsenal contre Paris Saint-Germain — streaming HD sans abonnement, sans inscription.',
-      },
-      {
-        lang: 'English', flag: '🇬🇧',
-        title: 'Champions League Final 2026 — Live on M6',
-        body: 'Watch the UEFA Champions League Final 2026 live on M6 — Arsenal FC vs Paris Saint-Germain. Free HD stream, no subscription, no registration needed.',
-      },
-      {
-        lang: 'العربية', flag: '🌍',
-        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر على M6',
-        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً على قناة M6 — ارسنال ضد باريس سان جيرمان بجودة HD بدون اشتراك.',
-      },
-      {
-        lang: 'Español', flag: '🇪🇸',
-        title: 'Final Champions League 2026 — M6 En Directo',
-        body: 'Ver la Final de la UEFA Champions League 2026 gratis en M6 — Arsenal contra PSG en HD sin registro ni suscripción.',
-      },
-    ],
-    faq: [
-      { q: 'Comment regarder la finale Champions League sur M6 gratuitement ?', a: 'Le stream est en direct ci-dessus — M6 diffuse la Finale de la Champions League 2026 gratuitement en HD. Aucun compte nécessaire.' },
-      { q: 'À quelle heure est le coup d\'envoi Arsenal vs PSG ?', a: '21h00 CET (20h00 UTC) le 30 mai 2026 — 21h Paris, 20h Londres, 15h New York.' },
-      { q: 'How to watch Arsenal vs PSG free on M6?', a: 'Stream is live above — M6 broadcasts the Champions League Final 2026 free. Click play and it starts instantly.' },
-    ],
-    links: [
-      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
-      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
-      { href: '/channel/la-1',                label: '📺 La 1 En Directo'            },
-      { href: '/live',                        label: '📡 All Live Channels'           },
-    ],
-  },
-  'canal-sport': {
-    teams: ['Arsenal FC', 'Paris Saint-Germain'],
-    logos: [
-      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
-      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
-    ],
-    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
-    competition: 'UEFA Champions League Final 2026',
-    date: '30 Mai 2026',
-    kickoff: '21:00 CET · 20:00 UTC',
-    broadcastNote: 'Diffusé sur Canal+ Sport HD',
-    blocks: [
-      {
-        lang: 'Français', flag: '🇫🇷',
-        title: 'Finale Ligue des Champions 2026 — Canal+ Sport En Direct',
-        body: 'Regardez la Finale de la Ligue des Champions 2026 en direct sur Canal+ Sport HD. Arsenal contre Paris Saint-Germain — streaming HD sans inscription, diffusion gratuite en live.',
-      },
-      {
-        lang: 'English', flag: '🇬🇧',
-        title: 'Champions League Final 2026 — Live on Canal+ Sport',
-        body: 'Watch the UEFA Champions League Final 2026 live on Canal+ Sport HD — Arsenal FC vs Paris Saint-Germain. Free HD stream, no subscription, no registration needed.',
-      },
-      {
-        lang: 'العربية', flag: '🌍',
-        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر على Canal+ Sport',
-        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً على قناة Canal+ Sport HD — ارسنال ضد باريس سان جيرمان بجودة HD بدون اشتراك.',
-      },
-      {
-        lang: 'Español', flag: '🇪🇸',
-        title: 'Final Champions League 2026 — Canal+ Sport En Directo',
-        body: 'Ver la Final de la UEFA Champions League 2026 gratis en Canal+ Sport HD — Arsenal contra PSG en HD sin registro ni suscripción.',
-      },
-    ],
-    faq: [
-      { q: 'Comment regarder la finale Champions League sur Canal+ Sport gratuitement ?', a: 'Le stream est en direct ci-dessus — Canal+ Sport HD diffuse la Finale de la Champions League 2026. Aucun compte nécessaire, cliquez sur lecture.' },
-      { q: 'À quelle heure est le coup d\'envoi Arsenal vs PSG ?', a: '21h00 CET (20h00 UTC) le 30 mai 2026 — 21h Paris, 20h Londres, 15h New York.' },
-      { q: 'How to watch Arsenal vs PSG free on Canal+ Sport?', a: 'Stream is live above — Canal+ Sport HD broadcasts the Champions League Final 2026 free. Click play and it starts instantly.' },
-    ],
-    links: [
-      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
-      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
-      { href: '/channel/m6',                  label: '📺 M6 En Direct'               },
-      { href: '/channel/la-1',                label: '📺 La 1 En Directo'            },
-      { href: '/live',                        label: '📡 All Live Channels'           },
-    ],
-  },
-  'trt': {
-    teams: ['Crystal Palace', 'Rayo Vallecano'],
-    logos: [
-      'https://upload.wikimedia.org/wikipedia/en/a/a2/Crystal_Palace_FC_logo_%282022%29.svg',
-      'https://upload.wikimedia.org/wikipedia/en/4/47/Rayo_Vallecano_logo.svg',
-    ],
-    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/0/0e/UEFA_Europa_Conference_League_logo.svg',
-    competition: 'UEFA Conference League Final 2026',
-    date: '27 May 2026',
-    kickoff: '21:00 CET',
-    venue: 'Estadio de La Cartuja, Seville',
-    broadcastNote: 'Broadcasting free on TRT',
-    blocks: [
-      {
-        lang: 'English', flag: '🇬🇧',
-        title: 'Conference League Final 2026 — Free Live Stream',
-        body: 'Watch Crystal Palace vs Rayo Vallecano live — UEFA Conference League Final 2026. Free HD stream on TRT — no subscription required.',
-      },
-      {
-        lang: 'Türkçe', flag: '🇹🇷',
-        title: 'Konferans Ligi Finali 2026 — Canlı İzle',
-        body: 'Crystal Palace - Rayo Vallecano maçını TRT\'de canlı ve ücretsiz izleyin. UEFA Konferans Ligi Finali 2026 HD yayın.',
-      },
-      {
-        lang: 'العربية', flag: '🌍',
-        title: 'نهائي الدوري الأوروبي الثالث 2026 — بث مباشر',
-        body: 'شاهد كريستال بالاس ضد رايو فاليكانو مجاناً — نهائي دوري المؤتمر الأوروبي 2026 على TRT بجودة HD.',
-      },
-      {
-        lang: 'Español', flag: '🇪🇸',
-        title: 'Final Conference League 2026 — En Directo',
-        body: 'Crystal Palace vs Rayo Vallecano en directo gratis. Final de la UEFA Conference League 2026 en TRT — streaming HD sin suscripción.',
-      },
-    ],
-    faq: [
-      { q: 'Where to watch Crystal Palace vs Rayo Vallecano free?', a: 'Stream is live above on TRT — broadcasting the Conference League Final 2026 for free in HD.' },
-      { q: 'Crystal Palace Rayo Vallecano hangi kanalda?', a: 'TRT\'de canlı yayın üstte — Konferans Ligi Finali 2026 ücretsiz HD yayın.' },
-      { q: '¿Dónde ver Crystal Palace vs Rayo Vallecano gratis?', a: 'Streaming arriba en TRT — Final Conference League 2026 gratis en HD sin registro.' },
-    ],
-    links: [
-      { href: '/crystal-palace-vs-rayo-vallecano', label: '🏆 Match Page'        },
-      { href: '/arsenal-vs-psg',                   label: '⚽ UCL Final — Arsenal vs PSG' },
-      { href: '/live',                             label: '📡 All Live Channels'  },
-    ],
-  },
-
-  // ── West Africa ─────────────────────────────────────────────────────────────
-  'rti-1': {
-    teams: ['Arsenal FC', 'Paris Saint-Germain'],
-    logos: [
-      'https://upload.wikimedia.org/wikipedia/en/5/53/Arsenal_FC.svg',
-      'https://upload.wikimedia.org/wikipedia/en/a/a7/Paris_Saint-Germain_F.C..svg',
-    ],
-    competitionLogo: 'https://upload.wikimedia.org/wikipedia/en/f/f5/UEFA_Champions_League.svg',
-    competition: 'UEFA Champions League Final 2026',
-    date: '30 Mai 2026',
-    kickoff: '21:00 CET · 20:00 UTC',
-    broadcastNote: "Diffusé gratuitement sur RTI 1 — Côte d'Ivoire",
-    blocks: [
-      {
-        lang: 'Français', flag: '🇨🇮',
-        title: "Finale Ligue des Champions 2026 — RTI 1 En Direct",
-        body: "Regardez la Finale de la Ligue des Champions 2026 en direct et gratuitement sur RTI 1 (Côte d'Ivoire). Arsenal contre Paris Saint-Germain — streaming HD sans abonnement, sans inscription.",
-      },
-      {
-        lang: 'English', flag: '🇬🇧',
-        title: 'Champions League Final 2026 — Live on RTI 1',
-        body: "Watch the UEFA Champions League Final 2026 live on RTI 1 (Côte d'Ivoire) — Arsenal FC vs Paris Saint-Germain. Free HD stream, no subscription needed.",
-      },
-      {
-        lang: 'العربية', flag: '🌍',
-        title: 'نهائي دوري أبطال أوروبا 2026 — بث مباشر على RTI 1',
-        body: 'شاهد نهائي دوري أبطال أوروبا 2026 مجاناً على قناة RTI 1 — ارسنال ضد باريس سان جيرمان بجودة HD بدون اشتراك.',
-      },
-      {
-        lang: 'Español', flag: '🇪🇸',
-        title: 'Final Champions League 2026 — RTI 1 En Directo',
-        body: "Ver la Final de la UEFA Champions League 2026 gratis en RTI 1 (Costa de Marfil) — Arsenal contra PSG en HD sin registro.",
-      },
-    ],
-    faq: [
-      { q: "Comment regarder la finale Champions League sur RTI 1 gratuitement ?", a: "Le stream est en direct ci-dessus — RTI 1 diffuse la Finale de la Champions League 2026 gratuitement en HD. Aucun compte nécessaire." },
-      { q: "À quelle heure est le coup d'envoi Arsenal vs PSG ?", a: "21h00 CET (20h00 UTC) le 30 mai 2026 — 21h Abidjan (GMT+1), 20h Londres, 15h New York." },
-      { q: "How to watch Arsenal vs PSG free on RTI 1?", a: "Stream is live above — RTI 1 broadcasts the Champions League Final 2026 free. Click play and it starts instantly." },
-    ],
-    links: [
-      { href: '/arsenal-vs-psg',              label: '🏆 Arsenal vs PSG Match Page'   },
-      { href: '/champions-league-final-2026', label: '⚽ UCL Final 2026 Hub'         },
-      { href: '/channel/m6',                  label: '📺 M6 En Direct'               },
-      { href: '/channel/canal-sport',         label: '📺 Canal+ Sport'               },
-      { href: '/live',                        label: '📡 All Live Channels'           },
-    ],
-  },
 
   // ── Moroccan / Maghreb channels ─────────────────────────────────────────────
   '2m': {
@@ -612,10 +374,6 @@ const EVENT_CONTENT: Record<string, {
 
 // Alias slugs map to the same content
 const SLUG_MAP: Record<string, string> = {
-  'la-1-1': 'la-1', 'la-1-2': 'la-1',
-  'trt-1': 'trt', 'trt1': 'trt',
-  'canal-sport-hd': 'canal-sport', 'canal-plus-sport': 'canal-sport',
-  'canalplus-sport': 'canal-sport', 'canal-sport-1': 'canal-sport',
   // Moroccan channels
   'al-aoula-1': 'al-aoula', 'alaoula': 'al-aoula', 'snrt-1': 'al-aoula',
   'al-arryadia': 'arryadia', 'arryadia-hd': 'arryadia', 'snrt-sport': 'arryadia',
@@ -623,21 +381,6 @@ const SLUG_MAP: Record<string, string> = {
   '2m-maroc': '2m', '2m-hd': '2m',
   'almaghribia': 'al-maghribia',
 };
-
-function TeamBadge({ src, name, fallbackColor }: { src: string; name: string; fallbackColor: string }) {
-  const [err, setErr] = useState(false);
-  return (
-    <div
-      className="w-16 h-16 md:w-20 md:h-20 rounded-full flex items-center justify-center shadow-2xl border border-white/10 bg-gray-900 overflow-hidden"
-      style={{ boxShadow: `0 0 30px ${fallbackColor}40` }}
-    >
-      {!err
-        ? <img src={src} alt={name} className="w-12 h-12 md:w-16 md:h-16 object-contain p-1" onError={() => setErr(true)} />
-        : <span className="text-3xl">{name[0]}</span>
-      }
-    </div>
-  );
-}
 
 function EventContent({ override, channel }: { override: EventOverride; channel: Channel }) {
   const key = SLUG_MAP[channel.slug] ?? channel.slug;
@@ -654,95 +397,32 @@ function EventContent({ override, channel }: { override: EventOverride; channel:
   return (
     <div className="border-t border-white/5 space-y-6 px-4 py-6">
 
-      {/* ── Channel info banner (TV channels without a specific match) ─────── */}
-      {data.type === 'channel' ? (
-        <div className="relative rounded-2xl overflow-hidden border border-white/5"
-          style={{ background: 'linear-gradient(160deg, #0a150a 0%, #0d200d 40%, #150a0a 100%)' }}>
-          <div className="absolute inset-0 opacity-[0.05]"
-            style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-          <div className="relative flex items-center gap-4 px-5 py-5">
-            {data.channelIcon && (
-              <span className="text-4xl flex-shrink-0">{data.channelIcon}</span>
-            )}
-            <div className="flex-1 min-w-0">
-              <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em] mb-0.5">
-                🔴 EN DIRECT · بث مباشر · LIVE
-              </p>
-              <h2 className="text-white font-black text-lg leading-tight">{data.channelName}</h2>
-              {data.tagline && <p className="text-gray-400 text-xs mt-1">{data.tagline}</p>}
-            </div>
-            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider flex-shrink-0">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
-            </span>
-          </div>
-          {data.broadcastNote && (
-            <div className="relative px-5 py-2 border-t border-white/5 bg-black/20">
-              <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
-            </div>
+      {/* ── Channel info banner ─────────────────────────────────────────────── */}
+      <div className="relative rounded-2xl overflow-hidden border border-white/5"
+        style={{ background: 'linear-gradient(160deg, #0a150a 0%, #0d200d 40%, #150a0a 100%)' }}>
+        <div className="absolute inset-0 opacity-[0.05]"
+          style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+        <div className="relative flex items-center gap-4 px-5 py-5">
+          {data.channelIcon && (
+            <span className="text-4xl flex-shrink-0">{data.channelIcon}</span>
           )}
-        </div>
-      ) : (
-        /* ── Broadcast matchday graphic (sports events) ───────────────────── */
-        <div className="relative rounded-2xl overflow-hidden"
-          style={{ background: 'linear-gradient(160deg, #080c1f 0%, #0c1445 40%, #080c1f 100%)' }}>
-
-          <div className="absolute inset-0 opacity-[0.07]"
-            style={{ backgroundImage: 'radial-gradient(circle, #fff 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-
-          <div className="relative flex items-center justify-between px-5 py-3 border-b border-white/5">
-            <div className="flex items-center gap-3">
-              {data.competitionLogo && (
-                <img src={data.competitionLogo} alt={data.competition}
-                  className="h-7 w-auto object-contain"
-                  onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
-                />
-              )}
-              <div>
-                <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em]">{data.competition}</p>
-                {data.venue && <p className="text-gray-500 text-[9px]">{data.venue}</p>}
-              </div>
-            </div>
-            <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider">
-              <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
-            </span>
+          <div className="flex-1 min-w-0">
+            <p className="text-[#c8b87a] text-[10px] font-bold uppercase tracking-[0.25em] mb-0.5">
+              🔴 LIVE · بث مباشر · Live
+            </p>
+            <h2 className="text-white font-black text-lg leading-tight">{data.channelName}</h2>
+            {data.tagline && <p className="text-gray-400 text-xs mt-1">{data.tagline}</p>}
           </div>
-
-          {data.teams && data.logos && (
-            <div className="relative flex items-center justify-center gap-4 md:gap-10 px-6 py-8">
-              <div className="flex flex-col items-center gap-3 flex-1">
-                <TeamBadge src={data.logos[0]} name={data.teams[0]} fallbackColor="#ef4444" />
-                <p className="text-white font-black text-sm md:text-base leading-tight text-center">{data.teams[0]}</p>
-              </div>
-              <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                <div className="flex items-center gap-1 bg-black/40 border border-white/10 rounded-xl px-5 py-3 shadow-2xl">
-                  <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
-                  <span className="text-gray-600 font-black text-3xl px-1">:</span>
-                  <span className="text-white font-black text-3xl md:text-4xl tabular-nums w-8 text-center">-</span>
-                </div>
-                <p className="text-[#c8b87a] text-[10px] uppercase tracking-widest">FINAL</p>
-              </div>
-              <div className="flex flex-col items-center gap-3 flex-1">
-                <TeamBadge src={data.logos[1]} name={data.teams[1]} fallbackColor="#3b82f6" />
-                <p className="text-white font-black text-sm md:text-base leading-tight text-center">{data.teams[1]}</p>
-              </div>
-            </div>
-          )}
-
-          <div className="relative flex flex-wrap items-center justify-between gap-3 px-5 py-3 border-t border-white/5 bg-black/20">
-            <div className="flex flex-wrap gap-4 text-xs">
-              {data.date   && <span className="text-gray-400">📅 {data.date}</span>}
-              {data.kickoff && <span className="text-gray-400">⏰ {data.kickoff}</span>}
-            </div>
-            {data.broadcastLogo ? (
-              <img src={data.broadcastLogo} alt="Broadcast channel"
-                className="h-5 w-auto object-contain opacity-80"
-                onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} />
-            ) : data.broadcastNote ? (
-              <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
-            ) : null}
-          </div>
+          <span className="flex items-center gap-1.5 px-2.5 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-wider flex-shrink-0">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
+          </span>
         </div>
-      )}
+        {data.broadcastNote && (
+          <div className="relative px-5 py-2 border-t border-white/5 bg-black/20">
+            <span className="text-gray-400 text-xs">{data.broadcastNote}</span>
+          </div>
+        )}
+      </div>
 
       {/* ── Ad banner — mid-content placement ───────────────────────────────── */}
       <AdBanner />

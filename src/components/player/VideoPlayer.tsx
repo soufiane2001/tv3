@@ -261,15 +261,15 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       {state === 'error' && (
         <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/80 gap-3 px-4">
           <WifiOff className="w-12 h-12 text-red-400" />
-          <p className="text-white font-semibold text-base">Stream indisponible</p>
-          <p className="text-white/50 text-xs text-center">Essayez un autre serveur ou ouvrez dans VLC</p>
+          <p className="text-white font-semibold text-base">Stream unavailable</p>
+          <p className="text-white/50 text-xs text-center">Try another server or open in VLC</p>
           <div className="flex flex-wrap gap-2 justify-center">
             <button
               onClick={(e) => { e.stopPropagation(); handleRetry(); }}
               className="flex items-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg transition-colors text-sm"
             >
               <RefreshCw className="w-4 h-4" />
-              Réessayer {retryCount > 0 && `(${retryCount})`}
+              Retry {retryCount > 0 && `(${retryCount})`}
             </button>
             <a
               href={`/api/stream/${channel.id}`}
@@ -278,7 +278,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
               onClick={(e) => e.stopPropagation()}
               className="flex items-center gap-2 px-4 py-2 bg-orange-600 hover:bg-orange-500 text-white rounded-lg transition-colors text-sm"
             >
-              Ouvrir dans VLC
+              Open in VLC
             </a>
           </div>
         </div>

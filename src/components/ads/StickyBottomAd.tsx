@@ -31,7 +31,7 @@ export default function StickyBottomAd() {
       <button
         onClick={() => setVisible(false)}
         className="absolute top-1 right-2 text-gray-600 hover:text-gray-400 text-xs px-2 py-0.5 rounded transition-colors"
-        aria-label="Fermer"
+        aria-label="Close"
       >
         ✕
       </button>

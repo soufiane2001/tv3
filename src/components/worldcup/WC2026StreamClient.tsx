@@ -174,9 +174,9 @@ export default function WC2026StreamClient({ servers, match }: Props) {
           <div className="absolute bottom-0 left-0 right-0 flex flex-col items-center gap-2 pb-4 bg-gradient-to-t from-black/80 to-transparent pt-10">
             <button className="flex items-center gap-3 px-6 md:px-10 py-3 md:py-4 bg-white text-gray-900 font-black rounded-full shadow-2xl group-hover:scale-105 transition-all text-sm md:text-base uppercase tracking-wider">
               <Play className="w-5 h-5 fill-gray-900 flex-shrink-0" />
-              Regarder Gratuitement
+              Watch Free
             </button>
-            <p className="text-gray-400 text-[10px] uppercase tracking-widest">{active.sublabel} · HD · Sans Inscription</p>
+            <p className="text-gray-400 text-[10px] uppercase tracking-widest">{active.sublabel} · HD · No Registration</p>
           </div>
 
           {/* Hover shimmer */}
