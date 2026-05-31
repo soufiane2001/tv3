@@ -56,7 +56,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/channel/ar-bein-sport-uhd-1`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/trt`,         lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
     { url: `${base}/channel/rti-1`,       lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
-    // Today's match
+    // Today's matches
+    { url: `${base}/brazil-vs-panama-2026`,   lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/germany-vs-finland-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/channel/lequipe-tv`,      lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
     // Moroccan channels hub + individual pages
