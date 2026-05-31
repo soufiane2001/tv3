@@ -7,7 +7,7 @@ import GermanyFinlandClient from './GermanyFinlandClient';
 
 export const revalidate = 300;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 const LEQUIPE_STREAM = 'https://raw.githubusercontent.com/Paradise-91/ParaTV/main/streams/lequipe/la-chaine-l-equipe-en-direct-dm.m3u8';
 
 // ─── SEO ──────────────────────────────────────────────────────────────────────

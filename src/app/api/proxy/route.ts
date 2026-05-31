@@ -173,7 +173,7 @@ export async function GET(req: NextRequest) {
   const buildHeaders = (ua: string): Record<string, string> => ({
     ...buildHeadersClean(ua),
     'Referer': 'https://sportalive.live/',
-    'Origin': 'https://sportalive.live',
+    'Origin': 'https://www.sportalive.live',
   });
 
   // ── Fetch with retry strategy ──────────────────────────────────────────────

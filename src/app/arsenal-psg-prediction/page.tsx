@@ -4,7 +4,7 @@ import JsonLd from '@/components/seo/JsonLd';
 
 export const revalidate = 300;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 export const metadata: Metadata = {
   title: 'Arsenal vs PSG Prediction & Preview — UCL Final 2026 | SportaLive',

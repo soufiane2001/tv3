@@ -7,7 +7,7 @@ import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 300;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 const TITLE = 'Arsenal vs PSG LIVE — UCL Final 2026 Free Stream | PSG Squad Lineup · La 1 · M6';
 const DESC  = '🔴 LIVE — Watch Arsenal vs PSG Champions League Final 2026 FREE. PSG squad & Arsenal lineup. Stream HD on La 1, M6, Canal+ Sport. No subscription. Dove vedere · Donde ver · بث مباشر مجاناً.';

@@ -9,7 +9,7 @@ import { blogs } from '@/data/wc2026-blogs';
 
 export const revalidate = 3600;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 const SLUG = 'canada-vs-bosnia-2026';
 const PAGE_URL = `${SITE}/${SLUG}`;
 

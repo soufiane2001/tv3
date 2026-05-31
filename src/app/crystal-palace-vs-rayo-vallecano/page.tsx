@@ -8,7 +8,7 @@ import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 300;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 const TITLE = 'Crystal Palace vs Rayo Vallecano LIVE — Conference League Final 2026 | TRT 1';
 const DESC  = 'Watch Crystal Palace vs Rayo Vallecano live — UEFA Conference League Final 2026 on TRT 1. Free HD stream. Crystal Palace Rayo Vallecano en direct. كريستال بالاس رايو فاليكانو بث مباشر نهائي الدوري الأوروبي الثالث 2026.';

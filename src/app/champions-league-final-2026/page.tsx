@@ -6,7 +6,7 @@ import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 600;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 export const metadata: Metadata = {
   title: 'Champions League Final 2026 LIVE — Arsenal vs PSG Free Stream | Dove Vedere | Donde Ver',

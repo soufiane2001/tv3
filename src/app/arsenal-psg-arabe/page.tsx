@@ -7,7 +7,7 @@ import AdBanner from '@/components/ads/AdBanner';
 
 export const revalidate = 300;
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 export const metadata: Metadata = {
   title: 'ارسنال ضد باريس بث مباشر مجاني — نهائي دوري أبطال أوروبا 2026 | beIN Sports UHD',
