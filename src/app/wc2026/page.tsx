@@ -7,23 +7,43 @@ export const revalidate = 3600;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 export const metadata: Metadata = {
-  title: 'FIFA World Cup 2026 — All Matches Live Stream Free | SportaLive',
-  description: 'Watch all FIFA World Cup 2026 matches live for free. Group stage schedule, live streams, lineups and predictions. USA, Canada, Mexico hosting — June 11 to July 19, 2026.',
+  title: 'FIFA World Cup 2026 Live Stream Free — All Matches Schedule | SportaLive',
+  description: 'Watch every FIFA World Cup 2026 match LIVE FREE in HD. Full group stage schedule, free streams on M6, beIN Sports and more. USA, Canada & Mexico — June 11 to July 19, 2026. No subscription needed. مباريات كأس العالم 2026 بث مباشر مجاناً.',
   keywords: [
-    'world cup 2026 matches','world cup 2026 live stream','fifa world cup 2026 schedule',
-    'watch world cup 2026 free','mundial 2026 partidos','coupe du monde 2026 matchs',
-    'كأس العالم 2026 مباريات','world cup 2026 group stage','fifa 2026 en vivo gratis',
-    'world cup 2026 free online','coupe du monde 2026 streaming gratuit',
-    'كأس العالم 2026 بث مباشر مجاني','mundial 2026 en vivo gratis',
-    'wc2026 live','wc 2026 matches free',
+    'world cup 2026 live stream free','fifa world cup 2026','watch world cup 2026 free',
+    'world cup 2026 schedule','world cup 2026 group stage','wc2026 live stream',
+    'world cup 2026 matches today','world cup 2026 tv channel free',
+    'how to watch world cup 2026 free','world cup 2026 free online hd',
+    'mundial 2026 en vivo gratis','mundial 2026 partidos',
+    'coupe du monde 2026 streaming gratuit','coupe du monde 2026 matchs en direct',
+    'كأس العالم 2026 بث مباشر مجاناً','مباريات كأس العالم 2026','كأس العالم 2026 جدول',
+    'wm 2026 live stream kostenlos','world cup 2026 free stream no registration',
   ].join(', '),
-  alternates: { canonical: `${SITE}/wc2026` },
+  alternates: {
+    canonical: `${SITE}/wc2026`,
+    languages: {
+      'en': `${SITE}/wc2026`,
+      'fr': `${SITE}/wc2026`,
+      'ar': `${SITE}/wc2026`,
+      'x-default': `${SITE}/wc2026`,
+    },
+  },
   openGraph: {
     title: '🌍 FIFA World Cup 2026 — All Matches Live Stream Free',
-    description: 'All World Cup 2026 group stage matches with free live streams. Updated schedule with flags, times, and channels.',
+    description: 'Watch every World Cup 2026 match free in HD. Full group stage schedule — M6, beIN Sports, no subscription.',
     type: 'website',
+    url: `${SITE}/wc2026`,
+    siteName: 'SportaLive',
   },
-  robots: { index: true, follow: true },
+  twitter: {
+    card: 'summary_large_image',
+    title: '🌍 FIFA World Cup 2026 — All Matches Free Live Stream',
+    description: 'Full WC2026 schedule + free HD streams — M6, beIN Sports. No registration.',
+  },
+  robots: {
+    index: true, follow: true,
+    googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' },
+  },
 };
 
 const jsonLd = {
@@ -46,6 +66,48 @@ const jsonLd = {
     { '@type': 'ListItem', position: 10, name: 'Germany vs Curaçao — WC2026',      url: `${SITE}/germany-vs-curacao-2026` },
     { '@type': 'ListItem', position: 11, name: 'Netherlands vs Japan — WC2026',    url: `${SITE}/netherlands-vs-japan-2026` },
     { '@type': 'ListItem', position: 12, name: 'Sweden vs Tunisia — WC2026',       url: `${SITE}/sweden-vs-tunisia-2026` },
+  ],
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'FAQPage',
+  mainEntity: [
+    {
+      '@type': 'Question',
+      name: 'Where can I watch FIFA World Cup 2026 matches live for free?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Watch all FIFA World Cup 2026 matches free in HD on SportaLive. We stream M6 (France), beIN Sports, and other broadcast channels live — no subscription, no registration needed. Just click the match and watch.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'When does FIFA World Cup 2026 start?',
+      acceptedAnswer: { '@type': 'Answer', text: 'FIFA World Cup 2026 starts on June 11, 2026 with the opening match Mexico vs South Africa at SoFi Stadium in Los Angeles. The final is on July 19, 2026.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Which countries host the 2026 World Cup?',
+      acceptedAnswer: { '@type': 'Answer', text: 'The FIFA World Cup 2026 is co-hosted by three countries: the United States (USA), Canada, and Mexico. It is the first World Cup with 48 teams and 104 matches.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'What TV channels broadcast World Cup 2026 for free?',
+      acceptedAnswer: { '@type': 'Answer', text: 'World Cup 2026 is broadcast free on M6 (France), beIN Sports (MENA), and various national channels. SportaLive streams all these channels live in HD for free — no cable subscription required.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'كيف أشاهد مباريات كأس العالم 2026 مجاناً؟',
+      acceptedAnswer: { '@type': 'Answer', text: 'يمكنك مشاهدة جميع مباريات كأس العالم 2026 مجاناً وبجودة HD على موقع SportaLive. نقوم ببث قنوات beIN Sports وM6 وغيرها مباشرة — بدون اشتراك، بدون تسجيل. فقط اختر المباراة واضغط مشاهدة.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'Comment regarder la Coupe du Monde 2026 gratuitement?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Regardez tous les matchs de la Coupe du Monde 2026 gratuitement en HD sur SportaLive. Nous retransmettons M6, beIN Sports et d\'autres chaînes en direct — sans abonnement, sans inscription.' },
+    },
+    {
+      '@type': 'Question',
+      name: 'How many teams are in the 2026 World Cup?',
+      acceptedAnswer: { '@type': 'Answer', text: 'FIFA World Cup 2026 features 48 teams for the first time in history (expanded from 32). There are 12 groups of 4 teams, with 104 total matches played across the USA, Canada, and Mexico.' },
+    },
   ],
 };
 
@@ -110,6 +172,7 @@ export default function WC2026Page() {
   return (
     <>
       <JsonLd data={jsonLd} />
+      <JsonLd data={faqJsonLd} />
 
       <div className="max-w-4xl mx-auto space-y-8">
 
@@ -222,10 +285,46 @@ export default function WC2026Page() {
           ))}
         </section>
 
-        <p className="text-gray-700 text-xs leading-relaxed">
-          world cup 2026 matches live stream · fifa world cup 2026 schedule · watch world cup free ·
-          coupe du monde 2026 streaming gratuit · كأس العالم 2026 بث مباشر · mundial 2026 en vivo gratis ·
-          copa do mundo 2026 ao vivo · wm 2026 live stream kostenlos · dünya kupası 2026 canlı izle
+        {/* ── About section ── */}
+        <section className="bg-gray-900/40 border border-white/5 rounded-2xl p-6 space-y-4">
+          <h2 className="text-white font-bold text-lg">FIFA World Cup 2026 — Free Live Stream Guide</h2>
+          <div className="space-y-3 text-sm text-gray-300 leading-relaxed">
+            <p>
+              <strong className="text-white">FIFA World Cup 2026</strong> is the biggest football tournament in history, featuring <strong className="text-white">48 nations</strong> for the first time across <strong className="text-white">104 matches</strong> hosted in the <strong className="text-green-400">USA, Canada and Mexico</strong> from <strong className="text-white">June 11 to July 19, 2026</strong>.
+              Watch every single match <strong className="text-white">live free in HD on SportaLive</strong> — no subscription, no account needed.
+            </p>
+            <p>
+              All group stage matches are available via free-to-air broadcast channels including <strong className="text-white">M6</strong> (France), <strong className="text-white">beIN Sports</strong> (Middle East & North Africa), national public broadcasters, and more.
+              Click any match above to go to its dedicated live stream page.
+            </p>
+            <div dir="rtl" className="border-r-2 border-green-500/30 pr-4">
+              <p>
+                <strong className="text-white">كأس العالم FIFA 2026</strong> — أكبر بطولة كروية في التاريخ. 48 منتخباً، 104 مباراة، تستضيفها <strong className="text-white">الولايات المتحدة وكندا والمكسيك</strong> من 11 يونيو حتى 19 يوليو 2026.
+                شاهد جميع المباريات <strong className="text-white">مجاناً وبجودة HD على SportaLive</strong> — بث مباشر عبر beIN Sports وM6 وغيرها، بدون اشتراك ولا تسجيل.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* ── FAQ ── */}
+        <section className="space-y-2">
+          <h2 className="text-white font-bold text-lg mb-3">❓ Frequently Asked Questions</h2>
+          {faqJsonLd.mainEntity.map((item: any, i: number) => (
+            <details key={i} className="bg-gray-800/40 border border-white/5 rounded-xl p-3 group cursor-pointer">
+              <summary className="text-white text-sm font-medium list-none flex justify-between items-center gap-2">
+                <span>{item.name}</span>
+                <span className="text-green-400 text-lg flex-shrink-0 group-open:rotate-45 transition-transform">+</span>
+              </summary>
+              <p className="text-gray-400 text-xs mt-2 leading-relaxed">{item.acceptedAnswer.text}</p>
+            </details>
+          ))}
+        </section>
+
+        <p className="text-gray-700 text-[11px] leading-relaxed">
+          world cup 2026 live stream free · fifa world cup 2026 schedule · watch world cup 2026 free online ·
+          world cup 2026 group stage matches · كأس العالم 2026 بث مباشر مجاناً · مباريات كأس العالم 2026 ·
+          coupe du monde 2026 streaming gratuit · mundial 2026 en vivo gratis ·
+          wm 2026 live stream kostenlos · copa do mundo 2026 ao vivo grátis
         </p>
       </div>
     </>

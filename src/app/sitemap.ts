@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 export const revalidate = 3600; // regenerate at most once per hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live';
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live';
   const now  = new Date();
 
   let channels: { slug: string; updatedAt: Date }[] = [];
@@ -56,6 +56,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/channel/ar-bein-sport-uhd-1`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/trt`,         lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
     { url: `${base}/channel/rti-1`,       lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
+    // Today's match
+    { url: `${base}/germany-vs-finland-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
+    { url: `${base}/channel/lequipe-tv`,      lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
     // Moroccan channels hub + individual pages
     { url: `${base}/chaines-marocaines`,   lastModified: now, changeFrequency: 'daily',  priority: 0.9  },
     { url: `${base}/channel/2m`,           lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
