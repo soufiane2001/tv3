@@ -12,6 +12,29 @@ const EVENT_OVERRIDES: Record<string, {
   jsonLd?: Record<string, unknown>;
 }> = {
 
+  // ── L'Équipe TV ──────────────────────────────────────────────────────────────
+  'lequipe-tv': {
+    title: "🔴 L'Équipe TV En Direct — Germany vs Finland LIVE | Allemagne Finlande Gratuit",
+    description: "Regarder L'Équipe TV en direct gratuit HD — Allemagne vs Finlande et tout le sport en live. Watch L'Équipe TV free live stream — Germany Finland and top sport. L'Équipe TV kostenlos live. قناة L'Équipe بث مباشر مجاناً.",
+    keywords: [
+      "l'equipe tv en direct","l'equipe direct gratuit","lequipe tv live stream",
+      "l equipe tv streaming gratuit","regarder lequipe gratuit","l'équipe tv live",
+      "lequipe tv france","lequipe direct sport","l'équipe en direct gratuitement",
+      "allemagne finlande lequipe","germany finland lequipe tv",
+      "deutschland finnland lequipe","lequipe tv live free",
+      "watch lequipe tv online free","قناة lequipe بث مباشر",
+      "مشاهدة lequipe مجاناً",
+    ],
+    jsonLd: {
+      '@context': 'https://schema.org', '@type': 'BroadcastService',
+      name: "L'Équipe TV",
+      description: "Chaîne française de sport en continu. Diffuse le football, le rugby, le tennis et plus.",
+      broadcastDisplayName: "L'Équipe TV",
+      inLanguage: ['fr'],
+      broadcaster: { '@type': 'Organization', name: "L'Équipe", url: 'https://www.lequipe.fr' },
+    },
+  },
+
   // ── Moroccan / Maghreb channels ──────────────────────────────────────────────
 
   '2m': {
@@ -213,6 +236,7 @@ const SLUG_ALIASES: Record<string, { slugs: string[]; names: string[] }> = {
   'arrabia':      { slugs: ['arrabia','al-arrabia','arrabia-hd','arrabia-1','snrt-3'], names: ['Arrabia','Al Arrabia','العربية المغربية','الثالثة','SNRT 3'] },
   'medi-1':       { slugs: ['medi-1','medi1','medi-1-tv','medi1tv','medi-tv'], names: ['Medi 1','Medi1','Medi 1 TV','ميدي 1'] },
   'al-maghribia': { slugs: ['al-maghribia','almaghribia','maghribia','snrt-al-maghribia'], names: ['Al Maghribia','المغربية','Maghribia'] },
+  'lequipe-tv':   { slugs: ['lequipe-tv','lequipe','l-equipe','la-chaine-lequipe'], names: ["L'Équipe TV","L'Equipe","LEquipe","L Equipe"] },
 };
 
 async function resolveChannel(slug: string) {

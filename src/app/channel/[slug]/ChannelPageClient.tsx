@@ -164,6 +164,47 @@ const EVENT_CONTENT: Record<string, {
   links: { href: string; label: string }[];
 }> = {
 
+  // ── L'Équipe TV ──────────────────────────────────────────────────────────────
+  'lequipe-tv': {
+    type: 'channel',
+    channelIcon: '⚽',
+    channelName: "L'Équipe TV",
+    tagline: 'Sport 24/7 · Football · Rugby · Tennis · Cyclisme',
+    broadcastNote: "Diffusion gratuite en direct HD · Free live stream",
+    blocks: [
+      {
+        lang: 'Français', flag: '🇫🇷',
+        title: "Regarder L'Équipe TV en Direct Gratuit",
+        body: "Regardez L'Équipe TV en direct et gratuitement en HD. Football, rugby, tennis, cyclisme — toute l'actualité sportive en continu, sans abonnement, sans inscription.",
+      },
+      {
+        lang: 'English', flag: '🇬🇧',
+        title: "Watch L'Équipe TV Live Stream Free",
+        body: "Stream L'Équipe TV live in HD for free. French sports channel featuring football, rugby, cycling and more — no subscription required. Watch from anywhere worldwide.",
+      },
+      {
+        lang: 'Deutsch', flag: '🇩🇪',
+        title: "L'Équipe TV Live kostenlos sehen",
+        body: "L'Équipe TV kostenlos und in HD auf SportaLive streamen. Fußball, Rugby, Tennis, Radsport und mehr — kein Abo, keine Anmeldung erforderlich.",
+      },
+      {
+        lang: 'العربية', flag: '🇸🇦',
+        title: "مشاهدة قناة L'Équipe بث مباشر مجاناً",
+        body: "شاهد قناة L'Équipe TV بث مباشر مجاناً وبجودة HD. قناة الرياضة الفرنسية — كرة القدم، الرجبي، التنس، وأكثر — بدون اشتراك.",
+      },
+    ],
+    faq: [
+      { q: "Comment regarder L'Équipe TV en direct gratuitement ?", a: "Cliquez sur lecture ci-dessus — L'Équipe TV est disponible en direct gratuit HD sur SportaLive. Aucun compte nécessaire." },
+      { q: "How to watch L'Équipe TV live for free?", a: "Click play above — L'Équipe TV live stream is free in HD on SportaLive. No account needed, works from anywhere." },
+      { q: "Wie kann ich L'Équipe TV kostenlos sehen?", a: "Klicken Sie oben auf Play — L'Équipe TV ist kostenlos in HD auf SportaLive verfügbar. Kein Abo nötig." },
+    ],
+    links: [
+      { href: '/germany-vs-finland-2026', label: '🔴 Germany vs Finland LIVE' },
+      { href: '/live',                    label: '📡 All Live Channels'        },
+      { href: '/wc2026',                  label: '🏆 WC 2026 Hub'              },
+    ],
+  },
+
   // ── Moroccan / Maghreb channels ─────────────────────────────────────────────
   '2m': {
     type: 'channel',
