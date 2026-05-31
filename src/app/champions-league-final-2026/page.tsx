@@ -6,6 +6,8 @@ import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 600;
 
+const SITE = SITE ?? 'https://www.sportalive.live';
+
 export const metadata: Metadata = {
   title: 'Champions League Final 2026 LIVE — Arsenal vs PSG Free Stream | Dove Vedere | Donde Ver',
   description: 'Watch Arsenal vs PSG Champions League Final 2026 FREE in HD. Dove vedere la finale di Champions League gratis. Dónde ver la final de la Champions League 2026 gratis. بث مباشر مجاني نهائي 2026.',
@@ -55,7 +57,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: '🏆 UCL Final 2026 LIVE — Arsenal vs PSG' },
   robots: { index: true, follow: true },
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/champions-league-final-2026` },
+  alternates: { canonical: `${SITE}/champions-league-final-2026` },
 };
 
 const jsonLd = {
@@ -66,7 +68,7 @@ const jsonLd = {
   endDate: '2026-05-30T22:30:00Z',
   description: 'The UEFA Champions League Final 2026 between Arsenal FC and Paris Saint-Germain. Watch live free on SportaLive.',
   sport: 'Football',
-  url: `${process.env.NEXT_PUBLIC_SITE_URL}/champions-league-final-2026`,
+  url: `${SITE}/champions-league-final-2026`,
   location: {
     '@type': 'Place',
     name: 'Allianz Arena',
@@ -86,7 +88,7 @@ const jsonLd = {
     price: '0',
     priceCurrency: 'EUR',
     availability: 'https://schema.org/InStock',
-    url: `${process.env.NEXT_PUBLIC_SITE_URL}/arsenal-vs-psg`,
+    url: `${SITE}/arsenal-vs-psg`,
     validFrom: '2026-05-30T00:00:00Z',
   },
   competitor: [

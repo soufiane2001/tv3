@@ -8,6 +8,8 @@ import { uclBlogs } from '@/data/ucl-blogs';
 
 export const revalidate = 300;
 
+const SITE = SITE ?? 'https://www.sportalive.live';
+
 const TITLE = 'Crystal Palace vs Rayo Vallecano LIVE — Conference League Final 2026 | TRT 1';
 const DESC  = 'Watch Crystal Palace vs Rayo Vallecano live — UEFA Conference League Final 2026 on TRT 1. Free HD stream. Crystal Palace Rayo Vallecano en direct. كريستال بالاس رايو فاليكانو بث مباشر نهائي الدوري الأوروبي الثالث 2026.';
 
@@ -58,7 +60,7 @@ export const metadata: Metadata = {
     title: '🔴 Crystal Palace vs Rayo Vallecano LIVE — UCL Conference Final 2026',
   },
   robots: { index: true, follow: true },
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/crystal-palace-vs-rayo-vallecano` },
+  alternates: { canonical: `${SITE}/crystal-palace-vs-rayo-vallecano` },
 };
 
 const matchJsonLd = {
@@ -69,7 +71,7 @@ const matchJsonLd = {
   endDate:   '2026-05-27T22:00:00Z',
   description: 'UEFA Conference League Final 2026. Crystal Palace vs Rayo Vallecano. Watch live on TRT 1.',
   sport: 'Football',
-  url: `${process.env.NEXT_PUBLIC_SITE_URL}/crystal-palace-vs-rayo-vallecano`,
+  url: `${SITE}/crystal-palace-vs-rayo-vallecano`,
   competitor: [
     { '@type': 'SportsTeam', name: 'Crystal Palace', sport: 'Football' },
     { '@type': 'SportsTeam', name: 'Rayo Vallecano', sport: 'Football' },

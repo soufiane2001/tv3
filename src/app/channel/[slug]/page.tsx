@@ -4,6 +4,8 @@ import type { Metadata } from 'next';
 import JsonLd from '@/components/seo/JsonLd';
 import ChannelPageClient from './ChannelPageClient';
 
+const SITE = SITE ?? 'https://www.sportalive.live';
+
 interface Props { params: Promise<{ slug: string }> }
 
 /* ── Event override map: enriches SEO for known channels ── */
@@ -217,7 +219,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: { card: 'summary_large_image', title: baseTitle, description: baseDesc },
     robots: { index: true, follow: true },
     alternates: {
-      canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/${slug}`,
+      canonical: `${SITE}/channel/${slug}`,
     },
   };
 }
@@ -291,9 +293,9 @@ export default async function ChannelPage({ params }: Props) {
     '@context': 'https://schema.org',
     '@type': 'BreadcrumbList',
     itemListElement: [
-      { '@type': 'ListItem', position: 1, name: 'Home',   item: process.env.NEXT_PUBLIC_SITE_URL },
-      ...(channel.category ? [{ '@type': 'ListItem', position: 2, name: channel.category.name, item: `${process.env.NEXT_PUBLIC_SITE_URL}/category/${channel.category.slug}` }] : []),
-      { '@type': 'ListItem', position: channel.category ? 3 : 2, name: channel.name, item: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/${slug}` },
+      { '@type': 'ListItem', position: 1, name: 'Home',   item: SITE },
+      ...(channel.category ? [{ '@type': 'ListItem', position: 2, name: channel.category.name, item: `${SITE}/category/${channel.category.slug}` }] : []),
+      { '@type': 'ListItem', position: channel.category ? 3 : 2, name: channel.name, item: `${SITE}/channel/${slug}` },
     ],
   };
 

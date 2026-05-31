@@ -5,6 +5,8 @@ import JsonLd from '@/components/seo/JsonLd';
 
 export const revalidate = 3600;
 
+const SITE = SITE ?? 'https://www.sportalive.live';
+
 export const metadata: Metadata = {
   title: 'World Cup 2026 Live Stream — Watch FIFA World Cup Free Online',
   description: 'Watch FIFA World Cup 2026 live for free. USA, Canada, Mexico hosting. Stream all World Cup 2026 matches online in HD — no subscription needed. Coupe du Monde 2026 en direct. كأس العالم 2026 بث مباشر.',
@@ -22,7 +24,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: '🌍 World Cup 2026 Live Stream — Watch Free' },
   robots: { index: true, follow: true },
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/world-cup-2026` },
+  alternates: { canonical: `${SITE}/world-cup-2026` },
 };
 
 const worldCupJsonLd = {
@@ -33,7 +35,7 @@ const worldCupJsonLd = {
   endDate:   '2026-07-19',
   description: 'The 2026 FIFA World Cup hosted by USA, Canada and Mexico. 48 teams, 104 matches.',
   sport: 'Football',
-  url: `${process.env.NEXT_PUBLIC_SITE_URL}/world-cup-2026`,
+  url: `${SITE}/world-cup-2026`,
   location: {
     '@type': 'Country',
     name: 'United States, Canada, Mexico',

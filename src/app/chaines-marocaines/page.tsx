@@ -4,6 +4,8 @@ import JsonLd from '@/components/seo/JsonLd';
 
 export const revalidate = 3600;
 
+const SITE = SITE ?? 'https://www.sportalive.live';
+
 export const metadata: Metadata = {
   title: 'Chaînes Marocaines En Direct Gratuit — القنوات المغربية بث مباشر | SportaLive',
   description: 'Regardez toutes les chaînes marocaines en direct gratuit HD: 2M, Al Aoula, Arryadia, Medi 1 TV, Arrabia, Al Maghribia — sans abonnement, sans inscription. مشاهدة القنوات المغربية بث مباشر مجاناً.',
@@ -33,7 +35,7 @@ export const metadata: Metadata = {
   },
   twitter: { card: 'summary_large_image', title: '🇲🇦 Chaînes Marocaines En Direct Gratuit' },
   robots: { index: true, follow: true },
-  alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL}/chaines-marocaines` },
+  alternates: { canonical: `${SITE}/chaines-marocaines` },
 };
 
 const pageJsonLd = {
@@ -41,14 +43,14 @@ const pageJsonLd = {
   '@type': 'CollectionPage',
   name: 'Chaînes Marocaines En Direct — القنوات المغربية بث مباشر',
   description: 'Toutes les chaînes de télévision marocaines en direct gratuit HD.',
-  url: `${process.env.NEXT_PUBLIC_SITE_URL}/chaines-marocaines`,
+  url: `${SITE}/chaines-marocaines`,
   hasPart: [
-    { '@type': 'WebPage', name: '2M Maroc En Direct', url: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/2m` },
-    { '@type': 'WebPage', name: 'Al Aoula En Direct', url: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/al-aoula` },
-    { '@type': 'WebPage', name: 'Arryadia En Direct', url: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/arryadia` },
-    { '@type': 'WebPage', name: 'Medi 1 TV En Direct', url: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/medi-1` },
-    { '@type': 'WebPage', name: 'Arrabia En Direct', url: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/arrabia` },
-    { '@type': 'WebPage', name: 'Al Maghribia En Direct', url: `${process.env.NEXT_PUBLIC_SITE_URL}/channel/al-maghribia` },
+    { '@type': 'WebPage', name: '2M Maroc En Direct', url: `${SITE}/channel/2m` },
+    { '@type': 'WebPage', name: 'Al Aoula En Direct', url: `${SITE}/channel/al-aoula` },
+    { '@type': 'WebPage', name: 'Arryadia En Direct', url: `${SITE}/channel/arryadia` },
+    { '@type': 'WebPage', name: 'Medi 1 TV En Direct', url: `${SITE}/channel/medi-1` },
+    { '@type': 'WebPage', name: 'Arrabia En Direct', url: `${SITE}/channel/arrabia` },
+    { '@type': 'WebPage', name: 'Al Maghribia En Direct', url: `${SITE}/channel/al-maghribia` },
   ],
 };
 
