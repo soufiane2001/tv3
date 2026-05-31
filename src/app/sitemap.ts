@@ -4,7 +4,7 @@ import { prisma } from '@/lib/prisma';
 export const revalidate = 3600; // regenerate at most once per hour
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live';
+  const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live';
   const now  = new Date();
 
   let channels: { slug: string; updatedAt: Date }[] = [];

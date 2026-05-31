@@ -11,7 +11,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from 'react-hot-toast';
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live'),
   title: {
     default: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive',
     template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive'}`,

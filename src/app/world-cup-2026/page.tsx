@@ -5,7 +5,7 @@ import JsonLd from '@/components/seo/JsonLd';
 
 export const revalidate = 3600;
 
-const SITE = SITE ?? 'https://www.sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
   title: 'World Cup 2026 Live Stream — Watch FIFA World Cup Free Online',
