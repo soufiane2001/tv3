@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Tv, Heart, Radio, Menu, X, Trophy } from 'lucide-react';
+import { Menu, X } from 'lucide-react';
 import { useState } from 'react';
 import SearchBar from '@/components/ui/SearchBar';
 import { cn } from '@/lib/utils';
@@ -10,123 +10,92 @@ import { t, LANGS, type Lang } from '@/lib/i18n';
 
 export default function Header() {
   const pathname = usePathname();
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [open, setOpen] = useState(false);
   const { lang, setLang } = useLanguage();
   const tx = t[lang];
 
-  const navLinks = [
-    { href: '/',          label: tx.home,      icon: Tv },
-    { href: '/live',      label: tx.live,      icon: Radio },
-    { href: '/wc2026',    label: tx.wc2026,    icon: Trophy, red: true },
-    { href: '/favorites', label: tx.favorites, icon: Heart },
+  const nav = [
+    { href: '/',                    label: tx.home },
+    { href: '/live',                label: tx.live },
+    { href: '/world-cup-2026-live', label: 'WC 2026', red: true },
+    { href: '/wc2026',              label: tx.wc2026 },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/[0.06]"
-      style={{ background: 'rgba(10,10,10,0.95)' }}>
-      <div className="max-w-screen-2xl mx-auto px-4 h-16 flex items-center gap-4">
+    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06]"
+      style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)' }}>
+      <div className="max-w-screen-2xl mx-auto px-5 h-16 flex items-center gap-6">
 
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
-          <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center shadow-lg shadow-red-900/40 group-hover:bg-red-500 transition-colors">
-            <Tv className="w-4 h-4 text-white" />
-          </div>
-          <span className="font-black text-white text-lg hidden sm:block tracking-tight">
-            Sporta<span className="text-red-500">Live</span>
+        <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
+          <span className="w-7 h-7 bg-red-600 rounded flex items-center justify-center text-white font-black text-xs group-hover:bg-red-500 transition-colors">S</span>
+          <span className="font-black text-white text-base tracking-tight hidden sm:block uppercase">
+            Sporta<span className="text-red-600">Live</span>
           </span>
         </Link>
 
-        {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-1 ml-4">
-          {navLinks.map(({ href, label, icon: Icon, red }) => (
-            <Link
-              key={href}
-              href={href}
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-1 ml-2">
+          {nav.map(({ href, label, red }) => (
+            <Link key={href} href={href}
               className={cn(
-                'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
+                'px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all',
                 red
                   ? pathname === href
-                    ? 'bg-red-600/30 text-red-300'
-                    : 'text-red-400 hover:text-white hover:bg-red-600/20 border border-red-500/30'
+                    ? 'bg-red-600 text-white'
+                    : 'text-red-500 hover:bg-red-600 hover:text-white border border-red-600/40'
                   : pathname === href
                     ? 'bg-white/10 text-white'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
-              )}
-            >
-              <Icon className="w-4 h-4" />
+              )}>
               {label}
+              {red && <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse ml-1.5 align-middle" />}
             </Link>
           ))}
         </nav>
 
         {/* Search */}
-        <div className="flex-1 max-w-xs ml-auto">
+        <div className="flex-1 max-w-sm ml-auto">
           <SearchBar navigateToSearch placeholder={tx.search} className="w-full" />
         </div>
 
-        {/* Language switcher */}
-        <div className="flex items-center gap-1">
+        {/* Lang + Live button */}
+        <div className="flex items-center gap-1.5">
           {LANGS.map(l => (
-            <button
-              key={l.code}
-              onClick={() => setLang(l.code as Lang)}
-              title={l.flag}
-              className={cn(
-                'px-2 py-1 rounded-md text-xs font-bold transition-all',
-                lang === l.code
-                  ? 'bg-red-600/30 text-red-300'
-                  : 'text-gray-500 hover:text-white hover:bg-white/5'
-              )}
-            >
-              {l.flag} {l.label}
+            <button key={l.code} onClick={() => setLang(l.code as Lang)}
+              className={cn('px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider transition-all',
+                lang === l.code ? 'text-white bg-white/10' : 'text-gray-600 hover:text-white'
+              )}>
+              {l.flag}
             </button>
           ))}
-
-          {/* Live Stream pill */}
           <Link href="/world-cup-2026-live"
-            className="hidden sm:flex items-center gap-1.5 ml-2 px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white text-xs font-black rounded-full transition-colors">
-            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            className="live-badge hidden sm:inline-flex ml-1">
             Live
           </Link>
-
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setMobileMenuOpen((v) => !v)}
-            className="md:hidden p-2 text-gray-400 hover:text-white rounded-lg hover:bg-white/5 transition-colors"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          <button onClick={() => setOpen(v => !v)} className="md:hidden p-2 text-gray-400 hover:text-white">
+            {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/[0.06] backdrop-blur-xl" style={{ background: 'rgba(10,10,10,0.98)' }}>
-          <nav className="flex flex-col p-3 gap-1">
-            {navLinks.map(({ href, label, icon: Icon, red }) => (
-              <Link
-                key={href}
-                href={href}
-                onClick={() => setMobileMenuOpen(false)}
+      {/* Mobile menu */}
+      {open && (
+        <div className="md:hidden border-t border-white/[0.06]" style={{ background: 'rgba(0,0,0,0.98)' }}>
+          <nav className="flex flex-col p-4 gap-1">
+            {nav.map(({ href, label, red }) => (
+              <Link key={href} href={href} onClick={() => setOpen(false)}
                 className={cn(
-                  'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors',
-                  red
-                    ? pathname === href
-                      ? 'bg-red-600/30 text-red-300'
-                      : 'text-red-400 hover:text-white hover:bg-red-600/20'
-                    : pathname === href
-                      ? 'bg-white/10 text-white'
-                      : 'text-gray-400 hover:text-white hover:bg-white/5'
-                )}
-              >
-                <Icon className="w-5 h-5" />
+                  'flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors',
+                  red ? 'text-red-400 border border-red-600/30 bg-red-600/5' : pathname === href ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                )}>
                 {label}
+                {red && <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />}
               </Link>
             ))}
-            <Link href="/world-cup-2026-live" onClick={() => setMobileMenuOpen(false)}
-              className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-black text-white bg-red-600/20 border border-red-500/30">
-              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              🔴 Live Stream — WC2026
+            <Link href="/world-cup-2026-live" onClick={() => setOpen(false)}
+              className="live-badge mt-2 justify-center">
+              🔴 Watch Live Now
             </Link>
           </nav>
         </div>
