@@ -114,10 +114,10 @@ const CAT_COLORS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [la1, m6, bein] = await Promise.all([
-    find(['la-1', 'la-1-rtve', 'la1'], ['La 1', 'RTVE']),
+  const [m6, bein, rmc] = await Promise.all([
     find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
     find(['ar-bein-sport-uhd-1', 'bein-sport-1', 'ar-bein-sport-1'], ['beIN Sports UHD', 'beIN Sports 1', 'beIN Sport 1']),
+    find(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
   ]);
 
   const topNews = wc2026News.slice(0, 6);
@@ -167,7 +167,7 @@ export default async function HomePage() {
               </Link>
             </div>
             <div className="flex flex-wrap gap-2 pt-2">
-              {['📡 beIN Sport UHD 1', '🇫🇷 M6 Gratuit', '🇪🇸 La 1 RTVE', '📺 RMC Sport', '🌍 beIN Sports 1'].map(t => (
+              {['🇫🇷 M6 Gratuit', '📡 beIN Sport UHD 1', '📺 RMC Sport', '🌍 beIN Sports 1', '🇪🇸 La 1 RTVE'].map(t => (
                 <span key={t} className="label-chip bg-black/30 text-white/70 border border-white/10">{t}</span>
               ))}
             </div>
@@ -253,9 +253,9 @@ export default async function HomePage() {
 
         <WC2026StreamClient
           servers={[
-            { label: 'La 1', sublabel: 'RTVE · España · Gratuit', channel: la1 as any },
             { label: 'M6', sublabel: 'France · Gratuit · HD', channel: m6 as any },
             { label: 'beIN Sport UHD 1', sublabel: 'MENA · UHD · عربي', channel: bein as any },
+            { label: 'RMC Sport', sublabel: 'France · HD · Premium', channel: rmc as any },
           ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',
@@ -275,9 +275,9 @@ export default async function HomePage() {
         {/* SEO text block for the channels */}
         <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
           {[
-            { name: 'La 1 — RTVE', flag: '🇪🇸', desc: 'Chaîne espagnole gratuite qui diffuse la Coupe du Monde 2026 en direct. Regardez La 1 RTVE en streaming HD sur SportaLive — aucun abonnement requis.' },
             { name: 'M6 — Gratuit', flag: '🇫🇷', desc: 'M6 diffuse la Coupe du Monde 2026 gratuitement en France. Regardez M6 en direct HD sur SportaLive depuis n\'importe quel pays — sans abonnement.' },
             { name: 'beIN Sport UHD 1', flag: '📡', desc: 'beIN Sport 1 diffuse tous les matchs du Mondial 2026 en direct pour la région MENA. Regardez beIN Sport UHD gratuitement sur SportaLive.' },
+            { name: 'RMC Sport', flag: '📺', desc: 'RMC Sport diffuse la Coupe du Monde 2026 en France. Regardez RMC Sport en streaming HD sur SportaLive — couverture complète de tous les matchs.' },
           ].map(ch => (
             <div key={ch.name} className="card p-4 space-y-2">
               <p className="text-white font-black text-sm">{ch.flag} {ch.name}</p>
@@ -306,7 +306,7 @@ export default async function HomePage() {
             </h2>
             <p className="text-black/50 text-base mb-6 max-w-md">
               USA · Canada · Mexico · June 11 – July 19, 2026 · 104 matches.<br />
-              La 1, M6, beIN Sport UHD 1 — no subscription, no registration.
+              M6, beIN Sport UHD 1, RMC Sport — no subscription, no registration.
             </p>
             <div className="flex flex-wrap gap-3">
               <a href="#live-stream"
