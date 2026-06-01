@@ -7,6 +7,16 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**' },
     ],
   },
+  async redirects() {
+    return [
+      {
+        source: '/:path*',
+        has: [{ type: 'host', value: 'sportalive.live' }],
+        destination: 'https://www.sportalive.live/:path*',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
