@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'SportsEvent',
   name: 'FIFA World Cup 2026 — Ivory Coast vs Ecuador',
-  location: { '@type': 'Place', name: 'Levi's Stadium, San Francisco' },
+  location: { '@type': 'Place', name: "Levi's Stadium, San Francisco" },
   competitor: [{ '@type': 'SportsTeam', name: 'Ivory Coast' }, { '@type': 'SportsTeam', name: 'Ecuador' }],
   organizer: { '@type': 'Organization', name: 'FIFA' },
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
