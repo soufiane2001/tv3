@@ -11,8 +11,8 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 
 export const metadata: Metadata = {
-  title: 'SportaLive — Diffusion Direct Coupe du Monde 2026 🔴 Gratuit HD | beIN Sport · M6 · La 1',
-  description: '🔴 LIVE — Regardez la Coupe du Monde 2026 en direct gratuit HD sur SportaLive. Tous les matchs en direct sur beIN Sport 1, M6, La 1. Watch World Cup 2026 free live stream. كأس العالم 2026 بث مباشر مجاناً. Copa do Mundo 2026 ao vivo grátis. No subscription.',
+  title: 'SportaLive — Watch World Cup 2026 Live Free | M6 · beIN Sport · RMC',
+  description: 'Watch all 104 FIFA World Cup 2026 matches live free in HD. Stream M6, beIN Sport 1 and RMC Sport — no subscription, no registration. USA · Canada · Mexico · June 11–July 19, 2026. كأس العالم 2026 بث مباشر مجاناً.',
   keywords: [
     // French — most searched
     'diffusion direct coupe du monde 2026','coupe du monde 2026 en direct gratuit','coupe du monde 2026 streaming',

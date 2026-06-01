@@ -28,10 +28,10 @@ import { Toaster } from 'react-hot-toast';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live'),
   title: {
-    default: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive',
-    template: `%s | ${process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive'}`,
+    default: 'SportaLive — Watch World Cup 2026 Live Free | M6 · beIN Sport · RMC',
+    template: `%s | SportaLive`,
   },
-  description: 'Watch live football and 1000+ free TV channels in HD — beIN Sports, MBC, Al Jazeera, sports & news. No subscription, no registration. بث مباشر مجاني.',
+  description: 'Watch all 104 FIFA World Cup 2026 matches live free in HD. Stream M6, beIN Sport 1 and RMC Sport — no subscription, no registration. 600+ live TV channels. Free HD streaming.',
   keywords: ['IPTV', 'live tv free', 'live stream', 'watch football free', 'beinsport free', 'بث مباشر', 'مشاهدة مباشرة', 'live TV', 'free channels'],
   openGraph: { type: 'website', siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive' },
 };
