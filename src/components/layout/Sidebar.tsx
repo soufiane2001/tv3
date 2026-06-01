@@ -24,9 +24,10 @@ export default function Sidebar() {
 
         {/* WC2026 Live CTA */}
         <Link href="/world-cup-2026-live"
-          className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl mb-4 border border-red-600/30 bg-red-600/8 hover:bg-red-600/15 transition-colors group">
+          className="flex items-center gap-2.5 px-4 py-3 rounded-xl mb-4 border border-red-600/60 hover:border-red-500 hover:bg-red-600/10 transition-all group"
+          style={{ background: 'rgba(40,0,0,0.7)' }}>
           <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse flex-shrink-0" />
-          <span className="text-red-400 group-hover:text-white text-xs font-black uppercase tracking-widest transition-colors">WC2026 Live</span>
+          <span className="text-red-500 group-hover:text-red-400 text-xs font-black uppercase tracking-widest transition-colors">WC2026 Live</span>
         </Link>
 
         <p className="text-white/20 text-[9px] font-black uppercase tracking-[0.2em] px-3 mb-2">

@@ -88,11 +88,11 @@ const MATCHES = [
 ];
 
 const CAT_COLORS: Record<string, string> = {
-  News: 'bg-blue-500/20 text-blue-300 border-blue-500/30',
-  Preview: 'bg-green-500/20 text-green-300 border-green-500/30',
-  Guide: 'bg-purple-500/20 text-purple-300 border-purple-500/30',
-  Analysis: 'bg-yellow-500/20 text-yellow-300 border-yellow-500/30',
-  Team: 'bg-red-500/20 text-red-300 border-red-500/30',
+  News:     'bg-blue-500 text-white',
+  Preview:  'bg-emerald-600 text-white',
+  Guide:    'bg-purple-600 text-white',
+  Analysis: 'bg-amber-600 text-white',
+  Team:     'bg-red-600 text-white',
 };
 
 async function findChannel(slugs: string[], patterns: string[]) {
@@ -347,30 +347,30 @@ export default async function WorldCup2026LivePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {wc2026News.map(article => (
             <article key={article.slug}
-              className="group flex flex-col rounded-2xl overflow-hidden border border-white/[0.06] hover:border-red-500/30 transition-all"
-              style={{ background: '#0d0d0d' }}>
-              {/* Red top bar */}
-              <div className="h-1 bg-red-600 group-hover:bg-red-500 transition-colors" />
+              className="group flex flex-col rounded-2xl overflow-hidden border border-white/[0.06] hover:border-red-600/50 hover:-translate-y-0.5 transition-all duration-200"
+              style={{ background: '#161616' }}>
+              {/* Red top bar — thicker */}
+              <div className="h-[3px] bg-red-600" />
 
               <div className="flex-1 p-4 space-y-3">
                 <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-2 py-0.5 rounded-full border ${CAT_COLORS[article.category]}`}>
+                  <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${CAT_COLORS[article.category]}`}>
                     {article.category}
                   </span>
                   {article.flag && (
                     <img src={`https://flagcdn.com/w20/${article.flag}.png`} alt="" width={16} height={11} className="rounded" />
                   )}
-                  <span className="text-gray-600 text-[10px] ml-auto">{article.readTime} min</span>
+                  <span className="text-white/30 text-[10px] font-bold ml-auto">{article.readTime} min</span>
                 </div>
-                <h3 className="text-white font-bold text-sm leading-snug group-hover:text-red-400 transition-colors line-clamp-3">
+                <h3 className="text-white font-black text-sm leading-snug group-hover:text-red-400 transition-colors line-clamp-3">
                   {article.title}
                 </h3>
-                <p className="text-gray-500 text-xs leading-relaxed line-clamp-2">{article.excerpt}</p>
+                <p className="text-white/40 text-xs leading-relaxed line-clamp-2">{article.excerpt}</p>
               </div>
 
-              <div className="px-4 pb-4 flex items-center justify-between border-t border-white/[0.04] pt-3">
-                <span className="text-gray-600 text-[10px]">{article.date}</span>
-                <span className="text-red-500 text-[10px] font-bold">Read more →</span>
+              <div className="px-4 pb-4 flex items-center justify-between border-t border-white/[0.06] pt-3">
+                <span className="text-white/25 text-[10px] font-medium">{article.date}</span>
+                <span className="text-red-500 text-[10px] font-black tracking-wide hover:text-red-400 transition-colors">Read more →</span>
               </div>
             </article>
           ))}
