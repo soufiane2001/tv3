@@ -77,7 +77,8 @@ export default function WC2026MatchLayout({
                   className="w-full h-full object-cover" loading="eager" />
               </div>
               <div>
-                <p className="text-white font-black text-base md:text-xl uppercase tracking-wide">{home.name}</p>
+                <p className="text-white font-black text-base md:text-xl uppercase tracking-wide"
+                   style={{ fontFamily: 'var(--font-display,sans-serif)' }}>{home.name}</p>
                 {home.nickname && <p className="text-white/50 text-[10px] uppercase tracking-widest mt-0.5">{home.nickname}</p>}
               </div>
             </div>
@@ -87,7 +88,8 @@ export default function WC2026MatchLayout({
               <span className="flex items-center gap-1.5 px-3 py-1 bg-red-600 rounded-full text-white text-[10px] font-black uppercase tracking-widest">
                 <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />LIVE
               </span>
-              <p className="text-white/20 font-black text-3xl md:text-5xl tracking-[0.3em]">VS</p>
+              <p className="text-white/20 font-black text-3xl md:text-5xl tracking-[0.3em]"
+                 style={{ fontFamily: 'var(--font-display,sans-serif)', fontStyle: 'italic' }}>VS</p>
               {meta.prediction && (
                 <p className="text-white/60 text-xs font-bold">Prediction: {meta.prediction}</p>
               )}
@@ -104,19 +106,17 @@ export default function WC2026MatchLayout({
                   className="w-full h-full object-cover" loading="eager" />
               </div>
               <div>
-                <p className="text-white font-black text-base md:text-xl uppercase tracking-wide">{away.name}</p>
+                <p className="text-white font-black text-base md:text-xl uppercase tracking-wide"
+                   style={{ fontFamily: 'var(--font-display,sans-serif)' }}>{away.name}</p>
                 {away.nickname && <p className="text-white/50 text-[10px] uppercase tracking-widest mt-0.5">{away.nickname}</p>}
               </div>
             </div>
           </div>
         </div>
 
-        {/* Ghost text */}
-        <div className="absolute bottom-0 left-0 right-0 px-6 pb-1 pointer-events-none select-none overflow-hidden">
-          <p className="text-white font-black uppercase leading-none"
-            style={{ fontSize: 'clamp(2rem, 7vw, 6rem)', opacity: 0.08, letterSpacing: '-0.02em', whiteSpace: 'nowrap' }}>
-            {home.name} VS {away.name}
-          </p>
+        {/* Ghost text — uses .ghost-text class (Barlow Condensed 28vw) */}
+        <div className="absolute bottom-0 left-0 right-0 px-4 overflow-hidden pointer-events-none select-none">
+          <p className="ghost-text text-white">{home.name} VS {away.name}</p>
         </div>
       </div>
 

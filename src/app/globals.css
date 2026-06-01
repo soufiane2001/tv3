@@ -1,146 +1,87 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════
-   DESIGN SYSTEM — inspired by Arda Guler portfolio
-   Dark #000, Red #dc2626, White #fff, Light #f5f4f0
-═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════
+   DESIGN SYSTEM v2 — Arda Guler editorial sports aesthetic
+   Fonts: Barlow Condensed (display) + Inter (body)
+   Palette: #000 · #dc2626 · #fff · #f5f4f0
+═══════════════════════════════════════════════════════════ */
 
 :root {
-  --bg:          #000000;
-  --bg-2:        #0f0f0f;
-  --card:        #141414;
-  --card-2:      #1a1a1a;
-  --border:      rgba(255,255,255,0.07);
-  --border-red:  rgba(220,38,38,0.5);
-  --red:         #dc2626;
-  --red-light:   #ef4444;
-  --text:        #ffffff;
-  --text-muted:  #6b7280;
-  --text-dim:    #374151;
-  --light-bg:    #f5f4f0;
-  --light-card:  #ffffff;
-  --light-text:  #0a0a0a;
+  --font-display: 'Barlow Condensed', 'Arial Narrow', 'Arial Black', sans-serif;
+  --font-body:    'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+
+  --bg:           #000000;
+  --bg-2:         #0d0d0d;
+  --card:         #111111;
+  --card-2:       #181818;
+  --border:       rgba(255,255,255,0.07);
+  --border-red:   rgba(220,38,38,0.55);
+  --red:          #dc2626;
+  --red-sat:      #e02020;
+  --light-bg:     #f5f4f0;
+  --light-text:   #080808;
 }
 
 @theme inline {
   --color-background: var(--bg);
-  --color-foreground: var(--text);
+  --color-foreground: #ffffff;
 }
 
-html {
-  color-scheme: dark;
-  scroll-behavior: smooth;
-}
-
-body {
+/* ── BASE ── */
+html  { color-scheme: dark; scroll-behavior: smooth; }
+body  {
   background: var(--bg);
-  color: var(--text);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  color: #fff;
+  font-family: var(--font-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+video { outline: none; }
 
-/* ── TYPOGRAPHY UTILITIES ── */
+/* ═══════════════════════════════════════════════════════════
+   TYPOGRAPHY — Barlow Condensed for all display text
+═══════════════════════════════════════════════════════════ */
 
-/* Display — ultra bold condensed like Arda Guler "ARDA GULER" title */
+/* ── Hero display: "SPORTALIVE" / "WORLD CUP 2026" ── */
 .display {
-  font-size: clamp(3.5rem, 10vw, 9rem);
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 14vw, 13rem);
+  font-weight: 900;
+  font-style: italic;
+  line-height: 0.88;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+/* ── Stat number: "8.4" / "600+" / "104" ── */
+.stat-number {
+  font-family: var(--font-display);
+  font-size: clamp(3.5rem, 9vw, 8rem);
   font-weight: 900;
   line-height: 0.9;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.01em;
   text-transform: uppercase;
 }
 
-/* Hero stat number — like "8.4", "$12.5M", "94%" */
-.stat-number {
-  font-size: clamp(2.5rem, 7vw, 6rem);
-  font-weight: 900;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-/* Section heading */
+/* ── Section heading: "Featured Channels" ── */
 .section-title {
-  font-size: clamp(1.5rem, 4vw, 2.5rem);
+  font-family: var(--font-display);
+  font-size: clamp(1.8rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  line-height: 0.95;
+}
+
+/* ── Ghost background text ── */
+.ghost-text {
+  font-family: var(--font-display);
+  font-size: clamp(7rem, 28vw, 26rem);
   font-weight: 900;
+  font-style: italic;
   letter-spacing: -0.02em;
   text-transform: uppercase;
-  line-height: 1;
-}
-
-/* Label chip */
-.label-chip {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.75rem;
-  border-radius: 9999px;
-  font-size: 0.625rem;
-  font-weight: 800;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-}
-
-/* ── CARD SYSTEM ── */
-
-.card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  overflow: hidden;
-  transition: border-color 0.2s, transform 0.2s;
-}
-
-.card:hover {
-  border-color: var(--border-red);
-}
-
-.card-light {
-  background: var(--light-card);
-  border: 1px solid rgba(0,0,0,0.08);
-  border-radius: 1rem;
-  overflow: hidden;
-}
-
-/* ── RED ACCENT BAR ── */
-.accent-bar {
-  width: 3px;
-  border-radius: 9999px;
-  background: var(--red);
-  flex-shrink: 0;
-}
-
-/* ── LIVE BADGE ── */
-.live-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  padding: 0.25rem 0.75rem;
-  background: var(--red);
-  border-radius: 9999px;
-  font-size: 0.625rem;
-  font-weight: 900;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: white;
-}
-
-.live-badge::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: white;
-  animation: pulse-dot 1.5s ease-in-out infinite;
-}
-
-/* ── GHOST OVERLAY TEXT ── */
-.ghost-text {
-  font-size: clamp(4rem, 15vw, 13rem);
-  font-weight: 900;
-  letter-spacing: -0.03em;
-  text-transform: uppercase;
-  line-height: 0.85;
+  line-height: 0.82;
   opacity: 0.055;
   pointer-events: none;
   user-select: none;
@@ -148,31 +89,112 @@ body {
   overflow: hidden;
 }
 
-/* ── SCROLL ROW ── */
+/* ── Label chip ── */
+.label-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   CARD SYSTEM
+═══════════════════════════════════════════════════════════ */
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+}
+.card:hover {
+  border-color: var(--border-red);
+  box-shadow: 0 20px 60px -15px rgba(220, 38, 38, 0.15);
+}
+
+/* Floating premium card — deeper shadow, for match/hero cards */
+.card-float {
+  background: #000;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,0.9), 0 0 0 1px rgba(255,255,255,0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.card-float:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 40px 100px -20px rgba(0,0,0,0.95), 0 0 0 1px rgba(220,38,38,0.25);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   COMPONENTS
+═══════════════════════════════════════════════════════════ */
+
+/* Red accent bar */
+.accent-bar {
+  width: 3px;
+  border-radius: 9999px;
+  background: var(--red);
+  flex-shrink: 0;
+}
+
+/* Live badge */
+.live-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.3rem 0.875rem;
+  background: var(--red);
+  border-radius: 9999px;
+  font-family: var(--font-body);
+  font-size: 0.625rem;
+  font-weight: 900;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: white;
+  transition: background 0.2s;
+}
+.live-badge:hover { background: #c11f1f; }
+.live-badge::before {
+  content: '';
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: white;
+  animation: pulse-dot 1.4s ease-in-out infinite;
+}
+
+/* Scroll row */
 .scroll-row {
   display: flex;
-  gap: 1rem;
+  gap: 0.875rem;
   overflow-x: auto;
   padding-bottom: 0.5rem;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
 }
-.scroll-row > * {
-  scroll-snap-align: start;
-  flex-shrink: 0;
-}
+.scroll-row > * { scroll-snap-align: start; flex-shrink: 0; }
 .scroll-row::-webkit-scrollbar { display: none; }
 
-/* ── SCROLLBAR ── */
+/* Scrollbar */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 2px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.07); border-radius: 2px; }
 ::-webkit-scrollbar-thumb:hover { background: rgba(220,38,38,0.4); }
 
 /* ── ANIMATIONS ── */
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; }
-  50% { opacity: 0.4; }
+  50%       { opacity: 0.35; }
 }
-
-video { outline: none; }
+@keyframes slide-up {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.animate-slide-up { animation: slide-up 0.5s ease forwards; }

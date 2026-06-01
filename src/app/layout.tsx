@@ -1,5 +1,20 @@
 import type { Metadata } from 'next';
+import { Barlow_Condensed, Inter } from 'next/font/google';
 import './globals.css';
+
+const barlow = Barlow_Condensed({
+  subsets: ['latin'],
+  weight: ['400', '600', '700', '800', '900'],
+  style: ['normal', 'italic'],
+  variable: '--font-display',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-body',
+  display: 'swap',
+});
 import Header from '@/components/layout/Header';
 import Sidebar from '@/components/layout/Sidebar';
 import LanguageProvider from '@/components/layout/LanguageProvider';
@@ -23,8 +38,8 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className="h-full dark">
-      <body className="min-h-full text-white antialiased">
+    <html lang="en" className={`h-full dark ${barlow.variable} ${inter.variable}`}>
+      <body className="min-h-full text-white antialiased" style={{ fontFamily: 'var(--font-body, -apple-system, sans-serif)' }}>
         <LanguageProvider>
         <Tracker />
         <GlobalAdScripts />

@@ -174,7 +174,7 @@ export default async function HomePage() {
           </div>
 
           <div className="space-y-3">
-            <div className="card overflow-hidden" style={{ background: '#000' }}>
+            <div className="card-float" style={{ background: '#000' }}>
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
                   <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">World Cup 2026 · Opening</p>
@@ -205,8 +205,8 @@ export default async function HomePage() {
               { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Tue Jun 16' },
             ].map(m => (
               <Link key={m.slug} href={`/${m.slug}`}
-                className="card flex items-center justify-between px-4 py-3 hover:border-red-600/40 transition-all"
-                style={{ background: 'rgba(0,0,0,0.7)' }}>
+                className="card-float flex items-center justify-between px-4 py-3 hover:border-red-600/30 transition-all"
+                style={{ background: 'rgba(0,0,0,0.85)' }}>
                 <div className="flex items-center gap-2">
                   <img src={`https://flagcdn.com/w40/${m.hf}.png`} alt={m.home} width={28} height={19} className="rounded" />
                   <span className="text-white text-xs font-bold">{m.home}</span>
@@ -293,29 +293,47 @@ export default async function HomePage() {
       {/* ══════════════════════════════════════════════════════
           WC2026 HIGHLIGHT — light section (design #2)
       ══════════════════════════════════════════════════════ */}
-      <section className="mt-14 rounded-2xl overflow-hidden" style={{ background: '#f5f4f0' }}>
-        <div className="relative px-6 md:px-12 py-12 overflow-hidden">
-          <div className="absolute right-0 top-0 pointer-events-none select-none overflow-hidden h-full flex items-center">
-            <p className="text-black font-black leading-none" style={{ fontSize: 'clamp(8rem, 25vw, 22rem)', opacity: 0.06, letterSpacing: '-0.05em' }}>48</p>
-          </div>
-          <div className="relative z-10 max-w-2xl">
-            <p className="label-chip bg-red-600 text-white mb-4">🌍 FIFA World Cup 2026 · 48 Teams</p>
-            <h2 className="text-black font-black uppercase leading-none mb-4"
-              style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)', letterSpacing: '-0.03em' }}>
-              Watch Every Match<br /><span className="text-red-600">Completely Free</span>
-            </h2>
-            <p className="text-black/50 text-base mb-6 max-w-md">
-              USA · Canada · Mexico · June 11 – July 19, 2026 · 104 matches.<br />
-              M6, beIN Sport UHD 1, RMC Sport — no subscription, no registration.
+      {/* ── editorial light section — design #2 reference ── */}
+      <section className="mt-20 rounded-3xl overflow-hidden" style={{ background: '#f5f4f0' }}>
+        <div className="relative px-6 md:px-14 py-14 md:py-20 overflow-hidden">
+          {/* Giant ghost number — like the "15" in design #2 */}
+          <div className="absolute right-[-2%] top-0 bottom-0 flex items-center pointer-events-none select-none">
+            <p className="text-black font-black italic leading-none"
+               style={{ fontFamily: 'var(--font-display,sans-serif)', fontSize: 'clamp(12rem, 40vw, 38rem)', opacity: 0.055, letterSpacing: '-0.04em' }}>
+              48
             </p>
+          </div>
+
+          <div className="relative z-10 max-w-xl">
+            <p className="label-chip bg-red-600 text-white mb-6">🌍 FIFA World Cup 2026</p>
+
+            {/* Barlow Condensed editorial headline */}
+            <h2 className="text-black uppercase leading-none mb-5"
+                style={{ fontFamily: 'var(--font-display,sans-serif)', fontSize: 'clamp(3rem, 9vw, 7.5rem)', fontWeight: 900, fontStyle: 'italic', letterSpacing: '-0.01em' }}>
+              Watch Every<br />
+              Match<br />
+              <span className="text-red-600">Completely<br />Free.</span>
+            </h2>
+
+            <p className="text-black/45 text-sm md:text-base mb-8 max-w-sm leading-relaxed">
+              USA · Canada · Mexico · June 11 – July 19, 2026.<br />
+              M6 · beIN Sport UHD · RMC Sport<br />
+              No subscription · No registration.
+            </p>
+
             <div className="flex flex-wrap gap-3">
               <a href="#live-stream"
-                className="flex items-center gap-2 px-8 py-3.5 bg-black text-white font-black text-sm uppercase tracking-widest rounded-full hover:bg-red-600 transition-colors">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />Diffusion Direct
+                 className="flex items-center gap-2 px-8 py-3.5 bg-black text-white
+                            font-black text-xs uppercase tracking-[0.15em] rounded-full
+                            hover:bg-red-600 transition-colors shadow-lg">
+                <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                Watch Live
               </a>
               <Link href="/wc2026"
-                className="px-8 py-3.5 border-2 border-black text-black font-black text-sm uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all">
-                Calendrier
+                    className="px-8 py-3.5 border-2 border-black/30 text-black/70
+                               font-black text-xs uppercase tracking-[0.15em] rounded-full
+                               hover:border-black hover:text-black transition-all">
+                Full Schedule
               </Link>
             </div>
           </div>

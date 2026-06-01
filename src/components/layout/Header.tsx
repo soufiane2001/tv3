@@ -17,63 +17,69 @@ export default function Header() {
   const nav = [
     { href: '/',                    label: tx.home },
     { href: '/live',                label: tx.live },
-    { href: '/world-cup-2026-live', label: 'WC 2026', red: true },
-    { href: '/wc2026',              label: tx.wc2026 },
+    { href: '/wc2026',              label: 'Schedule' },
+    { href: '/world-cup-2026-live', label: 'WC Live', red: true },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.06]"
-      style={{ background: 'rgba(0,0,0,0.92)', backdropFilter: 'blur(20px)' }}>
-      <div className="max-w-screen-2xl mx-auto px-5 h-16 flex items-center gap-6">
+    <header
+      className="fixed top-0 left-0 right-0 z-50 border-b border-white/[0.05]"
+      style={{ background: 'rgba(0,0,0,0.88)', backdropFilter: 'blur(24px)' }}
+    >
+      <div className="max-w-screen-2xl mx-auto px-5 h-14 flex items-center gap-6">
 
-        {/* Logo */}
-        <Link href="/" className="flex items-center gap-2 flex-shrink-0 group">
-          <span className="w-7 h-7 bg-red-600 rounded flex items-center justify-center text-white font-black text-xs group-hover:bg-red-500 transition-colors">S</span>
-          <span className="font-black text-white text-base tracking-tight hidden sm:block uppercase">
+        {/* Logo — Barlow Condensed brand mark */}
+        <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+          <span className="w-6 h-6 bg-red-600 rounded-sm flex items-center justify-center
+                           text-white font-black text-xs group-hover:bg-red-500 transition-colors"
+                style={{ fontFamily: 'var(--font-display)' }}>S</span>
+          <span className="hidden sm:block text-white font-black tracking-tight text-base uppercase"
+                style={{ fontFamily: 'var(--font-display)', letterSpacing: '0.04em' }}>
             Sporta<span className="text-red-600">Live</span>
           </span>
         </Link>
 
-        {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-1 ml-2">
+        {/* Desktop nav — hair-thin, minimal */}
+        <nav className="hidden md:flex items-center gap-0.5 ml-2">
           {nav.map(({ href, label, red }) => (
             <Link key={href} href={href}
               className={cn(
-                'px-3 py-1.5 rounded-lg text-xs font-bold uppercase tracking-widest transition-all',
+                'px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-[0.12em] transition-all duration-150',
                 red
                   ? pathname === href
                     ? 'bg-red-600 text-white'
-                    : 'text-red-500 hover:bg-red-600 hover:text-white border border-red-600/40'
+                    : 'text-red-500 hover:bg-red-600 hover:text-white'
                   : pathname === href
                     ? 'bg-white/10 text-white'
-                    : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    : 'text-white/40 hover:text-white hover:bg-white/5'
               )}>
               {label}
-              {red && <span className="inline-block w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse ml-1.5 align-middle" />}
             </Link>
           ))}
         </nav>
 
-        {/* Search */}
-        <div className="flex-1 max-w-sm ml-auto">
+        {/* Search — flexible */}
+        <div className="flex-1 max-w-xs ml-auto">
           <SearchBar navigateToSearch placeholder={tx.search} className="w-full" />
         </div>
 
-        {/* Lang + Live button */}
-        <div className="flex items-center gap-1.5">
+        {/* Lang flags + Live pill */}
+        <div className="flex items-center gap-1">
           {LANGS.map(l => (
             <button key={l.code} onClick={() => setLang(l.code as Lang)}
-              className={cn('px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider transition-all',
-                lang === l.code ? 'text-white bg-white/10' : 'text-gray-600 hover:text-white'
+              className={cn('px-1.5 py-1 rounded text-xs transition-all',
+                lang === l.code ? 'text-white' : 'text-white/25 hover:text-white/60'
               )}>
               {l.flag}
             </button>
           ))}
-          <Link href="/world-cup-2026-live"
-            className="live-badge hidden sm:inline-flex ml-1">
+
+          <Link href="/world-cup-2026-live" className="live-badge hidden sm:inline-flex ml-2">
             Live
           </Link>
-          <button onClick={() => setOpen(v => !v)} className="md:hidden p-2 text-gray-400 hover:text-white">
+
+          <button onClick={() => setOpen(v => !v)}
+            className="md:hidden ml-1 p-1.5 text-white/40 hover:text-white transition-colors">
             {open ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
           </button>
         </div>
@@ -81,21 +87,25 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="md:hidden border-t border-white/[0.06]" style={{ background: 'rgba(0,0,0,0.98)' }}>
+        <div className="md:hidden border-t border-white/[0.05]"
+          style={{ background: 'rgba(0,0,0,0.97)' }}>
           <nav className="flex flex-col p-4 gap-1">
             {nav.map(({ href, label, red }) => (
               <Link key={href} href={href} onClick={() => setOpen(false)}
                 className={cn(
-                  'flex items-center justify-between px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors',
-                  red ? 'text-red-400 border border-red-600/30 bg-red-600/5' : pathname === href ? 'bg-white/10 text-white' : 'text-gray-400 hover:text-white hover:bg-white/5'
+                  'px-4 py-3 rounded-xl text-sm font-bold uppercase tracking-wider transition-colors',
+                  red
+                    ? 'text-red-500 border border-red-600/25 bg-red-600/5 hover:bg-red-600/15'
+                    : pathname === href
+                      ? 'bg-white/10 text-white'
+                      : 'text-white/40 hover:text-white hover:bg-white/5'
                 )}>
                 {label}
-                {red && <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />}
               </Link>
             ))}
             <Link href="/world-cup-2026-live" onClick={() => setOpen(false)}
-              className="live-badge mt-2 justify-center">
-              🔴 Watch Live Now
+              className="live-badge justify-center mt-2">
+              Watch Live Now
             </Link>
           </nav>
         </div>
