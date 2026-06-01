@@ -102,11 +102,11 @@ export default async function WorldCup2026Page() {
             <p className="text-gray-500 text-sm mb-8">48 teams · 104 matches · Watch all games free online in HD</p>
 
             <div className="flex flex-wrap gap-3 justify-center">
-              <Link href="/live" className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl shadow-lg shadow-green-900/40 transition-colors">
-                📡 Watch Now — Live TV
+              <Link href="/wc2026" className="px-6 py-3 bg-green-600 hover:bg-green-500 text-white font-bold rounded-xl shadow-lg shadow-green-900/40 transition-colors">
+                📅 Full Match Schedule
               </Link>
-              <Link href="/arsenal-vs-psg" className="px-6 py-3 bg-red-600/20 hover:bg-red-600/30 border border-red-500/30 text-red-400 hover:text-white font-bold rounded-xl transition-all">
-                🏆 UCL Final Tonight
+              <Link href="/live" className="px-6 py-3 bg-white/10 hover:bg-white/15 border border-white/10 text-white font-bold rounded-xl transition-all">
+                📡 Watch Now — Live TV
               </Link>
             </div>
 
@@ -192,6 +192,7 @@ export default async function WorldCup2026Page() {
 
         {/* Internal links */}
         <section className="flex flex-wrap gap-3">
+          <Link href="/wc2026"                    className="px-4 py-2 bg-green-600/20 border border-green-500/30 text-green-400 hover:text-white rounded-xl text-sm transition-colors">📅 WC2026 Match Schedule</Link>
           <Link href="/arsenal-vs-psg"            className="px-4 py-2 bg-red-600/20 border border-red-500/30 text-red-400 hover:text-white rounded-xl text-sm transition-colors">🏆 UCL Final Live</Link>
           <Link href="/champions-league-final-2026" className="px-4 py-2 bg-gray-800/60 border border-white/10 text-gray-400 hover:text-white rounded-xl text-sm transition-colors">Champions League 2026</Link>
           <Link href="/channel/la-1"              className="px-4 py-2 bg-gray-800/60 border border-white/10 text-gray-400 hover:text-white rounded-xl text-sm transition-colors">La 1 Live</Link>

@@ -104,6 +104,31 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* FIFA World Cup 2026 banner */}
+      <section className="relative rounded-2xl overflow-hidden border border-green-500/20 p-5 md:p-7"
+        style={{ background: 'linear-gradient(135deg,#0a2010 0%,#111827 60%,#0a1020 100%)' }}>
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_left,rgba(34,197,94,0.08),transparent_60%)]" />
+        <div className="relative flex flex-col sm:flex-row items-start sm:items-center gap-4">
+          <div className="flex-1 min-w-0">
+            <p className="text-green-400 text-xs font-bold uppercase tracking-widest mb-1">🌍 Coming June 11, 2026</p>
+            <h2 className="text-white font-extrabold text-lg leading-tight">
+              FIFA World Cup 2026 — Watch Every Match Free
+            </h2>
+            <p className="text-gray-400 text-sm mt-1">USA · Canada · Mexico · 48 teams · 104 matches · HD streams on M6, beIN Sports — no subscription</p>
+          </div>
+          <div className="flex gap-3 flex-shrink-0">
+            <Link href="/wc2026"
+              className="px-5 py-2.5 bg-green-600 hover:bg-green-500 text-white text-sm font-bold rounded-xl transition-colors whitespace-nowrap">
+              📅 Match Schedule
+            </Link>
+            <Link href="/world-cup-2026"
+              className="px-5 py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-white text-sm font-semibold rounded-xl transition-colors whitespace-nowrap">
+              Learn More
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* No data prompt */}
       {noData && (
         <div className="flex flex-col items-center justify-center py-16 gap-4 text-center">
