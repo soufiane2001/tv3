@@ -258,10 +258,10 @@ export default async function HomePage() {
             { label: 'beIN Sport UHD 1', sublabel: 'MENA · UHD · عربي', channel: bein as any },
           ]}
           match={{
-            home: 'World Cup', homeFlag: 'us',
-            away: '2026', awayFlag: 'br',
-            date: 'June 11 – July 19, 2026',
-            time: 'All Matches Live',
+            home: 'Mexico', homeFlag: 'mx',
+            away: 'South Africa', awayFlag: 'za',
+            date: 'Thursday, 11 June 2026',
+            time: '21:00 UTC · SoFi Stadium, LA',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
