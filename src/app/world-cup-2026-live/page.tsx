@@ -255,13 +255,8 @@ export default async function WorldCup2026LivePage() {
 
               {matches.map(m => (
                 <Link key={m.slug} href={`/${m.slug}`}
-                  className="group flex items-center gap-3 p-3 md:p-4 rounded-xl border transition-all"
-                  style={{
-                    background: 'rgba(10,22,40,0.8)',
-                    borderColor: 'rgba(255,255,255,0.06)',
-                  }}
-                  onMouseEnter={e => { (e.currentTarget as HTMLElement).style.borderColor = '#c9aa71'; }}
-                  onMouseLeave={e => { (e.currentTarget as HTMLElement).style.borderColor = 'rgba(255,255,255,0.06)'; }}
+                  className="group flex items-center gap-3 p-3 md:p-4 rounded-xl border border-white/[0.06] hover:border-[#c9aa71]/60 transition-all"
+                  style={{ background: 'rgba(10,22,40,0.8)' }}
                 >
                   {/* Group */}
                   <span className="hidden sm:flex w-8 h-8 rounded-full items-center justify-center text-xs font-black flex-shrink-0"
