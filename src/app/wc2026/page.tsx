@@ -271,7 +271,7 @@ export default function WC2026Page() {
 
         {/* Navigation links */}
         <section className="flex flex-wrap gap-3">
-          [
+          {[
             { href: '/world-cup-2026-live',         label: '🔴 WC2026 Live Stream' },
             { href: '/world-cup-2026',              label: '🌍 WC2026 Hub' },
             { href: '/live',                        label: '📡 All Live Channels' },
