@@ -10,7 +10,7 @@ const PAGE_URL = `${SITE}/ivory-coast-vs-ecuador-2026`;
 
 export const metadata: Metadata = {
   title: 'Ivory Coast vs Ecuador LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Ivory Coast vs Ecuador FIFA World Cup 2026 FREE in HD. Group I at Levi's Stadium, San Francisco. Stream on beIN Sport 1, M6. No subscription.',
+  description: "🔴 Watch Ivory Coast vs Ecuador FIFA World Cup 2026 FREE in HD. Group I at Levi's Stadium, San Francisco. Stream on beIN Sport 1, M6. No subscription.",
   alternates: { canonical: PAGE_URL },
   robots: { index: true, follow: true },
 };
@@ -47,7 +47,7 @@ export default async function Page() {
       <WC2026MatchLayout
         home={{ name: 'Ivory Coast', flag: 'ci', nickname: 'Les Éléphants', formation: '4-3-3' }}
         away={{ name: 'Ecuador', flag: 'ec', nickname: 'La Tri', formation: '4-3-3' }}
-        meta={{ date: 'Monday, 15 June 2026', time: '22:00 UTC', venue: 'Levi's Stadium, San Francisco', group: 'I', matchday: 1, prediction: 'Ivory Coast 1-1 Ecuador' }}
+        meta={{ date: 'Monday, 15 June 2026', time: '22:00 UTC', venue: "Levi's Stadium, San Francisco", group: 'I', matchday: 1, prediction: 'Ivory Coast 1-1 Ecuador' }}
         servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }]}
         blog={blogs['ivory-coast-vs-ecuador']}
         kickoffTimes={[{"flag":"🇺🇸","country":"San Francisco","time":"15:00"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇪🇨","country":"Quito","time":"17:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}
