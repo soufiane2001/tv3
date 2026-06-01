@@ -2,13 +2,91 @@ import { prisma } from '@/lib/prisma';
 import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import ChannelCard from '@/components/channels/ChannelCard';
+import WC2026StreamClient from '@/components/worldcup/WC2026StreamClient';
+import JsonLd from '@/components/seo/JsonLd';
+import AdBanner from '@/components/ads/AdBanner';
+import { wc2026News } from '@/data/wc2026-news';
 import type { Metadata } from 'next';
 
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
+
 export const metadata: Metadata = {
-  title: 'SportaLive — Watch Live TV Free 🔴 Football, Sports, beIN Sports',
-  description: '🔴 LIVE NOW — 600+ free HD sports & news channels. beIN Sports, MBC, Al Jazeera. No subscription, no registration. بث مباشر مجاني.',
+  title: 'SportaLive — Diffusion Direct Coupe du Monde 2026 🔴 Gratuit HD | beIN Sport · M6 · La 1',
+  description: '🔴 LIVE — Regardez la Coupe du Monde 2026 en direct gratuit HD sur SportaLive. Tous les matchs en direct sur beIN Sport 1, M6, La 1. Watch World Cup 2026 free live stream. كأس العالم 2026 بث مباشر مجاناً. Copa do Mundo 2026 ao vivo grátis. No subscription.',
+  keywords: [
+    // French — most searched
+    'diffusion direct coupe du monde 2026','coupe du monde 2026 en direct gratuit','coupe du monde 2026 streaming',
+    'regarder coupe du monde 2026 gratuit','match coupe du monde 2026 direct','m6 coupe du monde 2026 direct',
+    'bein sport coupe du monde 2026','la 1 coupe du monde 2026','rmc sport coupe du monde 2026',
+    'match direct coupe du monde 2026','pronostic coupe du monde 2026','prediction mondial 2026',
+    'actualité coupe du monde 2026','news coupe du monde 2026','open match coupe du monde',
+    // English
+    'world cup 2026 live stream free','world cup 2026 free broadcast','watch world cup 2026 online free',
+    'world cup 2026 match today live','world cup 2026 prediction','world cup 2026 news',
+    'bein sport 1 world cup 2026 live','m6 world cup 2026 live','la 1 world cup 2026',
+    'world cup 2026 opening match live','world cup 2026 schedule today',
+    // Arabic
+    'كأس العالم 2026 بث مباشر مجاناً','مشاهدة كأس العالم 2026 مباشر','beIN Sport كأس العالم 2026',
+    'أخبار كأس العالم 2026','توقعات كأس العالم 2026','كأس العالم 2026 اليوم',
+    // Portuguese / Brazil
+    'copa do mundo 2026 ao vivo grátis','copa 2026 transmissão ao vivo','brasil copa mundo 2026',
+    // Spanish
+    'mundial 2026 en vivo gratis','ver mundial 2026 gratis','predicciones mundial 2026',
+  ].join(', '),
+  alternates: {
+    canonical: SITE,
+    languages: { 'en': SITE, 'fr': SITE, 'ar': SITE, 'pt': SITE, 'es': SITE, 'x-default': SITE },
+  },
+  openGraph: {
+    title: '🔴 Diffusion Direct Coupe du Monde 2026 — Gratuit HD | SportaLive',
+    description: 'Regardez tous les matchs de la Coupe du Monde 2026 en direct gratuit sur beIN Sport 1, M6, La 1. World Cup 2026 free live stream — no subscription.',
+    type: 'website', url: SITE, siteName: 'SportaLive',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: '🔴 World Cup 2026 Live Stream Free — beIN Sport · M6 · La 1',
+    description: 'Watch all 104 WC2026 matches free HD. No subscription, no registration.',
+  },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
 };
+
+const eventJsonLd = {
+  '@context': 'https://schema.org', '@type': 'SportsEvent',
+  name: 'FIFA World Cup 2026',
+  alternateName: ['Coupe du Monde 2026', 'كأس العالم 2026', 'Copa do Mundo 2026', 'Copa Mundial 2026', 'WM 2026'],
+  description: 'Watch FIFA World Cup 2026 live free in HD on SportaLive. beIN Sport 1, M6 and La 1 direct stream — no subscription.',
+  startDate: '2026-06-11', endDate: '2026-07-19',
+  sport: 'https://en.wikipedia.org/wiki/Association_football',
+  url: SITE,
+  location: { '@type': 'Country', name: 'United States, Canada, Mexico' },
+  organizer: { '@type': 'Organization', name: 'FIFA', url: 'https://www.fifa.com' },
+  offers: { '@type': 'Offer', name: 'Free World Cup 2026 Live Stream', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: SITE },
+};
+
+const faqJsonLd = {
+  '@context': 'https://schema.org', '@type': 'FAQPage',
+  mainEntity: [
+    { '@type': 'Question', name: 'Comment regarder la Coupe du Monde 2026 en direct gratuit?', acceptedAnswer: { '@type': 'Answer', text: 'Sur SportaLive, regardez la Coupe du Monde 2026 gratuitement en HD via beIN Sport 1, M6 et La 1. Aucun abonnement ni inscription requis. Cliquez sur le lecteur et regardez en direct.' } },
+    { '@type': 'Question', name: 'Where can I watch World Cup 2026 for free?', acceptedAnswer: { '@type': 'Answer', text: 'Watch all FIFA World Cup 2026 matches free in HD on SportaLive. We stream beIN Sport 1, M6 (France), and La 1 (Spain) live — no subscription, no account needed.' } },
+    { '@type': 'Question', name: 'كيف أشاهد كأس العالم 2026 مجاناً بث مباشر؟', acceptedAnswer: { '@type': 'Answer', text: 'شاهد جميع مباريات كأس العالم 2026 مجاناً وبجودة HD على SportaLive. نبث beIN Sport 1 وM6 وLa 1 مباشرة بدون اشتراك ولا تسجيل. فقط اضغط تشغيل.' } },
+    { '@type': 'Question', name: 'Quand commence la Coupe du Monde 2026?', acceptedAnswer: { '@type': 'Answer', text: 'La Coupe du Monde 2026 débute le 11 juin 2026 avec le match d\'ouverture Mexique vs Afrique du Sud au SoFi Stadium de Los Angeles. La finale aura lieu le 19 juillet 2026.' } },
+    { '@type': 'Question', name: 'Which channels broadcast World Cup 2026 free?', acceptedAnswer: { '@type': 'Answer', text: 'beIN Sport 1 (MENA), M6 (France — free-to-air), La 1 RTVE (Spain — free), and RMC Sport all broadcast the 2026 World Cup. Watch all of them free on SportaLive.' } },
+    { '@type': 'Question', name: 'Como assistir Copa do Mundo 2026 de graça?', acceptedAnswer: { '@type': 'Answer', text: 'No SportaLive assista a Copa do Mundo 2026 de graça em HD. Transmitimos beIN Sport 1, M6 e La 1 ao vivo — sem assinatura, sem cadastro.' } },
+    { '@type': 'Question', name: 'What are the predictions for World Cup 2026?', acceptedAnswer: { '@type': 'Answer', text: 'Brazil, France, England and Spain are the main favourites for FIFA World Cup 2026. Brazil lead with Vinicius Jr, while France have Mbappé. Morocco are Africa\'s top hope after their 2022 semi-final run. Read our full match predictions on SportaLive.' } },
+  ],
+};
+
 export const revalidate = 3600;
+
+async function find(slugs: string[], patterns: string[]) {
+  const r = await prisma.channel.findFirst({ where: { slug: { in: slugs }, isActive: true }, orderBy: { order: 'asc' } }).catch(() => null);
+  if (r) return r;
+  for (const p of patterns) {
+    const c = await prisma.channel.findFirst({ where: { name: { contains: p, mode: 'insensitive' }, isActive: true }, orderBy: { order: 'asc' } }).catch(() => null);
+    if (c) return c;
+  }
+  return null;
+}
 
 async function getHomeData() {
   try {
@@ -29,76 +107,78 @@ async function getHomeData() {
   }
 }
 
+const CAT_COLORS: Record<string, string> = {
+  News: 'bg-blue-500 text-white', Preview: 'bg-emerald-600 text-white',
+  Guide: 'bg-purple-600 text-white', Analysis: 'bg-amber-600 text-white', Team: 'bg-red-600 text-white',
+};
+
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
+  const [la1, m6, bein] = await Promise.all([
+    find(['la-1', 'la-1-rtve', 'la1'], ['La 1', 'RTVE']),
+    find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
+    find(['ar-bein-sport-uhd-1', 'bein-sport-1', 'ar-bein-sport-1'], ['beIN Sports UHD', 'beIN Sports 1', 'beIN Sport 1']),
+  ]);
+
+  const topNews = wc2026News.slice(0, 6);
 
   return (
     <div>
+      <JsonLd data={eventJsonLd} />
+      <JsonLd data={faqJsonLd} />
 
-      {/* ══════════════════════════════════════════════
-          HERO — Design #1: red, stats, match cards
-      ══════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════
+          HERO — Red gradient, stats, WC2026 match cards
+      ══════════════════════════════════════════════════════ */}
       <section className="relative -mx-4 -mt-6 overflow-hidden"
         style={{ minHeight: '100vh', background: 'linear-gradient(160deg, #b91c1c 0%, #7f1d1d 45%, #1a0000 100%)' }}>
-
-        {/* Texture */}
         <div className="absolute inset-0 pointer-events-none opacity-[0.03]"
           style={{ backgroundImage: 'repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%)', backgroundSize: '14px 14px' }} />
         <div className="absolute top-0 right-0 w-1/2 h-full pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at 80% 20%, rgba(255,80,80,0.25) 0%, transparent 60%)' }} />
 
-        {/* Nav */}
         <div className="relative z-10 flex items-center justify-between px-6 md:px-12 pt-20 pb-2">
           <p className="text-white/40 text-xs uppercase tracking-widest font-bold">Live Streaming Platform</p>
-          <Link href="/world-cup-2026-live"
-            className="live-badge">Live Stream</Link>
+          <a href="#live-stream" className="live-badge">🔴 Watch Live</a>
         </div>
 
-        {/* Content grid */}
         <div className="relative z-10 grid grid-cols-1 lg:grid-cols-2 gap-10 px-6 md:px-12 py-10 items-center">
-
-          {/* LEFT — Stats */}
           <div className="space-y-6">
             <div className="space-y-1">
               <p className="stat-number text-white">{totalChannels > 0 ? `${totalChannels}+` : '600+'}</p>
               <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">Live Channels</p>
             </div>
             <div className="space-y-1">
-              <p className="stat-number text-white">24/7</p>
-              <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">Always Live</p>
+              <p className="stat-number text-white">104</p>
+              <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">WC2026 Matches</p>
             </div>
             <div className="space-y-1">
-              <p className="stat-number text-white">HD</p>
-              <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">Free Stream</p>
+              <p className="stat-number text-white">Free</p>
+              <p className="text-white/50 text-sm font-bold uppercase tracking-[0.2em]">HD · No subscription</p>
             </div>
-
             <div className="flex flex-wrap gap-3 pt-4">
-              <Link href="/live"
+              <a href="#live-stream"
                 className="px-8 py-3.5 bg-white text-black font-black text-sm uppercase tracking-widest rounded-full hover:bg-gray-100 transition-colors shadow-2xl">
                 Watch Now
-              </Link>
-              <Link href="/world-cup-2026-live"
+              </a>
+              <Link href="/wc2026"
                 className="px-8 py-3.5 bg-transparent border-2 border-white/30 text-white font-black text-sm uppercase tracking-widest rounded-full hover:border-white hover:bg-white/10 transition-all">
-                WC 2026
+                Schedule
               </Link>
             </div>
-
-            {/* Channels tags */}
             <div className="flex flex-wrap gap-2 pt-2">
-              {['📡 beIN Sport 1', '🇫🇷 M6', '📺 RMC Sport', '🌍 Al Jazeera', '⚽ beIN Sports'].map(t => (
+              {['📡 beIN Sport UHD 1', '🇫🇷 M6 Gratuit', '🇪🇸 La 1 RTVE', '📺 RMC Sport', '🌍 beIN Sports 1'].map(t => (
                 <span key={t} className="label-chip bg-black/30 text-white/70 border border-white/10">{t}</span>
               ))}
             </div>
           </div>
 
-          {/* RIGHT — WC2026 match cards */}
           <div className="space-y-3">
-            {/* Featured card */}
             <div className="card overflow-hidden" style={{ background: '#000' }}>
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
-                  <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">World Cup 2026</p>
-                  <p className="text-white font-black text-sm mt-0.5">Opening Match · Group B</p>
+                  <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">World Cup 2026 · Opening</p>
+                  <p className="text-white font-black text-sm mt-0.5">Mexico vs South Africa — Group B</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
@@ -119,7 +199,6 @@ export default async function HomePage() {
               </Link>
             </div>
 
-            {/* Secondary cards */}
             {[
               { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Mon Jun 15' },
               { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', date: 'Mon Jun 15' },
@@ -135,7 +214,6 @@ export default async function HomePage() {
                 <div className="flex items-center gap-3">
                   <span className="text-white/20 text-xs font-black">VS</span>
                   <span className="text-white/30 text-[10px]">{m.date}</span>
-                  <span className="text-white/30 text-xs">→</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <span className="text-white text-xs font-bold">{m.away}</span>
@@ -152,7 +230,6 @@ export default async function HomePage() {
           </div>
         </div>
 
-        {/* Ghost text */}
         <div className="absolute bottom-0 left-0 right-0 px-6 overflow-hidden pointer-events-none select-none">
           <p className="ghost-text text-white">SPORTALIVE</p>
         </div>
@@ -160,84 +237,170 @@ export default async function HomePage() {
           style={{ background: 'linear-gradient(to bottom, transparent, #000)' }} />
       </section>
 
-      {/* ══════════════════════════════════════════════
-          FEATURED CHANNELS — Design #3: dark cards
-      ══════════════════════════════════════════════ */}
-      {featured.length > 0 && (
-        <section className="px-4 md:px-0 pt-16 pb-4">
-          <div className="flex items-center justify-between mb-8">
-            <div className="flex items-center gap-3">
-              <div className="accent-bar h-8" />
-              <div>
-                <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">Streaming Now</p>
-                <h2 className="section-title text-white">Featured Channels</h2>
-              </div>
+      {/* ══════════════════════════════════════════════════════
+          LIVE STREAM — La 1 · M6 · beIN Sport UHD 1
+      ══════════════════════════════════════════════════════ */}
+      <section id="live-stream" className="px-4 md:px-0 pt-14">
+        <div className="flex items-center gap-3 mb-5">
+          <div className="accent-bar h-8" />
+          <div>
+            <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">Diffusion Direct · Live Broadcast</p>
+            <h2 className="section-title text-white text-2xl md:text-3xl">
+              Coupe du Monde 2026 — <span className="text-red-500">En Direct Gratuit</span>
+            </h2>
+          </div>
+        </div>
+
+        <WC2026StreamClient
+          servers={[
+            { label: 'La 1', sublabel: 'RTVE · España · Gratuit', channel: la1 as any },
+            { label: 'M6', sublabel: 'France · Gratuit · HD', channel: m6 as any },
+            { label: 'beIN Sport UHD 1', sublabel: 'MENA · UHD · عربي', channel: bein as any },
+          ]}
+          match={{
+            home: 'World Cup', homeFlag: 'us',
+            away: '2026', awayFlag: 'br',
+            date: 'June 11 – July 19, 2026',
+            time: 'All Matches Live',
+          }}
+        />
+        <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
+          <p className="text-white/20 text-xs">Gratuit HD · Sans abonnement · Sans inscription · Switch serveur si lag</p>
+          <div className="flex gap-2">
+            <Link href="/world-cup-2026-live" className="label-chip bg-red-600 text-white text-[10px]">104 Matches →</Link>
+            <Link href="/wc2026" className="label-chip bg-white/5 text-white/60 border border-white/10 text-[10px]">Schedule</Link>
+          </div>
+        </div>
+
+        {/* SEO text block for the channels */}
+        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3">
+          {[
+            { name: 'La 1 — RTVE', flag: '🇪🇸', desc: 'Chaîne espagnole gratuite qui diffuse la Coupe du Monde 2026 en direct. Regardez La 1 RTVE en streaming HD sur SportaLive — aucun abonnement requis.' },
+            { name: 'M6 — Gratuit', flag: '🇫🇷', desc: 'M6 diffuse la Coupe du Monde 2026 gratuitement en France. Regardez M6 en direct HD sur SportaLive depuis n\'importe quel pays — sans abonnement.' },
+            { name: 'beIN Sport UHD 1', flag: '📡', desc: 'beIN Sport 1 diffuse tous les matchs du Mondial 2026 en direct pour la région MENA. Regardez beIN Sport UHD gratuitement sur SportaLive.' },
+          ].map(ch => (
+            <div key={ch.name} className="card p-4 space-y-2">
+              <p className="text-white font-black text-sm">{ch.flag} {ch.name}</p>
+              <p className="text-white/40 text-xs leading-relaxed">{ch.desc}</p>
+              <a href="#live-stream" className="text-red-500 text-[10px] font-black">▶ Regarder gratuit</a>
             </div>
-            <Link href="/live"
-              className="flex items-center gap-1 text-red-500 hover:text-red-400 text-xs font-black uppercase tracking-widest transition-colors">
-              All Channels <ChevronRight className="w-3.5 h-3.5" />
-            </Link>
-          </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
-            {featured.map((channel, i) => (
-              <ChannelCard key={channel.id} channel={channel as any} index={i} />
-            ))}
-          </div>
-        </section>
-      )}
+          ))}
+        </div>
 
-      {/* ══════════════════════════════════════════════
-          WC2026 HIGHLIGHT — Design #2: light section
-      ══════════════════════════════════════════════ */}
-      <section className="mx-0 mt-16 rounded-2xl overflow-hidden" style={{ background: '#f5f4f0' }}>
+        <div className="mt-4"><AdBanner /></div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          WC2026 HIGHLIGHT — light section (design #2)
+      ══════════════════════════════════════════════════════ */}
+      <section className="mt-14 rounded-2xl overflow-hidden" style={{ background: '#f5f4f0' }}>
         <div className="relative px-6 md:px-12 py-12 overflow-hidden">
-          {/* Ghost number — like the "15" in design #2 */}
           <div className="absolute right-0 top-0 pointer-events-none select-none overflow-hidden h-full flex items-center">
-            <p className="text-black font-black leading-none" style={{ fontSize: 'clamp(8rem, 25vw, 22rem)', opacity: 0.06, letterSpacing: '-0.05em' }}>
-              48
-            </p>
+            <p className="text-black font-black leading-none" style={{ fontSize: 'clamp(8rem, 25vw, 22rem)', opacity: 0.06, letterSpacing: '-0.05em' }}>48</p>
           </div>
-
           <div className="relative z-10 max-w-2xl">
-            <p className="label-chip bg-red-600 text-white mb-4">🌍 FIFA World Cup 2026</p>
+            <p className="label-chip bg-red-600 text-white mb-4">🌍 FIFA World Cup 2026 · 48 Teams</p>
             <h2 className="text-black font-black uppercase leading-none mb-4"
               style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)', letterSpacing: '-0.03em' }}>
-              Watch Every Match<br />
-              <span className="text-red-600">Completely Free</span>
+              Watch Every Match<br /><span className="text-red-600">Completely Free</span>
             </h2>
             <p className="text-black/50 text-base mb-6 max-w-md">
-              USA · Canada · Mexico · 48 teams · 104 matches · June 11 – July 19, 2026.<br />
-              beIN Sport 1, M6, RMC Sport — no subscription, no registration.
+              USA · Canada · Mexico · June 11 – July 19, 2026 · 104 matches.<br />
+              La 1, M6, beIN Sport UHD 1 — no subscription, no registration.
             </p>
             <div className="flex flex-wrap gap-3">
-              <Link href="/world-cup-2026-live"
+              <a href="#live-stream"
                 className="flex items-center gap-2 px-8 py-3.5 bg-black text-white font-black text-sm uppercase tracking-widest rounded-full hover:bg-red-600 transition-colors">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
-                Watch Live Free
-              </Link>
+                <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />Diffusion Direct
+              </a>
               <Link href="/wc2026"
                 className="px-8 py-3.5 border-2 border-black text-black font-black text-sm uppercase tracking-widest rounded-full hover:bg-black hover:text-white transition-all">
-                Match Schedule
+                Calendrier
               </Link>
             </div>
           </div>
         </div>
       </section>
 
-      {/* ══════════════════════════════════════════════
-          CATEGORY ROWS — Dark, clean
-      ══════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════
+          NEWS & PREDICTIONS — WC2026
+      ══════════════════════════════════════════════════════ */}
+      <section className="px-4 md:px-0 pt-14">
+        <div className="flex items-center justify-between mb-6">
+          <div className="flex items-center gap-3">
+            <div className="accent-bar h-7" />
+            <div>
+              <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">Actualités · News · أخبار</p>
+              <h2 className="section-title text-white text-xl md:text-2xl">WC2026 News & Predictions</h2>
+            </div>
+          </div>
+          <Link href="/world-cup-2026-live" className="text-red-500 hover:text-red-400 text-xs font-black uppercase tracking-widest transition-colors flex items-center gap-1">
+            All News <ChevronRight className="w-3.5 h-3.5" />
+          </Link>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          {topNews.map(article => (
+            <article key={article.slug}
+              className="group card flex flex-col hover:border-red-600/50 hover:-translate-y-0.5 transition-all duration-200"
+              style={{ background: '#161616' }}>
+              <div className="h-[3px] bg-red-600" />
+              <div className="flex-1 p-4 space-y-3">
+                <div className="flex items-center gap-2 flex-wrap">
+                  <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${CAT_COLORS[article.category]}`}>
+                    {article.category}
+                  </span>
+                  {article.flag && <img src={`https://flagcdn.com/w20/${article.flag}.png`} alt="" width={16} height={11} className="rounded" />}
+                  <span className="text-white/30 text-[10px] font-bold ml-auto">{article.readTime} min</span>
+                </div>
+                <h3 className="text-white font-black text-sm leading-snug group-hover:text-red-400 transition-colors line-clamp-3">
+                  {article.title}
+                </h3>
+                <p className="text-white/40 text-xs leading-relaxed line-clamp-2">{article.excerpt}</p>
+              </div>
+              <div className="px-4 pb-4 flex items-center justify-between border-t border-white/[0.06] pt-3">
+                <span className="text-white/25 text-[10px]">{article.date}</span>
+                <span className="text-red-500 text-[10px] font-black">Read more →</span>
+              </div>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          FEATURED CHANNELS
+      ══════════════════════════════════════════════════════ */}
+      {featured.length > 0 && (
+        <section className="px-4 md:px-0 pt-14">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="accent-bar h-7" />
+              <h2 className="section-title text-white text-xl md:text-2xl">Featured Channels</h2>
+            </div>
+            <Link href="/live" className="text-red-500 hover:text-red-400 text-xs font-black uppercase tracking-widest transition-colors flex items-center gap-1">
+              All <ChevronRight className="w-3.5 h-3.5" />
+            </Link>
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-3">
+            {featured.map((channel, i) => <ChannelCard key={channel.id} channel={channel as any} index={i} />)}
+          </div>
+        </section>
+      )}
+
+      {/* ══════════════════════════════════════════════════════
+          CATEGORY ROWS
+      ══════════════════════════════════════════════════════ */}
       {categoryChannels.map(({ category, channels }) =>
         channels.length > 0 ? (
-          <section key={category.id} className="px-4 md:px-0 pt-14">
-            <div className="flex items-center justify-between mb-6">
+          <section key={category.id} className="px-4 md:px-0 pt-12">
+            <div className="flex items-center justify-between mb-5">
               <div className="flex items-center gap-3">
-                <div className="accent-bar h-7" />
-                <h2 className="section-title text-white text-xl md:text-2xl">{category.name}</h2>
+                <div className="accent-bar h-6" />
+                <h2 className="section-title text-white text-lg md:text-xl">{category.name}</h2>
               </div>
               <Link href={`/category/${category.slug}`}
-                className="flex items-center gap-1 text-red-500 hover:text-red-400 text-xs font-black uppercase tracking-widest transition-colors">
-                View all ({category.channelCount}) <ChevronRight className="w-3.5 h-3.5" />
+                className="text-red-500 hover:text-red-400 text-xs font-black uppercase tracking-widest transition-colors flex items-center gap-1">
+                {category.channelCount} <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
             <div className="scroll-row">
@@ -251,28 +414,57 @@ export default async function HomePage() {
         ) : null
       )}
 
-      {/* ══════════════════════════════════════════════
-          CATEGORIES GRID — Design #3: dark cards
-      ══════════════════════════════════════════════ */}
+      {/* ══════════════════════════════════════════════════════
+          FAQ — SEO-targeted questions
+      ══════════════════════════════════════════════════════ */}
+      <section className="px-4 md:px-0 pt-14 space-y-3">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="accent-bar h-7" />
+          <h2 className="section-title text-white text-xl md:text-2xl">FAQ — Diffusion Coupe du Monde 2026</h2>
+        </div>
+        {faqJsonLd.mainEntity.map((q: any, i: number) => (
+          <details key={i}
+            className="group card border-white/[0.06] hover:border-red-600/30 transition-all cursor-pointer overflow-hidden">
+            <summary className="flex items-center justify-between gap-3 px-5 py-4 list-none text-white text-sm font-bold">
+              {q.name}
+              <span className="text-red-500 text-xl flex-shrink-0 group-open:rotate-45 transition-transform">+</span>
+            </summary>
+            <div className="px-5 pb-5 pt-0">
+              <div className="h-px bg-white/5 mb-3" />
+              <p className="text-white/40 text-sm leading-relaxed">{q.acceptedAnswer.text}</p>
+            </div>
+          </details>
+        ))}
+      </section>
+
+      {/* ══════════════════════════════════════════════════════
+          CATEGORIES GRID
+      ══════════════════════════════════════════════════════ */}
       {categories.length > 0 && (
-        <section className="px-4 md:px-0 pt-14 pb-16">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="accent-bar h-7" />
-            <h2 className="section-title text-white text-xl md:text-2xl">Browse Categories</h2>
+        <section className="px-4 md:px-0 pt-12 pb-16">
+          <div className="flex items-center gap-3 mb-5">
+            <div className="accent-bar h-6" />
+            <h2 className="section-title text-white text-lg md:text-xl">Browse Categories</h2>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
             {categories.map(cat => (
               <Link key={cat.id} href={`/category/${cat.slug}`}
                 className="group card flex items-center justify-between p-4 hover:border-red-600/40">
-                <span className="text-sm font-bold text-white/70 group-hover:text-white truncate transition-colors">
-                  {cat.name}
-                </span>
+                <span className="text-sm font-bold text-white/70 group-hover:text-white truncate transition-colors">{cat.name}</span>
                 <span className="text-[10px] text-white/20 font-bold ml-2 flex-shrink-0">{cat.channelCount}</span>
               </Link>
             ))}
           </div>
         </section>
       )}
+
+      {/* SEO keyword density block */}
+      <p className="text-[10px] text-white/5 leading-relaxed px-4 pb-8">
+        diffusion direct coupe du monde 2026 gratuit · coupe du monde 2026 en direct m6 gratuit · bein sport coupe du monde 2026 ·
+        la 1 coupe du monde 2026 direct · regarder mondial 2026 gratuit sans abonnement · world cup 2026 live stream free ·
+        كأس العالم 2026 بث مباشر مجاناً beIN Sport · pronostic coupe du monde 2026 · actualité mondial 2026 ·
+        copa do mundo 2026 ao vivo grátis · mundial 2026 en vivo gratis · open match world cup 2026
+      </p>
     </div>
   );
 }
