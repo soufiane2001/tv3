@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
 import { notFound } from 'next/navigation';
+import Link from 'next/link';
 import ChannelGrid from '@/components/channels/ChannelGrid';
 import type { Metadata } from 'next';
 
@@ -12,8 +13,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const category = await prisma.category.findUnique({ where: { slug } });
   if (!category) return {};
   return {
-    title: `${category.name} Channels`,
-    description: `Watch ${category.channelCount} live ${category.name} channels online.`,
+    title: `${category.name} — Live Channels Free | SportaLive`,
+    description: `Watch ${category.channelCount} live ${category.name} channels online for free in HD. No subscription needed.`,
   };
 }
 
@@ -24,10 +25,19 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <div className="space-y-6">
-      <div>
-        <p className="text-purple-400 text-sm font-medium mb-1">Category</p>
-        <h1 className="text-2xl font-bold text-white">{category.name}</h1>
-        <p className="text-gray-500 text-sm mt-1">{category.channelCount} live channels</p>
+      <div className="flex items-start gap-4">
+        <div className="w-1 h-12 rounded-full bg-red-600 flex-shrink-0 mt-1" />
+        <div>
+          <p className="text-red-400 text-xs font-black uppercase tracking-widest mb-1">Category</p>
+          <h1 className="text-2xl font-black text-white">{category.name}</h1>
+          <div className="flex items-center gap-3 mt-2">
+            <span className="flex items-center gap-1.5 px-3 py-1 bg-red-600/20 border border-red-500/30 rounded-full text-red-400 text-[10px] font-black uppercase tracking-widest">
+              <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse" />
+              {category.channelCount} Live Channels
+            </span>
+            <Link href="/live" className="text-gray-500 hover:text-white text-xs transition-colors">← All Channels</Link>
+          </div>
+        </div>
       </div>
       <ChannelGrid category={slug} title={category.name} />
     </div>

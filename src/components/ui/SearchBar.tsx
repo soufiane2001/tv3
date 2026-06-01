@@ -45,12 +45,12 @@ export default function SearchBar({
       className={cn(
         'relative flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200',
         focused
-          ? 'bg-gray-800 border-purple-500 shadow-lg shadow-purple-900/20'
+          ? 'bg-gray-800 border-red-500 shadow-lg shadow-red-900/20'
           : 'bg-gray-800/60 border-white/10 hover:border-white/20',
         className
       )}
     >
-      <Search className={cn('w-4 h-4 flex-shrink-0 transition-colors', focused ? 'text-purple-400' : 'text-gray-500')} />
+      <Search className={cn('w-4 h-4 flex-shrink-0 transition-colors', focused ? 'text-red-400' : 'text-gray-500')} />
       <input
         type="text"
         value={value}

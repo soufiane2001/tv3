@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className="h-full dark">
-      <body className="min-h-full bg-gray-950 text-white antialiased">
+      <body className="min-h-full text-white antialiased" style={{ background: '#0a0a0a' }}>
         <LanguageProvider>
         <Tracker />
         <GlobalAdScripts />

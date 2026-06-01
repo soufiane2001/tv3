@@ -17,37 +17,39 @@ export default function Header() {
   const navLinks = [
     { href: '/',          label: tx.home,      icon: Tv },
     { href: '/live',      label: tx.live,      icon: Radio },
-    { href: '/wc2026',    label: tx.wc2026,    icon: Trophy, green: true },
+    { href: '/wc2026',    label: tx.wc2026,    icon: Trophy, red: true },
     { href: '/favorites', label: tx.favorites, icon: Heart },
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-gray-950/90 backdrop-blur-xl border-b border-white/5">
+    <header className="fixed top-0 left-0 right-0 z-50 backdrop-blur-xl border-b border-white/[0.06]"
+      style={{ background: 'rgba(10,10,10,0.95)' }}>
       <div className="max-w-screen-2xl mx-auto px-4 h-16 flex items-center gap-4">
+
         {/* Logo */}
-        <Link href="/" className="flex items-center gap-2.5 flex-shrink-0">
-          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-purple-600 to-blue-600 flex items-center justify-center shadow-lg shadow-purple-900/40">
+        <Link href="/" className="flex items-center gap-2.5 flex-shrink-0 group">
+          <div className="w-8 h-8 rounded-lg bg-red-600 flex items-center justify-center shadow-lg shadow-red-900/40 group-hover:bg-red-500 transition-colors">
             <Tv className="w-4 h-4 text-white" />
           </div>
-          <span className="font-bold text-white text-lg hidden sm:block">
-            Sport<span className="text-purple-400">aLive</span>
+          <span className="font-black text-white text-lg hidden sm:block tracking-tight">
+            Sporta<span className="text-red-500">Live</span>
           </span>
         </Link>
 
         {/* Desktop Nav */}
         <nav className="hidden md:flex items-center gap-1 ml-4">
-          {navLinks.map(({ href, label, icon: Icon, green }) => (
+          {navLinks.map(({ href, label, icon: Icon, red }) => (
             <Link
               key={href}
               href={href}
               className={cn(
-                'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-all duration-200',
-                green
+                'flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-semibold transition-all duration-200',
+                red
                   ? pathname === href
-                    ? 'bg-green-600/30 text-green-300'
-                    : 'text-green-400 hover:text-white hover:bg-green-600/20 border border-green-500/30'
+                    ? 'bg-red-600/30 text-red-300'
+                    : 'text-red-400 hover:text-white hover:bg-red-600/20 border border-red-500/30'
                   : pathname === href
-                    ? 'bg-purple-600/20 text-purple-300'
+                    ? 'bg-white/10 text-white'
                     : 'text-gray-400 hover:text-white hover:bg-white/5'
               )}
             >
@@ -59,14 +61,10 @@ export default function Header() {
 
         {/* Search */}
         <div className="flex-1 max-w-xs ml-auto">
-          <SearchBar
-            navigateToSearch
-            placeholder={tx.search}
-            className="w-full"
-          />
+          <SearchBar navigateToSearch placeholder={tx.search} className="w-full" />
         </div>
 
-        {/* Language switcher + Admin */}
+        {/* Language switcher */}
         <div className="flex items-center gap-1">
           {LANGS.map(l => (
             <button
@@ -76,14 +74,20 @@ export default function Header() {
               className={cn(
                 'px-2 py-1 rounded-md text-xs font-bold transition-all',
                 lang === l.code
-                  ? 'bg-purple-600/30 text-purple-300'
+                  ? 'bg-red-600/30 text-red-300'
                   : 'text-gray-500 hover:text-white hover:bg-white/5'
               )}
             >
               {l.flag} {l.label}
             </button>
           ))}
-          {/* Admin link removed from public nav */}
+
+          {/* Live Stream pill */}
+          <Link href="/world-cup-2026-live"
+            className="hidden sm:flex items-center gap-1.5 ml-2 px-4 py-1.5 bg-red-600 hover:bg-red-500 text-white text-xs font-black rounded-full transition-colors">
+            <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" />
+            Live
+          </Link>
 
           {/* Mobile menu button */}
           <button
@@ -97,21 +101,21 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t border-white/5 bg-gray-950/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-white/[0.06] backdrop-blur-xl" style={{ background: 'rgba(10,10,10,0.98)' }}>
           <nav className="flex flex-col p-3 gap-1">
-            {navLinks.map(({ href, label, icon: Icon, green }) => (
+            {navLinks.map(({ href, label, icon: Icon, red }) => (
               <Link
                 key={href}
                 href={href}
                 onClick={() => setMobileMenuOpen(false)}
                 className={cn(
-                  'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors',
-                  green
+                  'flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-semibold transition-colors',
+                  red
                     ? pathname === href
-                      ? 'bg-green-600/30 text-green-300'
-                      : 'text-green-400 hover:text-white hover:bg-green-600/20'
+                      ? 'bg-red-600/30 text-red-300'
+                      : 'text-red-400 hover:text-white hover:bg-red-600/20'
                     : pathname === href
-                      ? 'bg-purple-600/20 text-purple-300'
+                      ? 'bg-white/10 text-white'
                       : 'text-gray-400 hover:text-white hover:bg-white/5'
                 )}
               >
@@ -119,7 +123,11 @@ export default function Header() {
                 {label}
               </Link>
             ))}
-            {/* Admin link removed from public nav */}
+            <Link href="/world-cup-2026-live" onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2 px-4 py-3 rounded-xl text-sm font-black text-white bg-red-600/20 border border-red-500/30">
+              <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+              🔴 Live Stream — WC2026
+            </Link>
           </nav>
         </div>
       )}

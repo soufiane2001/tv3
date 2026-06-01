@@ -98,7 +98,7 @@ export default function ChannelGrid({ category, search, initialData, title }: Ch
           <button
             onClick={loadMore}
             disabled={loadingMore}
-            className="flex items-center gap-2 px-6 py-3 bg-purple-600 hover:bg-purple-500 disabled:bg-gray-700 text-white rounded-xl transition-colors font-medium"
+            className="flex items-center gap-2 px-8 py-3 bg-red-600 hover:bg-red-500 disabled:bg-gray-700 text-white rounded-full transition-colors font-black text-sm uppercase tracking-wider"
           >
             {loadingMore ? (
               <>
