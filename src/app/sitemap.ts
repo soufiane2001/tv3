@@ -34,6 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/ver-final-champions-2026`,    lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/guardare-finale-champions-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/crystal-palace-vs-rayo-vallecano`, lastModified: now, changeFrequency: 'hourly', priority: 0.9 },
+    { url: `${base}/world-cup-2026-live`,           lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/wc2026`,                       lastModified: now, changeFrequency: 'daily',  priority: 0.95 },
     { url: `${base}/world-cup-2026`,              lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
     // World Cup 2026 — Group Stage match pages

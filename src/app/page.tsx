@@ -117,13 +117,13 @@ export default async function HomePage() {
             <p className="text-gray-400 text-sm mt-1">USA · Canada · Mexico · 48 teams · 104 matches · HD streams on M6, beIN Sports — no subscription</p>
           </div>
           <div className="flex gap-3 flex-shrink-0">
-            <Link href="/wc2026"
+            <Link href="/world-cup-2026-live"
               className="px-5 py-2.5 bg-green-600 hover:bg-green-500 text-white text-sm font-bold rounded-xl transition-colors whitespace-nowrap">
-              📅 Match Schedule
+              🔴 Watch Live Free
             </Link>
-            <Link href="/world-cup-2026"
+            <Link href="/wc2026"
               className="px-5 py-2.5 bg-white/10 hover:bg-white/15 border border-white/10 text-white text-sm font-semibold rounded-xl transition-colors whitespace-nowrap">
-              Learn More
+              📅 Schedule
             </Link>
           </div>
         </div>
