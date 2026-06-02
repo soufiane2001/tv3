@@ -476,13 +476,27 @@ export default async function HomePage() {
         </section>
       )}
 
-      {/* SEO keyword density block */}
-      <p className="text-[10px] text-white/5 leading-relaxed px-4 pb-8">
-        diffusion direct coupe du monde 2026 gratuit · coupe du monde 2026 en direct m6 gratuit · bein sport coupe du monde 2026 ·
-        la 1 coupe du monde 2026 direct · regarder mondial 2026 gratuit sans abonnement · world cup 2026 live stream free ·
-        كأس العالم 2026 بث مباشر مجاناً beIN Sport · pronostic coupe du monde 2026 · actualité mondial 2026 ·
-        copa do mundo 2026 ao vivo grátis · mundial 2026 en vivo gratis · open match world cup 2026
-      </p>
+      {/* Multilingual platform description — visible, crawlable, not hidden */}
+      <section className="px-4 md:px-0 pt-10 pb-12 border-t border-white/[0.04]">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs text-white/35 leading-relaxed">
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
+            <p>Regardez la Coupe du Monde 2026 en direct gratuit sur SportaLive — M6, beIN Sport 1 et RMC Sport, sans abonnement ni inscription.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🌍 English</p>
+            <p>Watch all 104 FIFA World Cup 2026 matches free in HD — beIN Sport UHD 1, M6 France, La 1 RTVE, RMC Sport. No subscription, no sign-up.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇲🇦 عربي</p>
+            <p>شاهد كأس العالم 2026 مجاناً بجودة HD على SportaLive — beIN Sport 1 وM6 وLa 1، بدون اشتراك ولا تسجيل. بث مباشر لجميع 104 مباريات.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇧🇷 Português · 🇪🇸 Español</p>
+            <p>Copa do Mundo 2026 ao vivo grátis — beIN Sport, M6, La 1. Sin suscripción. Mundial 2026 en vivo gratis en SportaLive.</p>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

@@ -1,0 +1,65 @@
+# SportaLive
+
+> Free HD live sports streaming platform — 600+ channels including beIN Sport, M6, RMC Sport, La 1 RTVE. Stream all 104 FIFA World Cup 2026 matches live, no subscription or registration required.
+
+SportaLive (https://www.sportalive.live) is a free live TV streaming website where users watch sports events worldwide in HD quality without creating an account.
+
+## About
+
+- 600+ live TV channels from France, Spain, Morocco, the MENA region, and worldwide
+- All 104 FIFA World Cup 2026 matches (June 11 – July 19, 2026, hosted in USA, Canada, Mexico)
+- Free streams: beIN Sport UHD 1, M6, RMC Sport, La 1 RTVE, TRT
+- Moroccan channels: 2M, Al Aoula, Arryadia, Medi 1
+- Searchable channel directory with sport, news, entertainment categories
+- Interface available in English, French, Arabic, Spanish, Portuguese
+
+## Main pages
+
+- [Home / Watch Live](https://www.sportalive.live/) — Main streaming page with current matches and World Cup 2026
+- [Live TV — All Channels](https://www.sportalive.live/live) — 600+ live channels
+- [World Cup 2026 Live](https://www.sportalive.live/world-cup-2026-live) — All 104 WC2026 matches with streams
+- [WC2026 Full Schedule](https://www.sportalive.live/wc2026) — Complete match schedule, groups, and results
+- [Moroccan Channels](https://www.sportalive.live/chaines-marocaines) — 2M, Al Aoula, Arryadia, Medi 1 live
+
+## World Cup 2026 match pages
+
+- [Mexico vs South Africa](https://www.sportalive.live/mexico-vs-south-africa-2026) — Opening match, Group B, June 11 2026, SoFi Stadium LA
+- [Brazil vs Morocco](https://www.sportalive.live/brazil-vs-morocco-2026) — Group stage, June 15 2026
+- [Germany vs Curaçao](https://www.sportalive.live/germany-vs-curacao-2026) — Group stage, June 15 2026
+- [Netherlands vs Japan](https://www.sportalive.live/netherlands-vs-japan-2026) — Group stage, June 16 2026
+- [USA vs Paraguay](https://www.sportalive.live/usa-vs-paraguay-2026) — Group stage 2026
+- [Brazil vs Panama](https://www.sportalive.live/brazil-vs-panama-2026) — Group stage 2026
+
+## Key broadcast channels
+
+- [M6 France](https://www.sportalive.live/channel/m6) — Free-to-air French channel, official World Cup 2026 broadcaster in France
+- [beIN Sport UHD 1](https://www.sportalive.live/channel/ar-bein-sport-uhd-1) — MENA sports broadcaster, UHD quality
+- [La 1 RTVE](https://www.sportalive.live/channel/la-1) — Free Spanish public broadcaster, official WC2026
+- [RMC Sport 1](https://www.sportalive.live/channel/rmc-sport-1) — French sports channel
+- [2M Maroc](https://www.sportalive.live/channel/2m) — Moroccan free-to-air channel
+- [Al Aoula](https://www.sportalive.live/channel/al-aoula) — Moroccan national channel
+- [Arryadia](https://www.sportalive.live/channel/arryadia) — Moroccan sports channel
+- [TRT](https://www.sportalive.live/channel/trt) — Turkish public broadcaster
+
+## Frequently asked questions
+
+**How to watch World Cup 2026 for free?**
+Go to sportalive.live, find the current match in the hero section or the /world-cup-2026-live page, choose a server (M6, beIN Sport UHD 1, or RMC Sport), and press play. No subscription, no registration, no account required.
+
+**Which channels broadcast World Cup 2026 for free?**
+beIN Sport 1 / beIN Sport UHD 1 (MENA region), M6 (France — free-to-air), La 1 RTVE (Spain — public free broadcaster), RMC Sport (France), TRT (Turkey). All of these are available to stream free on SportaLive.
+
+**Does SportaLive work on mobile and tablet?**
+Yes. SportaLive works on all devices — smartphone, tablet, desktop, smart TV browser — in any modern browser without installing an app.
+
+**What is the World Cup 2026 opening match?**
+Mexico vs South Africa on June 11, 2026 at SoFi Stadium in Los Angeles. It is the first match of Group B.
+
+**When is the 2026 World Cup final?**
+The FIFA World Cup 2026 final takes place on July 19, 2026.
+
+**How many matches are in World Cup 2026?**
+104 matches in total — FIFA expanded to 48 teams for the 2026 edition.
+
+**What are the predictions for World Cup 2026?**
+Brazil, France, England, and Spain are the main favourites. Brazil are led by Vinicius Jr, France by Kylian Mbappé. Morocco are Africa's strongest hope. Read match-by-match predictions on SportaLive.
