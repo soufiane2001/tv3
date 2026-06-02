@@ -5,6 +5,7 @@ import ChannelCard from '@/components/channels/ChannelCard';
 import WC2026StreamClient from '@/components/worldcup/WC2026StreamClient';
 import JsonLd from '@/components/seo/JsonLd';
 import AdBanner from '@/components/ads/AdBanner';
+import AdBanner300 from '@/components/ads/AdBanner300';
 import { wc2026News } from '@/data/wc2026-news';
 import type { Metadata } from 'next';
 
@@ -237,6 +238,11 @@ export default async function HomePage() {
           style={{ background: 'linear-gradient(to bottom, transparent, #000)' }} />
       </section>
 
+      {/* Ad slot — below hero */}
+      <div className="flex justify-center py-4">
+        <AdBanner300 />
+      </div>
+
       {/* ══════════════════════════════════════════════════════
           LIVE STREAM — La 1 · M6 · beIN Sport UHD 1
       ══════════════════════════════════════════════════════ */}
@@ -340,6 +346,11 @@ export default async function HomePage() {
         </div>
       </section>
 
+      {/* Ad slot — between highlight and news */}
+      <div className="flex justify-center py-4">
+        <AdBanner300 />
+      </div>
+
       {/* ══════════════════════════════════════════════════════
           NEWS & PREDICTIONS — WC2026
       ══════════════════════════════════════════════════════ */}
@@ -404,6 +415,11 @@ export default async function HomePage() {
           </div>
         </section>
       )}
+
+      {/* Ad slot — between featured channels and category rows */}
+      <div className="flex justify-center py-4">
+        <AdBanner300 />
+      </div>
 
       {/* ══════════════════════════════════════════════════════
           CATEGORY ROWS
