@@ -104,3 +104,19 @@ model LiveVisitor {
 
   @@index([lastSeen])
 }
+
+model StreamPlay {
+  id          String   @id @default(cuid())
+  sessionId   String
+  channelId   String
+  channelName String
+  path        String
+  country     String   @default("Unknown")
+  countryCode String   @default("??")
+  device      String   @default("desktop")
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+  @@index([channelId])
+  @@index([sessionId])
+}

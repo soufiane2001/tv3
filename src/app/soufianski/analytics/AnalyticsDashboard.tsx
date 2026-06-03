@@ -6,7 +6,7 @@ import {
 } from 'recharts';
 import {
   Users, Eye, Globe, Clock, Monitor, Smartphone, Tablet,
-  TrendingUp, RefreshCw, Wifi, WifiOff, ChevronUp, ChevronDown, MapPin,
+  TrendingUp, RefreshCw, Wifi, WifiOff, ChevronUp, ChevronDown, MapPin, Play, Radio,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -14,6 +14,11 @@ interface LiveVisitor { path: string; country: string; countryCode: string; flag
 interface PageGeoCity { city: string; count: number }
 interface PageGeoCountry { country: string; countryCode: string; flag: string; count: number; cities: PageGeoCity[] }
 interface PageGeoEntry { path: string; total: number; countries: PageGeoCountry[] }
+interface RecentSession {
+  sessionId: string; country: string; countryCode: string; flag: string;
+  device: string; browser: string; totalDuration: number | null;
+  pageCount: number; firstSeen: string; streamPlayed: string[];
+}
 interface StatsData {
   live: { count: number; visitors: LiveVisitor[] };
   totals: { viewsToday: number; viewsHour: number; uniqueToday: number; avgDuration: number };
@@ -25,6 +30,8 @@ interface StatsData {
   chart24h: { hour: string; count: number }[];
   chart7d: { day: string; count: number }[];
   pageGeo: PageGeoEntry[];
+  topStreams: { channelId: string; channelName: string; count: number }[];
+  recentSessions: RecentSession[];
 }
 
 const DEVICE_ICONS: Record<string, any> = { desktop: Monitor, mobile: Smartphone, tablet: Tablet };
@@ -326,6 +333,79 @@ export default function AnalyticsDashboard({ password }: { password: string }) {
                 <p className="text-gray-600 text-xs">visits</p>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Top Streams ── */}
+      {d.topStreams && d.topStreams.length > 0 && (
+        <section className="bg-gray-800/60 border border-white/5 rounded-2xl p-5">
+          <h3 className="text-white font-semibold mb-4 flex items-center gap-2">
+            <Radio className="w-4 h-4 text-red-400" /> Top Streams joués (24h)
+          </h3>
+          <div className="space-y-3">
+            {d.topStreams.map((s, i) => (
+              <div key={s.channelId} className="flex items-center gap-2">
+                <span className="text-gray-600 text-xs w-4 text-right">{i + 1}</span>
+                <div className="flex-1 min-w-0">
+                  <p className="text-gray-300 text-sm truncate font-medium">{s.channelName}</p>
+                  <div className="mt-1 h-1 bg-gray-700 rounded-full overflow-hidden">
+                    <div className="h-full bg-red-500 rounded-full" style={{ width: `${(s.count / (d.topStreams[0]?.count || 1)) * 100}%` }} />
+                  </div>
+                </div>
+                <span className="text-gray-400 text-xs flex-shrink-0 font-medium flex items-center gap-1">
+                  <Play className="w-3 h-3" />{s.count}
+                </span>
+              </div>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Recent Sessions ── */}
+      {d.recentSessions && d.recentSessions.length > 0 && (
+        <section className="bg-gray-800/60 border border-white/5 rounded-2xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/5">
+            <h3 className="text-white font-semibold flex items-center gap-2">
+              <Users className="w-4 h-4 text-yellow-400" />
+              Sessions récentes (24h)
+              <span className="text-gray-500 text-xs font-normal ml-1">{d.recentSessions.length} visiteurs</span>
+            </h3>
+          </div>
+          <div className="divide-y divide-white/5 max-h-[500px] overflow-y-auto">
+            {d.recentSessions.map((s, i) => {
+              const DevIcon = DEVICE_ICONS[s.device] || Monitor;
+              return (
+                <div key={i} className="flex items-center gap-3 px-5 py-3">
+                  <span className="text-xl flex-shrink-0">{s.flag}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="text-gray-300 text-sm font-medium">{s.country}</span>
+                      <span className="text-gray-600 text-xs">{s.browser}</span>
+                      {s.streamPlayed.length > 0 && (
+                        <span className="flex items-center gap-1 text-[11px] bg-red-500/15 text-red-400 px-2 py-0.5 rounded-full">
+                          <Play className="w-2.5 h-2.5 fill-current" />
+                          {s.streamPlayed.slice(0, 2).join(', ')}
+                          {s.streamPlayed.length > 2 && ` +${s.streamPlayed.length - 2}`}
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center gap-3 mt-0.5">
+                      <span className="text-gray-600 text-xs">{s.pageCount} page{s.pageCount !== 1 ? 's' : ''}</span>
+                      {s.totalDuration && s.totalDuration > 0 && (
+                        <span className="text-yellow-500/80 text-xs font-medium">
+                          ⏱ {fmtDuration(s.totalDuration)}
+                        </span>
+                      )}
+                      <span className="text-gray-700 text-xs">
+                        {new Date(s.firstSeen).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                      </span>
+                    </div>
+                  </div>
+                  <DevIcon className="w-4 h-4 text-gray-600 flex-shrink-0" />
+                </div>
+              );
+            })}
           </div>
         </section>
       )}

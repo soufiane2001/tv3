@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     if (isBot(ua)) return NextResponse.json({ ok: true });
 
     const body = await req.json().catch(() => ({}));
-    const { path = '/', sessionId, referrer, duration, ping, leave } = body;
+    const { path = '/', sessionId, referrer, duration, ping, leave, streamPlay, channelId, channelName } = body;
     if (!sessionId || !path) return NextResponse.json({ ok: false });
 
     // Ignore internal paths
@@ -51,7 +51,11 @@ export async function POST(req: NextRequest) {
       create: { sessionId, path, country, countryCode, device },
     });
 
-    if (ping) {
+    if (streamPlay && channelId && channelName) {
+      await prisma.streamPlay.create({
+        data: { sessionId, channelId, channelName, path, country, countryCode, device },
+      });
+    } else if (ping) {
       // Keep-alive ping — only updates live visitor, no new pageview
     } else if (!duration) {
       // Initial pageview

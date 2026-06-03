@@ -42,6 +42,25 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
 
   const streamUrl = `/api/stream/${channel.id}`;
 
+  const trackStreamPlay = useCallback(() => {
+    try {
+      const sid = sessionStorage.getItem('_asid');
+      if (!sid) return;
+      fetch('/api/a', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          streamPlay: true,
+          channelId: channel.id,
+          channelName: channel.name,
+          path: window.location.pathname,
+          sessionId: sid,
+        }),
+        keepalive: true,
+      }).catch(() => {});
+    } catch { /* sessionStorage unavailable */ }
+  }, [channel.id, channel.name]);
+
   const initPlayer = useCallback(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -97,6 +116,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         setState('playing');
         if (autoPlay) video.play().catch(() => setState('paused'));
+        trackStreamPlay();
       });
 
       let networkRetries = 0;
@@ -129,9 +149,10 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       video.addEventListener('loadedmetadata', () => {
         setState('playing');
         if (autoPlay) video.play().catch(() => setState('paused'));
+        trackStreamPlay();
       });
     }
-  }, [streamUrl, autoPlay]);
+  }, [streamUrl, autoPlay]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     initPlayer();

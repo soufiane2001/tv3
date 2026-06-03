@@ -30,6 +30,8 @@ export async function GET(req: NextRequest) {
     chart24h,
     chart7d,
     pageGeoRaw,
+    topStreams,
+    recentSessionsRaw,
   ] = await Promise.all([
     // Active right now
     prisma.liveVisitor.findMany({
@@ -109,7 +111,43 @@ export async function GET(req: NextRequest) {
       WHERE "createdAt" >= NOW() - INTERVAL '24 hours'
       GROUP BY path, country, "countryCode", city
       ORDER BY path, count DESC`,
+    // Top streams played (24h)
+    prisma.streamPlay.groupBy({
+      by: ['channelId', 'channelName'],
+      where: { createdAt: { gte: h24 } },
+      _count: { channelId: true },
+      orderBy: { _count: { channelId: 'desc' } },
+      take: 10,
+    }),
+    // Recent sessions (24h): duration, pages, stream played
+    prisma.$queryRaw<{
+      sessionId: string; country: string; countryCode: string; device: string; browser: string;
+      totalDuration: number | null; pageCount: bigint; firstSeen: Date; lastSeen: Date;
+    }[]>`
+      SELECT "sessionId", country, "countryCode", device, browser,
+             SUM(duration) as "totalDuration", COUNT(*) as "pageCount",
+             MIN("createdAt") as "firstSeen", MAX("createdAt") as "lastSeen"
+      FROM "PageView"
+      WHERE "createdAt" >= NOW() - INTERVAL '24 hours'
+      GROUP BY "sessionId", country, "countryCode", device, browser
+      ORDER BY "firstSeen" DESC
+      LIMIT 50`,
   ]);
+
+  // Fetch which sessions played a stream (24h)
+  const sessionIds = recentSessionsRaw.map(s => s.sessionId);
+  const streamPlaysBySession = sessionIds.length > 0
+    ? await prisma.streamPlay.findMany({
+        where: { sessionId: { in: sessionIds }, createdAt: { gte: h24 } },
+        select: { sessionId: true, channelName: true },
+      })
+    : [];
+  const streamPlayMap = new Map<string, string[]>();
+  for (const sp of streamPlaysBySession) {
+    if (!streamPlayMap.has(sp.sessionId)) streamPlayMap.set(sp.sessionId, []);
+    const arr = streamPlayMap.get(sp.sessionId)!;
+    if (!arr.includes(sp.channelName)) arr.push(sp.channelName);
+  }
 
   // Build page → country → cities tree
   const pageGeoMap = new Map<string, Map<string, { country: string; countryCode: string; count: number; cities: Map<string, number> }>>();
@@ -179,5 +217,18 @@ export async function GET(req: NextRequest) {
     chart24h: chart24h.map(r => ({ hour: r.hour, count: Number(r.count) })),
     chart7d: chart7d.map(r => ({ day: r.day, count: Number(r.count) })),
     pageGeo,
+    topStreams: topStreams.map(s => ({ channelId: s.channelId, channelName: s.channelName, count: s._count.channelId })),
+    recentSessions: recentSessionsRaw.map(s => ({
+      sessionId: s.sessionId,
+      country: s.country,
+      countryCode: s.countryCode,
+      flag: COUNTRY_FLAGS[s.countryCode] || '🌐',
+      device: s.device,
+      browser: s.browser,
+      totalDuration: s.totalDuration ? Math.min(Number(s.totalDuration), 7200) : null,
+      pageCount: Number(s.pageCount),
+      firstSeen: s.firstSeen,
+      streamPlayed: streamPlayMap.get(s.sessionId) || [],
+    })),
   });
 }

@@ -22,11 +22,6 @@ function isBotClient(): boolean {
     // No languages = headless default
     if (Array.isArray(nav.languages) && nav.languages.length === 0) return true;
 
-    // No plugins + no touch + no mobile = likely headless Chrome (Brave/iOS Chrome have 0 plugins too, so exclude them)
-    if (nav.plugins && nav.plugins.length === 0 && /chrome/i.test(navigator.userAgent)
-      && !('ontouchstart' in window) && !/Mobile|iPhone|iPad|Android/i.test(navigator.userAgent)
-      && window.screen.width > 800) return true;
-
     // Screen size 0 = no real display
     if (window.screen.width === 0 || window.screen.height === 0) return true;
 
