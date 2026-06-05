@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
@@ -35,10 +35,11 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [bein, m6, rmc] = await Promise.all([
+  const [bein, m6, rmc, arryadia] = await Promise.all([
     find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
     find(['m6', 'm6-hd'], ['M6']),
     find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
+    find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
   ]);
 
   return (
@@ -48,7 +49,7 @@ export default async function Page() {
         home={{ name: 'Sweden', flag: 'se', nickname: 'Blågult', formation: '4-3-3' }}
         away={{ name: 'Tunisia', flag: 'tn', nickname: 'Eagles of Carthage', formation: '4-3-3' }}
         meta={{ date: 'Tuesday, 16 June 2026', time: '22:00 UTC', venue: 'Arrowhead Stadium, Kansas City', group: 'L', matchday: 1, prediction: 'Sweden 2-0 Tunisia' }}
-        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }]}
+        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }]}
         blog={blogs['sweden-vs-tunisia']}
         kickoffTimes={[{"flag":"🇸🇪","country":"Stockholm","time":"00:00+1"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇹🇳","country":"Tunis","time":"23:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}
         faqs={[

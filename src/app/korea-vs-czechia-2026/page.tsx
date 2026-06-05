@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+﻿import type { Metadata } from 'next';
 import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
@@ -35,10 +35,11 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [bein, m6, rmc] = await Promise.all([
+  const [bein, m6, rmc, arryadia] = await Promise.all([
     find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
     find(['m6', 'm6-hd'], ['M6']),
     find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
+    find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
   ]);
 
   return (
@@ -48,7 +49,7 @@ export default async function Page() {
         home={{ name: 'Korea', flag: 'kr', nickname: 'Taeguk Warriors', formation: '4-2-3-1' }}
         away={{ name: 'Czechia', flag: 'cz', nickname: 'Lions', formation: '4-3-3' }}
         meta={{ date: 'Friday, 12 June 2026', time: '19:00 UTC', venue: 'AT&T Stadium, Dallas', group: 'C', matchday: 1, prediction: 'Korea 2-1 Czechia' }}
-        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }]}
+        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }]}
         blog={blogs['korea-vs-czechia']}
         kickoffTimes={[{"flag":"🇰🇷","country":"Seoul","time":"04:00+1"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇺🇸","country":"Dallas","time":"14:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}
         faqs={[

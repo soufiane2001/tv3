@@ -8,7 +8,7 @@ export const revalidate = 3600; // regenerate at most once per hour
 const CURATED_CHANNEL_SLUGS = new Set([
   'la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd','rti-1',
   '2m','al-aoula','arryadia','medi-1','arrabia','al-maghribia','2m-maroc','2m-hd','al-arryadia','arryadia-hd',
-  'ar-bein-sport-uhd-1','trt','lequipe-tv',
+  'ar-bein-sport-uhd-1','trt','lequipe-tv','arryadia-tnt',
 ]);
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
