@@ -3,6 +3,14 @@ import { prisma } from '@/lib/prisma';
 
 export const revalidate = 3600; // regenerate at most once per hour
 
+// Only submit curated channel pages — prevents crawl-budget exhaustion on low-authority sites.
+// All other channels are discoverable via /live and category pages once authority grows.
+const CURATED_CHANNEL_SLUGS = new Set([
+  'la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd','rti-1',
+  '2m','al-aoula','arryadia','medi-1','arrabia','al-maghribia','2m-maroc','2m-hd','al-arryadia','arryadia-hd',
+  'ar-bein-sport-uhd-1','trt','lequipe-tv',
+]);
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const base = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live';
   const now  = new Date();
@@ -19,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const static_: MetadataRoute.Sitemap = [
     { url: base,          lastModified: now, changeFrequency: 'daily',  priority: 1.0 },
     { url: `${base}/live`,lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/search`, lastModified: now, changeFrequency: 'weekly', priority: 0.5 },
+    // /search is a client-side UI with no indexable content — excluded from sitemap
   ];
 
   // ── High-priority event pages ─────────────────────────────
@@ -76,13 +84,21 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     lastModified: c.updatedAt, changeFrequency: 'daily', priority: 0.75,
   }));
 
-  const chRoutes: MetadataRoute.Sitemap = channels.map(c => ({
-    url: `${base}/channel/${c.slug}`,
-    lastModified: c.updatedAt, changeFrequency: 'daily',
-    priority: ['la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd','rti-1'].includes(c.slug) ? 0.95
-      : ['2m','al-aoula','arryadia','medi-1','arrabia','al-maghribia','2m-maroc','2m-hd','al-arryadia','arryadia-hd'].includes(c.slug) ? 0.85
-      : 0.65,
-  }));
+  const chRoutes: MetadataRoute.Sitemap = channels
+    .filter(c => CURATED_CHANNEL_SLUGS.has(c.slug))
+    .map(c => ({
+      url: `${base}/channel/${c.slug}`,
+      lastModified: c.updatedAt, changeFrequency: 'daily' as const,
+      priority: ['la-1','la-1-1','la-1-2','trt-1','m6','canal-sport','canal-sport-hd','rti-1'].includes(c.slug) ? 0.95
+        : ['2m','al-aoula','arryadia','medi-1','arrabia','al-maghribia','2m-maroc','2m-hd','al-arryadia','arryadia-hd'].includes(c.slug) ? 0.85
+        : 0.8,
+    }));
 
-  return [...static_, ...events, ...catRoutes, ...chRoutes];
+  // Deduplicate — events section already hard-codes some channel/* URLs
+  const seen = new Set<string>();
+  return [...static_, ...events, ...catRoutes, ...chRoutes].filter(entry => {
+    if (seen.has(entry.url)) return false;
+    seen.add(entry.url);
+    return true;
+  });
 }

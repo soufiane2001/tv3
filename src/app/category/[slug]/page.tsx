@@ -14,7 +14,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   if (!category) return {};
   return {
     title: `${category.name} — Live Channels Free | SportaLive`,
-    description: `Watch ${category.channelCount} live ${category.name} channels online for free in HD. No subscription needed.`,
+    description: `Watch ${category.channelCount} live ${category.name} channels online for free in HD. No subscription needed. Stream directly in your browser — no app, no subscription, no registration.`,
+    alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live'}/category/${slug}` },
   };
 }
 
@@ -39,6 +40,10 @@ export default async function CategoryPage({ params }: Props) {
           </div>
         </div>
       </div>
+      <p className="text-gray-400 text-sm max-w-2xl">
+        Stream {category.channelCount} {category.name} channels live and free in HD — no subscription, no registration, no app needed.
+        All streams play directly in your browser, available 24/7.
+      </p>
       <ChannelGrid category={slug} title={category.name} />
     </div>
   );

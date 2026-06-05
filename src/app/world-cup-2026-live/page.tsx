@@ -450,12 +450,6 @@ export default async function WorldCup2026LivePage() {
         </div>
       </section>
 
-      {/* SEO keyword density */}
-      <p className="text-[10px] text-gray-900 leading-relaxed px-4 pb-6 max-w-5xl mx-auto">
-        world cup 2026 live stream free · bein sport 1 world cup 2026 · m6 coupe du monde 2026 gratuit · rmc sport world cup 2026 ·
-        كأس العالم 2026 بث مباشر مجاناً beIN Sport · copa do mundo 2026 ao vivo grátis · mundial 2026 en vivo gratis ·
-        coupe du monde 2026 streaming gratuit rmc m6 · world cup 2026 usa canada mexico free stream
-      </p>
     </>
   );
 }

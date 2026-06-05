@@ -270,12 +270,6 @@ export default function WC2026Page() {
           ))}
         </section>
 
-        {/* SEO density */}
-        <p className="text-white/[0.04] text-[10px] leading-relaxed px-4 pb-6">
-          world cup 2026 live stream free · fifa world cup 2026 schedule · coupe du monde 2026 streaming gratuit ·
-          كأس العالم 2026 بث مباشر مجاناً · mundial 2026 en vivo gratis · copa do mundo 2026 ao vivo grátis ·
-          wc2026 group stage matches · beIN Sports M6 La 1 world cup 2026 free
-        </p>
       </div>
     </>
   );
