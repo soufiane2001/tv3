@@ -236,6 +236,7 @@ const SLUG_ALIASES: Record<string, { slugs: string[]; names: string[] }> = {
   'al-aoula':     { slugs: ['al-aoula','al-aula','alaoula','al-aoula-1','al-aoula-hd','aoula','snrt-1','snrt1'], names: ['Al Aoula','Al Aula','القناة الأولى','الأولى','Aoula','SNRT 1'] },
   'arryadia':     { slugs: ['arryadia','al-arryadia','arryadia-hd','arryadia-1','snrt-sport','arrabia-sport'], names: ['Arryadia','Al Arryadia','الرياضية','القناة الرياضية','SNRT Sport'] },
   'arryadia-tnt': { slugs: ['arryadia-tnt','arryadia-sport-tnt','snrt-tnt','ma-arryadia-tnt'], names: ['Arryadia TNT','الرياضية TNT','SNRT TNT'] },
+  'das-erste':    { slugs: ['das-erste','das-erste-1','ard-das-erste','de-das-erste'], names: ['Das Erste','ARD Das Erste','Das Erste ARD','ARD'] },
   'arrabia':      { slugs: ['arrabia','al-arrabia','arrabia-hd','arrabia-1','snrt-3'], names: ['Arrabia','Al Arrabia','العربية المغربية','الثالثة','SNRT 3'] },
   'medi-1':       { slugs: ['medi-1','medi1','medi-1-tv','medi1tv','medi-tv'], names: ['Medi 1','Medi1','Medi 1 TV','ميدي 1'] },
   'al-maghribia': { slugs: ['al-maghribia','almaghribia','maghribia','snrt-al-maghribia'], names: ['Al Maghribia','المغربية','Maghribia'] },

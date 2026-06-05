@@ -35,11 +35,12 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [bein, m6, rmc, arryadia] = await Promise.all([
+  const [bein, m6, rmc, arryadia, dasErste] = await Promise.all([
     find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
     find(['m6', 'm6-hd'], ['M6']),
     find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
     find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
   ]);
 
   return (
@@ -49,7 +50,7 @@ export default async function Page() {
         home={{ name: 'Brazil', flag: 'br', nickname: 'Seleção', formation: '4-3-3' }}
         away={{ name: 'Morocco', flag: 'ma', nickname: 'Atlas Lions', formation: '4-3-3' }}
         meta={{ date: 'Monday, 15 June 2026', time: '19:00 UTC', venue: 'MetLife Stadium, New York', group: 'G', matchday: 1, prediction: 'Brazil 2-1 Morocco' }}
-        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }]}
+        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }, { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any }]}
         blog={blogs['brazil-vs-morocco']}
         kickoffTimes={[{"flag":"🇧🇷","country":"São Paulo","time":"16:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇲🇦","country":"Casablanca","time":"20:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}
         faqs={[

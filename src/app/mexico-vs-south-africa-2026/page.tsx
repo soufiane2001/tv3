@@ -36,11 +36,12 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [m6, bein, la1, arryadia] = await Promise.all([
+  const [m6, bein, la1, arryadia, dasErste] = await Promise.all([
     find(['m6','m6-hd'], ['M6']),
     find(['ar-bein-sport-uhd-1','bein-sport-1'], ['beIN Sports 1','beIN Sport 1']),
     find(['la-1','la-1-rtve'], ['La 1','RTVE']),
     find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
   ]);
 
   return (
@@ -55,6 +56,7 @@ export default async function Page() {
           { label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any },
           { label: 'La 1', sublabel: 'RTVE · España', channel: la1 as any },
           { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
+          { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any },
         ]}
         blog={blogs['mexico-vs-south-africa']}
         kickoffTimes={[

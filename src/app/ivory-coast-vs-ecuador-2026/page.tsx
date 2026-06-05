@@ -35,11 +35,12 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [bein, m6, rmc, arryadia] = await Promise.all([
+  const [bein, m6, rmc, arryadia, dasErste] = await Promise.all([
     find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
     find(['m6', 'm6-hd'], ['M6']),
     find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
     find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
   ]);
 
   return (
@@ -49,7 +50,7 @@ export default async function Page() {
         home={{ name: 'Ivory Coast', flag: 'ci', nickname: 'Les Éléphants', formation: '4-3-3' }}
         away={{ name: 'Ecuador', flag: 'ec', nickname: 'La Tri', formation: '4-3-3' }}
         meta={{ date: 'Monday, 15 June 2026', time: '22:00 UTC', venue: "Levi's Stadium, San Francisco", group: 'I', matchday: 1, prediction: 'Ivory Coast 1-1 Ecuador' }}
-        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }]}
+        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }, { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any }]}
         blog={blogs['ivory-coast-vs-ecuador']}
         kickoffTimes={[{"flag":"🇺🇸","country":"San Francisco","time":"15:00"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇪🇨","country":"Quito","time":"17:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}
         faqs={[

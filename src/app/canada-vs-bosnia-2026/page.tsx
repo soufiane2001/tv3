@@ -35,11 +35,12 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [bein, m6, rmc, arryadia] = await Promise.all([
+  const [bein, m6, rmc, arryadia, dasErste] = await Promise.all([
     find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
     find(['m6', 'm6-hd'], ['M6']),
     find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
     find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
   ]);
 
   return (
@@ -49,7 +50,7 @@ export default async function Page() {
         home={{ name: 'Canada', flag: 'ca', nickname: 'Les Rouges', formation: '4-3-3' }}
         away={{ name: 'Bosnia', flag: 'ba', nickname: 'Zmajevi', formation: '4-2-3-1' }}
         meta={{ date: 'Friday, 12 June 2026', time: '22:00 UTC', venue: 'BC Place, Vancouver', group: 'D', matchday: 1, prediction: 'Canada 3-0 Bosnia' }}
-        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }]}
+        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }, { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any }]}
         blog={blogs['canada-vs-bosnia']}
         kickoffTimes={[{"flag":"🇨🇦","country":"Vancouver","time":"15:00"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇺🇸","country":"New York","time":"18:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}
         faqs={[

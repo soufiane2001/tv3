@@ -115,11 +115,12 @@ const CAT_COLORS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [m6, bein, rmc, arryadia] = await Promise.all([
+  const [m6, bein, rmc, arryadia, dasErste] = await Promise.all([
     find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
     find(['ar-bein-sport-uhd-1', 'bein-sport-1', 'ar-bein-sport-1'], ['beIN Sports UHD', 'beIN Sports 1', 'beIN Sport 1']),
     find(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
     find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
   ]);
 
   const topNews = wc2026News.slice(0, 6);
@@ -264,6 +265,7 @@ export default async function HomePage() {
             { label: 'beIN Sport UHD 1', sublabel: 'MENA · UHD · عربي', channel: bein as any },
             { label: 'RMC Sport', sublabel: 'France · HD · Premium', channel: rmc as any },
             { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
+            { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any },
           ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',
