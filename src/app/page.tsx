@@ -109,8 +109,27 @@ async function getHomeData() {
 }
 
 const CAT_COLORS: Record<string, string> = {
-  News: 'bg-blue-500 text-white', Preview: 'bg-emerald-600 text-white',
-  Guide: 'bg-purple-600 text-white', Analysis: 'bg-amber-600 text-white', Team: 'bg-red-600 text-white',
+  News:     'bg-blue-500/15 text-blue-400 border border-blue-500/25',
+  Preview:  'bg-emerald-500/15 text-emerald-400 border border-emerald-500/25',
+  Guide:    'bg-purple-500/15 text-purple-400 border border-purple-500/25',
+  Analysis: 'bg-amber-500/15 text-amber-400 border border-amber-500/25',
+  Team:     'bg-red-500/15 text-red-400 border border-red-500/25',
+};
+
+const CAT_ICONS: Record<string, string> = {
+  News:     'fa-solid fa-newspaper',
+  Preview:  'fa-solid fa-futbol',
+  Guide:    'fa-solid fa-book-open',
+  Analysis: 'fa-solid fa-chart-line',
+  Team:     'fa-solid fa-users',
+};
+
+const CAT_GRADIENTS: Record<string, string> = {
+  News:     'linear-gradient(135deg, #1e3a5f 0%, #12131A 100%)',
+  Preview:  'linear-gradient(135deg, #14532d 0%, #12131A 100%)',
+  Guide:    'linear-gradient(135deg, #3b0764 0%, #12131A 100%)',
+  Analysis: 'linear-gradient(135deg, #451a03 0%, #12131A 100%)',
+  Team:     'linear-gradient(135deg, #450a0a 0%, #12131A 100%)',
 };
 
 export default async function HomePage() {
@@ -372,29 +391,80 @@ export default async function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="flex flex-col gap-4">
           {topNews.map(article => (
             <article key={article.slug}
-              className="group card flex flex-col hover:border-red-600/50 hover:-translate-y-0.5 transition-all duration-200"
-              style={{ background: '#161616' }}>
-              <div className="h-[3px] bg-red-600" />
-              <div className="flex-1 p-4 space-y-3">
-                <div className="flex items-center gap-2 flex-wrap">
-                  <span className={`text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${CAT_COLORS[article.category]}`}>
+              className="group flex flex-col sm:flex-row rounded-2xl overflow-hidden border border-white/[0.08] transition-all duration-300 hover:-translate-y-1 hover:border-white/[0.16] hover:shadow-2xl"
+              style={{ background: 'var(--card)', boxShadow: '0 4px 24px -8px rgba(0,0,0,0.5)' }}>
+
+              {/* ── Left: text content ── */}
+              <div className="flex-1 flex flex-col justify-between p-6 min-w-0">
+                <div className="space-y-3">
+                  {/* Category badge */}
+                  <span className={`inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest px-2.5 py-1 rounded-full ${CAT_COLORS[article.category]}`}>
+                    <i className={`${CAT_ICONS[article.category]} text-[10px]`} />
                     {article.category}
                   </span>
-                  {article.flag && <img src={`https://flagcdn.com/w20/${article.flag}.png`} alt="" width={16} height={11} className="rounded" />}
-                  <span className="text-white/30 text-[10px] font-bold ml-auto">{article.readTime} min</span>
+
+                  {/* Title */}
+                  <h3 className="text-white font-black text-base md:text-lg leading-snug group-hover:text-red-400 transition-colors duration-200 line-clamp-3"
+                    style={{ fontFamily: 'var(--font-display)' }}>
+                    {article.title}
+                  </h3>
+
+                  {/* Excerpt */}
+                  <p className="text-white/45 text-sm leading-relaxed line-clamp-2">
+                    {article.excerpt}
+                  </p>
                 </div>
-                <h3 className="text-white font-black text-sm leading-snug group-hover:text-red-400 transition-colors line-clamp-3">
-                  {article.title}
-                </h3>
-                <p className="text-white/40 text-xs leading-relaxed line-clamp-2">{article.excerpt}</p>
+
+                {/* Bottom: date + read more */}
+                <div className="flex items-center justify-between mt-5 pt-4 border-t border-white/[0.06]">
+                  <span className="text-white/30 text-xs">{article.date}</span>
+                  <span className="flex items-center gap-1.5 text-red-500 text-xs font-black group-hover:gap-2.5 transition-all duration-200">
+                    Read more <i className="fa-solid fa-arrow-right text-[10px]" />
+                  </span>
+                </div>
               </div>
-              <div className="px-4 pb-4 flex items-center justify-between border-t border-white/[0.06] pt-3">
-                <span className="text-white/25 text-[10px]">{article.date}</span>
-                <span className="text-red-500 text-[10px] font-black">Read more →</span>
+
+              {/* ── Right: visual panel ── */}
+              <div className="sm:w-52 md:w-64 flex-shrink-0 relative overflow-hidden min-h-[140px] sm:min-h-0"
+                style={{ background: CAT_GRADIENTS[article.category] }}>
+
+                {/* Subtle pattern */}
+                <div className="absolute inset-0 opacity-[0.03]"
+                  style={{ backgroundImage: 'repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%)', backgroundSize: '12px 12px' }} />
+
+                {/* Flag — centered, large */}
+                {article.flag ? (
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <img
+                      src={`https://flagcdn.com/w160/${article.flag}.png`}
+                      alt=""
+                      className="w-28 md:w-36 rounded-xl shadow-2xl opacity-90 group-hover:scale-105 group-hover:opacity-100 transition-all duration-400 object-cover"
+                      style={{ filter: 'drop-shadow(0 8px 24px rgba(0,0,0,0.7))' }}
+                    />
+                  </div>
+                ) : (
+                  <div className="absolute inset-0 flex flex-col items-center justify-center gap-3">
+                    <div className="w-16 h-16 rounded-2xl flex items-center justify-center"
+                      style={{ background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                      <i className={`${CAT_ICONS[article.category]} text-white/50 text-2xl`} />
+                    </div>
+                    <span className="text-white/20 text-[10px] font-black uppercase tracking-widest">
+                      {article.readTime} min read
+                    </span>
+                  </div>
+                )}
+
+                {/* Read time badge */}
+                <div className="absolute top-3 right-3 flex items-center gap-1 px-2 py-1 rounded-full"
+                  style={{ background: 'rgba(0,0,0,0.5)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.1)' }}>
+                  <i className="fa-solid fa-clock text-white/50 text-[9px]" />
+                  <span className="text-white/50 text-[9px] font-bold">{article.readTime} min</span>
+                </div>
               </div>
+
             </article>
           ))}
         </div>
