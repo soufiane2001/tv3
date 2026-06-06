@@ -398,4 +398,37 @@ export const blogs: Record<string, MatchBlogData> = {
     broadcastInfo: 'M6 (France), beIN Sport 1 (MENA), SVT (Sweden), Watania (Tunisia)',
   },
 
+  'belgium-vs-tunisia': {
+    preview: [
+      'La Belgique affronte la Tunisie en phase de groupes de la Coupe du Monde 2026 à l\'AT&T Stadium d\'Arlington, Dallas — une confrontation entre les Diables Rouges et les Aigles de Carthage très attendue des supporters francophones et arabophones du monde entier.',
+      'La Belgique, menée par l\'incontournable Kevin De Bruyne, l\'un des meilleurs milieux de terrain de la planète, aborde ce match en favori. Les Diables Rouges ont retrouvé une équipe jeune et affamée après la génération dorée. Romelu Lukaku, expérimenté et décisif en zone de vérité, représente une menace constante pour toute défense.',
+      'La Tunisie des Aigles de Carthage n\'est pas venue pour faire de la figuration. Issam Jebali et Wahbi Khazri ont montré lors des éliminatoires africaines que cette équipe est capable de piquer les meilleurs. Dans la chaleur texane, les Tunisiens joueront avec la ferveur de toute une nation — et l\'Afrique — dans le dos.',
+    ],
+    home: {
+      name: 'Belgium',
+      flag: 'be',
+      form: ['W', 'W', 'W', 'D', 'W'],
+      news: 'Kevin De Bruyne mène le groupe belge en grande forme après une saison exceptionnelle en club. Romelu Lukaku est à 100 % après avoir soigné une blessure à la cheville. Thibaut Courtois revient en pleine confiance après sa saison à Madrid. Le sélectionneur a un groupe compétitif sans blessés majeurs.',
+      keyPlayers: [
+        { name: 'Kevin De Bruyne', role: 'Milieu — maestro, passes décisives & buts' },
+        { name: 'Romelu Lukaku', role: 'Attaquant — finisseur implacable' },
+        { name: 'Thibaut Courtois', role: 'Gardien — l\'un des meilleurs au monde' },
+      ],
+    },
+    away: {
+      name: 'Tunisia',
+      flag: 'tn',
+      form: ['W', 'W', 'D', 'L', 'W'],
+      news: 'Wahbi Khazri revient comme capitaine avec beaucoup d\'expérience. Issam Jebali mène l\'attaque après une campagne africaine prolifique. Ellyes Skhiri est une pièce maîtresse du milieu de terrain après son passage en Bundesliga. La Tunisie aborde ce Mondial 2026 avec un groupe soudé et motivé.',
+      keyPlayers: [
+        { name: 'Issam Jebali', role: 'Attaquant — finisseur clinique' },
+        { name: 'Ellyes Skhiri', role: 'Milieu — physique & progressif' },
+        { name: 'Wahbi Khazri', role: 'Attaquant — capitaine expérimenté' },
+      ],
+    },
+    h2h: { played: 3, homeWins: 2, draws: 1, awayWins: 0, lastMatch: 'Belgium 3-1 Tunisia (WC 2018, Moscou)' },
+    prediction: { score: '2-0', analysis: 'La Belgique s\'impose grâce à la classe individuelle de De Bruyne et à la puissance de Lukaku. La Tunisie luttera jusqu\'au bout mais la profondeur de banc belge devrait faire la différence dans les dernières minutes.' },
+    broadcastInfo: 'L\'Équipe TV (France/Belgique, gratuit), beIN Sport 1 (MENA), Arryadia TNT (Maroc), RMC Sport (France)',
+  },
+
 };

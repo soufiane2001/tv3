@@ -63,6 +63,13 @@ export const metadata: Metadata = {
   },
   description: 'Watch all 104 FIFA World Cup 2026 matches live free in HD. Stream M6, beIN Sport 1 and RMC Sport — no subscription, no registration. 600+ live TV channels. Free HD streaming.',
   keywords: ['IPTV', 'live tv free', 'live stream', 'watch football free', 'beinsport free', 'بث مباشر', 'مشاهدة مباشرة', 'live TV', 'free channels', 'world cup 2026 live free', 'coupe du monde 2026 direct gratuit'],
+  icons: {
+    icon: [
+      { url: '/icon', type: 'image/png', sizes: '192x192' },
+    ],
+    shortcut: '/icon',
+    apple: { url: '/icon', type: 'image/png' },
+  },
   openGraph: { type: 'website', siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive' },
   other: {
     'llms-txt': `${SITE_URL}/llms.txt`,

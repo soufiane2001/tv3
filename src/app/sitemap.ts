@@ -57,7 +57,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/ivory-coast-vs-ecuador-2026`,  lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
     { url: `${base}/germany-vs-curacao-2026`,      lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
     { url: `${base}/netherlands-vs-japan-2026`,    lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/sweden-vs-tunisia-2026`,       lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
+    { url: `${base}/sweden-vs-tunisia-2026`,        lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
+    { url: `${base}/belgique-vs-tunisie-2026`,     lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     // Free broadcast channels for the UCL Final
     { url: `${base}/channel/la-1`,        lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     { url: `${base}/channel/m6`,          lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
