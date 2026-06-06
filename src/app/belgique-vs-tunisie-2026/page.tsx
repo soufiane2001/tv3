@@ -89,12 +89,8 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [lequipe, bein, arryadia, rmc, m6] = await Promise.all([
+  const [lequipe] = await Promise.all([
     find(['lequipe-tv', 'l-equipe', 'lequipe'], ['L\'Équipe', 'Equipe TV', 'L Equipe']),
-    find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
-    find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
-    find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
-    find(['m6', 'm6-hd'], ['M6']),
   ]);
 
   return (
@@ -113,10 +109,6 @@ export default async function Page() {
         }}
         servers={[
           { label: 'L\'Équipe TV', sublabel: 'France · Gratuit', channel: lequipe as any },
-          { label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any },
-          { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
-          { label: 'RMC Sport', sublabel: 'HD · France', channel: rmc as any },
-          { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any },
         ]}
         blog={blogs['belgium-vs-tunisia']}
         kickoffTimes={[
