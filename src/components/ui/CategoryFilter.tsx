@@ -27,7 +27,7 @@ export default function CategoryFilter({ selected, onSelect }: CategoryFilterPro
           'px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0',
           !selected
             ? 'bg-red-600 text-white'
-            : 'border border-white/[0.06] text-gray-400 hover:text-white hover:border-red-500/40 hover:bg-red-600/10'
+            : 'border border-white/[0.08] text-white/50 hover:text-white hover:border-red-500/35 hover:bg-red-500/[0.08]'
         )}
       >
         All
@@ -40,7 +40,7 @@ export default function CategoryFilter({ selected, onSelect }: CategoryFilterPro
             'px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap flex-shrink-0',
             selected === cat.slug
               ? 'bg-red-600 text-white'
-              : 'border border-white/[0.06] text-gray-400 hover:text-white hover:border-red-500/40 hover:bg-red-600/10'
+              : 'border border-white/[0.08] text-white/50 hover:text-white hover:border-red-500/35 hover:bg-red-500/[0.08]'
           )}
         >
           {cat.name}

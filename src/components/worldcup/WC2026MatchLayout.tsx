@@ -125,14 +125,13 @@ export default function WC2026MatchLayout({
       ═══════════════════════════════════════ */}
       <div className="px-4 md:px-0 pt-5 flex flex-wrap gap-2">
         {[
-          { icon: '📅', text: meta.date },
-          { icon: '⏰', text: meta.time },
-          { icon: '🏟️', text: meta.venue },
-          { icon: '🏆', text: `Group ${meta.group}${meta.matchday ? ` · MD${meta.matchday}` : ''}` },
-        ].map(({ icon, text }) => (
-          <span key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold text-gray-400 border border-white/[0.08]"
-            style={{ background: '#111' }}>
-            {icon} {text}
+          { icon: '📅', text: meta.date, color: 'border-blue-500/20 bg-blue-500/[0.07]' },
+          { icon: '⏰', text: meta.time, color: 'border-green-500/20 bg-green-500/[0.07]' },
+          { icon: '🏟️', text: meta.venue, color: 'border-amber-500/20 bg-amber-500/[0.07]' },
+          { icon: '🏆', text: `${meta.group}${meta.matchday ? ` · MD${meta.matchday}` : ''}`, color: 'border-red-500/25 bg-red-500/[0.08]' },
+        ].map(({ icon, text, color }) => (
+          <span key={text} className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-white/70 border ${color} transition-colors hover:text-white`}>
+            <span className="text-sm">{icon}</span> {text}
           </span>
         ))}
       </div>
@@ -152,16 +151,18 @@ export default function WC2026MatchLayout({
           KICKOFF TIMES
       ═══════════════════════════════════════ */}
       <section className="px-4 md:px-0 pt-6 rounded-2xl">
-        <div className="rounded-2xl p-5 border border-white/[0.06]" style={{ background: '#111' }}>
+        <div className="rounded-2xl p-5 border border-white/[0.08]" style={{ background: 'var(--card)' }}>
           <div className="flex items-center gap-3 mb-4">
-            <div className="w-1 h-5 rounded-full bg-red-600" />
-            <h2 className="text-white font-black text-base">Kickoff Times by Country</h2>
+            <div className="icon-box icon-box-amber">🌍</div>
+            <div>
+              <h2 className="text-white font-black text-base">Kickoff Times</h2>
+              <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">By country</p>
+            </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {kickoffTimes.map(({ flag, country, time }) => (
-              <div key={country} className="flex justify-between px-3 py-2 rounded-xl border border-white/[0.06]"
-                style={{ background: '#0d0d0d' }}>
-                <span className="text-gray-400 text-sm">{flag} {country}</span>
+              <div key={country} className="feature-row !py-2.5 !px-3 !gap-2">
+                <span className="text-white/60 text-sm flex-1">{flag} {country}</span>
                 <span className="text-white font-black text-sm">{time}</span>
               </div>
             ))}
@@ -210,20 +211,23 @@ export default function WC2026MatchLayout({
       ═══════════════════════════════════════ */}
       <section className="px-4 md:px-0 pt-6 space-y-2">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-1 h-6 rounded-full bg-red-600" />
-          <h2 className="text-white font-black text-xl">FAQ</h2>
+          <div className="icon-box icon-box-blue">❓</div>
+          <div>
+            <h2 className="text-white font-black text-xl">FAQ</h2>
+            <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Frequently asked</p>
+          </div>
         </div>
         {faqs.map(({ q, a }, i) => (
           <details key={i}
-            className="group rounded-2xl border border-white/[0.06] hover:border-red-500/30 transition-all cursor-pointer overflow-hidden"
-            style={{ background: '#111' }}>
+            className="group rounded-2xl border border-white/[0.08] hover:border-red-500/30 transition-all cursor-pointer overflow-hidden"
+            style={{ background: 'var(--card)' }}>
             <summary className="flex items-center justify-between gap-3 px-5 py-4 list-none text-white text-sm font-semibold">
               {q}
-              <span className="text-red-500 text-xl flex-shrink-0 group-open:rotate-45 transition-transform">+</span>
+              <span className="icon-box icon-box-red !w-7 !h-7 !text-sm text-red-500 flex-shrink-0 group-open:rotate-45 transition-transform">+</span>
             </summary>
             <div className="px-5 pb-4 pt-0">
-              <div className="h-px bg-white/5 mb-3" />
-              <p className="text-gray-400 text-sm leading-relaxed">{a}</p>
+              <div className="h-px bg-white/[0.06] mb-3" />
+              <p className="text-white/50 text-sm leading-relaxed">{a}</p>
             </div>
           </details>
         ))}
@@ -241,14 +245,23 @@ export default function WC2026MatchLayout({
       {/* ═══════════════════════════════════════
           RELATED LINKS
       ═══════════════════════════════════════ */}
-      <section className="px-4 md:px-0 pt-6 pb-10 flex flex-wrap gap-3">
-        {relatedLinks.map(({ href, label }) => (
-          <Link key={href} href={href}
-            className="px-4 py-2 rounded-xl text-sm font-semibold transition-all border border-white/[0.06] hover:border-red-500/40 hover:text-white text-gray-400"
-            style={{ background: '#111' }}>
-            {label}
-          </Link>
-        ))}
+      <section className="px-4 md:px-0 pt-6 pb-10">
+        <div className="flex items-center gap-3 mb-4">
+          <div className="icon-box icon-box-purple">🔗</div>
+          <div>
+            <h2 className="text-white font-black text-base">Related Matches</h2>
+            <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">More live streams</p>
+          </div>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {relatedLinks.map(({ href, label }) => (
+            <Link key={href} href={href}
+              className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold transition-all border border-white/[0.08] hover:border-red-500/40 hover:bg-red-500/[0.06] hover:text-white text-white/50"
+              style={{ background: 'var(--card)' }}>
+              {label}
+            </Link>
+          ))}
+        </div>
       </section>
     </div>
   );

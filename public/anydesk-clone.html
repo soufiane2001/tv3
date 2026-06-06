@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AnyDesk — Remote Desktop Software</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ad: {
+              red:    '#E0001B',
+              dark:   '#12131A',
+              card:   '#1C1D27',
+              card2:  '#23242F',
+              border: '#2E2F3E',
+              muted:  '#8B8B9E',
+              light:  '#C8C8D8',
+            },
+          },
+          fontFamily: {
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+          },
+        },
+      },
+    };
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body { background: #12131A; color: #fff; font-family: 'Inter', sans-serif; }
+
+    /* Gradient hero */
+    .hero-bg {
+      background: radial-gradient(ellipse 80% 60% at 60% -10%, rgba(224,0,27,0.18) 0%, transparent 70%),
+                  radial-gradient(ellipse 50% 40% at 10% 80%, rgba(224,0,27,0.08) 0%, transparent 60%),
+                  #12131A;
+    }
+
+    /* Nav blur */
+    .nav-blur {
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      background: rgba(18,19,26,0.85);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+
+    /* Gradient text */
+    .grad-text {
+      background: linear-gradient(135deg, #fff 0%, #ccc 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Card hover */
+    .feature-card {
+      background: #1C1D27;
+      border: 1px solid #2E2F3E;
+      transition: border-color 0.25s, transform 0.25s;
+    }
+    .feature-card:hover {
+      border-color: rgba(224,0,27,0.4);
+      transform: translateY(-4px);
+    }
+
+    /* CTA red button */
+    .btn-red {
+      background: #E0001B;
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 12px 28px;
+      transition: background 0.2s, transform 0.15s;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-red:hover { background: #c40018; transform: translateY(-1px); }
+
+    /* Outline button */
+    .btn-outline {
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      font-weight: 600;
+      border-radius: 8px;
+      padding: 12px 28px;
+      transition: border-color 0.2s, background 0.2s;
+      display: inline-block;
+      cursor: pointer;
+    }
+    .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.05); }
+
+    /* Pricing card highlight */
+    .pricing-highlight {
+      background: linear-gradient(135deg, #1C1D27 0%, #231020 100%);
+      border: 1px solid rgba(224,0,27,0.5);
+      position: relative;
+    }
+
+    /* Stats */
+    .stat-number {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 800;
+      line-height: 1;
+    }
+
+    /* Divider */
+    .section-divider {
+      border: none;
+      border-top: 1px solid #2E2F3E;
+    }
+
+    /* Logo row */
+    .logo-pill {
+      background: #1C1D27;
+      border: 1px solid #2E2F3E;
+      border-radius: 12px;
+      padding: 20px 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.65;
+      filter: grayscale(1);
+      transition: opacity 0.2s, filter 0.2s;
+    }
+    .logo-pill:hover { opacity: 1; filter: grayscale(0); }
+
+    /* Mobile menu */
+    #mobile-menu { display: none; }
+    #mobile-menu.open { display: block; }
+
+    /* Tag badge */
+    .badge {
+      background: rgba(224,0,27,0.15);
+      color: #E0001B;
+      border: 1px solid rgba(224,0,27,0.3);
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 14px;
+      display: inline-block;
+    }
+
+    /* Section title */
+    .section-title {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      font-weight: 800;
+      line-height: 1.15;
+    }
+
+    /* Check icon */
+    .check { color: #E0001B; font-size: 18px; margin-right: 8px; }
+
+    /* Scroll fade animation */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .fade-up { animation: fadeUp 0.6s ease forwards; }
+
+    /* Responsive nav hide */
+    @media (max-width: 1024px) {
+      .nav-links { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════
+     NAVBAR
+══════════════════════════════════════════════ -->
+<header class="nav-blur fixed top-0 left-0 right-0 z-50">
+  <div class="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
+
+    <!-- Logo -->
+    <a href="#" class="flex items-center gap-2.5 shrink-0">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+        <rect width="32" height="32" rx="6" fill="#E0001B"/>
+        <path d="M8 22L16 10L24 22H8Z" fill="white"/>
+        <circle cx="16" cy="22" r="3" fill="white"/>
+      </svg>
+      <span class="font-bold text-xl text-white tracking-tight">AnyDesk</span>
+    </a>
+
+    <!-- Desktop nav links -->
+    <nav class="nav-links flex items-center gap-8">
+      <div class="group relative">
+        <button class="flex items-center gap-1 text-sm font-medium text-ad-light hover:text-white transition-colors">
+          Products
+          <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+      </div>
+      <div class="group relative">
+        <button class="flex items-center gap-1 text-sm font-medium text-ad-light hover:text-white transition-colors">
+          Use Cases
+          <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+      </div>
+      <div class="group relative">
+        <button class="flex items-center gap-1 text-sm font-medium text-ad-light hover:text-white transition-colors">
+          Resources
+          <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+      </div>
+      <a href="#" class="text-sm font-medium text-ad-light hover:text-white transition-colors">Partners</a>
+      <div class="group relative">
+        <button class="flex items-center gap-1 text-sm font-medium text-ad-light hover:text-white transition-colors">
+          Company
+          <svg class="w-4 h-4 opacity-60" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- CTA buttons -->
+    <div class="flex items-center gap-3">
+      <button class="hidden lg:block text-sm font-medium text-ad-light hover:text-white transition-colors">Sign In</button>
+      <a href="#" class="btn-outline text-sm py-2 px-4 hidden sm:block">Try for Free</a>
+      <a href="#" class="btn-red text-sm py-2 px-5">Download</a>
+      <!-- Mobile burger -->
+      <button onclick="document.getElementById('mobile-menu').classList.toggle('open')" class="lg:hidden p-2 text-ad-light hover:text-white">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="nav-blur border-t border-ad-border px-6 py-4 space-y-3 lg:hidden">
+    <a href="#" class="block text-ad-light hover:text-white py-2 text-sm font-medium border-b border-ad-border">Products</a>
+    <a href="#" class="block text-ad-light hover:text-white py-2 text-sm font-medium border-b border-ad-border">Use Cases</a>
+    <a href="#" class="block text-ad-light hover:text-white py-2 text-sm font-medium border-b border-ad-border">Resources</a>
+    <a href="#" class="block text-ad-light hover:text-white py-2 text-sm font-medium border-b border-ad-border">Partners</a>
+    <a href="#" class="block text-ad-light hover:text-white py-2 text-sm font-medium">Company</a>
+    <div class="pt-3 flex flex-col gap-3">
+      <a href="#" class="btn-outline text-center text-sm">Try for Free</a>
+      <a href="#" class="btn-red text-center text-sm">Download</a>
+    </div>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════
+     HERO
+══════════════════════════════════════════════ -->
+<section class="hero-bg pt-32 pb-24 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+
+      <!-- Left: text -->
+      <div class="space-y-8">
+        <div class="badge">⚡ The World's Fastest Remote Desktop</div>
+
+        <h1 class="text-5xl lg:text-6xl font-black leading-[1.08] tracking-tight">
+          Remote Desktop<br/>
+          <span class="grad-text">Software</span> for<br/>
+          Everyone
+        </h1>
+
+        <p class="text-ad-light text-lg leading-relaxed max-w-lg">
+          AnyDesk provides fast, secure, and reliable remote desktop connections for individuals, teams, and enterprises — on any device, from anywhere.
+        </p>
+
+        <!-- OS badges -->
+        <div class="flex flex-wrap gap-2 text-sm text-ad-muted">
+          <span class="flex items-center gap-1.5 bg-ad-card border border-ad-border rounded-full px-3 py-1">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-12.9-1.801"/></svg>
+            Windows
+          </span>
+          <span class="flex items-center gap-1.5 bg-ad-card border border-ad-border rounded-full px-3 py-1">
+            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm0 2c5.514 0 10 4.486 10 10s-4.486 10-10 10S2 17.514 2 12 6.486 2 12 2z"/></svg>
+            macOS
+          </span>
+          <span class="flex items-center gap-1.5 bg-ad-card border border-ad-border rounded-full px-3 py-1">
+            🐧 Linux
+          </span>
+          <span class="flex items-center gap-1.5 bg-ad-card border border-ad-border rounded-full px-3 py-1">
+            📱 Android
+          </span>
+          <span class="flex items-center gap-1.5 bg-ad-card border border-ad-border rounded-full px-3 py-1">
+            🍎 iOS
+          </span>
+        </div>
+
+        <!-- CTAs -->
+        <div class="flex flex-wrap gap-4">
+          <a href="#" class="btn-red text-base px-8 py-3.5">
+            ⬇ Download Free
+          </a>
+          <a href="#" class="btn-outline text-base px-8 py-3.5">
+            Try for Business →
+          </a>
+        </div>
+
+        <p class="text-ad-muted text-sm">Free for personal use · No credit card required</p>
+      </div>
+
+      <!-- Right: App mockup -->
+      <div class="relative hidden lg:block">
+        <div class="relative mx-auto" style="max-width:540px;">
+          <!-- Glow -->
+          <div class="absolute inset-0 rounded-2xl" style="background: radial-gradient(ellipse at 50% 50%, rgba(224,0,27,0.15) 0%, transparent 70%); filter: blur(40px);"></div>
+          <!-- Window frame -->
+          <div class="relative rounded-2xl overflow-hidden border border-ad-border shadow-2xl" style="background:#1C1D27;">
+            <!-- Window chrome -->
+            <div class="flex items-center gap-2 px-4 py-3 border-b border-ad-border" style="background:#23242F;">
+              <div class="w-3 h-3 rounded-full bg-red-500"></div>
+              <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+              <div class="w-3 h-3 rounded-full bg-green-500"></div>
+              <div class="flex-1 mx-4">
+                <div class="bg-ad-dark rounded px-3 py-1 text-xs text-ad-muted text-center">AnyDesk — Remote Desktop</div>
+              </div>
+            </div>
+            <!-- App content -->
+            <div class="p-6 space-y-4">
+              <!-- Connection input -->
+              <div class="bg-ad-dark rounded-xl p-4 space-y-3">
+                <p class="text-xs text-ad-muted uppercase tracking-widest font-semibold">Your AnyDesk Address</p>
+                <p class="text-3xl font-mono font-bold tracking-widest text-white">963 412 759</p>
+                <div class="h-px bg-ad-border"></div>
+                <p class="text-xs text-ad-muted">Share this address to let others connect to you</p>
+              </div>
+              <!-- Connect to input -->
+              <div class="bg-ad-dark rounded-xl p-4 space-y-3">
+                <p class="text-xs text-ad-muted uppercase tracking-widest font-semibold">Remote Desk</p>
+                <div class="flex gap-2">
+                  <input type="text" placeholder="Enter AnyDesk Address or Alias" class="flex-1 bg-ad-card border border-ad-border rounded-lg px-3 py-2.5 text-sm text-white placeholder-ad-muted focus:outline-none focus:border-ad-red" readonly />
+                  <button class="btn-red text-sm py-2.5 px-5">Connect</button>
+                </div>
+              </div>
+              <!-- Status bar -->
+              <div class="flex items-center justify-between text-xs text-ad-muted">
+                <span class="flex items-center gap-1.5">
+                  <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+                  Ready to connect
+                </span>
+                <span>v8.0.12</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     STATS BAR
+══════════════════════════════════════════════ -->
+<section class="border-y border-ad-border py-12 px-6">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-8 text-center">
+      <div>
+        <div class="stat-number text-white">170<span class="text-ad-red">M+</span></div>
+        <p class="text-ad-muted text-sm mt-2 font-medium">Downloads worldwide</p>
+      </div>
+      <div>
+        <div class="stat-number text-white">3<span class="text-ad-red">B+</span></div>
+        <p class="text-ad-muted text-sm mt-2 font-medium">Sessions started</p>
+      </div>
+      <div>
+        <div class="stat-number text-white">190<span class="text-ad-red">+</span></div>
+        <p class="text-ad-muted text-sm mt-2 font-medium">Countries served</p>
+      </div>
+      <div>
+        <div class="stat-number text-white">60<span class="text-ad-red">fps</span></div>
+        <p class="text-ad-muted text-sm mt-2 font-medium">Display transmission</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TRUSTED BY
+══════════════════════════════════════════════ -->
+<section class="py-16 px-6">
+  <div class="max-w-7xl mx-auto text-center space-y-8">
+    <p class="text-ad-muted text-sm uppercase tracking-widest font-semibold">Trusted by leading companies worldwide</p>
+    <div class="grid grid-cols-3 md:grid-cols-6 gap-4">
+      <!-- Company placeholder logos -->
+      <div class="logo-pill"><span class="text-white font-bold text-sm">NVIDIA</span></div>
+      <div class="logo-pill"><span class="text-white font-bold text-sm">Samsung</span></div>
+      <div class="logo-pill"><span class="text-white font-bold text-sm">LG</span></div>
+      <div class="logo-pill"><span class="text-white font-bold text-sm">Vodafone</span></div>
+      <div class="logo-pill"><span class="text-white font-bold text-sm">Bosch</span></div>
+      <div class="logo-pill"><span class="text-white font-bold text-sm">3M</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FEATURES
+══════════════════════════════════════════════ -->
+<section class="py-24 px-6" id="features">
+  <div class="max-w-7xl mx-auto space-y-16">
+
+    <div class="text-center space-y-4 max-w-2xl mx-auto">
+      <div class="badge">Features</div>
+      <h2 class="section-title">Everything you need for<br/><span class="text-ad-red">remote access</span></h2>
+      <p class="text-ad-light leading-relaxed">Powerful features that make remote desktop simple, fast, and secure for everyone.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Feature 1 -->
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-ad-red/10 border border-ad-red/20 flex items-center justify-center text-2xl">⚡</div>
+        <h3 class="font-bold text-lg text-white">Ultra-Low Latency</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Our DeskRT codec delivers the smoothest remote desktop experience with near-zero lag, even on poor network connections.</p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-2xl">🔒</div>
+        <h3 class="font-bold text-lg text-white">Bank-Grade Security</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">TLS 1.2 encryption, RSA 2048 asymmetric key exchange, and two-factor authentication protect every session.</p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-2xl">🖥️</div>
+        <h3 class="font-bold text-lg text-white">Cross-Platform</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Connect seamlessly across Windows, macOS, Linux, Android, iOS, and even Raspberry Pi. One tool, every device.</p>
+      </div>
+
+      <!-- Feature 4 -->
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-2xl">🎨</div>
+        <h3 class="font-bold text-lg text-white">Custom Branding</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">White-label AnyDesk with your company logo, namespace, and colors. Create a branded remote support experience.</p>
+      </div>
+
+      <!-- Feature 5 -->
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-2xl">📁</div>
+        <h3 class="font-bold text-lg text-white">File Transfer</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Transfer files between remote and local machines with a simple drag-and-drop interface at maximum speed.</p>
+      </div>
+
+      <!-- Feature 6 -->
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="w-12 h-12 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center justify-center text-2xl">🔧</div>
+        <h3 class="font-bold text-lg text-white">Unattended Access</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Set up always-on access to your devices for IT administration, remote work, and server management without user interaction.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     HOW IT WORKS
+══════════════════════════════════════════════ -->
+<section class="py-24 px-6" style="background: #1C1D27;">
+  <div class="max-w-7xl mx-auto space-y-16">
+
+    <div class="text-center space-y-4">
+      <div class="badge">How it works</div>
+      <h2 class="section-title">Connect in <span class="text-ad-red">3 simple steps</span></h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="text-center space-y-4">
+        <div class="w-16 h-16 rounded-2xl bg-ad-red flex items-center justify-center text-2xl font-black mx-auto">1</div>
+        <h3 class="font-bold text-lg">Download AnyDesk</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Download the lightweight 3 MB app on both devices. No installation required — it runs out of the box.</p>
+      </div>
+      <div class="text-center space-y-4">
+        <div class="w-16 h-16 rounded-2xl bg-ad-card border-2 border-ad-red flex items-center justify-center text-2xl font-black mx-auto">2</div>
+        <h3 class="font-bold text-lg">Share Your Address</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Share your unique 9-digit AnyDesk address with the person who needs to connect to your device.</p>
+      </div>
+      <div class="text-center space-y-4">
+        <div class="w-16 h-16 rounded-2xl bg-ad-card border border-ad-border flex items-center justify-center text-2xl font-black mx-auto">3</div>
+        <h3 class="font-bold text-lg">Accept & Connect</h3>
+        <p class="text-ad-muted text-sm leading-relaxed">Accept the incoming connection request. You're now connected — securely and instantly.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     USE CASES
+══════════════════════════════════════════════ -->
+<section class="py-24 px-6">
+  <div class="max-w-7xl mx-auto space-y-16">
+
+    <div class="text-center space-y-4 max-w-2xl mx-auto">
+      <div class="badge">Use Cases</div>
+      <h2 class="section-title">Built for <span class="text-ad-red">every team</span></h2>
+      <p class="text-ad-light">From freelancers to Fortune 500s, AnyDesk adapts to your workflow.</p>
+    </div>
+
+    <div class="grid md:grid-cols-2 gap-6">
+
+      <div class="feature-card rounded-2xl p-8 flex gap-6">
+        <div class="w-14 h-14 rounded-xl bg-ad-red/10 border border-ad-red/20 flex items-center justify-center text-3xl shrink-0">🎧</div>
+        <div class="space-y-2">
+          <h3 class="font-bold text-lg">IT Support & Help Desk</h3>
+          <p class="text-ad-muted text-sm leading-relaxed">Resolve issues remotely in seconds. Session recording, permission controls, and audit logs keep your team compliant.</p>
+          <a href="#" class="text-ad-red text-sm font-semibold hover:underline">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="feature-card rounded-2xl p-8 flex gap-6">
+        <div class="w-14 h-14 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-3xl shrink-0">💼</div>
+        <div class="space-y-2">
+          <h3 class="font-bold text-lg">Remote Work</h3>
+          <p class="text-ad-muted text-sm leading-relaxed">Access your office computer from home or anywhere. Full keyboard and mouse control, clipboard sync, and multi-monitor support.</p>
+          <a href="#" class="text-ad-red text-sm font-semibold hover:underline">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="feature-card rounded-2xl p-8 flex gap-6">
+        <div class="w-14 h-14 rounded-xl bg-green-500/10 border border-green-500/20 flex items-center justify-center text-3xl shrink-0">🏭</div>
+        <div class="space-y-2">
+          <h3 class="font-bold text-lg">Industrial & IoT</h3>
+          <p class="text-ad-muted text-sm leading-relaxed">Monitor and control industrial machines, PLCs, and IoT devices remotely with low-bandwidth, high-stability connections.</p>
+          <a href="#" class="text-ad-red text-sm font-semibold hover:underline">Learn more →</a>
+        </div>
+      </div>
+
+      <div class="feature-card rounded-2xl p-8 flex gap-6">
+        <div class="w-14 h-14 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-3xl shrink-0">🏥</div>
+        <div class="space-y-2">
+          <h3 class="font-bold text-lg">Healthcare</h3>
+          <p class="text-ad-muted text-sm leading-relaxed">GDPR-compliant remote access for medical institutions. Securely access patient records and medical software from any location.</p>
+          <a href="#" class="text-ad-red text-sm font-semibold hover:underline">Learn more →</a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     PRICING
+══════════════════════════════════════════════ -->
+<section class="py-24 px-6" id="pricing" style="background: #1C1D27;">
+  <div class="max-w-7xl mx-auto space-y-16">
+
+    <div class="text-center space-y-4">
+      <div class="badge">Pricing</div>
+      <h2 class="section-title">Simple, <span class="text-ad-red">transparent</span> pricing</h2>
+      <p class="text-ad-light">Start free, scale when you're ready. No hidden fees.</p>
+      <!-- Toggle -->
+      <div class="inline-flex items-center gap-2 bg-ad-card border border-ad-border rounded-full p-1 mt-4">
+        <button class="px-5 py-2 rounded-full bg-ad-red text-white text-sm font-semibold">Monthly</button>
+        <button class="px-5 py-2 rounded-full text-ad-muted text-sm font-semibold hover:text-white transition-colors">Annual <span class="text-green-400 text-xs ml-1">Save 20%</span></button>
+      </div>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+
+      <!-- Free -->
+      <div class="feature-card rounded-2xl p-8 space-y-6">
+        <div>
+          <p class="text-ad-muted text-sm font-semibold uppercase tracking-widest">Free</p>
+          <div class="flex items-end gap-1 mt-3">
+            <span class="text-5xl font-black">$0</span>
+            <span class="text-ad-muted mb-2">/mo</span>
+          </div>
+          <p class="text-ad-muted text-sm mt-2">For personal use only</p>
+        </div>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>1 device access</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>HD display quality</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>File transfer</li>
+          <li class="flex items-center gap-2 text-ad-muted opacity-50"><span>✗</span>Unattended access</li>
+          <li class="flex items-center gap-2 text-ad-muted opacity-50"><span>✗</span>Session recording</li>
+        </ul>
+        <a href="#" class="btn-outline w-full text-center text-sm block">Get Started Free</a>
+      </div>
+
+      <!-- Professional — Highlighted -->
+      <div class="pricing-highlight rounded-2xl p-8 space-y-6 relative">
+        <div class="absolute -top-3 left-1/2 -translate-x-1/2">
+          <span class="bg-ad-red text-white text-xs font-bold px-4 py-1 rounded-full">MOST POPULAR</span>
+        </div>
+        <div>
+          <p class="text-ad-red text-sm font-semibold uppercase tracking-widest">Professional</p>
+          <div class="flex items-end gap-1 mt-3">
+            <span class="text-5xl font-black">$14</span>
+            <span class="text-ad-muted mb-2">/mo</span>
+          </div>
+          <p class="text-ad-muted text-sm mt-2">Per user · billed monthly</p>
+        </div>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>3 concurrent sessions</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Unattended access</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Full HD + 60fps</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Session recording</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Priority support</li>
+        </ul>
+        <a href="#" class="btn-red w-full text-center text-sm block">Start Free Trial</a>
+      </div>
+
+      <!-- Enterprise -->
+      <div class="feature-card rounded-2xl p-8 space-y-6">
+        <div>
+          <p class="text-ad-muted text-sm font-semibold uppercase tracking-widest">Enterprise</p>
+          <div class="flex items-end gap-1 mt-3">
+            <span class="text-4xl font-black">Custom</span>
+          </div>
+          <p class="text-ad-muted text-sm mt-2">For large organizations</p>
+        </div>
+        <ul class="space-y-3 text-sm">
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Unlimited sessions</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Custom branding</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>On-premise server</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>SSO / Active Directory</li>
+          <li class="flex items-center gap-2 text-ad-light"><span class="check">✓</span>Dedicated account manager</li>
+        </ul>
+        <a href="#" class="btn-outline w-full text-center text-sm block">Contact Sales</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     TESTIMONIALS
+══════════════════════════════════════════════ -->
+<section class="py-24 px-6">
+  <div class="max-w-7xl mx-auto space-y-16">
+
+    <div class="text-center space-y-4">
+      <div class="badge">Testimonials</div>
+      <h2 class="section-title">Loved by <span class="text-ad-red">millions</span></h2>
+    </div>
+
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="flex gap-1 text-yellow-400 text-lg">★★★★★</div>
+        <p class="text-ad-light text-sm leading-relaxed">"AnyDesk has transformed our IT support workflow. Response times dropped from hours to minutes. The performance is incredible even over VPN."</p>
+        <div class="flex items-center gap-3 pt-2">
+          <div class="w-10 h-10 rounded-full bg-ad-red flex items-center justify-center font-bold text-sm">JM</div>
+          <div>
+            <p class="text-white text-sm font-semibold">James M.</p>
+            <p class="text-ad-muted text-xs">IT Manager, NVIDIA</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="flex gap-1 text-yellow-400 text-lg">★★★★★</div>
+        <p class="text-ad-light text-sm leading-relaxed">"We replaced our old VPN setup with AnyDesk. The setup took 20 minutes and we've never looked back. Security is top-notch."</p>
+        <div class="flex items-center gap-3 pt-2">
+          <div class="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center font-bold text-sm">SK</div>
+          <div>
+            <p class="text-white text-sm font-semibold">Sarah K.</p>
+            <p class="text-ad-muted text-xs">CTO, Bosch Division</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="feature-card rounded-2xl p-6 space-y-4">
+        <div class="flex gap-1 text-yellow-400 text-lg">★★★★★</div>
+        <p class="text-ad-light text-sm leading-relaxed">"As a freelance developer, AnyDesk lets me access my powerful home workstation from my lightweight laptop anywhere. Game changer."</p>
+        <div class="flex items-center gap-3 pt-2">
+          <div class="w-10 h-10 rounded-full bg-green-600 flex items-center justify-center font-bold text-sm">RL</div>
+          <div>
+            <p class="text-white text-sm font-semibold">Romain L.</p>
+            <p class="text-ad-muted text-xs">Freelance Developer, Paris</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     CTA BANNER
+══════════════════════════════════════════════ -->
+<section class="py-20 px-6" style="background: linear-gradient(135deg, #1C0A0F 0%, #2A0812 50%, #1C0A0F 100%); border-top: 1px solid rgba(224,0,27,0.2); border-bottom: 1px solid rgba(224,0,27,0.2);">
+  <div class="max-w-3xl mx-auto text-center space-y-8">
+    <h2 class="text-4xl lg:text-5xl font-black">Start connecting <span class="text-ad-red">today</span></h2>
+    <p class="text-ad-light text-lg">Join 170 million users who trust AnyDesk for remote desktop access. Free forever for personal use.</p>
+    <div class="flex flex-wrap justify-center gap-4">
+      <a href="#" class="btn-red text-base px-10 py-4">⬇ Download Free</a>
+      <a href="#" class="btn-outline text-base px-10 py-4">See All Plans →</a>
+    </div>
+    <p class="text-ad-muted text-sm">Available on Windows · macOS · Linux · Android · iOS</p>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════ -->
+<footer class="py-16 px-6 border-t border-ad-border">
+  <div class="max-w-7xl mx-auto">
+
+    <div class="grid grid-cols-2 md:grid-cols-5 gap-8 mb-12">
+
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1 space-y-4">
+        <a href="#" class="flex items-center gap-2.5">
+          <svg width="28" height="28" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="6" fill="#E0001B"/>
+            <path d="M8 22L16 10L24 22H8Z" fill="white"/>
+            <circle cx="16" cy="22" r="3" fill="white"/>
+          </svg>
+          <span class="font-bold text-lg text-white">AnyDesk</span>
+        </a>
+        <p class="text-ad-muted text-sm leading-relaxed">Fast, secure, and reliable remote desktop software for everyone.</p>
+        <div class="flex gap-3">
+          <a href="#" class="w-8 h-8 bg-ad-card border border-ad-border rounded-lg flex items-center justify-center text-ad-muted hover:text-white hover:border-white/30 transition-colors text-sm">𝕏</a>
+          <a href="#" class="w-8 h-8 bg-ad-card border border-ad-border rounded-lg flex items-center justify-center text-ad-muted hover:text-white hover:border-white/30 transition-colors text-sm">in</a>
+          <a href="#" class="w-8 h-8 bg-ad-card border border-ad-border rounded-lg flex items-center justify-center text-ad-muted hover:text-white hover:border-white/30 transition-colors text-sm">yt</a>
+        </div>
+      </div>
+
+      <!-- Products -->
+      <div class="space-y-4">
+        <h4 class="text-white font-semibold text-sm">Products</h4>
+        <ul class="space-y-2 text-sm text-ad-muted">
+          <li><a href="#" class="hover:text-white transition-colors">AnyDesk for Windows</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">AnyDesk for macOS</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">AnyDesk for Linux</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">AnyDesk for Android</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">AnyDesk for iOS</a></li>
+        </ul>
+      </div>
+
+      <!-- Use Cases -->
+      <div class="space-y-4">
+        <h4 class="text-white font-semibold text-sm">Use Cases</h4>
+        <ul class="space-y-2 text-sm text-ad-muted">
+          <li><a href="#" class="hover:text-white transition-colors">IT Support</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Remote Work</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Education</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Healthcare</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Industrial</a></li>
+        </ul>
+      </div>
+
+      <!-- Resources -->
+      <div class="space-y-4">
+        <h4 class="text-white font-semibold text-sm">Resources</h4>
+        <ul class="space-y-2 text-sm text-ad-muted">
+          <li><a href="#" class="hover:text-white transition-colors">Help Center</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Changelog</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Status</a></li>
+        </ul>
+      </div>
+
+      <!-- Company -->
+      <div class="space-y-4">
+        <h4 class="text-white font-semibold text-sm">Company</h4>
+        <ul class="space-y-2 text-sm text-ad-muted">
+          <li><a href="#" class="hover:text-white transition-colors">About Us</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Press</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href="#" class="hover:text-white transition-colors">Partners</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <hr class="section-divider mb-8" />
+
+    <!-- Bottom bar -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-sm text-ad-muted">
+      <p>© 2026 AnyDesk Software GmbH. All rights reserved.</p>
+      <div class="flex flex-wrap gap-6">
+        <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
+        <a href="#" class="hover:text-white transition-colors">Cookie Settings</a>
+        <a href="#" class="hover:text-white transition-colors">Imprint</a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+</body>
+</html>

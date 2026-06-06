@@ -43,10 +43,10 @@ export default function SearchBar({
     <form
       onSubmit={handleSubmit}
       className={cn(
-        'relative flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200',
+        'relative flex items-center gap-2 px-4 py-2.5 rounded-xl border transition-all duration-200 bg-[var(--card)]',
         focused
-          ? 'bg-gray-800 border-red-500 shadow-lg shadow-red-900/20'
-          : 'bg-gray-800/60 border-white/10 hover:border-white/20',
+          ? 'border-red-500/70 shadow-lg shadow-red-900/20'
+          : 'border-white/[0.08] hover:border-white/20',
         className
       )}
     >
@@ -58,7 +58,7 @@ export default function SearchBar({
         onFocus={() => setFocused(true)}
         onBlur={() => setFocused(false)}
         placeholder={placeholder}
-        className="flex-1 bg-transparent text-white text-sm placeholder-gray-500 outline-none"
+        className="flex-1 bg-transparent text-white text-sm placeholder-white/30 outline-none"
       />
       {value && (
         <button
