@@ -116,15 +116,15 @@ export default function WC2026StreamClient({ servers, match }: Props) {
 
           {/* Header bar */}
           <div className="absolute top-0 left-0 right-0 flex items-center justify-center gap-2 py-2 bg-black/40 backdrop-blur-sm border-b border-white/5">
-            <span className="text-yellow-400 text-xs">⚽</span>
+            <i className="bi bi-trophy-fill text-yellow-400 text-xs" />
             <span className="text-yellow-300 text-[10px] font-bold uppercase tracking-[0.25em]">FIFA World Cup 2026</span>
-            <span className="text-yellow-400 text-xs">⚽</span>
+            <i className="bi bi-trophy-fill text-yellow-400 text-xs" />
           </div>
 
           {/* Live badge */}
           <div className="absolute top-10 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 bg-red-600 rounded-full shadow-lg shadow-red-900/50 z-10">
             <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse inline-block" />
-            <span className="text-white text-[10px] font-black uppercase tracking-widest">🔴 LIVE</span>
+            <span className="text-white text-[10px] font-black uppercase tracking-widest">LIVE</span>
           </div>
 
           {/* Teams display */}
@@ -193,7 +193,7 @@ export default function WC2026StreamClient({ servers, match }: Props) {
       <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60">
         <div className="px-4 py-2 bg-[#080d24] border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <span className="text-yellow-400 text-xs">⚽</span>
+            <i className="bi bi-broadcast text-red-400 text-xs" />
             <span className="text-yellow-300 text-[10px] font-bold uppercase tracking-[0.2em]">
               World Cup 2026 · {match.home} vs {match.away}
             </span>
