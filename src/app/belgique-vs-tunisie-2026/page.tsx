@@ -4,27 +4,28 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 
-export const revalidate = 3600;
+export const revalidate = 300;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
 const PAGE_URL = `${SITE}/belgique-vs-tunisie-2026`;
 
 export const metadata: Metadata = {
-  title: 'Belgique vs Tunisie EN DIRECT — Coupe du Monde 2026 Gratuit | L\'Équipe · beIN Sport',
-  description: '🔴 Regardez Belgique vs Tunisie en direct gratuit HD. Coupe du Monde FIFA 2026 Groupe B. Streaming sur L\'Équipe TV, beIN Sport 1, Arryadia. Sans abonnement — بث مباشر بلجيكا تونس مجاناً.',
+  title: 'Belgique vs Tunisie EN DIRECT — Match Amical 6 juin 2026 Gratuit | L\'Équipe TV',
+  description: '🔴 Regardez Belgique vs Tunisie en direct gratuit HD. Match amical international du 6 juin 2026. Streaming sur L\'Équipe TV, beIN Sport 1, Arryadia TNT. Sans abonnement — بث مباشر بلجيكا ضد تونس مجاناً اليوم.',
   keywords: [
-    'belgique vs tunisie en direct', 'belgique tunisie streaming gratuit', 'regarder belgique tunisie',
-    'diables rouges en direct', 'belgique coupe du monde 2026', 'tunisie coupe du monde 2026',
-    'l équipe tv streaming', 'l equipe belgique', 'nsour qarthaj en direct', 'نسور قرطاج بث مباشر',
-    'بلجيكا تونس مباشر', 'مشاهدة بلجيكا تونس', 'بث مباشر كأس العالم 2026', 'تونس كأس العالم مجانا',
-    'belgique tunisie bein sport', 'belgique tunisie gratuit', 'watch belgium tunisia free',
-    'sportalive belgique', 'sportalive tunisie', 'world cup 2026 belgique', 'mondial 2026 belgique tunisie',
-    'coupe du monde 2026 direct gratuit', 'streaming foot gratuit belgique', 'diables rouges mondial 2026',
+    'belgique vs tunisie en direct', 'belgique tunisie streaming gratuit', 'regarder belgique tunisie aujourd hui',
+    'match amical belgique tunisie', 'belgique tunisie 6 juin 2026', 'diables rouges en direct aujourd hui',
+    'tunisie belgique direct gratuit', 'l equipe tv streaming', 'l equipe belgique tunisie',
+    'نسور قرطاج بث مباشر', 'بلجيكا تونس مباشر اليوم', 'مشاهدة بلجيكا تونس', 'مباراة ودية بلجيكا تونس',
+    'بث مباشر مباراة اليوم', 'تونس بلجيكا بث مباشر مجاني', 'belgique tunisie bein sport',
+    'match amical international direct', 'sportalive belgique tunisie', 'streaming foot gratuit belgique',
+    'belgique match amical juin 2026', 'tunisie match amical juin 2026', 'diables rouges match amical',
+    'aigles carthage belgique direct', 'regarder match amical gratuit france',
   ],
   alternates: { canonical: PAGE_URL },
   robots: { index: true, follow: true },
   openGraph: {
-    title: 'Belgique vs Tunisie EN DIRECT — CM 2026 Gratuit | L\'Équipe TV',
-    description: 'Regardez Belgique vs Tunisie en direct gratuit sur SportaLive. L\'Équipe TV, beIN Sport 1, Arryadia. Sans abonnement.',
+    title: 'Belgique vs Tunisie EN DIRECT — Match Amical Gratuit | L\'Équipe TV',
+    description: 'Regardez Belgique vs Tunisie en direct gratuit sur SportaLive. Match amical 6 juin 2026 — L\'Équipe TV, beIN Sport 1, Arryadia TNT. Sans abonnement.',
     url: PAGE_URL,
     type: 'website',
   },
@@ -33,19 +34,19 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org',
   '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Belgique vs Tunisie',
-  alternateName: ['Belgium vs Tunisia 2026', 'بلجيكا ضد تونس كأس العالم 2026'],
-  startDate: '2026-06-17T20:00:00Z',
-  endDate: '2026-06-17T22:00:00Z',
+  name: 'Match Amical — Belgique vs Tunisie',
+  alternateName: ['Belgium vs Tunisia Friendly 2026', 'مباراة ودية بلجيكا ضد تونس'],
+  startDate: '2026-06-06T20:00:00Z',
+  endDate: '2026-06-06T22:00:00Z',
   eventStatus: 'https://schema.org/EventScheduled',
-  location: { '@type': 'Place', name: 'AT&T Stadium, Arlington, Dallas' },
+  location: { '@type': 'Place', name: 'Belgique' },
   competitor: [
     { '@type': 'SportsTeam', name: 'Belgique', alternateName: 'Belgium' },
     { '@type': 'SportsTeam', name: 'Tunisie', alternateName: 'Tunisia' },
   ],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
+  organizer: { '@type': 'Organization', name: 'Union Royale Belge des Sociétés de Football Association (URBSFA)' },
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'EUR', url: PAGE_URL, availability: 'https://schema.org/InStock' },
-  description: 'Regardez Belgique vs Tunisie en direct gratuit HD — Coupe du Monde FIFA 2026 Groupe B.',
+  description: 'Regardez Belgique vs Tunisie en direct gratuit HD — Match amical international du 6 juin 2026 sur L\'Équipe TV, beIN Sport 1, Arryadia TNT.',
   url: PAGE_URL,
   inLanguage: ['fr', 'ar'],
 };
@@ -56,23 +57,23 @@ const faqJsonLd = {
   mainEntity: [
     {
       '@type': 'Question',
-      name: 'Sur quelle chaîne regarder Belgique vs Tunisie en direct ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Le match Belgique vs Tunisie est diffusé sur L\'Équipe TV (gratuit en France et Belgique), beIN Sport 1 (MENA) et Arryadia TNT (Maroc). Streaming gratuit sur SportaLive sans abonnement.' },
+      name: 'Sur quelle chaîne regarder Belgique vs Tunisie en direct aujourd\'hui ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Le match amical Belgique vs Tunisie du 6 juin 2026 est diffusé sur L\'Équipe TV (gratuit en France et Belgique), beIN Sport 1 (MENA) et Arryadia TNT (Maroc). Streaming gratuit HD sur SportaLive sans abonnement ni inscription.' },
     },
     {
       '@type': 'Question',
-      name: 'À quelle heure commence Belgique vs Tunisie ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Le coup d\'envoi de Belgique vs Tunisie est à 20h00 UTC, soit 22h00 heure de Paris/Tunis et 22h00 en Belgique, le mercredi 17 juin 2026.' },
+      name: 'À quelle heure est le match amical Belgique vs Tunisie aujourd\'hui ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Le coup d\'envoi du match Belgique vs Tunisie est à 20h00 UTC le samedi 6 juin 2026, soit 22h00 en France, Belgique et Tunisie.' },
     },
     {
       '@type': 'Question',
-      name: 'كيف أشاهد بلجيكا ضد تونس مجاناً بث مباشر؟',
-      acceptedAnswer: { '@type': 'Answer', text: 'شاهد مباراة بلجيكا ضد تونس مجاناً على موقع SportaLive عبر قنوات بي إن سبورت 1 والرياضية TNT بدون اشتراك ولا تسجيل.' },
+      name: 'كيف أشاهد مباراة بلجيكا ضد تونس مجاناً اليوم؟',
+      acceptedAnswer: { '@type': 'Answer', text: 'شاهد المباراة الودية بلجيكا ضد تونس اليوم 6 يونيو 2026 مجاناً على موقع SportaLive عبر قنوات بي إن سبورت 1 والرياضية TNT بجودة HD بدون اشتراك ولا تسجيل.' },
     },
     {
       '@type': 'Question',
-      name: 'L\'Équipe TV diffuse-t-elle Belgique vs Tunisie ?',
-      acceptedAnswer: { '@type': 'Answer', text: 'Oui, L\'Équipe TV diffuse le match Belgique vs Tunisie en clair et gratuitement. Vous pouvez également le regarder sur SportaLive sans aucun abonnement.' },
+      name: 'L\'Équipe TV diffuse-t-elle le match Belgique vs Tunisie ?',
+      acceptedAnswer: { '@type': 'Answer', text: 'Oui, L\'Équipe TV diffuse le match amical Belgique vs Tunisie gratuitement en clair. Vous pouvez aussi le regarder en streaming HD sur SportaLive sans aucun abonnement.' },
     },
   ],
 };
@@ -102,14 +103,13 @@ export default async function Page() {
       <JsonLd data={faqJsonLd} />
       <WC2026MatchLayout
         home={{ name: 'Belgium', flag: 'be', nickname: 'Diables Rouges', formation: '4-3-3' }}
-        away={{ name: 'Tunisia', flag: 'tn', nickname: 'Eagles of Carthage', formation: '4-1-4-1' }}
+        away={{ name: 'Tunisia', flag: 'tn', nickname: 'Aigles de Carthage', formation: '4-1-4-1' }}
         meta={{
-          date: 'Wednesday, 17 June 2026',
+          date: 'Samedi, 6 juin 2026',
           time: '20:00 UTC',
-          venue: 'AT&T Stadium, Arlington',
-          group: 'B',
-          matchday: 1,
-          prediction: 'Belgium 2-0 Tunisia',
+          venue: 'Belgique',
+          group: 'Amical',
+          prediction: 'Belgium 2-1 Tunisia',
         }}
         servers={[
           { label: 'L\'Équipe TV', sublabel: 'France · Gratuit', channel: lequipe as any },
@@ -128,16 +128,16 @@ export default async function Page() {
           { flag: '🌍', country: 'UTC', time: '20:00' },
         ]}
         faqs={[
-          { q: 'Sur quelle chaîne voir Belgique vs Tunisie en direct ?', a: 'Le match est diffusé gratuitement sur L\'Équipe TV et disponible en streaming HD sur SportaLive. Vous trouverez aussi beIN Sport 1, Arryadia TNT et RMC Sport sans abonnement.' },
-          { q: 'À quelle heure est le match Belgique vs Tunisie ?', a: 'Coup d\'envoi le mercredi 17 juin 2026 à 20h00 UTC (22h00 en France, Belgique et Tunisie). Streaming gratuit HD sur SportaLive.' },
-          { q: 'كيف أشاهد بلجيكا ضد تونس مجاناً بث مباشر؟', a: 'شاهد المباراة مجاناً على SportaLive عبر قنوات بي إن سبورت 1 والرياضية TNT بجودة HD بدون اشتراك أو تسجيل.' },
-          { q: 'Wo kann ich Belgien vs Tunesien live sehen?', a: 'Schaue Belgien vs Tunesien kostenlos in HD auf SportaLive — kein Abo, keine Anmeldung erforderlich.' },
+          { q: 'Sur quelle chaîne voir Belgique vs Tunisie en direct aujourd\'hui ?', a: 'Le match amical du 6 juin 2026 est diffusé gratuitement sur L\'Équipe TV. Disponible en streaming HD sur SportaLive avec beIN Sport 1, Arryadia TNT et RMC Sport — sans abonnement.' },
+          { q: 'À quelle heure est le match amical Belgique vs Tunisie ?', a: 'Coup d\'envoi le samedi 6 juin 2026 à 20h00 UTC (22h00 heure de Paris, Bruxelles et Tunis). Streaming gratuit HD sur SportaLive.' },
+          { q: 'كيف أشاهد مباراة بلجيكا ضد تونس مجاناً اليوم؟', a: 'شاهد المباراة الودية مجاناً على SportaLive عبر قنوات بي إن سبورت 1 والرياضية TNT بجودة HD بدون اشتراك أو تسجيل. المباراة اليوم 6 يونيو 2026.' },
+          { q: 'C\'est un match amical ou un match de Coupe du Monde ?', a: 'C\'est un match amical international (friendly) entre la Belgique et la Tunisie, le 6 juin 2026, sans enjeu de compétition officielle.' },
         ]}
         relatedLinks={[
           { href: '/world-cup-2026-live', label: '🔴 CM 2026 Live' },
-          { href: '/wc2026', label: '📅 Programme' },
+          { href: '/wc2026', label: '📅 Programme WC2026' },
           { href: '/sweden-vs-tunisia-2026', label: '🇹🇳 Tunisie vs Suède' },
-          { href: '/netherlands-vs-japan-2026', label: '🇳🇱 Pays-Bas vs Japon' },
+          { href: '/germany-vs-finland-2026', label: '🇩🇪 Allemagne vs Finlande' },
           { href: '/channel/lequipe-tv', label: '📺 L\'Équipe TV' },
           { href: '/chaines-marocaines', label: '🇲🇦 Chaînes Marocaines' },
         ]}

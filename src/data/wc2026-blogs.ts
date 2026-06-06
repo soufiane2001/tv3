@@ -400,9 +400,9 @@ export const blogs: Record<string, MatchBlogData> = {
 
   'belgium-vs-tunisia': {
     preview: [
-      'La Belgique affronte la Tunisie en phase de groupes de la Coupe du Monde 2026 à l\'AT&T Stadium d\'Arlington, Dallas — une confrontation entre les Diables Rouges et les Aigles de Carthage très attendue des supporters francophones et arabophones du monde entier.',
-      'La Belgique, menée par l\'incontournable Kevin De Bruyne, l\'un des meilleurs milieux de terrain de la planète, aborde ce match en favori. Les Diables Rouges ont retrouvé une équipe jeune et affamée après la génération dorée. Romelu Lukaku, expérimenté et décisif en zone de vérité, représente une menace constante pour toute défense.',
-      'La Tunisie des Aigles de Carthage n\'est pas venue pour faire de la figuration. Issam Jebali et Wahbi Khazri ont montré lors des éliminatoires africaines que cette équipe est capable de piquer les meilleurs. Dans la chaleur texane, les Tunisiens joueront avec la ferveur de toute une nation — et l\'Afrique — dans le dos.',
+      'La Belgique affronte la Tunisie dans un match amical international ce 6 juin 2026 — une confrontation entre les Diables Rouges et les Aigles de Carthage très attendue des supporters francophones et arabophones, à quelques jours du coup d\'envoi de la Coupe du Monde 2026.',
+      'Ce match de préparation est une opportunité pour les deux sélectionneurs d\'affiner leurs systèmes de jeu et tester leurs rotations avant le Mondial. Pour la Belgique, menée par Kevin De Bruyne, c\'est l\'occasion de trouver les automatismes offensifs. Pour la Tunisie, c\'est le dernier test grandeur nature avant de défier les cadors mondiaux.',
+      'Les Aigles de Carthage ont toujours su hausser leur niveau face aux équipes européennes. Issam Jebali, Ellyes Skhiri et Wahbi Khazri forment un trio capable de créer des difficultés à n\'importe quelle défense. Ce match amical s\'annonce plus serré qu\'il n\'y paraît.',
     ],
     home: {
       name: 'Belgium',
@@ -427,7 +427,7 @@ export const blogs: Record<string, MatchBlogData> = {
       ],
     },
     h2h: { played: 3, homeWins: 2, draws: 1, awayWins: 0, lastMatch: 'Belgium 3-1 Tunisia (WC 2018, Moscou)' },
-    prediction: { score: '2-0', analysis: 'La Belgique s\'impose grâce à la classe individuelle de De Bruyne et à la puissance de Lukaku. La Tunisie luttera jusqu\'au bout mais la profondeur de banc belge devrait faire la différence dans les dernières minutes.' },
+    prediction: { score: '2-1', analysis: 'La Belgique s\'impose de justesse dans un match amical disputé. La Tunisie crée des difficultés mais la qualité individuelle de De Bruyne et Lukaku fait la différence. Match serré jusqu\'au bout.' },
     broadcastInfo: 'L\'Équipe TV (France/Belgique, gratuit), beIN Sport 1 (MENA), Arryadia TNT (Maroc), RMC Sport (France)',
   },
 
