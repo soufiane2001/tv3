@@ -125,13 +125,13 @@ export default function WC2026MatchLayout({
       ═══════════════════════════════════════ */}
       <div className="px-4 md:px-0 pt-5 flex flex-wrap gap-2">
         {[
-          { icon: 'bi-calendar3',       text: meta.date,  color: 'border-blue-500/20 bg-blue-500/[0.07]' },
-          { icon: 'bi-clock',           text: meta.time,  color: 'border-green-500/20 bg-green-500/[0.07]' },
-          { icon: 'bi-geo-alt',         text: meta.venue, color: 'border-amber-500/20 bg-amber-500/[0.07]' },
-          { icon: 'bi-trophy',          text: `${meta.group}${meta.matchday ? ` · MD${meta.matchday}` : ''}`, color: 'border-red-500/25 bg-red-500/[0.08]' },
+          { icon: 'fa-solid fa-calendar-days',   text: meta.date,  color: 'border-blue-500/20 bg-blue-500/[0.07]' },
+          { icon: 'fa-solid fa-clock',           text: meta.time,  color: 'border-green-500/20 bg-green-500/[0.07]' },
+          { icon: 'fa-solid fa-location-dot',    text: meta.venue, color: 'border-amber-500/20 bg-amber-500/[0.07]' },
+          { icon: 'fa-solid fa-trophy',          text: `${meta.group}${meta.matchday ? ` · MD${meta.matchday}` : ''}`, color: 'border-red-500/25 bg-red-500/[0.08]' },
         ].map(({ icon, text, color }) => (
           <span key={text} className={`flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs font-semibold text-white/70 border ${color} transition-colors hover:text-white`}>
-            <i className={`bi ${icon} text-sm`} />
+            <i className={`${icon} text-sm`} />
             {text}
           </span>
         ))}
@@ -154,7 +154,7 @@ export default function WC2026MatchLayout({
       <section className="px-4 md:px-0 pt-6 rounded-2xl">
         <div className="rounded-2xl p-5 border border-white/[0.08]" style={{ background: 'var(--card)' }}>
           <div className="flex items-center gap-3 mb-4">
-            <div className="icon-box icon-box-amber"><i className="bi bi-globe2 text-amber-400 text-lg" /></div>
+            <div className="icon-box icon-box-amber"><i className="fa-solid fa-globe text-amber-400 text-lg" /></div>
             <div>
               <h2 className="text-white font-black text-base">Kickoff Times</h2>
               <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">By country</p>
@@ -212,7 +212,7 @@ export default function WC2026MatchLayout({
       ═══════════════════════════════════════ */}
       <section className="px-4 md:px-0 pt-6 space-y-2">
         <div className="flex items-center gap-3 mb-4">
-          <div className="icon-box icon-box-blue"><i className="bi bi-patch-question text-blue-400 text-lg" /></div>
+          <div className="icon-box icon-box-blue"><i className="fa-solid fa-circle-question text-blue-400 text-lg" /></div>
           <div>
             <h2 className="text-white font-black text-xl">FAQ</h2>
             <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">Frequently asked</p>
@@ -224,7 +224,7 @@ export default function WC2026MatchLayout({
             style={{ background: 'var(--card)' }}>
             <summary className="flex items-center justify-between gap-3 px-5 py-4 list-none text-white text-sm font-semibold">
               {q}
-              <i className="bi bi-plus-circle text-red-500 text-lg flex-shrink-0 group-open:rotate-45 transition-transform" />
+              <i className="fa-solid fa-plus text-red-500 text-base flex-shrink-0 group-open:rotate-45 transition-transform" />
             </summary>
             <div className="px-5 pb-4 pt-0">
               <div className="h-px bg-white/[0.06] mb-3" />
@@ -248,7 +248,7 @@ export default function WC2026MatchLayout({
       ═══════════════════════════════════════ */}
       <section className="px-4 md:px-0 pt-6 pb-10">
         <div className="flex items-center gap-3 mb-4">
-          <div className="icon-box icon-box-purple"><i className="bi bi-collection-play text-purple-400 text-lg" /></div>
+          <div className="icon-box icon-box-purple"><i className="fa-solid fa-film text-purple-400 text-lg" /></div>
           <div>
             <h2 className="text-white font-black text-base">Related Matches</h2>
             <p className="text-white/40 text-[10px] uppercase tracking-widest font-semibold">More live streams</p>

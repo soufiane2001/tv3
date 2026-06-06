@@ -35,10 +35,10 @@ const Card = ({ children, className = '' }: { children: React.ReactNode; classNa
   </div>
 );
 
-const SECTION_ICONS: Record<string, { bi: string; cls: string; color: string }> = {
-  'Match Preview': { bi: 'bi-file-earmark-text', cls: 'icon-box-blue',   color: 'text-blue-400'   },
-  'Head-to-Head':  { bi: 'bi-bar-chart-line',    cls: 'icon-box-amber',  color: 'text-amber-400'  },
-  'Prediction':    { bi: 'bi-bullseye',           cls: 'icon-box-red',    color: 'text-red-400'    },
+const SECTION_ICONS: Record<string, { fa: string; cls: string; color: string }> = {
+  'Match Preview': { fa: 'fa-solid fa-file-lines',  cls: 'icon-box-blue',  color: 'text-blue-400'  },
+  'Head-to-Head':  { fa: 'fa-solid fa-chart-bar',   cls: 'icon-box-amber', color: 'text-amber-400' },
+  'Prediction':    { fa: 'fa-solid fa-bullseye',     cls: 'icon-box-red',   color: 'text-red-400'   },
 };
 
 const SectionTitle = ({ children }: { children: React.ReactNode }) => {
@@ -47,7 +47,7 @@ const SectionTitle = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="flex items-center gap-3">
       {meta
-        ? <div className={`icon-box ${meta.cls}`}><i className={`bi ${meta.bi} ${meta.color} text-lg`} /></div>
+        ? <div className={`icon-box ${meta.cls}`}><i className={`${meta.fa} ${meta.color} text-lg`} /></div>
         : <div className="w-1 h-5 rounded-full bg-red-600 flex-shrink-0" />
       }
       <h2 className="text-white font-black text-lg">{children}</h2>
@@ -71,7 +71,7 @@ const MatchBlog: FC<{ data: MatchBlogData }> = ({ data }) => {
         </div>
         {broadcastInfo && (
           <div className="flex items-center gap-2.5 pt-3 border-t border-white/[0.06]">
-            <div className="icon-box icon-box-red !w-7 !h-7 shrink-0"><i className="bi bi-tv text-red-400 text-sm" /></div>
+            <div className="icon-box icon-box-red !w-7 !h-7 shrink-0"><i className="fa-solid fa-tv text-red-400 text-sm" /></div>
             <span className="text-red-400 text-xs font-semibold">{broadcastInfo}</span>
           </div>
         )}
@@ -88,8 +88,8 @@ const MatchBlog: FC<{ data: MatchBlogData }> = ({ data }) => {
               ) : team.flag ? (
                 <img src={`https://flagcdn.com/w40/${team.flag}.png`} alt={team.name} width={32} height={22} className="rounded" />
               ) : (
-                <div className="icon-box icon-box-red !w-9 !h-9 text-white text-xs font-black">
-                  {team.name[0]}
+                <div className="icon-box icon-box-red !w-9 !h-9">
+                  <i className="fa-solid fa-shield-halved text-red-400 text-sm" />
                 </div>
               )}
               <h3 className="text-white font-black">{team.name}</h3>

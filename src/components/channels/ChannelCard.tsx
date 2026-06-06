@@ -35,7 +35,7 @@ export default function ChannelCard({ channel, index = 0 }: ChannelCardProps) {
         <div className="absolute top-3 left-3 right-3 flex items-center justify-between z-10">
           <span className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[9px] font-black uppercase tracking-widest"
             style={{ background: 'rgba(18,19,26,0.75)', backdropFilter: 'blur(8px)', color: 'rgba(255,255,255,0.5)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <i className="bi bi-broadcast text-red-500" />
+            <i className="fa-solid fa-tower-broadcast text-red-500" />
             Live
           </span>
           <button
@@ -48,7 +48,7 @@ export default function ChannelCard({ channel, index = 0 }: ChannelCardProps) {
             )}
             style={{ backdropFilter: 'blur(8px)', background: fav ? undefined : 'rgba(18,19,26,0.75)' }}
           >
-            <i className={cn('bi text-xs', fav ? 'bi-heart-fill' : 'bi-heart')} />
+            <i className={cn('text-xs', fav ? 'fa-solid fa-heart' : 'fa-regular fa-heart')} />
           </button>
         </div>
 
@@ -81,7 +81,7 @@ export default function ChannelCard({ channel, index = 0 }: ChannelCardProps) {
             ) : (
               <div className="flex flex-col items-center gap-2">
                 <div className="icon-box icon-box-red !w-14 !h-14 !rounded-2xl">
-                  <i className="bi bi-tv text-red-400 text-2xl" />
+                  <i className="fa-solid fa-tv text-red-400 text-2xl" />
                 </div>
                 <span className="text-white/25 text-[10px] text-center px-4 line-clamp-1 leading-tight">
                   {channel.name}
@@ -131,7 +131,7 @@ export default function ChannelCard({ channel, index = 0 }: ChannelCardProps) {
               boxShadow: '0 4px 16px -4px rgba(224,0,27,0.4)',
             }}
           >
-            <i className="bi bi-play-circle-fill text-sm" />
+            <i className="fa-solid fa-circle-play text-sm" />
             Watch Live
           </Link>
 

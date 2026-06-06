@@ -10,9 +10,9 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-free": "^7.2.0",
     "@prisma/client": "5.22.0",
     "@vercel/speed-insights": "^2.0.0",
-    "bootstrap-icons": "^1.13.1",
     "clsx": "^2.1.1",
     "framer-motion": "^12.40.0",
     "hls.js": "^1.6.16",

@@ -116,9 +116,9 @@ export default function WC2026StreamClient({ servers, match }: Props) {
 
           {/* Header bar */}
           <div className="absolute top-0 left-0 right-0 flex items-center justify-center gap-2 py-2 bg-black/40 backdrop-blur-sm border-b border-white/5">
-            <i className="bi bi-trophy-fill text-yellow-400 text-xs" />
+            <i className="fa-solid fa-trophy text-yellow-400 text-xs" />
             <span className="text-yellow-300 text-[10px] font-bold uppercase tracking-[0.25em]">FIFA World Cup 2026</span>
-            <i className="bi bi-trophy-fill text-yellow-400 text-xs" />
+            <i className="fa-solid fa-trophy text-yellow-400 text-xs" />
           </div>
 
           {/* Live badge */}
@@ -193,7 +193,7 @@ export default function WC2026StreamClient({ servers, match }: Props) {
       <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60">
         <div className="px-4 py-2 bg-[#080d24] border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <i className="bi bi-broadcast text-red-400 text-xs" />
+            <i className="fa-solid fa-tower-broadcast text-red-400 text-xs" />
             <span className="text-yellow-300 text-[10px] font-bold uppercase tracking-[0.2em]">
               World Cup 2026 · {match.home} vs {match.away}
             </span>
