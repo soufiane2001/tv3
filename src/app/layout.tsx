@@ -25,7 +25,7 @@ import ExitIntentAd from '@/components/ads/ExitIntentAd';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { Toaster } from 'react-hot-toast';
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live';
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live';
 
 const websiteJsonLd = {
   '@context': 'https://schema.org',

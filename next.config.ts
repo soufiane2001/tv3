@@ -7,16 +7,7 @@ const nextConfig: NextConfig = {
       { protocol: 'https', hostname: '**' },
     ],
   },
-  async redirects() {
-    return [
-      {
-        source: '/:path*',
-        has: [{ type: 'host', value: 'sportalive.live' }],
-        destination: 'https://www.sportalive.live/:path*',
-        permanent: true,
-      },
-    ];
-  },
+  // www → sportalive.live is handled natively by Vercel (308) — no redirect needed here
   async headers() {
     return [
       {

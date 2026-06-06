@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.sportalive.live';
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://sportalive.live';
   const disallow = ['/soufianski', '/api/'];
   return {
     rules: [
