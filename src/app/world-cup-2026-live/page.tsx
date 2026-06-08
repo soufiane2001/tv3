@@ -106,8 +106,7 @@ async function findChannel(slugs: string[], patterns: string[]) {
 }
 
 export default async function WorldCup2026LivePage() {
-  const [bein, m6, rmc, arryadia, dasErste] = await Promise.all([
-    findChannel(['ar-bein-sport-uhd-1', 'bein-sport-1', 'ar-bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1', 'beIN Sports UHD']),
+  const [m6, rmc, arryadia, dasErste] = await Promise.all([
     findChannel(['m6', 'm6-hd', 'm6-fr'], ['M6']),
     findChannel(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
     findChannel(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
@@ -252,7 +251,6 @@ export default async function WorldCup2026LivePage() {
         </div>
         <WC2026StreamClient
           servers={[
-            { label: 'beIN Sport 1', sublabel: 'MENA · UHD · عربي', channel: bein as any },
             { label: 'M6', sublabel: 'France · Gratuit · HD', channel: m6 as any },
             { label: 'RMC Sport', sublabel: 'HD · Premium', channel: rmc as any },
             { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
