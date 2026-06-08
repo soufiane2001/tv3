@@ -18,6 +18,8 @@ export interface WCMatch {
   awayFlag: string;   // e.g. "za"
   date: string;       // e.g. "Thursday, 11 June 2026"
   time: string;       // e.g. "20:00 UTC"
+  thirdFlag?: string;
+  thirdName?: string;
 }
 
 interface Props {
@@ -129,45 +131,53 @@ export default function WC2026StreamClient({ servers, match }: Props) {
 
           {/* Teams display */}
           <div className="absolute inset-0 flex items-center justify-center mt-4">
-            <div className="flex items-center gap-4 md:gap-12">
-
-              {/* Home team */}
-              <div className="flex flex-col items-center gap-2 group-hover:scale-105 transition-transform duration-300">
-                <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/30 shadow-2xl bg-black/20 flex items-center justify-center">
-                  <img
-                    src={`https://flagcdn.com/w80/${match.homeFlag}.png`}
-                    alt={match.home}
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                  />
+            {match.thirdFlag ? (
+              /* 3-host-nation layout */
+              <div className="flex flex-col items-center gap-3">
+                <div className="flex items-center gap-4 md:gap-10">
+                  {[
+                    { flag: match.homeFlag, name: match.home },
+                    { flag: match.awayFlag, name: match.away },
+                    { flag: match.thirdFlag, name: match.thirdName ?? '' },
+                  ].map((t, i) => (
+                    <div key={i} className="flex flex-col items-center gap-2 group-hover:scale-105 transition-transform duration-300">
+                      <div className="relative w-14 h-14 md:w-20 md:h-20 rounded-full overflow-hidden border-2 border-white/30 shadow-2xl bg-black/20 flex items-center justify-center">
+                        <img src={`https://flagcdn.com/w80/${t.flag}.png`} alt={t.name} className="w-full h-full object-cover" loading="eager" />
+                      </div>
+                      <p className="text-white font-black text-[10px] md:text-xs uppercase tracking-wider text-center max-w-[72px]">{t.name}</p>
+                    </div>
+                  ))}
                 </div>
-                <p className="text-white font-black text-xs md:text-sm uppercase tracking-wider text-center max-w-[80px] md:max-w-[100px]">
-                  {match.home}
-                </p>
-              </div>
-
-              {/* VS centre */}
-              <div className="flex flex-col items-center gap-2 flex-shrink-0">
-                <p className="text-white/30 font-black text-xl md:text-3xl tracking-[0.4em]">VS</p>
-                <p className="text-gray-400 text-[9px] md:text-[10px] text-center uppercase tracking-widest">{match.date}</p>
-                <p className="text-yellow-400 text-[9px] md:text-[10px] font-bold text-center">{match.time}</p>
-              </div>
-
-              {/* Away team */}
-              <div className="flex flex-col items-center gap-2 group-hover:scale-105 transition-transform duration-300">
-                <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/30 shadow-2xl bg-black/20 flex items-center justify-center">
-                  <img
-                    src={`https://flagcdn.com/w80/${match.awayFlag}.png`}
-                    alt={match.away}
-                    className="w-full h-full object-cover"
-                    loading="eager"
-                  />
+                <div className="flex flex-col items-center gap-1">
+                  <p className="text-gray-400 text-[9px] md:text-[10px] text-center uppercase tracking-widest">{match.date}</p>
+                  <p className="text-yellow-400 text-[9px] md:text-[10px] font-bold text-center">{match.time}</p>
                 </div>
-                <p className="text-white font-black text-xs md:text-sm uppercase tracking-wider text-center max-w-[80px] md:max-w-[100px]">
-                  {match.away}
-                </p>
               </div>
-            </div>
+            ) : (
+              /* Standard 2-team layout */
+              <div className="flex items-center gap-4 md:gap-12">
+                {/* Home team */}
+                <div className="flex flex-col items-center gap-2 group-hover:scale-105 transition-transform duration-300">
+                  <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/30 shadow-2xl bg-black/20 flex items-center justify-center">
+                    <img src={`https://flagcdn.com/w80/${match.homeFlag}.png`} alt={match.home} className="w-full h-full object-cover" loading="eager" />
+                  </div>
+                  <p className="text-white font-black text-xs md:text-sm uppercase tracking-wider text-center max-w-[80px] md:max-w-[100px]">{match.home}</p>
+                </div>
+                {/* VS centre */}
+                <div className="flex flex-col items-center gap-2 flex-shrink-0">
+                  <p className="text-white/30 font-black text-xl md:text-3xl tracking-[0.4em]">VS</p>
+                  <p className="text-gray-400 text-[9px] md:text-[10px] text-center uppercase tracking-widest">{match.date}</p>
+                  <p className="text-yellow-400 text-[9px] md:text-[10px] font-bold text-center">{match.time}</p>
+                </div>
+                {/* Away team */}
+                <div className="flex flex-col items-center gap-2 group-hover:scale-105 transition-transform duration-300">
+                  <div className="relative w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-2 border-white/30 shadow-2xl bg-black/20 flex items-center justify-center">
+                    <img src={`https://flagcdn.com/w80/${match.awayFlag}.png`} alt={match.away} className="w-full h-full object-cover" loading="eager" />
+                  </div>
+                  <p className="text-white font-black text-xs md:text-sm uppercase tracking-wider text-center max-w-[80px] md:max-w-[100px]">{match.away}</p>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Bottom play button */}

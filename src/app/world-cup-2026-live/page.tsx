@@ -256,7 +256,7 @@ export default async function WorldCup2026LivePage() {
             { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
             { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any },
           ]}
-          match={{ home: 'World Cup', homeFlag: 'us', away: '2026', awayFlag: 'br', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
+          match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />
         <p className="text-gray-600 text-xs text-center">Free HD stream — no subscription, no registration · Switch server if stream lags</p>
         <AdBanner />
