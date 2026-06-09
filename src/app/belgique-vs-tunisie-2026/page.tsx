@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
+import { getWcExtraChannels } from '@/lib/wc-channels';
 
 export const revalidate = 300;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
@@ -89,8 +90,11 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [lequipe] = await Promise.all([
-    find(['lequipe-tv', 'l-equipe', 'lequipe'], ['L\'Équipe', 'Equipe TV', 'L Equipe']),
+  const [[lequipe], [rai1, ortb, ert1, sigma, tv2]] = await Promise.all([
+    Promise.all([
+      find(['lequipe-tv', 'l-equipe', 'lequipe'], ['L\'Équipe', 'Equipe TV', 'L Equipe']),
+    ]),
+    getWcExtraChannels(),
   ]);
 
   return (
@@ -108,7 +112,12 @@ export default async function Page() {
           prediction: 'Belgium 2-1 Tunisia',
         }}
         servers={[
-          { label: 'L\'Équipe TV', sublabel: 'France · Gratuit', channel: lequipe as any },
+          { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',   channel: rai1    as any },
+          { label: 'L\'Équipe TV', sublabel: 'France · Gratuit',    channel: lequipe as any },
+          { label: 'ORTB',         sublabel: 'ORTB · HD',           channel: ortb    as any },
+          { label: 'ERT1',         sublabel: 'Greece · ERT · HD',   channel: ert1    as any },
+          { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD', channel: sigma   as any },
+          { label: 'TV2',          sublabel: 'TV2 · HD',            channel: tv2     as any },
         ]}
         blog={blogs['belgium-vs-tunisia']}
         kickoffTimes={[

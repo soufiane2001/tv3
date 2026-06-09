@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
+import { getWcExtraChannels } from '@/lib/wc-channels';
 
 export const revalidate = 3600;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
@@ -35,12 +36,15 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [bein, m6, rmc, arryadia, dasErste] = await Promise.all([
-    find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
-    find(['m6', 'm6-hd'], ['M6']),
-    find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
-    find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
-    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
+  const [[bein, m6, rmc, arryadia, dasErste], [rai1, ortb, ert1, sigma, tv2]] = await Promise.all([
+    Promise.all([
+      find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
+      find(['m6', 'm6-hd'], ['M6']),
+      find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
+      find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+      find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
+    ]),
+    getWcExtraChannels(),
   ]);
 
   return (
@@ -50,7 +54,18 @@ export default async function Page() {
         home={{ name: 'Qatar', flag: 'qa', nickname: 'Al Annabi', formation: '4-3-3' }}
         away={{ name: 'Switzerland', flag: 'ch', nickname: 'Nati', formation: '4-2-3-1' }}
         meta={{ date: 'Monday, 15 June 2026', time: '19:00 UTC', venue: 'Estadio Azteca, Mexico City', group: 'H', matchday: 1, prediction: 'Qatar 1-2 Switzerland' }}
-        servers={[{ label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any }, { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any }, { label: 'RMC Sport', sublabel: 'HD', channel: rmc as any }, { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any }, { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any }]}
+        servers={[
+          { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',    channel: rai1     as any },
+          { label: 'beIN Sport 1', sublabel: 'UHD · عربي',           channel: bein     as any },
+          { label: 'M6',           sublabel: 'France · Gratuit',     channel: m6       as any },
+          { label: 'RMC Sport',    sublabel: 'HD',                   channel: rmc      as any },
+          { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',         channel: arryadia as any },
+          { label: 'Das Erste',    sublabel: 'Germany · ARD',        channel: dasErste as any },
+          { label: 'ORTB',         sublabel: 'ORTB · HD',            channel: ortb     as any },
+          { label: 'ERT1',         sublabel: 'Greece · ERT · HD',    channel: ert1     as any },
+          { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',  channel: sigma    as any },
+          { label: 'TV2',          sublabel: 'TV2 · HD',             channel: tv2      as any },
+        ]}
         blog={blogs['qatar-vs-switzerland']}
         kickoffTimes={[{"flag":"🇶🇦","country":"Doha","time":"22:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇨🇭","country":"Bern","time":"21:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}
         faqs={[

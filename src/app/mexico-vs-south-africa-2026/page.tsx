@@ -3,6 +3,7 @@ import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
+import { getWcExtraChannels } from '@/lib/wc-channels';
 
 export const revalidate = 3600;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
@@ -36,12 +37,15 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [m6, bein, la1, arryadia, dasErste] = await Promise.all([
-    find(['m6','m6-hd'], ['M6']),
-    find(['ar-bein-sport-uhd-1','bein-sport-1'], ['beIN Sports 1','beIN Sport 1']),
-    find(['la-1','la-1-rtve'], ['La 1','RTVE']),
-    find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
-    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
+  const [[m6, bein, la1, arryadia, dasErste], [rai1, ortb, ert1, sigma, tv2]] = await Promise.all([
+    Promise.all([
+      find(['m6','m6-hd'], ['M6']),
+      find(['ar-bein-sport-uhd-1','bein-sport-1'], ['beIN Sports 1','beIN Sport 1']),
+      find(['la-1','la-1-rtve'], ['La 1','RTVE']),
+      find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+      find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
+    ]),
+    getWcExtraChannels(),
   ]);
 
   return (
@@ -52,11 +56,16 @@ export default async function Page() {
         away={{ name: 'South Africa', flag: 'za', nickname: 'Bafana Bafana', formation: '4-5-1', lineup: ['Williams','Sesane','Shalulile','Dolly','Tau','Mokoena','Maart','Ndlovu','Zwane','Jali','Mabunda'] }}
         meta={{ date: 'Thursday, 11 June 2026', time: '21:00 UTC', venue: 'SoFi Stadium, Los Angeles', group: 'B', matchday: 1, prediction: 'Mexico 3-1 South Africa' }}
         servers={[
-          { label: 'M6', sublabel: 'France · Gratuit', channel: m6 as any },
-          { label: 'beIN Sport 1', sublabel: 'UHD · عربي', channel: bein as any },
-          { label: 'La 1', sublabel: 'RTVE · España', channel: la1 as any },
-          { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
-          { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any },
+          { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',    channel: rai1     as any },
+          { label: 'M6',           sublabel: 'France · Gratuit',     channel: m6       as any },
+          { label: 'beIN Sport 1', sublabel: 'UHD · عربي',           channel: bein     as any },
+          { label: 'La 1',         sublabel: 'RTVE · España',        channel: la1      as any },
+          { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',         channel: arryadia as any },
+          { label: 'Das Erste',    sublabel: 'Germany · ARD',        channel: dasErste as any },
+          { label: 'ORTB',         sublabel: 'ORTB · HD',            channel: ortb     as any },
+          { label: 'ERT1',         sublabel: 'Greece · ERT · HD',    channel: ert1     as any },
+          { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',  channel: sigma    as any },
+          { label: 'TV2',          sublabel: 'TV2 · HD',             channel: tv2      as any },
         ]}
         blog={blogs['mexico-vs-south-africa']}
         kickoffTimes={[

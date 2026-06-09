@@ -7,6 +7,7 @@ import JsonLd from '@/components/seo/JsonLd';
 import AdBanner from '@/components/ads/AdBanner';
 import AdBanner300 from '@/components/ads/AdBanner300';
 import { wc2026News } from '@/data/wc2026-news';
+import { getWcExtraChannels } from '@/lib/wc-channels';
 import type { Metadata } from 'next';
 
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
@@ -134,12 +135,15 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [m6, bein, rmc, arryadia, dasErste] = await Promise.all([
-    find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
-    find(['ar-bein-sport-uhd-1', 'bein-sport-1', 'ar-bein-sport-1'], ['beIN Sports UHD', 'beIN Sports 1', 'beIN Sport 1']),
-    find(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
-    find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
-    find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
+  const [[m6, bein, rmc, arryadia, dasErste], [rai1, ortb, ert1, sigma, tv2]] = await Promise.all([
+    Promise.all([
+      find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
+      find(['ar-bein-sport-uhd-1', 'bein-sport-1', 'ar-bein-sport-1'], ['beIN Sports UHD', 'beIN Sports 1', 'beIN Sport 1']),
+      find(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
+      find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
+      find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
+    ]),
+    getWcExtraChannels(),
   ]);
 
   const topNews = wc2026News.slice(0, 6);
@@ -280,11 +284,16 @@ export default async function HomePage() {
 
         <WC2026StreamClient
           servers={[
-            { label: 'M6', sublabel: 'France · Gratuit · HD', channel: m6 as any },
-            { label: 'beIN Sport UHD 1', sublabel: 'MENA · UHD · عربي', channel: bein as any },
-            { label: 'RMC Sport', sublabel: 'France · HD · Premium', channel: rmc as any },
-            { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني', channel: arryadia as any },
-            { label: 'Das Erste', sublabel: 'Germany · ARD', channel: dasErste as any },
+            { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',      channel: rai1     as any },
+            { label: 'M6',           sublabel: 'France · Gratuit · HD',  channel: m6       as any },
+            { label: 'beIN Sport UHD 1', sublabel: 'MENA · UHD · عربي', channel: bein     as any },
+            { label: 'RMC Sport',    sublabel: 'France · HD · Premium',  channel: rmc      as any },
+            { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',          channel: arryadia as any },
+            { label: 'Das Erste',    sublabel: 'Germany · ARD',          channel: dasErste as any },
+            { label: 'ORTB',         sublabel: 'ORTB · HD',              channel: ortb     as any },
+            { label: 'ERT1',         sublabel: 'Greece · ERT · HD',      channel: ert1     as any },
+            { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',    channel: sigma    as any },
+            { label: 'TV2',          sublabel: 'TV2 · HD',               channel: tv2      as any },
           ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',
