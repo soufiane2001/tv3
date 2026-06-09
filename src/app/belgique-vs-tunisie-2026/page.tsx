@@ -90,7 +90,7 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [[lequipe], [rai1, ortb, ert1, sigma, tv2]] = await Promise.all([
+  const [[lequipe], [rai1, ert1, sigma, tv2]] = await Promise.all([
     Promise.all([
       find(['lequipe-tv', 'l-equipe', 'lequipe'], ['L\'Équipe', 'Equipe TV', 'L Equipe']),
     ]),
@@ -114,7 +114,6 @@ export default async function Page() {
         servers={[
           { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',   channel: rai1    as any },
           { label: 'L\'Équipe TV', sublabel: 'France · Gratuit',    channel: lequipe as any },
-          { label: 'ORTB',         sublabel: 'ORTB · HD',           channel: ortb    as any },
           { label: 'ERT1',         sublabel: 'Greece · ERT · HD',   channel: ert1    as any },
           { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD', channel: sigma   as any },
           { label: 'TV2',          sublabel: 'TV2 · HD',            channel: tv2     as any },

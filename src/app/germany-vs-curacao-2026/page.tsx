@@ -36,7 +36,7 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [[bein, m6, rmc, arryadia, dasErste], [rai1, ortb, ert1, sigma, tv2]] = await Promise.all([
+  const [[bein, m6, rmc, arryadia, dasErste], [rai1, ert1, sigma, tv2]] = await Promise.all([
     Promise.all([
       find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
       find(['m6', 'm6-hd'], ['M6']),
@@ -61,7 +61,6 @@ export default async function Page() {
           { label: 'RMC Sport',    sublabel: 'HD',                   channel: rmc      as any },
           { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',         channel: arryadia as any },
           { label: 'Das Erste',    sublabel: 'Germany · ARD',        channel: dasErste as any },
-          { label: 'ORTB',         sublabel: 'ORTB · HD',            channel: ortb     as any },
           { label: 'ERT1',         sublabel: 'Greece · ERT · HD',    channel: ert1     as any },
           { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',  channel: sigma    as any },
           { label: 'TV2',          sublabel: 'TV2 · HD',             channel: tv2      as any },
