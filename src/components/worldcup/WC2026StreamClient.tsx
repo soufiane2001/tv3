@@ -43,10 +43,16 @@ export default function WC2026StreamClient({ servers, match }: Props) {
     setStarted(false);
   };
 
-  const handleStreamError = () => {
-    const nextIdx = servers.findIndex((s, i) => i !== activeIdx && s.channel !== null);
-    if (nextIdx !== -1) { setActiveIdx(nextIdx); setStarted(false); }
-  };
+  const handleStreamError = useCallback(() => {
+    for (let offset = 1; offset < servers.length; offset++) {
+      const nextIdx = (activeIdx + offset) % servers.length;
+      if (servers[nextIdx].channel !== null) {
+        setActiveIdx(nextIdx);
+        return;
+      }
+    }
+    // All servers exhausted — stay on error screen
+  }, [activeIdx, servers]);
 
   const StreamTabs = () => (
     <div className="flex gap-2 flex-wrap">

@@ -167,15 +167,18 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
     video.volume = isMuted ? 0 : volume / 100;
   }, [volume, isMuted]);
 
-  // If stuck buffering/loading for 40 s, give up and show error
+  // If stuck buffering/loading for 40 s, give up and trigger onError for auto-switch
   useEffect(() => {
     if (state === 'buffering' || state === 'loading') {
-      bufferingTimer.current = setTimeout(() => setState('error'), 40_000);
+      bufferingTimer.current = setTimeout(() => {
+        setState('error');
+        onError?.();
+      }, 40_000);
     } else {
       if (bufferingTimer.current) { clearTimeout(bufferingTimer.current); bufferingTimer.current = null; }
     }
     return () => { if (bufferingTimer.current) clearTimeout(bufferingTimer.current); };
-  }, [state]);
+  }, [state, onError]);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
