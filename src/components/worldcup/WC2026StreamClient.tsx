@@ -1,5 +1,5 @@
 'use client';
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect, useRef } from 'react';
 import { Play, Tv2 } from 'lucide-react';
 import VideoPlayer from '@/components/player/VideoPlayer';
 import AdInterstitial from '@/components/ads/AdInterstitial';
@@ -31,9 +31,19 @@ export default function WC2026StreamClient({ servers, match }: Props) {
   const [started, setStarted] = useState(false);
   const [showAd, setShowAd] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
+  const [toast, setToast] = useState<string | null>(null);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const active = servers[activeIdx] ?? servers[0];
   const channel = active?.channel ?? null;
+
+  const showToast = useCallback((msg: string) => {
+    if (toastTimer.current) clearTimeout(toastTimer.current);
+    setToast(msg);
+    toastTimer.current = setTimeout(() => setToast(null), 3000);
+  }, []);
+
+  useEffect(() => () => { if (toastTimer.current) clearTimeout(toastTimer.current); }, []);
 
   const handlePlayClick = () => { setShowAd(true); };
   const handleAdComplete = useCallback(() => { setShowAd(false); setStarted(true); }, []);
@@ -47,12 +57,13 @@ export default function WC2026StreamClient({ servers, match }: Props) {
     for (let offset = 1; offset < servers.length; offset++) {
       const nextIdx = (activeIdx + offset) % servers.length;
       if (servers[nextIdx].channel !== null) {
+        showToast(`Switching to ${servers[nextIdx].label}…`);
         setActiveIdx(nextIdx);
         return;
       }
     }
     // All servers exhausted — stay on error screen
-  }, [activeIdx, servers]);
+  }, [activeIdx, servers, showToast]);
 
   const StreamTabs = () => (
     <div className="flex gap-2 flex-wrap">
@@ -206,7 +217,7 @@ export default function WC2026StreamClient({ servers, match }: Props) {
   return (
     <div className="space-y-3">
       <StreamTabs />
-      <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60">
+      <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 relative">
         <div className="px-4 py-2 bg-[#080d24] border-b border-white/5 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <i className="fa-solid fa-tower-broadcast text-red-400 text-xs" />
@@ -220,6 +231,13 @@ export default function WC2026StreamClient({ servers, match }: Props) {
           </span>
         </div>
         <VideoPlayer channel={channel} autoPlay onError={handleStreamError} className="w-full" />
+        {toast && (
+          <div className="absolute bottom-14 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white shadow-xl pointer-events-none"
+            style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.15)' }}>
+            <span className="w-1.5 h-1.5 rounded-full bg-yellow-400 animate-pulse flex-shrink-0" />
+            {toast}
+          </div>
+        )}
         <div className="bg-gray-900/80 px-4 py-2 flex items-center justify-between">
           <span className="text-xs text-gray-500">
             Streaming via {active.label} — FIFA World Cup 2026
