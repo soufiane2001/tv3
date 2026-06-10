@@ -574,6 +574,156 @@ export default async function HomePage() {
         </section>
       )}
 
+      {/* ══════════════════════════════════════════════════════
+          LONG-FORM EDITORIAL — content richness for SEO
+      ══════════════════════════════════════════════════════ */}
+      <section className="px-4 md:px-0 pt-14 pb-10 border-t border-white/[0.05]">
+        <div className="max-w-4xl space-y-10 text-white/60 text-sm leading-relaxed">
+
+          {/* Block 1 — Tournament overview */}
+          <div className="space-y-4">
+            <h2 className="text-white font-black text-2xl md:text-3xl" style={{ fontFamily: 'var(--font-display)' }}>
+              FIFA World Cup 2026 — Complete Guide to the Biggest Tournament in History
+            </h2>
+            <p>
+              The 2026 FIFA World Cup is the most ambitious football tournament ever staged. For the first time in history,
+              three nations — the <strong className="text-white/80">United States, Canada, and Mexico</strong> — co-host the
+              event across <strong className="text-white/80">16 venues</strong> and 11 cities. The expanded format introduces
+              48 competing nations (up from 32), resulting in <strong className="text-white/80">104 matches</strong> played
+              between <strong className="text-white/80">June 11 and July 19, 2026</strong>. The final takes place at MetLife
+              Stadium in East Rutherford, New Jersey — the largest stadium in the United States.
+            </p>
+            <p>
+              The group stage runs through late June with three teams advancing from each of the 12 groups. The round of 32
+              begins on June 27, followed by the round of 16, quarter-finals, semi-finals, and the grand final on July 19.
+              With matches played from Los Angeles and Dallas to New York, Toronto, Mexico City, and Vancouver, no previous
+              World Cup has spread its matches across such a vast geographical footprint.
+            </p>
+          </div>
+
+          {/* Block 2 — How to watch */}
+          <div className="space-y-4">
+            <h2 className="text-white font-black text-xl md:text-2xl">
+              How to Watch World Cup 2026 for Free Online — Complete Streaming Guide
+            </h2>
+            <p>
+              You do not need a paid subscription to watch every match of FIFA World Cup 2026.
+              <strong className="text-white/80"> M6</strong> (France) is free-to-air and broadcasts a large portion of the
+              tournament live in HD. <strong className="text-white/80">La 1 RTVE</strong> (Spain) carries every match free
+              for Spanish audiences. <strong className="text-white/80">beIN Sport UHD 1</strong> is the primary broadcaster
+              for the MENA region, while <strong className="text-white/80">RMC Sport</strong> covers French-market games.
+              <strong className="text-white/80"> Arryadia TNT</strong> provides free Moroccan coverage, and public broadcasters
+              including <strong className="text-white/80">Das Erste (ARD)</strong>, <strong className="text-white/80">RAI 1</strong>,
+              <strong className="text-white/80"> ERT1</strong>, and <strong className="text-white/80">TV2</strong> carry
+              national-team matches free across Germany, Italy, Greece, and Scandinavia.
+            </p>
+            <p>
+              On SportaLive, all of these channels stream simultaneously in one place — no account, no registration, and
+              no subscription required. Simply click a server and your chosen match loads instantly in HD. If one stream
+              buffers, switch to a different server in seconds. We list kickoff times in every major timezone so you always
+              know exactly when your match starts, wherever in the world you are watching from.
+            </p>
+            <h3 className="text-white font-bold text-base">Best Free Channels for World Cup 2026</h3>
+            <ul className="space-y-1 list-none pl-0">
+              {[
+                ['M6', 'France — free-to-air, HD, covers major matches including the final'],
+                ['La 1 RTVE', 'Spain — free public broadcaster, all 104 matches for Spanish audiences'],
+                ['beIN Sport UHD 1', 'MENA region — ultra-HD, Arabic commentary, all group stage & knockouts'],
+                ['RMC Sport', 'France — premium sports channel, World Cup matches alongside M6'],
+                ['Arryadia TNT', 'Morocco — free national broadcast in Arabic, all Atlas Lions matches + more'],
+                ['Das Erste / ARD', 'Germany — public broadcaster, all German national team matches free'],
+                ['RAI 1', 'Italy — free public broadcaster, Azzurri matches and major fixtures'],
+              ].map(([ch, desc]) => (
+                <li key={ch} className="flex gap-2">
+                  <span className="text-red-500 flex-shrink-0 mt-0.5">▸</span>
+                  <span><strong className="text-white/80">{ch}</strong> — {desc}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Block 3 — Teams & favourites */}
+          <div className="space-y-4">
+            <h2 className="text-white font-black text-xl md:text-2xl">
+              World Cup 2026 Favourites — Top Teams, Key Players &amp; Predictions
+            </h2>
+            <p>
+              <strong className="text-white/80">Brazil</strong> enter the 2026 World Cup as many bookmakers' outright
+              favourite. Led by <strong className="text-white/80">Vinicius Jr</strong> — arguably the world's best player
+              — alongside Rodrygo, Endrick, and Raphinha, the Seleção are chasing their sixth world title. Brazil's
+              front four is the most feared attacking unit in the tournament, and if their defence holds, the
+              Hexa is within reach.
+            </p>
+            <p>
+              <strong className="text-white/80">France</strong> are equally dangerous. <strong className="text-white/80">Kylian Mbappé</strong>,
+              27 and at the peak of his powers after a landmark Real Madrid season, leads a squad that also features
+              Dembélé, Camavinga, Tchouaméni and Maignan. France reached the final in 2018, were knocked out by Argentina
+              in 2022, and arrive in North America determined to go all the way.
+            </p>
+            <p>
+              <strong className="text-white/80">Spain</strong> are Euro 2024 champions and many analysts' pick to win
+              the whole tournament. Lamine Yamal (18), Nico Williams, and Pedri form the most exciting young midfield
+              trio at the competition. <strong className="text-white/80">England</strong>, under Lee Carsley, travel with
+              Bellingham, Saka, and Foden, finally looking like they can end 60 years of hurt.
+              <strong className="text-white/80"> Argentina</strong> defend the title without a peak Messi — now 38 — but
+              with Álvarez, Fernández, and Mac Allister still firing.
+            </p>
+            <p>
+              Dark horses worth following: <strong className="text-white/80">Germany</strong> (Wirtz and Musiala are the
+              tournament's most exciting midfield partnership), <strong className="text-white/80">Morocco</strong> (Hakimi,
+              Ziyech, and Bono building on the Qatar 2022 semi-final miracle), <strong className="text-white/80">Japan</strong>
+              (Premier League-packed squad capable of beating anyone on the day), and
+              <strong className="text-white/80"> Türkiye</strong> (Arda Güler is 20 and already one of the best attacking
+              midfielders in the world).
+            </p>
+          </div>
+
+          {/* Block 4 — Venues */}
+          <div className="space-y-4">
+            <h2 className="text-white font-black text-xl md:text-2xl">
+              World Cup 2026 Venues — 16 Stadiums Across Three Countries
+            </h2>
+            <p>
+              The United States hosts the majority of matches across 11 venues: MetLife Stadium (New York/New Jersey),
+              SoFi Stadium (Los Angeles), AT&T Stadium (Dallas), NRG Stadium (Houston), Levi's Stadium (San Francisco Bay
+              Area), Mercedes-Benz Stadium (Atlanta), Arrowhead Stadium (Kansas City), Lumen Field (Seattle), Lincoln
+              Financial Field (Philadelphia), Soldier Field (Chicago), and Hard Rock Stadium (Miami).
+            </p>
+            <p>
+              Canada contributes two venues: <strong className="text-white/80">BC Place</strong> in Vancouver and
+              <strong className="text-white/80"> BMO Field</strong> in Toronto. Mexico provides the legendary
+              <strong className="text-white/80"> Estadio Azteca</strong> in Mexico City — site of both the 1970 and 1986
+              World Cup finals — plus <strong className="text-white/80">Estadio BBVA</strong> in Monterrey and
+              <strong className="text-white/80"> Estadio Akron</strong> in Guadalajara. The tournament opener,
+              Mexico vs South Africa, is played at SoFi Stadium in Los Angeles on June 11, while the final on July 19
+              takes place at MetLife Stadium.
+            </p>
+          </div>
+
+          {/* Block 5 — About SportaLive */}
+          <div className="space-y-4">
+            <h2 className="text-white font-black text-xl md:text-2xl">
+              About SportaLive — Free World Cup 2026 Live Streaming Platform
+            </h2>
+            <p>
+              SportaLive is a free live-streaming platform built specifically for football fans who want to watch major
+              tournaments without paying for cable or a premium subscription. We aggregate legal free-to-air broadcast
+              streams — M6, La 1, beIN Sport, Arryadia, Das Erste, RAI 1, ERT1, TV2 — and present them in a single,
+              fast, mobile-friendly player. Every stream can be switched instantly, so if one server experiences lag or
+              geo-restriction, you can move to the next without losing the match.
+            </p>
+            <p>
+              Beyond the live player, SportaLive provides predicted lineups for every World Cup 2026 match, kickoff times
+              in every major timezone, head-to-head records, match previews, and in-depth analysis of the tournament's
+              key teams and players. The platform is completely free to use — no account creation, no email required,
+              no subscription. Coverage spans all <strong className="text-white/80">104 FIFA World Cup 2026 matches</strong>,
+              from the Group B opener on June 11 through to the final on July 19.
+            </p>
+          </div>
+
+        </div>
+      </section>
+
       {/* Multilingual platform description — visible, crawlable, not hidden */}
       <section className="px-4 md:px-0 pt-10 pb-12 border-t border-white/[0.04]">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs text-white/35 leading-relaxed">
