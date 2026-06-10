@@ -73,6 +73,7 @@ export const metadata: Metadata = {
   openGraph: { type: 'website', siteName: process.env.NEXT_PUBLIC_SITE_NAME || 'SportaLive' },
   other: {
     'llms-txt': `${SITE_URL}/llms.txt`,
+    'msvalidate.01': '0F62BD1409B8555897ABA2C809810B04',
   },
 };
 
