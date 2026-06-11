@@ -43,7 +43,9 @@ async function getStreamUrl(id: string): Promise<string | null> {
 function alwaysProxy(hostname: string): boolean {
   return (
     hostname.endsWith('.rtve.es') ||
-    hostname === 'rtve.es'
+    hostname === 'rtve.es' ||
+    // SigmaTV: sends CORS on manifest but blocks segments cross-origin
+    hostname === 'sl2.sigmatv.com'
   );
 }
 
