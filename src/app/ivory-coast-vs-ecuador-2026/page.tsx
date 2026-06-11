@@ -36,7 +36,7 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [[m6, rmc, arryadia, dasErste], [ert1, sigma, tv2]] = await Promise.all([
+  const [[m6, rmc, arryadia, dasErste], [rai1, ert1, sigma, tv2]] = await Promise.all([
     Promise.all([
       find(['m6', 'm6-hd'], ['M6']),
       find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
@@ -54,6 +54,7 @@ export default async function Page() {
         away={{ name: 'Ecuador', flag: 'ec', nickname: 'La Tri', formation: '4-3-3' }}
         meta={{ date: 'Monday, 15 June 2026', time: '22:00 UTC', venue: "Levi's Stadium, San Francisco", group: 'I', matchday: 1, prediction: 'Ivory Coast 1-1 Ecuador' }}
         servers={[
+          { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',     channel: rai1     as any },
           { label: 'M6',           sublabel: 'France · Gratuit',     channel: m6       as any },
           { label: 'RMC Sport',    sublabel: 'HD',                   channel: rmc      as any },
           { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',         channel: arryadia as any },
