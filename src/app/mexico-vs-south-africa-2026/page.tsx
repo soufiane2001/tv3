@@ -27,7 +27,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv, sigma] = await getWcExtraChannels();
+  const [sigma, beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -37,17 +37,17 @@ export default async function Page() {
         away={{ name: 'South Africa', flag: 'za', nickname: 'Bafana Bafana', formation: '4-5-1', lineup: ['Williams','Sesane','Shalulile','Dolly','Tau','Mokoena','Maart','Ndlovu','Zwane','Jali','Mabunda'] }}
         meta={{ date: 'Thursday, 11 June 2026', time: '19:00 UTC', venue: 'Estadio Azteca, Mexico City', group: 'A', matchday: 1, prediction: 'Mexico 3-1 South Africa' }}
         servers={[
-          { label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD',   channel: beinMax2  as any },
-          { label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD',   channel: beinMax1  as any },
-          { label: 'beIN MAX 3',   sublabel: 'beIN · MAX 3 · FHD',   channel: beinMax3  as any },
-          { label: 'beIN MAX 4',   sublabel: 'beIN · MAX 4 · FHD',   channel: beinMax4  as any },
+          { label: 'SigmaTV',   sublabel: 'Cyprus · Sigma · HD', channel: sigma     as any },
+          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD',  channel: beinMax2  as any },
+          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD',  channel: beinMax1  as any },
+          { label: 'beIN MAX 3', sublabel: 'beIN · MAX 3 · FHD',  channel: beinMax3  as any },
+          { label: 'beIN MAX 4', sublabel: 'beIN · MAX 4 · FHD',  channel: beinMax4  as any },
           { label: 'beIN Sport 1', sublabel: 'beIN · Sport 1 · AR',  channel: bein1     as any },
           { label: 'beIN Global',  sublabel: 'beIN · Global · EN',   channel: beinGlobal as any },
           { label: 'beIN FR 1',    sublabel: 'France · beIN 1 · HD', channel: beinFr1   as any },
           { label: 'beIN FR 2',    sublabel: 'France · beIN 2 · HD', channel: beinFr2   as any },
           { label: 'M6 FHD',       sublabel: 'France · M6 · FHD',    channel: m6fhd     as any },
-          { label: 'ETV',     sublabel: 'Estonia · ERR · HD',  channel: etv   as any },
-          { label: 'SigmaTV', sublabel: 'Cyprus · Sigma · HD', channel: sigma as any },
+          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',   channel: etv       as any },
         ]}
         blog={blogs['mexico-vs-south-africa']}
         kickoffTimes={[
