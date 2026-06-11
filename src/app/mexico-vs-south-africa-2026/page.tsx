@@ -11,7 +11,7 @@ const PAGE_URL = `${SITE}/mexico-vs-south-africa-2026`;
 
 export const metadata: Metadata = {
   title: 'Mexico vs South Africa LIVE — World Cup 2026 Free Stream | M6 · beIN Sport · La 1',
-  description: '🔴 Watch Mexico vs South Africa FIFA World Cup 2026 FREE in HD. Group B opener at SoFi Stadium. Stream on M6, beIN Sport 1. No subscription. مشاهدة مباشرة مجاناً.',
+  description: '🔴 Watch Mexico vs South Africa FIFA World Cup 2026 FREE in HD. Group A opener at Estadio Azteca. Stream on M6, beIN Sport 1. No subscription. مشاهدة مباشرة مجاناً.',
   alternates: { canonical: PAGE_URL },
   robots: { index: true, follow: true },
 };
@@ -20,7 +20,7 @@ const jsonLd = {
   '@context': 'https://schema.org', '@type': 'SportsEvent',
   name: 'FIFA World Cup 2026 — Mexico vs South Africa',
   startDate: '2026-06-11T21:00:00Z', endDate: '2026-06-11T23:00:00Z',
-  location: { '@type': 'Place', name: 'SoFi Stadium', address: { '@type': 'PostalAddress', addressLocality: 'Los Angeles', addressCountry: 'US' } },
+  location: { '@type': 'Place', name: 'Estadio Azteca', address: { '@type': 'PostalAddress', addressLocality: 'Mexico City', addressCountry: 'MX' } },
   competitor: [{ '@type': 'SportsTeam', name: 'Mexico' }, { '@type': 'SportsTeam', name: 'South Africa' }],
   organizer: { '@type': 'Organization', name: 'FIFA' },
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: PAGE_URL },
@@ -53,7 +53,7 @@ export default async function Page() {
       <WC2026MatchLayout
         home={{ name: 'Mexico', flag: 'mx', nickname: 'El Tri', formation: '4-3-3', lineup: ['Malagón','Sánchez','Araujo','Montes','Gallardo','E.Álvarez','Rodríguez','Romo','Antuna','Giménez','Lozano'] }}
         away={{ name: 'South Africa', flag: 'za', nickname: 'Bafana Bafana', formation: '4-5-1', lineup: ['Williams','Sesane','Shalulile','Dolly','Tau','Mokoena','Maart','Ndlovu','Zwane','Jali','Mabunda'] }}
-        meta={{ date: 'Thursday, 11 June 2026', time: '21:00 UTC', venue: 'SoFi Stadium, Los Angeles', group: 'B', matchday: 1, prediction: 'Mexico 3-1 South Africa' }}
+        meta={{ date: 'Thursday, 11 June 2026', time: '21:00 UTC', venue: 'Estadio Azteca, Mexico City', group: 'A', matchday: 1, prediction: 'Mexico 3-1 South Africa' }}
         servers={[
           { label: 'M6',           sublabel: 'France · Gratuit',     channel: m6       as any },
           { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',     channel: rai1     as any },

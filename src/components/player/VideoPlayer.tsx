@@ -41,6 +41,8 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
   const bufferingTimer = useRef<NodeJS.Timeout | null>(null);
 
   const streamUrl = `/api/stream/${channel.id}`;
+  const lastTimeRef = useRef<number>(0);
+  const stallWatchdogRef = useRef<NodeJS.Timeout | null>(null);
 
   const trackStreamPlay = useCallback(() => {
     try {
@@ -105,8 +107,8 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         abrEwmaFastLive: 3,
         abrEwmaSlowLive: 9,
 
-        // Don't prefetch next segment — reduces concurrent requests to slow upstream
-        startFragPrefetch: false,
+        // Prefetch next segment like VLC does — avoids stall when proxy is slow
+        startFragPrefetch: true,
       });
 
       hlsRef.current = hls;
@@ -122,26 +124,36 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       let networkRetries = 0;
       let mediaRetries = 0;
       hls.on(Hls.Events.ERROR, (_, data) => {
-        if (data.fatal) {
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
-            networkRetries++;
-            hls.stopLoad();
-            setTimeout(() => hls.startLoad(), 1_500 * networkRetries);
-          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
-            mediaRetries++;
-            hls.recoverMediaError();
-          } else {
-            setState('error');
-            onError?.();
-          }
-        } else {
-          // Non-fatal: reset retry counters on recovery
-          if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+        if (!data.fatal) {
+          // Buffer stall: restart loading and nudge playhead past any hole
+          if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
+            hls.startLoad();
+            const video = videoRef.current;
+            if (video && video.buffered.length) {
+              const end = video.buffered.end(video.buffered.length - 1);
+              if (video.currentTime < end - 0.5) {
+                video.currentTime = Math.min(video.currentTime + 0.3, end - 0.1);
+              }
+            }
+          } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
             networkRetries = Math.max(0, networkRetries - 1);
             hls.startLoad();
           } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
             hls.recoverMediaError();
           }
+          return;
+        }
+        // Fatal errors
+        if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
+          networkRetries++;
+          hls.stopLoad();
+          setTimeout(() => hls.startLoad(), 1_500 * networkRetries);
+        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
+          mediaRetries++;
+          hls.recoverMediaError();
+        } else {
+          setState('error');
+          onError?.();
         }
       });
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
@@ -158,8 +170,31 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
     initPlayer();
     return () => {
       hlsRef.current?.destroy();
+      if (stallWatchdogRef.current) clearInterval(stallWatchdogRef.current);
     };
   }, [initPlayer]);
+
+  // Watchdog: if currentTime doesn't advance for 4s while playing, force recovery
+  useEffect(() => {
+    if (stallWatchdogRef.current) clearInterval(stallWatchdogRef.current);
+    stallWatchdogRef.current = setInterval(() => {
+      const video = videoRef.current;
+      const hls = hlsRef.current;
+      if (!video || video.paused || video.ended || !hls) return;
+      const now = video.currentTime;
+      if (now === lastTimeRef.current) {
+        hls.startLoad();
+        if (video.buffered.length) {
+          const end = video.buffered.end(video.buffered.length - 1);
+          if (video.currentTime < end - 0.5) {
+            video.currentTime = Math.min(video.currentTime + 0.3, end - 0.1);
+          }
+        }
+      }
+      lastTimeRef.current = now;
+    }, 4_000);
+    return () => { if (stallWatchdogRef.current) clearInterval(stallWatchdogRef.current); };
+  }, []);
 
   useEffect(() => {
     const video = videoRef.current;
@@ -269,6 +304,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         onPlaying={() => setState('playing')}
         onPause={() => setState('paused')}
         onError={() => setState('error')}
+        onStalled={() => hlsRef.current?.startLoad()}
       />
 
       {/* Loading / Buffering overlay */}
