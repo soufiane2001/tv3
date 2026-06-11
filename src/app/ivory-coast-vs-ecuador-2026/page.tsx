@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, beinMax1, m6fhd, etv, beinFr1] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,11 +36,16 @@ export default async function Page() {
         away={{ name: 'Ecuador', flag: 'ec', nickname: 'La Tri', formation: '4-3-3' }}
         meta={{ date: 'Monday, 15 June 2026', time: '22:00 UTC', venue: "Levi's Stadium, San Francisco", group: 'I', matchday: 1, prediction: 'Ivory Coast 1-1 Ecuador' }}
         servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
-          { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
-          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
-          { label: 'beIN Sport FR', sublabel: 'France · beIN · HD', channel: beinFr1 as any },
+          { label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD',   channel: beinMax2  as any },
+          { label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD',   channel: beinMax1  as any },
+          { label: 'beIN MAX 3',   sublabel: 'beIN · MAX 3 · FHD',   channel: beinMax3  as any },
+          { label: 'beIN MAX 4',   sublabel: 'beIN · MAX 4 · FHD',   channel: beinMax4  as any },
+          { label: 'beIN Sport 1', sublabel: 'beIN · Sport 1 · AR',  channel: bein1     as any },
+          { label: 'beIN Global',  sublabel: 'beIN · Global · EN',   channel: beinGlobal as any },
+          { label: 'beIN FR 1',    sublabel: 'France · beIN 1 · HD', channel: beinFr1   as any },
+          { label: 'beIN FR 2',    sublabel: 'France · beIN 2 · HD', channel: beinFr2   as any },
+          { label: 'M6 FHD',       sublabel: 'France · M6 · FHD',    channel: m6fhd     as any },
+          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',   channel: etv       as any },
         ]}
         blog={blogs['ivory-coast-vs-ecuador']}
         kickoffTimes={[{"flag":"🇺🇸","country":"San Francisco","time":"15:00"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇪🇨","country":"Quito","time":"17:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}

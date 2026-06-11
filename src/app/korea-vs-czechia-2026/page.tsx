@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, beinMax1, m6fhd, etv, beinFr1] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,11 +36,16 @@ export default async function Page() {
         away={{ name: 'Czechia', flag: 'cz', nickname: 'Lions', formation: '4-3-3' }}
         meta={{ date: 'Friday, 12 June 2026', time: '19:00 UTC', venue: 'AT&T Stadium, Dallas', group: 'C', matchday: 1, prediction: 'Korea 2-1 Czechia' }}
         servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
-          { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
-          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
-          { label: 'beIN Sport FR', sublabel: 'France · beIN · HD', channel: beinFr1 as any },
+          { label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD',   channel: beinMax2  as any },
+          { label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD',   channel: beinMax1  as any },
+          { label: 'beIN MAX 3',   sublabel: 'beIN · MAX 3 · FHD',   channel: beinMax3  as any },
+          { label: 'beIN MAX 4',   sublabel: 'beIN · MAX 4 · FHD',   channel: beinMax4  as any },
+          { label: 'beIN Sport 1', sublabel: 'beIN · Sport 1 · AR',  channel: bein1     as any },
+          { label: 'beIN Global',  sublabel: 'beIN · Global · EN',   channel: beinGlobal as any },
+          { label: 'beIN FR 1',    sublabel: 'France · beIN 1 · HD', channel: beinFr1   as any },
+          { label: 'beIN FR 2',    sublabel: 'France · beIN 2 · HD', channel: beinFr2   as any },
+          { label: 'M6 FHD',       sublabel: 'France · M6 · FHD',    channel: m6fhd     as any },
+          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',   channel: etv       as any },
         ]}
         blog={blogs['korea-vs-czechia']}
         kickoffTimes={[{"flag":"🇰🇷","country":"Seoul","time":"04:00+1"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇺🇸","country":"Dallas","time":"14:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}

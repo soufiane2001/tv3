@@ -80,7 +80,7 @@ const faqJsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, beinMax1, m6fhd, etv, beinFr1] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -97,11 +97,16 @@ export default async function Page() {
           prediction: 'Belgium 2-1 Tunisia',
         }}
         servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
-          { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
-          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
-          { label: 'beIN Sport FR', sublabel: 'France · beIN · HD', channel: beinFr1 as any },
+          { label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD',   channel: beinMax2  as any },
+          { label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD',   channel: beinMax1  as any },
+          { label: 'beIN MAX 3',   sublabel: 'beIN · MAX 3 · FHD',   channel: beinMax3  as any },
+          { label: 'beIN MAX 4',   sublabel: 'beIN · MAX 4 · FHD',   channel: beinMax4  as any },
+          { label: 'beIN Sport 1', sublabel: 'beIN · Sport 1 · AR',  channel: bein1     as any },
+          { label: 'beIN Global',  sublabel: 'beIN · Global · EN',   channel: beinGlobal as any },
+          { label: 'beIN FR 1',    sublabel: 'France · beIN 1 · HD', channel: beinFr1   as any },
+          { label: 'beIN FR 2',    sublabel: 'France · beIN 2 · HD', channel: beinFr2   as any },
+          { label: 'M6 FHD',       sublabel: 'France · M6 · FHD',    channel: m6fhd     as any },
+          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',   channel: etv       as any },
         ]}
         blog={blogs['belgium-vs-tunisia']}
         kickoffTimes={[
