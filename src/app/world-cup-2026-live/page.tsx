@@ -107,7 +107,7 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 export default async function WorldCup2026LivePage() {
-  const [sigma, beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv] = await getWcExtraChannels();
+  const [beinMax2, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -247,18 +247,9 @@ export default async function WorldCup2026LivePage() {
         </div>
         <WC2026StreamClient
           servers={[
-            { label: 'SigmaTV',   sublabel: 'Cyprus · Sigma · HD', channel: sigma     as any },
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD',  channel: beinMax2  as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD',  channel: beinMax1  as any },
-          { label: 'beIN MAX 3', sublabel: 'beIN · MAX 3 · FHD',  channel: beinMax3  as any },
-          { label: 'beIN MAX 4', sublabel: 'beIN · MAX 4 · FHD',  channel: beinMax4  as any },
-          { label: 'beIN Sport 1', sublabel: 'beIN · Sport 1 · AR',  channel: bein1     as any },
-          { label: 'beIN Global',  sublabel: 'beIN · Global · EN',   channel: beinGlobal as any },
-          { label: 'beIN FR 1',    sublabel: 'France · beIN 1 · HD', channel: beinFr1   as any },
-          { label: 'beIN FR 2',    sublabel: 'France · beIN 2 · HD', channel: beinFr2   as any },
-          { label: 'M6 FHD',       sublabel: 'France · M6 · FHD',    channel: m6fhd     as any },
-          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',   channel: etv       as any },
-          ]}
+          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
+          { label: 'ETV',        sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
+        ]}
           match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />
         <p className="text-gray-600 text-xs text-center">If server doesn't work, switch to next · Free HD · No registration</p>

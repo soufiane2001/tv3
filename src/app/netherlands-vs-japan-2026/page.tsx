@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [sigma, beinMax2, beinMax1, beinMax3, beinMax4, bein1, beinGlobal, beinFr1, beinFr2, m6fhd, etv] = await getWcExtraChannels();
+  const [beinMax2, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,17 +36,8 @@ export default async function Page() {
         away={{ name: 'Japan', flag: 'jp', nickname: 'Samurai Blue', formation: '4-2-3-1' }}
         meta={{ date: 'Tuesday, 16 June 2026', time: '19:00 UTC', venue: 'Gillette Stadium, Boston', group: 'K', matchday: 1, prediction: 'Netherlands 2-1 Japan' }}
         servers={[
-          { label: 'SigmaTV',   sublabel: 'Cyprus · Sigma · HD', channel: sigma     as any },
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD',  channel: beinMax2  as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD',  channel: beinMax1  as any },
-          { label: 'beIN MAX 3', sublabel: 'beIN · MAX 3 · FHD',  channel: beinMax3  as any },
-          { label: 'beIN MAX 4', sublabel: 'beIN · MAX 4 · FHD',  channel: beinMax4  as any },
-          { label: 'beIN Sport 1', sublabel: 'beIN · Sport 1 · AR',  channel: bein1     as any },
-          { label: 'beIN Global',  sublabel: 'beIN · Global · EN',   channel: beinGlobal as any },
-          { label: 'beIN FR 1',    sublabel: 'France · beIN 1 · HD', channel: beinFr1   as any },
-          { label: 'beIN FR 2',    sublabel: 'France · beIN 2 · HD', channel: beinFr2   as any },
-          { label: 'M6 FHD',       sublabel: 'France · M6 · FHD',    channel: m6fhd     as any },
-          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',   channel: etv       as any },
+          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
+          { label: 'ETV',        sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
         ]}
         blog={blogs['netherlands-vs-japan']}
         kickoffTimes={[{"flag":"🇳🇱","country":"Amsterdam","time":"21:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇯🇵","country":"Tokyo","time":"04:00+1"},{"flag":"🌍","country":"UTC","time":"19:00"}]}
