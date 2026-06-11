@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [sigma, etv] = await getWcExtraChannels();
+  const [sigma, etv, beinMax1, m6fhd] = await getWcExtraChannels();
 
   return (
     <>
@@ -38,6 +38,8 @@ export default async function Page() {
         servers={[
           { label: 'ETV',     sublabel: 'Estonia · ERR · HD',  channel: etv   as any },
           { label: 'SigmaTV', sublabel: 'Cyprus · Sigma · HD', channel: sigma as any },
+          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
+          { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
         ]}
         blog={blogs['australia-vs-turkiye']}
         kickoffTimes={[{"flag":"🇦🇺","country":"Sydney","time":"06:00+1"},{"flag":"🇫🇷","country":"Paris","time":"22:00"},{"flag":"🇸🇦","country":"Riyadh","time":"23:00"},{"flag":"🇬🇧","country":"London","time":"21:00"},{"flag":"🇹🇷","country":"Istanbul","time":"23:00"},{"flag":"🌍","country":"UTC","time":"20:00"}]}
