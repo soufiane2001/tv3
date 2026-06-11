@@ -38,6 +38,15 @@ async function getStreamUrl(id: string): Promise<string | null> {
   return null;
 }
 
+// Domains that use time-limited tokens or IP-locked segments — always proxy
+// even if the master playlist response has CORS headers.
+function alwaysProxy(hostname: string): boolean {
+  return (
+    hostname.endsWith('.rtve.es') ||
+    hostname === 'rtve.es'
+  );
+}
+
 // Known public CDNs with open CORS — always bypass proxy for these.
 function isPublicCdn(hostname: string): boolean {
   return (
@@ -191,7 +200,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       // (/api/proxy is HTTPS, so the browser→proxy leg is always secure).
       const upstreamHost = new URL(finalUrl).hostname;
       const isHttpsStream = finalUrl.startsWith('https://');
-      if (isHttpsStream && (isPublicCdn(upstreamHost) || hasCorsOpen(res))) {
+      if (isHttpsStream && !alwaysProxy(upstreamHost) && (isPublicCdn(upstreamHost) || hasCorsOpen(res))) {
         const absolute = makeAbsoluteM3u8(text, baseUrl);
         return new Response(absolute, {
           headers: {
