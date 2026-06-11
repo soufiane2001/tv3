@@ -1,7 +1,9 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Hls from 'hls.js';
-import mpegts from 'mpegts.js';
+// Type-only import: mpegts.js touches `window` at module load, which crashes
+// static prerendering on the server. Loaded lazily (client-only) in initPlayer.
+import type Mpegts from 'mpegts.js';
 import {
   Play,
   Pause,
@@ -29,7 +31,7 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ channel, onClose, onError, autoPlay = true, className }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
-  const mpegtsRef = useRef<mpegts.Player | null>(null);
+  const mpegtsRef = useRef<Mpegts.Player | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
   const autoRetryRef = useRef(0);
@@ -78,39 +80,45 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
     if (mpegtsRef.current) { mpegtsRef.current.destroy(); mpegtsRef.current = null; }
 
     // ── mpegts.js path: raw TS stream (goattv.store) — one continuous connection like VLC ──
-    if (isTsStream && mpegts.getFeatureList().mseLivePlayback) {
-      const player = mpegts.createPlayer(
-        { type: 'mpegts', isLive: true, url: streamUrl },
-        {
-          enableWorker: false,
-          liveBufferLatencyChasing: true,
-          liveBufferLatencyMaxLatency: 10.0,
-          liveBufferLatencyMinRemain: 2.0,
-          fixAudioTimestampGap: true,
-          reuseRedirectedURL: true,
-        },
-      );
-      mpegtsRef.current = player;
-      player.attachMediaElement(video);
-      player.load();
+    // Loaded lazily so mpegts.js never evaluates on the server (it needs `window`).
+    if (isTsStream) {
+      import('mpegts.js').then(({ default: mpegts }) => {
+        const video = videoRef.current;
+        if (!video || !mpegts.getFeatureList().mseLivePlayback) return;
 
-      player.on(mpegts.Events.ERROR, (type, detail) => {
-        console.error(`[mpegts] ${type}:`, detail);
-        if (autoRetryRef.current < 2) {
-          autoRetryRef.current++;
-          const delay = 3_000 * autoRetryRef.current;
-          setTimeout(initPlayer, delay);
-        } else {
-          setState('error');
-          onError?.();
-        }
+        const player = mpegts.createPlayer(
+          { type: 'mpegts', isLive: true, url: streamUrl },
+          {
+            enableWorker: false,
+            liveBufferLatencyChasing: true,
+            liveBufferLatencyMaxLatency: 10.0,
+            liveBufferLatencyMinRemain: 2.0,
+            fixAudioTimestampGap: true,
+            reuseRedirectedURL: true,
+          },
+        );
+        mpegtsRef.current = player;
+        player.attachMediaElement(video);
+        player.load();
+
+        player.on(mpegts.Events.ERROR, (type, detail) => {
+          console.error(`[mpegts] ${type}:`, detail);
+          if (autoRetryRef.current < 2) {
+            autoRetryRef.current++;
+            const delay = 3_000 * autoRetryRef.current;
+            setTimeout(initPlayer, delay);
+          } else {
+            setState('error');
+            onError?.();
+          }
+        });
+
+        // trackStreamPlay on first actual playback
+        const onFirstPlay = () => { trackStreamPlay(); video.removeEventListener('playing', onFirstPlay); };
+        video.addEventListener('playing', onFirstPlay);
+
+        if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
       });
-
-      // trackStreamPlay on first actual playback
-      const onFirstPlay = () => { trackStreamPlay(); video.removeEventListener('playing', onFirstPlay); };
-      video.addEventListener('playing', onFirstPlay);
-
-      if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
       return;
     }
 
