@@ -42,10 +42,21 @@ const eventJsonLd = {
   alternateName: ['WC2026', 'Coupe du Monde 2026', 'كأس العالم 2026', 'Copa do Mundo 2026', 'Copa Mundial 2026'],
   description: '48 teams, 104 matches. Watch all FIFA World Cup 2026 matches live free on beIN Sport 1, M6 and RMC Sport.',
   startDate: '2026-06-11', endDate: '2026-07-19',
+  eventStatus: 'https://schema.org/EventInProgress',
   sport: 'https://en.wikipedia.org/wiki/Association_football',
   url: PAGE_URL,
+  image: [
+    'https://flagcdn.com/w320/us.png',
+    'https://flagcdn.com/w320/ca.png',
+    'https://flagcdn.com/w320/mx.png',
+  ],
   location: { '@type': 'Country', name: 'United States, Canada, Mexico' },
   organizer: { '@type': 'Organization', name: 'FIFA', url: 'https://www.fifa.com' },
+  performer: [
+    { '@type': 'SportsTeam', 'name': 'United States', 'url': 'https://en.wikipedia.org/wiki/United_States_men%27s_national_soccer_team' },
+    { '@type': 'SportsTeam', 'name': 'Canada',        'url': 'https://en.wikipedia.org/wiki/Canada_men%27s_national_soccer_team' },
+    { '@type': 'SportsTeam', 'name': 'Mexico',        'url': 'https://en.wikipedia.org/wiki/Mexico_national_football_team' },
+  ],
   offers: { '@type': 'Offer', name: 'FIFA World Cup 2026 Free Live Stream', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: PAGE_URL },
 };
 
