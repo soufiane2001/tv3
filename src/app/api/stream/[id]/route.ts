@@ -22,6 +22,26 @@ function toHlsUrl(url: string): string {
 const urlCache = new Map<string, { url: string; ts: number }>();
 const URL_CACHE_TTL = 5 * 60_000;
 
+// Short-lived manifest cache. IPTV accounts often allow only 1 simultaneous
+// connection (goattv.store: max_connections=1), so every live-manifest refresh
+// from every viewer would otherwise open a fresh upstream connection and collide.
+// Caching the rewritten manifest for ~2s lets N concurrent viewers (and rapid
+// re-polls) share a single upstream fetch. 2s ≪ HLS target duration (~10s), so
+// playback stays at the live edge. Paired with CDN-Cache-Control below, which
+// coalesces viewers across serverless instances at Vercel's edge.
+const manifestCache = new Map<string, { body: string; ts: number }>();
+const MANIFEST_TTL = 2_000;
+
+// Browser always revalidates (player controls its own poll cadence); Vercel's
+// edge serves a ≤2s-old manifest to all viewers, collapsing them onto one
+// upstream connection. SWR lets the edge answer instantly while it refreshes.
+const MANIFEST_HEADERS = {
+  'Content-Type': 'application/vnd.apple.mpegurl',
+  'Access-Control-Allow-Origin': '*',
+  'Cache-Control': 'no-cache',
+  'CDN-Cache-Control': 'public, s-maxage=2, stale-while-revalidate=4',
+} as const;
+
 async function getStreamUrl(id: string): Promise<string | null> {
   const cached = urlCache.get(id);
   if (cached && Date.now() - cached.ts < URL_CACHE_TTL) return cached.url;
@@ -129,6 +149,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
 
+    // Serve a recently-built manifest without touching the upstream (saves the
+    // scarce single connection when several viewers refresh within the window).
+    const cached = manifestCache.get(id);
+    if (cached && Date.now() - cached.ts < MANIFEST_TTL) {
+      return new Response(cached.body, { headers: MANIFEST_HEADERS });
+    }
+
     const raw = await getStreamUrl(id);
     if (!raw) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
@@ -184,9 +211,12 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     if (!res.ok) {
       console.error(`[stream/${id}] upstream ${res.status}: ${upstream}`);
+      // 403/connection-limit/5xx from the IPTV server are usually transient (the
+      // single connection slot frees within seconds) → 503 + Retry-After so the
+      // player re-polls instead of giving up.
       return NextResponse.json(
-        { error: 'Stream unavailable', status: res.status, url: upstream },
-        { status: 502 },
+        { error: 'Stream busy — retry', status: res.status, url: upstream },
+        { status: 503, headers: { 'Retry-After': '2' } },
       );
     }
 
@@ -197,23 +227,25 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     if (isM3u8) {
       const text = await res.text();
 
-      // Empty manifest = server silently blocked us (e.g. IPTV IP-lock returning 200+empty).
+      // Empty manifest = server silently blocked us (e.g. IPTV IP-lock returning
+      // 200+empty, or the single connection slot is busy). Transient → 503 so the
+      // player retries instead of treating it as a fatal error.
       if (!text.trim() || !text.includes('#EXT')) {
         console.error(`[stream/${id}] empty manifest from ${upstream}`);
-        return NextResponse.json({ error: 'Empty manifest — stream blocked' }, { status: 502 });
+        return NextResponse.json(
+          { error: 'Empty manifest — stream busy, retry' },
+          { status: 503, headers: { 'Retry-After': '2' } },
+        );
       }
 
       const finalUrl = res.url || upstream;
       const baseUrl = finalUrl.substring(0, finalUrl.lastIndexOf('/') + 1);
 
-      // After following a redirect (e.g. Xtream Codes → CDN token URL), update
-      // relayBase to the CDN origin so segment fallbacks hit the right server.
-      if (res.url && res.url !== upstream) {
-        try {
-          const u = new URL(res.url);
-          relayBase = `${u.protocol}//${u.host}`;
-        } catch { /* keep original relayBase */ }
-      }
+      // Keep relayBase as the original IPTV origin (e.g. goattv.store:80) so that
+      // when the CDN IP-blocks segment requests from Vercel, the proxy retries the
+      // same path through the origin server which can re-issue a fresh CDN token.
+      // Do NOT overwrite relayBase with the CDN IP — that would create a circular
+      // retry to the same blocked endpoint.
 
       // Only bypass proxy if stream is HTTPS — HTTP absolute URLs would trigger
       // mixed-content blocks on our HTTPS site. HTTP streams must stay proxied
@@ -222,23 +254,13 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const isHttpsStream = finalUrl.startsWith('https://');
       if (isHttpsStream && !alwaysProxy(upstreamHost) && (isPublicCdn(upstreamHost) || hasCorsOpen(res))) {
         const absolute = makeAbsoluteM3u8(text, baseUrl);
-        return new Response(absolute, {
-          headers: {
-            'Content-Type': 'application/vnd.apple.mpegurl',
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'no-cache, no-store',
-          },
-        });
+        manifestCache.set(id, { body: absolute, ts: Date.now() });
+        return new Response(absolute, { headers: MANIFEST_HEADERS });
       }
 
       const rewritten = rewriteM3u8(text, baseUrl, proxyBase, relayBase);
-      return new Response(rewritten, {
-        headers: {
-          'Content-Type': 'application/vnd.apple.mpegurl',
-          'Access-Control-Allow-Origin': '*',
-          'Cache-Control': 'no-cache, no-store',
-        },
-      });
+      manifestCache.set(id, { body: rewritten, ts: Date.now() });
+      return new Response(rewritten, { headers: MANIFEST_HEADERS });
     }
 
     // Direct TS stream (rare — Xtream Codes usually returns HLS)

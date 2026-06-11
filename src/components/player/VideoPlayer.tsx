@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState, useCallback } from 'react';
 import Hls from 'hls.js';
+import mpegts from 'mpegts.js';
 import {
   Play,
   Pause,
@@ -28,8 +29,10 @@ interface VideoPlayerProps {
 export default function VideoPlayer({ channel, onClose, onError, autoPlay = true, className }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
+  const mpegtsRef = useRef<mpegts.Player | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const hideControlsTimer = useRef<NodeJS.Timeout | null>(null);
+  const autoRetryRef = useRef(0);
 
   const [state, setState] = useState<PlayerState>('loading');
   const [volume, setVolume] = useState(80);
@@ -41,6 +44,8 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
   const bufferingTimer = useRef<NodeJS.Timeout | null>(null);
 
   const streamUrl = `/api/stream/${channel.id}`;
+  // Detect raw TS stream (goattv.store IPTV) — use mpegts.js, one continuous connection like VLC
+  const isTsStream = /\.ts(\?|$)/i.test(channel.streamUrl ?? '');
   const lastTimeRef = useRef<number>(0);
   const stallWatchdogRef = useRef<NodeJS.Timeout | null>(null);
 
@@ -69,29 +74,62 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
 
     setState('loading');
 
-    if (hlsRef.current) {
-      hlsRef.current.destroy();
-      hlsRef.current = null;
+    if (hlsRef.current) { hlsRef.current.destroy(); hlsRef.current = null; }
+    if (mpegtsRef.current) { mpegtsRef.current.destroy(); mpegtsRef.current = null; }
+
+    // ── mpegts.js path: raw TS stream (goattv.store) — one continuous connection like VLC ──
+    if (isTsStream && mpegts.getFeatureList().mseLivePlayback) {
+      const player = mpegts.createPlayer(
+        { type: 'mpegts', isLive: true, url: streamUrl },
+        {
+          enableWorker: false,
+          liveBufferLatencyChasing: true,
+          liveBufferLatencyMaxLatency: 10.0,
+          liveBufferLatencyMinRemain: 2.0,
+          fixAudioTimestampGap: true,
+          reuseRedirectedURL: true,
+        },
+      );
+      mpegtsRef.current = player;
+      player.attachMediaElement(video);
+      player.load();
+
+      player.on(mpegts.Events.ERROR, (type, detail) => {
+        console.error(`[mpegts] ${type}:`, detail);
+        if (autoRetryRef.current < 2) {
+          autoRetryRef.current++;
+          const delay = 3_000 * autoRetryRef.current;
+          setTimeout(initPlayer, delay);
+        } else {
+          setState('error');
+          onError?.();
+        }
+      });
+
+      // trackStreamPlay on first actual playback
+      const onFirstPlay = () => { trackStreamPlay(); video.removeEventListener('playing', onFirstPlay); };
+      video.addEventListener('playing', onFirstPlay);
+
+      if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
+      return;
     }
 
+    // ── hls.js path: HLS / m3u8 streams ──────────────────────────────────────────
     if (Hls.isSupported()) {
       const hls = new Hls({
         enableWorker: true,
         lowLatencyMode: false,
 
-        // Buffer — keep enough ahead to survive slow proxy segments
         maxBufferLength: 60,
         maxMaxBufferLength: 120,
         maxBufferSize: 60 * 1024 * 1024,
         backBufferLength: 30,
 
-        // Stall recovery — nudge playhead when buffer hole detected
-        maxBufferHole: 2,          // tolerate 2-second gaps
-        maxStarvationDelay: 10,    // wait 10s before considering stream dead
-        nudgeMaxRetry: 6,          // try nudging 6 times before giving up
-        nudgeOffset: 0.2,          // small nudge to skip tiny holes
+        maxBufferHole: 2,
+        maxStarvationDelay: 10,
+        nudgeMaxRetry: 6,
+        nudgeOffset: 0.2,
 
-        // Timeouts tuned for proxied IPTV (proxy adds ~500ms overhead per request)
         manifestLoadingTimeOut: 15_000,
         manifestLoadingMaxRetry: 5,
         manifestLoadingRetryDelay: 1_000,
@@ -99,15 +137,13 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         levelLoadingMaxRetry: 5,
         fragLoadingTimeOut: 30_000,
         fragLoadingMaxRetry: 8,
-        fragLoadingRetryDelay: 500,   // retry fast — slow servers often recover quickly
+        fragLoadingRetryDelay: 500,
 
-        // Bandwidth — be conservative so proxy overhead doesn't cause quality thrashing
-        abrBandWidthFactor: 0.75,      // use only 75% of estimated bandwidth
-        abrBandWidthUpFactor: 0.5,     // be slow to step up quality
+        abrBandWidthFactor: 0.75,
+        abrBandWidthUpFactor: 0.5,
         abrEwmaFastLive: 3,
         abrEwmaSlowLive: 9,
 
-        // Prefetch next segment like VLC does — avoids stall when proxy is slow
         startFragPrefetch: true,
       });
 
@@ -125,7 +161,6 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       let mediaRetries = 0;
       hls.on(Hls.Events.ERROR, (_, data) => {
         if (!data.fatal) {
-          // Buffer stall: restart loading and nudge playhead past any hole
           if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
             hls.startLoad();
             const video = videoRef.current;
@@ -143,7 +178,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
           }
           return;
         }
-        // Fatal errors
+        // Fatal errors — exhaust internal retries, then auto-reinit up to 2 times
         if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
           networkRetries++;
           hls.stopLoad();
@@ -151,6 +186,11 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
           mediaRetries++;
           hls.recoverMediaError();
+        } else if (autoRetryRef.current < 2) {
+          autoRetryRef.current++;
+          hls.destroy();
+          hlsRef.current = null;
+          setTimeout(initPlayer, 3_000 * autoRetryRef.current);
         } else {
           setState('error');
           onError?.();
@@ -164,12 +204,14 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         trackStreamPlay();
       });
     }
-  }, [streamUrl, autoPlay]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [streamUrl, autoPlay, isTsStream]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
+    autoRetryRef.current = 0;
     initPlayer();
     return () => {
       hlsRef.current?.destroy();
+      mpegtsRef.current?.destroy();
       if (stallWatchdogRef.current) clearInterval(stallWatchdogRef.current);
     };
   }, [initPlayer]);
@@ -281,6 +323,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
   }, []);
 
   const handleRetry = useCallback(() => {
+    autoRetryRef.current = 0;
     setRetryCount((c) => c + 1);
     initPlayer();
   }, [initPlayer]);

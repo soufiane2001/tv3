@@ -217,7 +217,9 @@ export async function GET(req: NextRequest) {
     }
 
     // ── Relay through IPTV origin server ──────────────────────────────────
-    if (!res && relayOrigin) {
+    // Also relay when CDN returns 404 — CDN may IP-lock Vercel but goattv.store
+    // can re-issue a fresh token redirect for the same path.
+    if ((!res || res.status === 404) && relayOrigin) {
       const relayUrl = relayOrigin + parsed.pathname + parsed.search;
       const relayed = await upstream(relayUrl, buildHeadersClean(UA_LIST[0]), 5_000).catch(() => null);
       if (relayed?.ok) res = relayed;
@@ -244,7 +246,11 @@ export async function GET(req: NextRequest) {
         status: res.ok ? 200 : res.status,
         headers: {
           'Content-Type': 'application/vnd.apple.mpegurl',
-          'Cache-Control': 'no-cache, no-store',
+          // Browser revalidates each poll; Vercel's edge coalesces concurrent
+          // viewers onto one upstream fetch for ~2s (only cache successful
+          // manifests — never cache an error body).
+          'Cache-Control': 'no-cache',
+          ...(res.ok && { 'CDN-Cache-Control': 'public, s-maxage=2, stale-while-revalidate=4' }),
           ...CORS,
         },
       });
