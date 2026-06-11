@@ -117,7 +117,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
 
       hls.on(Hls.Events.MANIFEST_PARSED, () => {
         setState('playing');
-        if (autoPlay) video.play().catch(() => setState('paused'));
+        if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
         trackStreamPlay();
       });
 
@@ -160,7 +160,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       video.src = streamUrl;
       video.addEventListener('loadedmetadata', () => {
         setState('playing');
-        if (autoPlay) video.play().catch(() => setState('paused'));
+        if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
         trackStreamPlay();
       });
     }
@@ -248,7 +248,7 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
     const video = videoRef.current;
     if (!video) return;
     if (video.paused) {
-      video.play();
+      video.play().catch(err => { if (err.name !== 'AbortError') console.error(err); });
       setState('playing');
     } else {
       video.pause();
