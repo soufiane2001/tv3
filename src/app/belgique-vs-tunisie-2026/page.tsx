@@ -116,7 +116,7 @@ export default async function Page() {
           { label: 'L\'Équipe TV', sublabel: 'France · Gratuit',    channel: lequipe as any },
           { label: 'ERT1',         sublabel: 'Greece · ERT · HD',   channel: ert1    as any },
           { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD', channel: sigma   as any },
-          { label: 'TV2',          sublabel: 'TV2 · HD',            channel: tv2     as any },
+          { label: 'DR1',          sublabel: 'Denmark · DR · Free', channel: tv2     as any },
           { label: 'ETV',          sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
         ]}
         blog={blogs['belgium-vs-tunisia']}

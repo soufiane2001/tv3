@@ -63,7 +63,7 @@ export default async function Page() {
           { label: 'Das Erste',    sublabel: 'Germany · ARD',        channel: dasErste as any },
           { label: 'ERT1',         sublabel: 'Greece · ERT · HD',    channel: ert1     as any },
           { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',  channel: sigma    as any },
-          { label: 'TV2',          sublabel: 'TV2 · HD',             channel: tv2      as any },
+          { label: 'DR1',          sublabel: 'Denmark · DR · Free',  channel: tv2      as any },
         ]}
         blog={blogs['mexico-vs-south-africa']}
         kickoffTimes={[
