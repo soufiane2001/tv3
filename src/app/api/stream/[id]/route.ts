@@ -180,6 +180,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
     if (!res) res = r1 ?? r2 ?? await fetchWith(UA_VLC);
     if (!res) return NextResponse.json({ error: 'Stream unreachable' }, { status: 502 });
 
+    console.log(`[stream/${id}] status=${res?.status} finalUrl=${res?.url} upstream=${upstream}`);
+
     if (!res.ok) {
       console.error(`[stream/${id}] upstream ${res.status}: ${upstream}`);
       return NextResponse.json(
@@ -194,8 +196,24 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
     if (isM3u8) {
       const text = await res.text();
+
+      // Empty manifest = server silently blocked us (e.g. IPTV IP-lock returning 200+empty).
+      if (!text.trim() || !text.includes('#EXT')) {
+        console.error(`[stream/${id}] empty manifest from ${upstream}`);
+        return NextResponse.json({ error: 'Empty manifest — stream blocked' }, { status: 502 });
+      }
+
       const finalUrl = res.url || upstream;
       const baseUrl = finalUrl.substring(0, finalUrl.lastIndexOf('/') + 1);
+
+      // After following a redirect (e.g. Xtream Codes → CDN token URL), update
+      // relayBase to the CDN origin so segment fallbacks hit the right server.
+      if (res.url && res.url !== upstream) {
+        try {
+          const u = new URL(res.url);
+          relayBase = `${u.protocol}//${u.host}`;
+        } catch { /* keep original relayBase */ }
+      }
 
       // Only bypass proxy if stream is HTTPS — HTTP absolute URLs would trigger
       // mixed-content blocks on our HTTPS site. HTTP streams must stay proxied
