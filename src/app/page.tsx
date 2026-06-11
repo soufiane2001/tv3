@@ -278,7 +278,7 @@ export default async function HomePage() {
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
-          <p className="text-white/20 text-xs">Gratuit HD · Sans abonnement · Sans inscription · Switch serveur si lag</p>
+          <p className="text-white/20 text-xs">If server doesn't work, switch to next · Free HD · No registration</p>
           <div className="flex gap-2">
             <Link href="/world-cup-2026-live" className="label-chip bg-red-600 text-white text-[10px]">104 Matches →</Link>
             <Link href="/wc2026" className="label-chip bg-white/5 text-white/60 border border-white/10 text-[10px]">Schedule</Link>

@@ -254,7 +254,7 @@ export default async function WorldCup2026LivePage() {
           ]}
           match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />
-        <p className="text-gray-600 text-xs text-center">Free HD stream — no subscription, no registration · Switch server if stream lags</p>
+        <p className="text-gray-600 text-xs text-center">If server doesn't work, switch to next · Free HD · No registration</p>
         <AdBanner />
       </div>
 

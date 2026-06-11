@@ -143,7 +143,7 @@ export default function WC2026MatchLayout({
       <section className="px-4 md:px-0 pt-5 space-y-2">
         <WC2026StreamClient servers={servers}
           match={{ home: home.name, homeFlag: home.flag, away: away.name, awayFlag: away.flag, date: meta.date, time: meta.time }} />
-        <p className="text-gray-700 text-xs text-center">Free HD stream · Switch server if buffering · No registration</p>
+        <p className="text-gray-700 text-xs text-center">If server doesn&apos;t work, switch to next · Free HD · No registration</p>
       </section>
 
       <div className="px-4 md:px-0 pt-4"><AdBanner /></div>
