@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
   title: 'Live TV Channels — Watch Free HD Streams | SportaLive',

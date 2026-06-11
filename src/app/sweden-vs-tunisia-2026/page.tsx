@@ -5,7 +5,7 @@ import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 const PAGE_URL = `${SITE}/sweden-vs-tunisia-2026`;
 
 export const metadata: Metadata = {

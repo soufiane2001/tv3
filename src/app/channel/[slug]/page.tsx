@@ -4,7 +4,7 @@ import type { Metadata } from 'next';
 import JsonLd from '@/components/seo/JsonLd';
 import ChannelPageClient from './ChannelPageClient';
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 interface Props { params: Promise<{ slug: string }> }
 

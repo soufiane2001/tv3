@@ -3,7 +3,7 @@ import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
   title: 'FIFA World Cup 2026 — Full Match Schedule & Free Live Stream | SportaLive',

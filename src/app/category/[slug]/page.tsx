@@ -15,7 +15,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   return {
     title: `${category.name} — Live Channels Free | SportaLive`,
     description: `Watch ${category.channelCount} live ${category.name} channels online for free in HD. No subscription needed. Stream directly in your browser — no app, no subscription, no registration.`,
-    alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live'}/category/${slug}` },
+    alternates: { canonical: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live'}/category/${slug}` },
   };
 }
 

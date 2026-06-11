@@ -10,7 +10,7 @@ import { wc2026News } from '@/data/wc2026-news';
 import { getWcExtraChannels } from '@/lib/wc-channels';
 import type { Metadata } from 'next';
 
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.sportalive.live';
+const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
   title: 'SportaLive — Watch World Cup 2026 Live Free | M6 · beIN Sport · RMC',
@@ -71,7 +71,7 @@ const faqJsonLd = {
     { '@type': 'Question', name: 'Comment regarder la Coupe du Monde 2026 en direct gratuit?', acceptedAnswer: { '@type': 'Answer', text: 'Sur SportaLive, regardez la Coupe du Monde 2026 gratuitement en HD via beIN Sport 1, M6 et La 1. Aucun abonnement ni inscription requis. Cliquez sur le lecteur et regardez en direct.' } },
     { '@type': 'Question', name: 'Where can I watch World Cup 2026 for free?', acceptedAnswer: { '@type': 'Answer', text: 'Watch all FIFA World Cup 2026 matches free in HD on SportaLive. We stream beIN Sport 1, M6 (France), and La 1 (Spain) live — no subscription, no account needed.' } },
     { '@type': 'Question', name: 'كيف أشاهد كأس العالم 2026 مجاناً بث مباشر؟', acceptedAnswer: { '@type': 'Answer', text: 'شاهد جميع مباريات كأس العالم 2026 مجاناً وبجودة HD على SportaLive. نبث beIN Sport 1 وM6 وLa 1 مباشرة بدون اشتراك ولا تسجيل. فقط اضغط تشغيل.' } },
-    { '@type': 'Question', name: 'Quand commence la Coupe du Monde 2026?', acceptedAnswer: { '@type': 'Answer', text: 'La Coupe du Monde 2026 débute le 11 juin 2026 avec le match d\'ouverture Mexique vs Afrique du Sud au SoFi Stadium de Los Angeles. La finale aura lieu le 19 juillet 2026.' } },
+    { '@type': 'Question', name: 'Quand commence la Coupe du Monde 2026?', acceptedAnswer: { '@type': 'Answer', text: 'La Coupe du Monde 2026 débute le 11 juin 2026 avec le match d\'ouverture Mexique vs Afrique du Sud à l\'Estadio Azteca de Mexico. La finale aura lieu le 19 juillet 2026.' } },
     { '@type': 'Question', name: 'Which channels broadcast World Cup 2026 free?', acceptedAnswer: { '@type': 'Answer', text: 'beIN Sport 1 (MENA), M6 (France — free-to-air), La 1 RTVE (Spain — free), and RMC Sport all broadcast the 2026 World Cup. Watch all of them free on SportaLive.' } },
     { '@type': 'Question', name: 'Como assistir Copa do Mundo 2026 de graça?', acceptedAnswer: { '@type': 'Answer', text: 'No SportaLive assista a Copa do Mundo 2026 de graça em HD. Transmitimos beIN Sport 1, M6 e La 1 ao vivo — sem assinatura, sem cadastro.' } },
     { '@type': 'Question', name: 'What are the predictions for World Cup 2026?', acceptedAnswer: { '@type': 'Answer', text: 'Brazil, France, England and Spain are the main favourites for FIFA World Cup 2026. Brazil lead with Vinicius Jr, while France have Mbappé. Morocco are Africa\'s top hope after their 2022 semi-final run. Read our full match predictions on SportaLive.' } },

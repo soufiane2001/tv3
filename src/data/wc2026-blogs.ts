@@ -204,7 +204,7 @@ export const blogs: Record<string, MatchBlogData> = {
     preview: [
       'Brazil versus Morocco is the standout fixture of the entire group stage — a blockbuster clash at MetLife Stadium between the five-time world champions and the side that shocked the world at Qatar 2022 by reaching the semi-finals. Over 82,000 fans will pack into East Rutherford for what could be a World Cup classic.',
       'Brazil, still searching for a sixth world title after their heartbreaking quarter-final exit in Qatar, come into this tournament with a renewed sense of purpose. Vinicius Jr — arguably the world\'s best player — is the focal point, with Rodrygo, Raphinha and a remarkable supporting cast. Brazil\'s blend of flair and physicality under their coach has them among the genuine favourites.',
-      'Morocco are anything but intimidated. The Atlas Lions became Africa\'s greatest ever World Cup side in Qatar, and they\'ve only strengthened since. Achraf Hakimi at right-back, Hakim Ziyech creating, and a back four that barely conceded in qualifying — this is a match that will define Group G and potentially the entire tournament.',
+      'Morocco are anything but intimidated. The Atlas Lions became Africa\'s greatest ever World Cup side in Qatar, and they\'ve only strengthened since. Achraf Hakimi at right-back, Hakim Ziyech creating, and a back four that barely conceded in qualifying — this is a match that will define Group C and potentially the entire tournament.',
     ],
     home: {
       name: 'Brazil',
