@@ -141,6 +141,10 @@ export default function WC2026MatchLayout({
           STREAM PLAYER
       ═══════════════════════════════════════ */}
       <section className="px-4 md:px-0 pt-5 space-y-2">
+        <div className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-yellow-300 border border-yellow-500/30 bg-yellow-500/10">
+          <span className="text-base">⏳</span>
+          Stream loading — just wait 15 sec
+        </div>
         <WC2026StreamClient servers={servers}
           match={{ home: home.name, homeFlag: home.flag, away: away.name, awayFlag: away.flag, date: meta.date, time: meta.time }} />
         <p className="text-gray-700 text-xs text-center">If server doesn&apos;t work, switch to next · Free HD · No registration</p>
