@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, etv] = await getWcExtraChannels();
+  const [etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,8 +36,7 @@ export default async function Page() {
         away={{ name: 'Türkiye', flag: 'tr', nickname: 'Ay-Yıldızlılar', formation: '4-2-3-1' }}
         meta={{ date: 'Sunday, 14 June 2026', time: '20:00 UTC', venue: 'Rose Bowl, Los Angeles', group: 'F', matchday: 1, prediction: 'Australia 1-2 Türkiye' }}
         servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'ETV',        sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
+          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
         ]}
         blog={blogs['australia-vs-turkiye']}
         kickoffTimes={[{"flag":"🇦🇺","country":"Sydney","time":"06:00+1"},{"flag":"🇫🇷","country":"Paris","time":"22:00"},{"flag":"🇸🇦","country":"Riyadh","time":"23:00"},{"flag":"🇬🇧","country":"London","time":"21:00"},{"flag":"🇹🇷","country":"Istanbul","time":"23:00"},{"flag":"🌍","country":"UTC","time":"20:00"}]}

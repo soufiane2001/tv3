@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, etv] = await getWcExtraChannels();
+  const [etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,8 +36,7 @@ export default async function Page() {
         away={{ name: 'Curaçao', flag: 'cw', nickname: 'Marchena Boys', formation: '5-4-1' }}
         meta={{ date: 'Monday, 15 June 2026', time: '22:00 UTC', venue: 'AT&T Stadium, Dallas', group: 'J', matchday: 1, prediction: 'Germany 5-1 Curaçao' }}
         servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'ETV',        sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
+          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
         ]}
         blog={blogs['germany-vs-curacao']}
         kickoffTimes={[{"flag":"🇩🇪","country":"Berlin","time":"00:00+1"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇺🇸","country":"Dallas","time":"17:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}

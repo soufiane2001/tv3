@@ -125,7 +125,7 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [beinMax2, etv] = await getWcExtraChannels();
+  const [etv] = await getWcExtraChannels();
 
   const topNews = wc2026News.slice(0, 6);
 
@@ -265,8 +265,7 @@ export default async function HomePage() {
 
         <WC2026StreamClient
           servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'ETV',        sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
+          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
         ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',
