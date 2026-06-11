@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax1, m6fhd, etv] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, m6fhd, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,6 +36,7 @@ export default async function Page() {
         away={{ name: 'Czechia', flag: 'cz', nickname: 'Lions', formation: '4-3-3' }}
         meta={{ date: 'Friday, 12 June 2026', time: '19:00 UTC', venue: 'AT&T Stadium, Dallas', group: 'C', matchday: 1, prediction: 'Korea 2-1 Czechia' }}
         servers={[
+          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
           { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
           { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
           { label: 'ETV',       sublabel: 'Estonia · ERR · HD',  channel: etv     as any },

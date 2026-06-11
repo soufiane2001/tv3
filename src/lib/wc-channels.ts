@@ -1,6 +1,7 @@
 import { prisma } from './prisma';
 
 const EXTRA = [
+  { slug: 'bein-max-2',   name: 'beIN SPORTS MAX 2', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.m3u8', sublabel: 'beIN · MAX 2 · FHD' },
   { slug: 'bein-max-1',   name: 'beIN SPORTS MAX 1', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.m3u8', sublabel: 'beIN · MAX 1 · FHD' },
   { slug: 'm6-fhd',       name: 'M6 FHD',            streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/323.m3u8', sublabel: 'France · M6 · FHD'  },
   { slug: 'etv-ee',       name: 'ETV',               streamUrl: 'https://sb.err.ee/live/etv.m3u8',                        sublabel: 'Estonia · ERR · HD'  },
