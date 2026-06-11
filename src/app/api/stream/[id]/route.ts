@@ -22,24 +22,15 @@ function toHlsUrl(url: string): string {
 const urlCache = new Map<string, { url: string; ts: number }>();
 const URL_CACHE_TTL = 5 * 60_000;
 
-// Short-lived manifest cache. IPTV accounts often allow only 1 simultaneous
-// connection (goattv.store: max_connections=1), so every live-manifest refresh
-// from every viewer would otherwise open a fresh upstream connection and collide.
-// Caching the rewritten manifest for ~2s lets N concurrent viewers (and rapid
-// re-polls) share a single upstream fetch. 2s ≪ HLS target duration (~10s), so
-// playback stays at the live edge. Paired with CDN-Cache-Control below, which
-// coalesces viewers across serverless instances at Vercel's edge.
-const manifestCache = new Map<string, { body: string; ts: number }>();
-const MANIFEST_TTL = 2_000;
-
-// Browser always revalidates (player controls its own poll cadence); Vercel's
-// edge serves a ≤2s-old manifest to all viewers, collapsing them onto one
-// upstream connection. SWR lets the edge answer instantly while it refreshes.
+// The manifest must NEVER be cached. goattv's CDN keeps live segments in a very
+// short window — a manifest even ~2s stale points hls.js at segments that have
+// already rotated out → segment 404s. Always serve the freshest segment list.
+// (Segments themselves ARE cached downstream in /api/proxy: they're immutable
+// once minted, so caching the bytes is safe and helps concurrent viewers.)
 const MANIFEST_HEADERS = {
   'Content-Type': 'application/vnd.apple.mpegurl',
   'Access-Control-Allow-Origin': '*',
-  'Cache-Control': 'no-cache',
-  'CDN-Cache-Control': 'public, s-maxage=2, stale-while-revalidate=4',
+  'Cache-Control': 'no-cache, no-store, must-revalidate',
 } as const;
 
 async function getStreamUrl(id: string): Promise<string | null> {
@@ -149,13 +140,6 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
   try {
     const { id } = await params;
 
-    // Serve a recently-built manifest without touching the upstream (saves the
-    // scarce single connection when several viewers refresh within the window).
-    const cached = manifestCache.get(id);
-    if (cached && Date.now() - cached.ts < MANIFEST_TTL) {
-      return new Response(cached.body, { headers: MANIFEST_HEADERS });
-    }
-
     const raw = await getStreamUrl(id);
     if (!raw) return NextResponse.json({ error: 'Not found' }, { status: 404 });
 
@@ -254,12 +238,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       const isHttpsStream = finalUrl.startsWith('https://');
       if (isHttpsStream && !alwaysProxy(upstreamHost) && (isPublicCdn(upstreamHost) || hasCorsOpen(res))) {
         const absolute = makeAbsoluteM3u8(text, baseUrl);
-        manifestCache.set(id, { body: absolute, ts: Date.now() });
         return new Response(absolute, { headers: MANIFEST_HEADERS });
       }
 
       const rewritten = rewriteM3u8(text, baseUrl, proxyBase, relayBase);
-      manifestCache.set(id, { body: rewritten, ts: Date.now() });
       return new Response(rewritten, { headers: MANIFEST_HEADERS });
     }
 

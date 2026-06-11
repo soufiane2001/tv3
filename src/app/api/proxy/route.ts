@@ -246,11 +246,9 @@ export async function GET(req: NextRequest) {
         status: res.ok ? 200 : res.status,
         headers: {
           'Content-Type': 'application/vnd.apple.mpegurl',
-          // Browser revalidates each poll; Vercel's edge coalesces concurrent
-          // viewers onto one upstream fetch for ~2s (only cache successful
-          // manifests — never cache an error body).
-          'Cache-Control': 'no-cache',
-          ...(res.ok && { 'CDN-Cache-Control': 'public, s-maxage=2, stale-while-revalidate=4' }),
+          // Never cache live manifests: a stale segment list points at segments
+          // that have already rotated out of goattv's short CDN window → 404s.
+          'Cache-Control': 'no-cache, no-store',
           ...CORS,
         },
       });
