@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [sigma, beinMax2, dazn, etv] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,10 +36,10 @@ export default async function Page() {
         away={{ name: 'Scotland', flag: 'gb-sct', nickname: 'The Scots', formation: '3-4-3' }}
         meta={{ date: 'Saturday, 13 June 2026', time: '22:00 UTC', venue: 'NRG Stadium, Houston', group: 'E', matchday: 1, prediction: 'Haiti 1-2 Scotland' }}
         servers={[
-          { label: 'SigmaTV',  sublabel: 'Cyprus · Sigma · HD', channel: sigma    as any },
-          { label: 'beIN MAX 2',sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'DAZN',     sublabel: 'DAZN · Mundial · ES', channel: dazn     as any },
-          { label: 'ETV',      sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
+          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2   as any },
+          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1   as any },
+          { label: 'M6',         sublabel: 'France · M6 · FHD',   channel: m6         as any },
+          { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
         ]}
         blog={blogs['haiti-vs-scotland']}
         kickoffTimes={[{"flag":"🇺🇸","country":"Houston","time":"17:00"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇭🇹","country":"Port-au-Prince","time":"18:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}

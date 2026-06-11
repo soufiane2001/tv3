@@ -125,7 +125,7 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [sigma, beinMax2, dazn, etv] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   const topNews = wc2026News.slice(0, 6);
 
@@ -265,10 +265,10 @@ export default async function HomePage() {
 
         <WC2026StreamClient
           servers={[
-          { label: 'SigmaTV',  sublabel: 'Cyprus · Sigma · HD', channel: sigma    as any },
-          { label: 'beIN MAX 2',sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'DAZN',     sublabel: 'DAZN · Mundial · ES', channel: dazn     as any },
-          { label: 'ETV',      sublabel: 'Estonia · ERR · HD',  channel: etv      as any },
+          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2   as any },
+          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1   as any },
+          { label: 'M6',         sublabel: 'France · M6 · FHD',   channel: m6         as any },
+          { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
         ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',

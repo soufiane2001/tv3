@@ -1,14 +1,16 @@
 import { prisma } from './prisma';
 
+// Server lineup shown in the player switcher. Order = display order.
+// goattv channels use HLS (.m3u8) not raw .ts: segmented HLS lets the manifest/
+// segment CDN cache coalesce viewers onto goattv's single allowed connection
+// (max_connections=1), and avoids holding a continuous stream open through a
+// serverless function (which times out and monopolises the one connection slot).
+// Stream IDs from goattv get_live_streams: MAX2=301, MAX1=299, M6=323, Global=262.
 const EXTRA = [
-  { slug: 'sigma-tv',   name: 'SigmaTV',         streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8',                  sublabel: 'Cyprus · Sigma · HD' },
-  // HLS (.m3u8) not raw .ts: segmented HLS lets the manifest/segment CDN cache
-  // coalesce viewers onto goattv's single allowed connection, and avoids holding
-  // a continuous stream open through a serverless function (which times out and
-  // monopolises the one connection slot). Server allows m3u8 + ts output.
-  { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2',streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.m3u8', sublabel: 'beIN · MAX 2 · FHD'  },
-  { slug: 'dazn-es',   name: 'DAZN Mundial',     streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/238.m3u8', sublabel: 'DAZN · Mundial · ES' },
-  { slug: 'etv-ee',    name: 'ETV',              streamUrl: 'https://sb.err.ee/live/etv.m3u8',                        sublabel: 'Estonia · ERR · HD'  },
+  { slug: 'bein-max-2',  name: 'beIN SPORTS MAX 2',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.m3u8', sublabel: 'beIN · MAX 2 · FHD' },
+  { slug: 'bein-max-1',  name: 'beIN SPORTS MAX 1',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.m3u8', sublabel: 'beIN · MAX 1 · FHD' },
+  { slug: 'm6',          name: 'M6',                 streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/323.m3u8', sublabel: 'France · M6 · FHD' },
+  { slug: 'bein-global', name: 'beIN SPORTS Global', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/262.m3u8', sublabel: 'beIN · Global · HD' },
 ] as const;
 
 export async function getWcExtraChannels() {
