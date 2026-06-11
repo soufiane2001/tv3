@@ -10,7 +10,7 @@ const PAGE_URL = `${SITE}/netherlands-vs-japan-2026`;
 
 export const metadata: Metadata = {
   title: 'Netherlands vs Japan LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Netherlands vs Japan FIFA World Cup 2026 FREE in HD. Group K at Gillette Stadium, Boston. Stream on beIN Sport 1, M6. No subscription.',
+  description: '🔴 Watch Netherlands vs Japan FIFA World Cup 2026 FREE in HD. Group F at AT&T Stadium, Dallas. Stream on beIN Sport 1, M6. No subscription.',
   alternates: { canonical: PAGE_URL },
   robots: { index: true, follow: true },
 };
@@ -18,7 +18,8 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'SportsEvent',
   name: 'FIFA World Cup 2026 — Netherlands vs Japan',
-  location: { '@type': 'Place', name: 'Gillette Stadium, Boston' },
+  startDate: '2026-06-14T20:00:00Z', endDate: '2026-06-14T22:00:00Z',
+  location: { '@type': 'Place', name: 'AT&T Stadium, Dallas' },
   competitor: [{ '@type': 'SportsTeam', name: 'Netherlands' }, { '@type': 'SportsTeam', name: 'Japan' }],
   organizer: { '@type': 'Organization', name: 'FIFA' },
   offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
@@ -34,7 +35,7 @@ export default async function Page() {
       <WC2026MatchLayout
         home={{ name: 'Netherlands', flag: 'nl', nickname: 'Oranje', formation: '4-3-3' }}
         away={{ name: 'Japan', flag: 'jp', nickname: 'Samurai Blue', formation: '4-2-3-1' }}
-        meta={{ date: 'Tuesday, 16 June 2026', time: '19:00 UTC', venue: 'Gillette Stadium, Boston', group: 'K', matchday: 1, prediction: 'Netherlands 2-1 Japan' }}
+        meta={{ date: 'Sunday, 14 June 2026', time: '20:00 UTC', venue: 'AT&T Stadium, Dallas', group: 'F', matchday: 1, prediction: 'Netherlands 2-1 Japan' }}
         servers={[
           { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2   as any },
           { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1   as any },
@@ -42,10 +43,10 @@ export default async function Page() {
           { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
         ]}
         blog={blogs['netherlands-vs-japan']}
-        kickoffTimes={[{"flag":"🇳🇱","country":"Amsterdam","time":"21:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇯🇵","country":"Tokyo","time":"04:00+1"},{"flag":"🌍","country":"UTC","time":"19:00"}]}
+        kickoffTimes={[{"flag":"🇺🇸","country":"Dallas","time":"15:00"},{"flag":"🇫🇷","country":"Paris","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"21:00"},{"flag":"🇺🇸","country":"New York","time":"16:00"},{"flag":"🇸🇦","country":"Riyadh","time":"23:00"},{"flag":"🌍","country":"UTC","time":"20:00"}]}
         faqs={[
           { q: 'Where to watch Netherlands vs Japan World Cup 2026 free?', a: 'Watch free on SportaLive — beIN Sport 1, M6 and RMC Sport live in HD. No subscription, no registration.' },
-          { q: 'What time is Netherlands vs Japan kick-off?', a: 'Tuesday, 16 June 2026 at 19:00 UTC. Watch free on SportaLive.' },
+          { q: 'What time is Netherlands vs Japan kick-off?', a: 'Sunday, 14 June 2026 at 20:00 UTC. Watch free on SportaLive.' },
           { q: 'كيف أشاهد Netherlands ضد Japan مجاناً؟', a: 'شاهد المباراة مجاناً على SportaLive عبر beIN Sport 1 بدون اشتراك ولا تسجيل.' },
         ]}
         relatedLinks={[{ href: '/world-cup-2026-live', label: '🔴 WC2026 Live' }, { href: '/wc2026', label: '📅 Schedule' }, { href: '/sweden-vs-tunisia-2026', label: '🇸🇪 Sweden vs Tunisia' }, { href: '/germany-vs-curacao-2026', label: '🇩🇪 Germany vs Curaçao' }]}

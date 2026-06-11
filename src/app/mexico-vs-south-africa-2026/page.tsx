@@ -43,14 +43,7 @@ export default async function Page() {
           { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
         ]}
         blog={blogs['mexico-vs-south-africa']}
-        kickoffTimes={[
-          { flag: '🇲🇽', country: 'Mexico City', time: '13:00' },
-          { flag: '🇫🇷', country: 'Paris', time: '21:00' },
-          { flag: '🇸🇦', country: 'Riyadh', time: '22:00' },
-          { flag: '🇬🇧', country: 'London', time: '20:00' },
-          { flag: '🇺🇸', country: 'New York', time: '15:00' },
-          { flag: '🌍', country: 'UTC', time: '19:00' },
-        ]}
+        kickoffTimes={[{"flag":"🇲🇽","country":"Mexico City","time":"13:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇺🇸","country":"New York","time":"15:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}
         faqs={[
           { q: 'Where to watch Mexico vs South Africa World Cup 2026 free?', a: 'Watch on SportaLive — ETV, M6, beIN Sport 1 and La 1 live HD. No subscription, no account needed.' },
           { q: 'What time is Mexico vs South Africa kick-off?', a: '11 June 2026 at 19:00 UTC · 13:00 Mexico City · 21:00 Paris · 20:00 London · 15:00 New York.' },
