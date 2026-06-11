@@ -5,6 +5,7 @@ const EXTRA = [
   { slug: 'ert1-gr',  name: 'ERT1',    streamUrl: 'https://ert-ucdn.broadpeak-aas.com/bpk-tv/ERT1/default/index.m3u8',        sublabel: 'Greece · ERT · HD' },
   { slug: 'sigma-tv', name: 'SigmaTV', streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8',                                    sublabel: 'Cyprus · Sigma · HD' },
   { slug: 'tv2-iptv', name: 'TV2',     streamUrl: 'http://46.149.191.217:9005/play/a01q',                                     sublabel: 'TV2 · HD' },
+  { slug: 'etv-ee',   name: 'ETV',     streamUrl: 'https://sb.err.ee/live/etv.m3u8',                                          sublabel: 'Estonia · ERR · HD' },
 ] as const;
 
 export async function getWcExtraChannels() {

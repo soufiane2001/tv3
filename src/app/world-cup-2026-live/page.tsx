@@ -107,7 +107,7 @@ async function findChannel(slugs: string[], patterns: string[]) {
 }
 
 export default async function WorldCup2026LivePage() {
-  const [[m6, rmc, arryadia, dasErste], [rai1, ert1, sigma, tv2]] = await Promise.all([
+  const [[m6, rmc, arryadia, dasErste], [rai1, ert1, sigma, tv2, etv]] = await Promise.all([
     Promise.all([
       findChannel(['m6', 'm6-hd', 'm6-fr'], ['M6']),
       findChannel(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
@@ -263,6 +263,7 @@ export default async function WorldCup2026LivePage() {
             { label: 'ERT1',         sublabel: 'Greece · ERT · HD',     channel: ert1    as any },
             { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',   channel: sigma   as any },
             { label: 'TV2',          sublabel: 'TV2 · HD',              channel: tv2     as any },
+            { label: 'ETV',          sublabel: 'Estonia · ERR · HD',    channel: etv     as any },
           ]}
           match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />

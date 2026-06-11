@@ -135,7 +135,7 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [[m6, la1, arryadia, dasErste], [rai1, ert1, sigma, tv2]] = await Promise.all([
+  const [[m6, la1, arryadia, dasErste], [rai1, ert1, sigma, tv2, etv]] = await Promise.all([
     Promise.all([
       find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
       find(['la-1', 'la-1-rtve'], ['La 1', 'RTVE']),
@@ -291,6 +291,7 @@ export default async function HomePage() {
             { label: 'ERT1',         sublabel: 'Greece · ERT · HD',      channel: ert1     as any },
             { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',    channel: sigma    as any },
             { label: 'TV2',          sublabel: 'TV2 · HD',               channel: tv2      as any },
+            { label: 'ETV',          sublabel: 'Estonia · ERR · HD',     channel: etv      as any },
           ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',
