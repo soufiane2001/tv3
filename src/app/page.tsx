@@ -185,7 +185,7 @@ export default async function HomePage() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
                   <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">World Cup 2026 · Opening</p>
-                  <p className="text-white font-black text-sm mt-0.5">Mexico vs South Africa — Group B</p>
+                  <p className="text-white font-black text-sm mt-0.5">Mexico vs South Africa — Group A</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
@@ -207,9 +207,9 @@ export default async function HomePage() {
             </div>
 
             {[
-              { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Mon Jun 15' },
-              { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', date: 'Mon Jun 15' },
-              { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Tue Jun 16' },
+              { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Sat Jun 13' },
+              { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', date: 'Sun Jun 14' },
+              { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Sun Jun 14' },
             ].map(m => (
               <Link key={m.slug} href={`/${m.slug}`}
                 className="card-float flex items-center justify-between px-4 py-3 hover:border-red-600/30 transition-all"
@@ -274,7 +274,7 @@ export default async function HomePage() {
             home: 'Mexico', homeFlag: 'mx',
             away: 'South Africa', awayFlag: 'za',
             date: 'Thursday, 11 June 2026',
-            time: '21:00 UTC · SoFi Stadium, LA',
+            time: '19:00 UTC · Estadio Azteca, Mexico City',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">

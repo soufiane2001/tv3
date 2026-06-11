@@ -51,7 +51,7 @@ const faqJsonLd = {
   '@context': 'https://schema.org', '@type': 'FAQPage',
   mainEntity: [
     { '@type': 'Question', name: 'Where can I watch FIFA World Cup 2026 matches live for free?', acceptedAnswer: { '@type': 'Answer', text: 'Watch all 104 FIFA World Cup 2026 matches free in HD on SportaLive. We stream M6, beIN Sports, La 1 and more — no subscription, no registration. Click any match below.' } },
-    { '@type': 'Question', name: 'When does FIFA World Cup 2026 start?', acceptedAnswer: { '@type': 'Answer', text: 'FIFA World Cup 2026 starts June 11, 2026 with Mexico vs South Africa at SoFi Stadium, Los Angeles. The final is July 19, 2026.' } },
+    { '@type': 'Question', name: 'When does FIFA World Cup 2026 start?', acceptedAnswer: { '@type': 'Answer', text: 'FIFA World Cup 2026 starts June 11, 2026 with Mexico vs South Africa at Estadio Azteca, Mexico City. The final is July 19, 2026.' } },
     { '@type': 'Question', name: 'Which countries host the 2026 World Cup?', acceptedAnswer: { '@type': 'Answer', text: 'USA, Canada and Mexico co-host FIFA World Cup 2026 — the first World Cup with 48 teams and 104 matches.' } },
     { '@type': 'Question', name: 'What channels broadcast World Cup 2026 for free?', acceptedAnswer: { '@type': 'Answer', text: 'M6 (France), beIN Sports (MENA), La 1 RTVE (Spain). All streamed free on SportaLive — no cable needed.' } },
     { '@type': 'Question', name: 'كيف أشاهد مباريات كأس العالم 2026 مجاناً؟', acceptedAnswer: { '@type': 'Answer', text: 'شاهد جميع مباريات كأس العالم 2026 مجاناً وبجودة HD على SportaLive عبر beIN Sports وM6 — بدون اشتراك ولا تسجيل.' } },
@@ -60,30 +60,28 @@ const faqJsonLd = {
   ],
 };
 
+// Real WC2026 schedule (FIFA final draw 05/12/2025). Times in Paris time
+// (CEST, UTC+2); "+1" = early-morning kick-off the next day.
 const MATCHES = [
   { date: 'Thursday June 11', matches: [
-    { slug: 'mexico-vs-south-africa-2026', home: 'Mexico', hc: 'mx', away: 'South Africa', ac: 'za', time: '21:00', group: 'B', venue: 'SoFi Stadium, LA' },
+    { slug: 'mexico-vs-south-africa-2026', home: 'Mexico', hc: 'mx', away: 'South Africa', ac: 'za', time: '21:00', group: 'A', venue: 'Estadio Azteca, MX' },
+    { slug: 'korea-vs-czechia-2026', home: 'Korea', hc: 'kr', away: 'Czechia', ac: 'cz', time: '04:00+1', group: 'A', venue: 'Estadio Akron, GDL' },
   ]},
   { date: 'Friday June 12', matches: [
-    { slug: 'korea-vs-czechia-2026', home: 'Korea', hc: 'kr', away: 'Czechia', ac: 'cz', time: '19:00', group: 'C', venue: 'AT&T Stadium, Dallas' },
-    { slug: 'canada-vs-bosnia-2026', home: 'Canada', hc: 'ca', away: 'Bosnia', ac: 'ba', time: '22:00', group: 'D', venue: 'BC Place, Vancouver' },
+    { slug: 'canada-vs-bosnia-2026', home: 'Canada', hc: 'ca', away: 'Bosnia', ac: 'ba', time: '21:00', group: 'B', venue: 'BMO Field, Toronto' },
+    { slug: 'usa-vs-paraguay-2026', home: 'USA', hc: 'us', away: 'Paraguay', ac: 'py', time: '03:00+1', group: 'D', venue: 'SoFi Stadium, LA' },
   ]},
   { date: 'Saturday June 13', matches: [
-    { slug: 'usa-vs-paraguay-2026', home: 'USA', hc: 'us', away: 'Paraguay', ac: 'py', time: '19:00', group: 'A', venue: 'MetLife Stadium, NY' },
-    { slug: 'haiti-vs-scotland-2026', home: 'Haiti', hc: 'ht', away: 'Scotland', ac: 'gb-sct', time: '22:00', group: 'E', venue: 'NRG Stadium, Houston' },
+    { slug: 'qatar-vs-switzerland-2026', home: 'Qatar', hc: 'qa', away: 'Switzerland', ac: 'ch', time: '21:00', group: 'B', venue: "Levi's Stadium, SF" },
+    { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hc: 'br', away: 'Morocco', ac: 'ma', time: '00:00+1', group: 'C', venue: 'MetLife Stadium, NY' },
+    { slug: 'haiti-vs-scotland-2026', home: 'Haiti', hc: 'ht', away: 'Scotland', ac: 'gb-sct', time: '03:00+1', group: 'C', venue: 'Gillette Stadium, Boston' },
+    { slug: 'australia-vs-turkiye-2026', home: 'Australia', hc: 'au', away: 'Türkiye', ac: 'tr', time: '06:00+1', group: 'D', venue: 'BC Place, Vancouver' },
   ]},
   { date: 'Sunday June 14', matches: [
-    { slug: 'australia-vs-turkiye-2026', home: 'Australia', hc: 'au', away: 'Türkiye', ac: 'tr', time: '20:00', group: 'F', venue: 'Rose Bowl, LA' },
-  ]},
-  { date: 'Monday June 15', matches: [
-    { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hc: 'br', away: 'Morocco', ac: 'ma', time: '19:00', group: 'G', venue: 'MetLife Stadium, NY' },
-    { slug: 'qatar-vs-switzerland-2026', home: 'Qatar', hc: 'qa', away: 'Switzerland', ac: 'ch', time: '19:00', group: 'H', venue: 'Estadio Azteca, MX' },
-    { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hc: 'ci', away: 'Ecuador', ac: 'ec', time: '22:00', group: 'I', venue: "Levi's Stadium, SF" },
-    { slug: 'germany-vs-curacao-2026', home: 'Germany', hc: 'de', away: 'Curaçao', ac: 'cw', time: '22:00', group: 'J', venue: 'AT&T Stadium, Dallas' },
-  ]},
-  { date: 'Tuesday June 16', matches: [
-    { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hc: 'nl', away: 'Japan', ac: 'jp', time: '19:00', group: 'K', venue: 'Gillette Stadium, Boston' },
-    { slug: 'sweden-vs-tunisia-2026', home: 'Sweden', hc: 'se', away: 'Tunisia', ac: 'tn', time: '22:00', group: 'L', venue: 'Arrowhead Stadium, KC' },
+    { slug: 'germany-vs-curacao-2026', home: 'Germany', hc: 'de', away: 'Curaçao', ac: 'cw', time: '19:00', group: 'E', venue: 'NRG Stadium, Houston' },
+    { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hc: 'nl', away: 'Japan', ac: 'jp', time: '22:00', group: 'F', venue: 'AT&T Stadium, Dallas' },
+    { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hc: 'ci', away: 'Ecuador', ac: 'ec', time: '01:00+1', group: 'E', venue: 'Lincoln Financial Field, Philadelphia' },
+    { slug: 'sweden-vs-tunisia-2026', home: 'Sweden', hc: 'se', away: 'Tunisia', ac: 'tn', time: '04:00+1', group: 'F', venue: 'Estadio BBVA, Monterrey' },
   ]},
 ];
 

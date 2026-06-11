@@ -64,7 +64,7 @@ const faqJsonLd = {
   mainEntity: [
     { '@type': 'Question', name: 'Where to watch FIFA World Cup 2026 for free?', acceptedAnswer: { '@type': 'Answer', text: 'Watch all 104 FIFA World Cup 2026 matches free in HD on SportaLive. We stream beIN Sport 1, M6, and RMC Sport live — no subscription, no registration needed.' } },
     { '@type': 'Question', name: 'Which channels broadcast FIFA World Cup 2026 for free?', acceptedAnswer: { '@type': 'Answer', text: 'beIN Sport 1 (MENA region), M6 (France — free-to-air), and RMC Sport broadcast the 2026 World Cup. All available free on SportaLive.' } },
-    { '@type': 'Question', name: 'When does FIFA World Cup 2026 start?', acceptedAnswer: { '@type': 'Answer', text: 'FIFA World Cup 2026 starts June 11, 2026 with Mexico vs South Africa at SoFi Stadium, Los Angeles. The final is July 19, 2026.' } },
+    { '@type': 'Question', name: 'When does FIFA World Cup 2026 start?', acceptedAnswer: { '@type': 'Answer', text: 'FIFA World Cup 2026 starts June 11, 2026 with Mexico vs South Africa at Estadio Azteca, Mexico City. The final is July 19, 2026.' } },
     { '@type': 'Question', name: 'كيف أشاهد كأس العالم 2026 مجاناً على beIN Sport؟', acceptedAnswer: { '@type': 'Answer', text: 'شاهد جميع مباريات كأس العالم 2026 مجاناً على SportaLive. نبث قناة beIN Sport 1 وM6 وRMC Sport بدون اشتراك ولا تسجيل.' } },
     { '@type': 'Question', name: 'Comment regarder la Coupe du Monde 2026 sur M6 gratuitement?', acceptedAnswer: { '@type': 'Answer', text: 'M6 diffuse la Coupe du Monde 2026 gratuitement en France. Sur SportaLive, regardez M6 en direct HD sans abonnement depuis n\'importe quel pays.' } },
     { '@type': 'Question', name: 'How many teams are in the 2026 World Cup?', acceptedAnswer: { '@type': 'Answer', text: '48 teams compete in FIFA World Cup 2026 for the first time in history, playing 104 matches across 16 venues in the USA, Canada, and Mexico.' } },
@@ -73,28 +73,28 @@ const faqJsonLd = {
   ],
 };
 
+// Real WC2026 schedule (FIFA final draw 05/12/2025). Times shown in Paris time
+// (CEST, UTC+2); "+1" marks an early-morning kick-off the following day.
 const MATCHES = [
-  { date: 'Thu June 11', matches: [{ slug: 'mexico-vs-south-africa-2026', home: 'Mexico', hf: 'mx', away: 'South Africa', af: 'za', time: '21:00', group: 'B' }] },
+  { date: 'Thu June 11', matches: [
+    { slug: 'mexico-vs-south-africa-2026', home: 'Mexico', hf: 'mx', away: 'South Africa', af: 'za', time: '21:00', group: 'A' },
+    { slug: 'korea-vs-czechia-2026', home: 'Korea', hf: 'kr', away: 'Czechia', af: 'cz', time: '04:00+1', group: 'A' },
+  ]},
   { date: 'Fri June 12', matches: [
-    { slug: 'korea-vs-czechia-2026', home: 'Korea', hf: 'kr', away: 'Czechia', af: 'cz', time: '19:00', group: 'C' },
-    { slug: 'canada-vs-bosnia-2026', home: 'Canada', hf: 'ca', away: 'Bosnia', af: 'ba', time: '22:00', group: 'D' },
+    { slug: 'canada-vs-bosnia-2026', home: 'Canada', hf: 'ca', away: 'Bosnia', af: 'ba', time: '21:00', group: 'B' },
+    { slug: 'usa-vs-paraguay-2026', home: 'USA', hf: 'us', away: 'Paraguay', af: 'py', time: '03:00+1', group: 'D' },
   ]},
   { date: 'Sat June 13', matches: [
-    { slug: 'usa-vs-paraguay-2026', home: 'USA', hf: 'us', away: 'Paraguay', af: 'py', time: '19:00', group: 'A' },
-    { slug: 'haiti-vs-scotland-2026', home: 'Haiti', hf: 'ht', away: 'Scotland', af: 'gb-sct', time: '22:00', group: 'E' },
+    { slug: 'qatar-vs-switzerland-2026', home: 'Qatar', hf: 'qa', away: 'Switzerland', af: 'ch', time: '21:00', group: 'B' },
+    { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', time: '00:00+1', group: 'C' },
+    { slug: 'haiti-vs-scotland-2026', home: 'Haiti', hf: 'ht', away: 'Scotland', af: 'gb-sct', time: '03:00+1', group: 'C' },
+    { slug: 'australia-vs-turkiye-2026', home: 'Australia', hf: 'au', away: 'Türkiye', af: 'tr', time: '06:00+1', group: 'D' },
   ]},
   { date: 'Sun June 14', matches: [
-    { slug: 'australia-vs-turkiye-2026', home: 'Australia', hf: 'au', away: 'Türkiye', af: 'tr', time: '20:00', group: 'F' },
-  ]},
-  { date: 'Mon June 15', matches: [
-    { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', time: '19:00', group: 'G' },
-    { slug: 'qatar-vs-switzerland-2026', home: 'Qatar', hf: 'qa', away: 'Switzerland', af: 'ch', time: '19:00', group: 'H' },
-    { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hf: 'ci', away: 'Ecuador', af: 'ec', time: '22:00', group: 'I' },
-    { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', time: '22:00', group: 'J' },
-  ]},
-  { date: 'Tue June 16', matches: [
-    { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', time: '19:00', group: 'K' },
-    { slug: 'sweden-vs-tunisia-2026', home: 'Sweden', hf: 'se', away: 'Tunisia', af: 'tn', time: '22:00', group: 'L' },
+    { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', time: '19:00', group: 'E' },
+    { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', time: '22:00', group: 'F' },
+    { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hf: 'ci', away: 'Ecuador', af: 'ec', time: '01:00+1', group: 'E' },
+    { slug: 'sweden-vs-tunisia-2026', home: 'Sweden', hf: 'se', away: 'Tunisia', af: 'tn', time: '04:00+1', group: 'F' },
   ]},
 ];
 
@@ -176,7 +176,7 @@ export default async function WorldCup2026LivePage() {
               <div className="flex items-center justify-between px-4 pt-4 pb-2">
                 <div>
                   <p className="text-white/40 text-[10px] uppercase tracking-widest">Next Match</p>
-                  <p className="text-white font-black text-sm mt-0.5">Opening Game — Group B</p>
+                  <p className="text-white font-black text-sm mt-0.5">Opening Game — Group A</p>
                 </div>
                 <span className="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center text-white text-sm">→</span>
               </div>
