@@ -80,7 +80,7 @@ const faqJsonLd = {
 
 
 export default async function Page() {
-  const [sigma, etv, beinMax1, m6fhd] = await getWcExtraChannels();
+  const [beinMax1, m6fhd, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -97,10 +97,9 @@ export default async function Page() {
           prediction: 'Belgium 2-1 Tunisia',
         }}
         servers={[
-          { label: 'ETV',     sublabel: 'Estonia · ERR · HD',  channel: etv   as any },
-          { label: 'SigmaTV', sublabel: 'Cyprus · Sigma · HD', channel: sigma as any },
           { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
           { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
+          { label: 'ETV',       sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
         ]}
         blog={blogs['belgium-vs-tunisia']}
         kickoffTimes={[
