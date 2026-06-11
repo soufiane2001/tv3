@@ -117,7 +117,7 @@ async function findChannel(slugs: string[], namePatterns: string[]) {
 
 async function getServers() {
   try {
-    const [la1, m6, canalSport, bein] = await Promise.all([
+    const [la1, m6, canalSport] = await Promise.all([
       findChannel(
         ['la-1','la-1-1','la-1-2','la1','la-1-hd','la-1-es','spain-la-1','la-1-rtve'],
         ['La 1','La1','RTVE La','La Un'],
@@ -130,20 +130,15 @@ async function getServers() {
         ['canal-sport','canal-sport-hd','canal-plus-sport','canalplus-sport','canal-sport-1'],
         ['Canal+ Sport','Canal Sport','CanalSport'],
       ),
-      findChannel(
-        ['ar-bein-sport-uhd-1','bein-sport-uhd-1','bein-sport-1-uhd','bein-sport-uhd','beinsport-uhd-1'],
-        ['beIN Sports UHD','beIN Sport UHD','BeIN Sports 1','bein sport uhd'],
-      ),
     ]);
-    return { la1, m6, canalSport, bein };
-  } catch { return { la1: null, m6: null, canalSport: null, bein: null }; }
+    return { la1, m6, canalSport };
+  } catch { return { la1: null, m6: null, canalSport: null }; }
 }
 
 export default async function ArsenalPsgArabePage() {
-  const { la1, m6, canalSport, bein } = await getServers();
+  const { la1, m6, canalSport } = await getServers();
 
   const servers = [
-    { label: 'beIN Sports UHD', sublabel: 'عربي · UHD',      channel: bein as any       },
     { label: 'La 1',            sublabel: 'إسبانيا · مجاني', channel: la1 as any        },
     { label: 'M6',              sublabel: 'فرنسا · مجاني',   channel: m6 as any         },
     { label: 'Canal+ Sport',    sublabel: 'فرنسا · HD',       channel: canalSport as any },

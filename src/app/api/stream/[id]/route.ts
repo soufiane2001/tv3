@@ -41,7 +41,6 @@ async function getStreamUrl(id: string): Promise<string | null> {
 // Known public CDNs with open CORS — always bypass proxy for these.
 function isPublicCdn(hostname: string): boolean {
   return (
-    hostname.endsWith('.rtve.es') ||
     hostname.endsWith('.cloudfront.net') ||
     hostname.endsWith('.akamaized.net') ||
     hostname.endsWith('.akamaihd.net') ||

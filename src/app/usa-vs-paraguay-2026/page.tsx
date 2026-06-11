@@ -36,9 +36,8 @@ async function find(slugs: string[], patterns: string[]) {
 }
 
 export default async function Page() {
-  const [[bein, m6, rmc, arryadia, dasErste], [rai1, ert1, sigma, tv2]] = await Promise.all([
+  const [[m6, rmc, arryadia, dasErste], [ert1, sigma, tv2]] = await Promise.all([
     Promise.all([
-      find(['ar-bein-sport-uhd-1', 'bein-sport-1'], ['beIN Sports 1', 'beIN Sport 1']),
       find(['m6', 'm6-hd'], ['M6']),
       find(['rmc-sport-1', 'rmc-sport'], ['RMC Sport', 'RMC']),
       find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
@@ -55,8 +54,6 @@ export default async function Page() {
         away={{ name: 'Paraguay', flag: 'py', nickname: 'La Albirroja', formation: '4-4-2' }}
         meta={{ date: 'Saturday, 13 June 2026', time: '19:00 UTC', venue: 'MetLife Stadium, New York', group: 'A', matchday: 1, prediction: 'USA 3-1 Paraguay' }}
         servers={[
-          { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',    channel: rai1     as any },
-          { label: 'beIN Sport 1', sublabel: 'UHD · عربي',           channel: bein     as any },
           { label: 'M6',           sublabel: 'France · Gratuit',     channel: m6       as any },
           { label: 'RMC Sport',    sublabel: 'HD',                   channel: rmc      as any },
           { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',         channel: arryadia as any },
