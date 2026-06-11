@@ -107,7 +107,7 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 export default async function WorldCup2026LivePage() {
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -247,7 +247,8 @@ export default async function WorldCup2026LivePage() {
         </div>
         <WC2026StreamClient
           servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
           match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />

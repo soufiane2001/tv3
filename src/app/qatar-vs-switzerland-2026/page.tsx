@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,7 +36,8 @@ export default async function Page() {
         away={{ name: 'Switzerland', flag: 'ch', nickname: 'Nati', formation: '4-2-3-1' }}
         meta={{ date: 'Monday, 15 June 2026', time: '19:00 UTC', venue: 'Estadio Azteca, Mexico City', group: 'H', matchday: 1, prediction: 'Qatar 1-2 Switzerland' }}
         servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
         blog={blogs['qatar-vs-switzerland']}
         kickoffTimes={[{"flag":"🇶🇦","country":"Doha","time":"22:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇨🇭","country":"Bern","time":"21:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}

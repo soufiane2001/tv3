@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,7 +36,8 @@ export default async function Page() {
         away={{ name: 'Paraguay', flag: 'py', nickname: 'La Albirroja', formation: '4-4-2' }}
         meta={{ date: 'Saturday, 13 June 2026', time: '19:00 UTC', venue: 'MetLife Stadium, New York', group: 'A', matchday: 1, prediction: 'USA 3-1 Paraguay' }}
         servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
         blog={blogs['usa-vs-paraguay']}
         kickoffTimes={[{"flag":"🇺🇸","country":"New York","time":"15:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇵🇾","country":"Asunción","time":"15:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}

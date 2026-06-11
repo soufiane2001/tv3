@@ -80,7 +80,7 @@ const faqJsonLd = {
 
 
 export default async function Page() {
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -97,7 +97,8 @@ export default async function Page() {
           prediction: 'Belgium 2-1 Tunisia',
         }}
         servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
         blog={blogs['belgium-vs-tunisia']}
         kickoffTimes={[

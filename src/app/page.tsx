@@ -125,7 +125,7 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   const topNews = wc2026News.slice(0, 6);
 
@@ -265,7 +265,8 @@ export default async function HomePage() {
 
         <WC2026StreamClient
           servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',

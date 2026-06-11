@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -36,7 +36,8 @@ export default async function Page() {
         away={{ name: 'Morocco', flag: 'ma', nickname: 'Atlas Lions', formation: '4-3-3' }}
         meta={{ date: 'Monday, 15 June 2026', time: '19:00 UTC', venue: 'MetLife Stadium, New York', group: 'G', matchday: 1, prediction: 'Brazil 2-1 Morocco' }}
         servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
         blog={blogs['brazil-vs-morocco']}
         kickoffTimes={[{"flag":"🇧🇷","country":"São Paulo","time":"16:00"},{"flag":"🇫🇷","country":"Paris","time":"21:00"},{"flag":"🇸🇦","country":"Riyadh","time":"22:00"},{"flag":"🇬🇧","country":"London","time":"20:00"},{"flag":"🇲🇦","country":"Casablanca","time":"20:00"},{"flag":"🌍","country":"UTC","time":"19:00"}]}

@@ -27,7 +27,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [etv] = await getWcExtraChannels();
+  const [dazn, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -37,7 +37,8 @@ export default async function Page() {
         away={{ name: 'South Africa', flag: 'za', nickname: 'Bafana Bafana', formation: '4-5-1', lineup: ['Williams','Sesane','Shalulile','Dolly','Tau','Mokoena','Maart','Ndlovu','Zwane','Jali','Mabunda'] }}
         meta={{ date: 'Thursday, 11 June 2026', time: '19:00 UTC', venue: 'Estadio Azteca, Mexico City', group: 'A', matchday: 1, prediction: 'Mexico 3-1 South Africa' }}
         servers={[
-          { label: 'ETV', sublabel: 'Estonia · ERR · HD', channel: etv as any },
+          { label: 'DAZN', sublabel: 'DAZN · Mundial · ES', channel: dazn as any },
+          { label: 'ETV',  sublabel: 'Estonia · ERR · HD',  channel: etv  as any },
         ]}
         blog={blogs['mexico-vs-south-africa']}
         kickoffTimes={[
