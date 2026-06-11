@@ -1,11 +1,8 @@
 import { prisma } from './prisma';
 
 const EXTRA = [
-  { slug: 'rai-1',    name: 'Rai 1',   streamUrl: 'https://dash2.antik.sk/live/test_rai_uno_tizen/playlist.m3u8',              sublabel: 'Italy · RAI · HD' },
-  { slug: 'ert1-gr',  name: 'ERT1',    streamUrl: 'https://ert-ucdn.broadpeak-aas.com/bpk-tv/ERT1/default/index.m3u8',        sublabel: 'Greece · ERT · HD' },
-  { slug: 'sigma-tv', name: 'SigmaTV', streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8',                                    sublabel: 'Cyprus · Sigma · HD' },
-  { slug: 'tv2-iptv', name: 'DR1',     streamUrl: 'https://drlivedr1hls.akamaized.net/hls/live/2113625/drlivedr1/master.m3u8', sublabel: 'Denmark · DR · Free' },
-  { slug: 'etv-ee',   name: 'ETV',     streamUrl: 'https://sb.err.ee/live/etv.m3u8',                                          sublabel: 'Estonia · ERR · HD' },
+  { slug: 'sigma-tv', name: 'SigmaTV', streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8', sublabel: 'Cyprus · Sigma · HD' },
+  { slug: 'etv-ee',   name: 'ETV',     streamUrl: 'https://sb.err.ee/live/etv.m3u8',        sublabel: 'Estonia · ERR · HD' },
 ] as const;
 
 export async function getWcExtraChannels() {

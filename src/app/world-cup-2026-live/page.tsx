@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { prisma } from '@/lib/prisma';
 import JsonLd from '@/components/seo/JsonLd';
 import WC2026StreamClient from '@/components/worldcup/WC2026StreamClient';
 import AdBanner from '@/components/ads/AdBanner';
@@ -107,26 +106,8 @@ const CAT_COLORS: Record<string, string> = {
   Team:     'bg-red-600 text-white',
 };
 
-async function findChannel(slugs: string[], patterns: string[]) {
-  const bySlug = await prisma.channel.findFirst({ where: { slug: { in: slugs }, isActive: true }, orderBy: { order: 'asc' } }).catch(() => null);
-  if (bySlug) return bySlug;
-  for (const p of patterns) {
-    const ch = await prisma.channel.findFirst({ where: { name: { contains: p, mode: 'insensitive' }, isActive: true }, orderBy: { order: 'asc' } }).catch(() => null);
-    if (ch) return ch;
-  }
-  return null;
-}
-
 export default async function WorldCup2026LivePage() {
-  const [[m6, rmc, arryadia, dasErste], [rai1, ert1, sigma, tv2, etv]] = await Promise.all([
-    Promise.all([
-      findChannel(['m6', 'm6-hd', 'm6-fr'], ['M6']),
-      findChannel(['rmc-sport-1', 'rmc-sport', 'rmc-1'], ['RMC Sport 1', 'RMC Sport', 'RMC']),
-      findChannel(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
-      findChannel(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
-    ]),
-    getWcExtraChannels(),
-  ]);
+  const [sigma, etv] = await getWcExtraChannels();
 
   return (
     <>
@@ -266,15 +247,8 @@ export default async function WorldCup2026LivePage() {
         </div>
         <WC2026StreamClient
           servers={[
-            { label: 'M6',           sublabel: 'France · Gratuit · HD', channel: m6      as any },
-            { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',      channel: rai1    as any },
-            { label: 'RMC Sport',    sublabel: 'HD · Premium',          channel: rmc     as any },
-            { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',         channel: arryadia as any },
-            { label: 'Das Erste',    sublabel: 'Germany · ARD',         channel: dasErste as any },
-            { label: 'ERT1',         sublabel: 'Greece · ERT · HD',     channel: ert1    as any },
-            { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',   channel: sigma   as any },
-            { label: 'DR1',          sublabel: 'Denmark · DR · Free',   channel: tv2     as any },
-            { label: 'ETV',          sublabel: 'Estonia · ERR · HD',    channel: etv     as any },
+            { label: 'ETV',     sublabel: 'Estonia · ERR · HD',  channel: etv   as any },
+            { label: 'SigmaTV', sublabel: 'Cyprus · Sigma · HD', channel: sigma as any },
           ]}
           match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />

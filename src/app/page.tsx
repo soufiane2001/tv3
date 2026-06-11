@@ -80,16 +80,6 @@ const faqJsonLd = {
 
 export const revalidate = 3600;
 
-async function find(slugs: string[], patterns: string[]) {
-  const r = await prisma.channel.findFirst({ where: { slug: { in: slugs }, isActive: true }, orderBy: { order: 'asc' } }).catch(() => null);
-  if (r) return r;
-  for (const p of patterns) {
-    const c = await prisma.channel.findFirst({ where: { name: { contains: p, mode: 'insensitive' }, isActive: true }, orderBy: { order: 'asc' } }).catch(() => null);
-    if (c) return c;
-  }
-  return null;
-}
-
 async function getHomeData() {
   try {
     const [categories, totalChannels, featured] = await Promise.all([
@@ -135,15 +125,7 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [[m6, la1, arryadia, dasErste], [rai1, ert1, sigma, tv2, etv]] = await Promise.all([
-    Promise.all([
-      find(['m6', 'm6-hd', 'm6-fr'], ['M6']),
-      find(['la-1', 'la-1-rtve'], ['La 1', 'RTVE']),
-      find(['arryadia-tnt', 'arryadia-sport-tnt'], ['Arryadia TNT', 'الرياضية TNT']),
-      find(['das-erste', 'ard-das-erste'], ['Das Erste', 'ARD']),
-    ]),
-    getWcExtraChannels(),
-  ]);
+  const [sigma, etv] = await getWcExtraChannels();
 
   const topNews = wc2026News.slice(0, 6);
 
@@ -283,15 +265,8 @@ export default async function HomePage() {
 
         <WC2026StreamClient
           servers={[
-            { label: 'M6',           sublabel: 'France · Gratuit · HD',  channel: m6       as any },
-            { label: 'Rai 1',        sublabel: 'Italy · RAI · HD',       channel: rai1     as any },
-            { label: 'La 1',         sublabel: 'España · RTVE · HD',    channel: la1      as any },
-            { label: 'Arryadia TNT', sublabel: 'Maroc · مجاني',          channel: arryadia as any },
-            { label: 'Das Erste',    sublabel: 'Germany · ARD',          channel: dasErste as any },
-            { label: 'ERT1',         sublabel: 'Greece · ERT · HD',      channel: ert1     as any },
-            { label: 'SigmaTV',      sublabel: 'Cyprus · Sigma · HD',    channel: sigma    as any },
-            { label: 'DR1',          sublabel: 'Denmark · DR · Free',    channel: tv2      as any },
-            { label: 'ETV',          sublabel: 'Estonia · ERR · HD',     channel: etv      as any },
+            { label: 'ETV',     sublabel: 'Estonia · ERR · HD',  channel: etv   as any },
+            { label: 'SigmaTV', sublabel: 'Cyprus · Sigma · HD', channel: sigma as any },
           ]}
           match={{
             home: 'Mexico', homeFlag: 'mx',
