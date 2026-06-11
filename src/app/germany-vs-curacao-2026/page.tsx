@@ -26,7 +26,7 @@ const jsonLd = {
 
 
 export default async function Page() {
-  const [beinMax2, beinMax1, m6fhd, etv] = await getWcExtraChannels();
+  const [beinMax2, beinMax1, m6fhd, etv, beinFr1] = await getWcExtraChannels();
 
   return (
     <>
@@ -39,7 +39,8 @@ export default async function Page() {
           { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
           { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
           { label: 'M6 FHD',    sublabel: 'France · M6 · FHD',  channel: m6fhd   as any },
-          { label: 'ETV',       sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
+          { label: 'ETV',          sublabel: 'Estonia · ERR · HD',  channel: etv     as any },
+          { label: 'beIN Sport FR', sublabel: 'France · beIN · HD', channel: beinFr1 as any },
         ]}
         blog={blogs['germany-vs-curacao']}
         kickoffTimes={[{"flag":"🇩🇪","country":"Berlin","time":"00:00+1"},{"flag":"🇫🇷","country":"Paris","time":"00:00+1"},{"flag":"🇸🇦","country":"Riyadh","time":"01:00+1"},{"flag":"🇬🇧","country":"London","time":"23:00"},{"flag":"🇺🇸","country":"Dallas","time":"17:00"},{"flag":"🌍","country":"UTC","time":"22:00"}]}
