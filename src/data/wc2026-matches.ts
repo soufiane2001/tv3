@@ -160,6 +160,25 @@ export function getTeam(name: string): WcTeam | undefined {
   return WC2026_TEAMS[name];
 }
 
+// URL slug for a team, e.g. 'Ivory Coast' -> 'ivory-coast' (matches the slug
+// component used in match slugs).
+export function teamSlug(name: string): string {
+  return name.toLowerCase().replace(/\s+/g, '-');
+}
+
+export function teamBySlug(slug: string): string | undefined {
+  return Object.keys(WC2026_TEAMS).find(n => teamSlug(n) === slug);
+}
+
+// All group matches involving a team, in chronological order.
+export function teamMatches(name: string): WcMatch[] {
+  return WC2026_MATCHES.filter(m => m.home === name || m.away === name);
+}
+
+export function teamGroup(name: string): string {
+  return teamMatches(name)[0]?.group ?? '';
+}
+
 // Other group matches for a given match (same group, excluding itself).
 export function groupMatches(slug: string): WcMatch[] {
   const m = getMatch(slug);

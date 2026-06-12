@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
-import { WC2026_MATCHES } from '@/data/wc2026-matches';
+import { WC2026_MATCHES, WC2026_TEAMS, teamSlug } from '@/data/wc2026-matches';
 
 export const revalidate = 3600; // regenerate at most once per hour
 
@@ -89,9 +89,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     url: `${base}/${m.slug}`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.9,
   }));
 
+  const teamRoutes: MetadataRoute.Sitemap = Object.keys(WC2026_TEAMS).map(name => ({
+    url: `${base}/team/${teamSlug(name)}`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.7,
+  }));
+
   // Deduplicate — events section already hard-codes some channel/* URLs
   const seen = new Set<string>();
-  return [...static_, ...events, ...matchRoutes, ...catRoutes, ...chRoutes].filter(entry => {
+  return [...static_, ...events, ...matchRoutes, ...teamRoutes, ...catRoutes, ...chRoutes].filter(entry => {
     if (seen.has(entry.url)) return false;
     seen.add(entry.url);
     return true;

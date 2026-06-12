@@ -5,7 +5,7 @@ import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
 import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
-import { WC2026_MATCHES, getMatch, getTeam, groupMatches } from '@/data/wc2026-matches';
+import { WC2026_MATCHES, getMatch, getTeam, groupMatches, teamSlug } from '@/data/wc2026-matches';
 
 export const revalidate = 3600;
 export const dynamicParams = false; // only the 72 generated slugs are valid; others 404
@@ -63,9 +63,10 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
   ];
 
   const relatedLinks = [
-    { href: '/world-cup-2026-live', label: '🔴 WC2026 Live' },
+    { href: `/team/${teamSlug(m.home)}`, label: `🏟️ All ${m.home} matches` },
+    { href: `/team/${teamSlug(m.away)}`, label: `🏟️ All ${m.away} matches` },
     { href: '/wc2026', label: '📅 Schedule' },
-    ...groupMatches(match).slice(0, 3).map(x => ({ href: `/${x.slug}`, label: `${x.home} vs ${x.away}` })),
+    ...groupMatches(match).slice(0, 2).map(x => ({ href: `/${x.slug}`, label: `${x.home} vs ${x.away}` })),
   ];
 
   return (
