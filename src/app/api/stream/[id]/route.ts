@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
 export const dynamic = 'force-dynamic';
+// Continuous .ts streams (goattv) are piped through here; keep the function alive
+// as long as the plan allows so the stream doesn't get cut every few seconds
+// (Vercel clamps to the plan max: 60s Hobby, up to 300s Pro). When it does end,
+// mpegts.js reconnects automatically.
+export const maxDuration = 300;
 
 // VLC UA first — IPTV servers often whitelist it; Chrome as fallback
 const UA_VLC    = 'VLC/3.0.21 LibVLC/3.0.21';
