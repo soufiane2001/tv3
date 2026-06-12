@@ -31,43 +31,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     // /search is a client-side UI with no indexable content — excluded from sitemap
   ];
 
-  // ── High-priority event pages ─────────────────────────────
+  // ── World Cup 2026 — hubs + broadcaster channels ──────────────────────────
+  // (the 72 group-match pages and 48 team pages are appended below from the
+  //  single source as matchRoutes / teamRoutes). Past UCL-final event pages and
+  //  non-real "today" fixtures were removed: they wasted crawl budget on stale
+  //  content and diluted the World Cup focus.
   const events: MetadataRoute.Sitemap = [
-    // UCL Final — primary stream
-    { url: `${base}/arsenal-vs-psg`,              lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    // UCL Final — pre-match informational (lineup + prediction capture day-before traffic)
-    { url: `${base}/arsenal-psg-lineup`,          lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/arsenal-psg-prediction`,      lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/champions-league-final-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/arsenal-psg-arabe`,           lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/ver-final-champions-2026`,    lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/guardare-finale-champions-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/crystal-palace-vs-rayo-vallecano`, lastModified: now, changeFrequency: 'hourly', priority: 0.9 },
-    { url: `${base}/world-cup-2026-live`,           lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/wc2026`,                       lastModified: now, changeFrequency: 'daily',  priority: 0.95 },
-    { url: `${base}/world-cup-2026`,              lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    // World Cup 2026 — Group Stage match pages are generated from the single
-    // source (wc2026-matches) and appended below as `matchRoutes`.
-    { url: `${base}/belgique-vs-tunisie-2026`,     lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    // Free broadcast channels for the UCL Final
-    { url: `${base}/channel/la-1`,        lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/channel/m6`,          lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/channel/canal-sport`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/channel/ar-bein-sport-uhd-1`, lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
-    { url: `${base}/channel/trt`,         lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
-    { url: `${base}/channel/rti-1`,       lastModified: now, changeFrequency: 'hourly', priority: 0.9  },
-    // Today's matches
-    { url: `${base}/brazil-vs-panama-2026`,   lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/germany-vs-finland-2026`, lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
-    { url: `${base}/channel/lequipe-tv`,      lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
-    // Moroccan channels hub + individual pages
-    { url: `${base}/chaines-marocaines`,   lastModified: now, changeFrequency: 'daily',  priority: 0.9  },
-    { url: `${base}/channel/2m`,           lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
-    { url: `${base}/channel/al-aoula`,     lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
-    { url: `${base}/channel/arryadia`,     lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
-    { url: `${base}/channel/medi-1`,       lastModified: now, changeFrequency: 'daily',  priority: 0.85 },
-    { url: `${base}/channel/arrabia`,      lastModified: now, changeFrequency: 'daily',  priority: 0.80 },
-    { url: `${base}/channel/al-maghribia`, lastModified: now, changeFrequency: 'daily',  priority: 0.80 },
+    { url: `${base}/world-cup-2026-live`, lastModified: now, changeFrequency: 'hourly', priority: 1.0  },
+    { url: `${base}/wc2026`,              lastModified: now, changeFrequency: 'daily',  priority: 0.95 },
+    { url: `${base}/world-cup-2026`,      lastModified: now, changeFrequency: 'daily',  priority: 0.9  },
+    // Free-to-air World Cup 2026 broadcasters
+    { url: `${base}/channel/m6`,                  lastModified: now, changeFrequency: 'daily', priority: 0.9  },
+    { url: `${base}/channel/ar-bein-sport-uhd-1`, lastModified: now, changeFrequency: 'daily', priority: 0.9  },
+    { url: `${base}/channel/la-1`,                lastModified: now, changeFrequency: 'daily', priority: 0.85 },
+    { url: `${base}/channel/trt`,                 lastModified: now, changeFrequency: 'daily', priority: 0.8  },
+    { url: `${base}/channel/rti-1`,               lastModified: now, changeFrequency: 'daily', priority: 0.8  },
+    { url: `${base}/channel/lequipe-tv`,          lastModified: now, changeFrequency: 'daily', priority: 0.8  },
+    // Moroccan channels hub + individual pages (strong WC audience)
+    { url: `${base}/chaines-marocaines`,   lastModified: now, changeFrequency: 'daily', priority: 0.9  },
+    { url: `${base}/channel/2m`,           lastModified: now, changeFrequency: 'daily', priority: 0.85 },
+    { url: `${base}/channel/al-aoula`,     lastModified: now, changeFrequency: 'daily', priority: 0.85 },
+    { url: `${base}/channel/arryadia`,     lastModified: now, changeFrequency: 'daily', priority: 0.85 },
+    { url: `${base}/channel/medi-1`,       lastModified: now, changeFrequency: 'daily', priority: 0.85 },
+    { url: `${base}/channel/arrabia`,      lastModified: now, changeFrequency: 'daily', priority: 0.80 },
+    { url: `${base}/channel/al-maghribia`, lastModified: now, changeFrequency: 'daily', priority: 0.80 },
   ];
 
   const catRoutes: MetadataRoute.Sitemap = categories.map(c => ({
