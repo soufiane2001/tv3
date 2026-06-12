@@ -20,6 +20,7 @@ import Sidebar from '@/components/layout/Sidebar';
 import LanguageProvider from '@/components/layout/LanguageProvider';
 import Tracker from '@/components/analytics/Tracker';
 import GlobalAdScripts from '@/components/ads/GlobalAdScripts';
+import AdblockGuard from '@/components/ads/AdblockGuard';
 import StickyBottomAd from '@/components/ads/StickyBottomAd';
 import ExitIntentAd from '@/components/ads/ExitIntentAd';
 import { SpeedInsights } from '@vercel/speed-insights/next';
@@ -86,6 +87,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <LanguageProvider>
         <Tracker />
         <GlobalAdScripts />
+        <AdblockGuard />
         <Header />
         <div className="flex max-w-screen-2xl mx-auto px-4 pt-16">
           <Sidebar />
