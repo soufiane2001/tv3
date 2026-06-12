@@ -47,3 +47,7 @@ next-env.d.ts
 *.db-shm
 
 .vercel
+
+# scratch / test artifacts
+*.m3u8
+page.html
