@@ -179,6 +179,37 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       relayBase = '';
     }
 
+    // ── Continuous raw stream (.ts/.mkv/.mp4) — e.g. goattv via mpegts.js ──────
+    // Stream it through a SINGLE connection with NO abort timeout:
+    //  • IPTV accounts cap simultaneous connections (goattv: max_connections=1),
+    //    so the parallel VLC+Chrome probe would open 2 connections at once — the
+    //    server kills one, dropping the live stream (onSourceEnded).
+    //  • AbortSignal.timeout would cut the continuous stream mid-playback (it is
+    //    meant for short HLS fetches). The function's maxDuration bounds it; when
+    //    it ends, mpegts.js reconnects.
+    if (/\.(ts|mkv|mp4)(\?|$)/i.test(upstream)) {
+      const tsRes = await fetch(upstream, {
+        headers: { 'User-Agent': UA_VLC, 'Accept': '*/*', 'Accept-Encoding': 'identity' },
+        redirect: 'follow',
+      }).catch(() => null);
+
+      if (!tsRes || !tsRes.ok || !tsRes.body) {
+        console.error(`[stream/${id}] direct .ts upstream ${tsRes?.status ?? 'fetch-failed'}: ${upstream}`);
+        return NextResponse.json(
+          { error: 'Stream busy — retry', status: tsRes?.status ?? 502 },
+          { status: 503, headers: { 'Retry-After': '2' } },
+        );
+      }
+
+      return new Response(tsRes.body, {
+        headers: {
+          'Content-Type': tsRes.headers.get('content-type') || 'video/MP2T',
+          'Access-Control-Allow-Origin': '*',
+          'Cache-Control': 'no-cache, no-store',
+        },
+      });
+    }
+
     // Parallel probe: try VLC UA and Chrome UA simultaneously (Vercel 10s budget)
     const fetchWith = (ua: string, extra?: Record<string, string>) =>
       fetch(upstream, {
