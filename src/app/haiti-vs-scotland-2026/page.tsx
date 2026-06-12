@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/haiti-vs-scotland-2026`;
 
-export const metadata: Metadata = {
-  title: 'Haiti vs Scotland LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Haiti vs Scotland FIFA World Cup 2026 FREE in HD. Group C at Gillette Stadium, Boston. Stream on beIN Sport 1, M6. No subscription.',
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Haiti vs Scotland',
-  startDate: '2026-06-14T01:00:00Z', endDate: '2026-06-14T03:00:00Z',
-  location: { '@type': 'Place', name: 'Gillette Stadium, Boston' },
-  competitor: [{ '@type': 'SportsTeam', name: 'Haiti' }, { '@type': 'SportsTeam', name: 'Scotland' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('haiti-vs-scotland-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('haiti-vs-scotland-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('haiti-vs-scotland-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Haiti', flag: 'ht', nickname: 'Les Grenadiers', formation: '4-5-1' }}
         away={{ name: 'Scotland', flag: 'gb-sct', nickname: 'The Scots', formation: '3-4-3' }}

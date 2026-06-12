@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/australia-vs-turkiye-2026`;
 
-export const metadata: Metadata = {
-  title: 'Australia vs Türkiye LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Australia vs Türkiye FIFA World Cup 2026 FREE in HD. Group D at BC Place, Vancouver. Stream on beIN Sport 1, M6. No subscription.',
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Australia vs Türkiye',
-  startDate: '2026-06-14T04:00:00Z', endDate: '2026-06-14T06:00:00Z',
-  location: { '@type': 'Place', name: 'BC Place, Vancouver' },
-  competitor: [{ '@type': 'SportsTeam', name: 'Australia' }, { '@type': 'SportsTeam', name: 'Türkiye' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('australia-vs-turkiye-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('australia-vs-turkiye-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('australia-vs-turkiye-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Australia', flag: 'au', nickname: 'Socceroos', formation: '4-4-2' }}
         away={{ name: 'Türkiye', flag: 'tr', nickname: 'Ay-Yıldızlılar', formation: '4-2-3-1' }}

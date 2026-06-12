@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/korea-vs-czechia-2026`;
 
-export const metadata: Metadata = {
-  title: 'Korea vs Czechia LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Korea vs Czechia FIFA World Cup 2026 FREE in HD. Group A at Estadio Akron, Guadalajara. Stream on beIN Sport 1, M6. No subscription.',
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Korea vs Czechia',
-  startDate: '2026-06-12T02:00:00Z', endDate: '2026-06-12T04:00:00Z',
-  location: { '@type': 'Place', name: 'Estadio Akron, Guadalajara' },
-  competitor: [{ '@type': 'SportsTeam', name: 'Korea' }, { '@type': 'SportsTeam', name: 'Czechia' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('korea-vs-czechia-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('korea-vs-czechia-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('korea-vs-czechia-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Korea', flag: 'kr', nickname: 'Taeguk Warriors', formation: '4-2-3-1' }}
         away={{ name: 'Czechia', flag: 'cz', nickname: 'Lions', formation: '4-3-3' }}

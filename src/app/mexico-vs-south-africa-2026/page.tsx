@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/mexico-vs-south-africa-2026`;
 
-export const metadata: Metadata = {
-  title: 'Mexico vs South Africa LIVE — World Cup 2026 Free Stream | ETV · M6 · beIN Sport · La 1',
-  description: '🔴 Watch Mexico vs South Africa FIFA World Cup 2026 FREE in HD. Group A opener at Estadio Azteca, 19:00 UTC. Stream on ETV, M6, beIN Sport 1. No subscription. مشاهدة مباشرة مجاناً.',
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Mexico vs South Africa',
-  startDate: '2026-06-11T19:00:00Z', endDate: '2026-06-11T21:00:00Z',
-  location: { '@type': 'Place', name: 'Estadio Azteca', address: { '@type': 'PostalAddress', addressLocality: 'Mexico City', addressCountry: 'MX' } },
-  competitor: [{ '@type': 'SportsTeam', name: 'Mexico' }, { '@type': 'SportsTeam', name: 'South Africa' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', availability: 'https://schema.org/InStock', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('mexico-vs-south-africa-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('mexico-vs-south-africa-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('mexico-vs-south-africa-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Mexico', flag: 'mx', nickname: 'El Tri', formation: '4-3-3', lineup: ['Malagón','Sánchez','Araujo','Montes','Gallardo','E.Álvarez','Rodríguez','Romo','Antuna','Giménez','Lozano'] }}
         away={{ name: 'South Africa', flag: 'za', nickname: 'Bafana Bafana', formation: '4-5-1', lineup: ['Williams','Sesane','Shalulile','Dolly','Tau','Mokoena','Maart','Ndlovu','Zwane','Jali','Mabunda'] }}

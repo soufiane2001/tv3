@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/qatar-vs-switzerland-2026`;
 
-export const metadata: Metadata = {
-  title: 'Qatar vs Switzerland LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Qatar vs Switzerland FIFA World Cup 2026 FREE in HD. Group B at Levi\'s Stadium, Santa Clara. Stream on beIN Sport 1, M6. No subscription.',
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Qatar vs Switzerland',
-  startDate: '2026-06-13T19:00:00Z', endDate: '2026-06-13T21:00:00Z',
-  location: { '@type': 'Place', name: 'Levi\'s Stadium, Santa Clara' },
-  competitor: [{ '@type': 'SportsTeam', name: 'Qatar' }, { '@type': 'SportsTeam', name: 'Switzerland' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('qatar-vs-switzerland-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('qatar-vs-switzerland-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('qatar-vs-switzerland-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Qatar', flag: 'qa', nickname: 'Al Annabi', formation: '4-3-3' }}
         away={{ name: 'Switzerland', flag: 'ch', nickname: 'Nati', formation: '4-2-3-1' }}

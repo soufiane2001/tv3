@@ -89,6 +89,23 @@ async function upstream(
   });
 }
 
+// Resolve with the first response whose status is acceptable (not 403/401) as
+// soon as it arrives, rather than awaiting every probe. Rejections are ignored.
+// Resolves null only once all probes have settled without an acceptable one.
+function raceAcceptable(promises: Promise<Response>[]): Promise<Response | null> {
+  return new Promise((resolve) => {
+    let remaining = promises.length;
+    let done = false;
+    for (const p of promises) {
+      p.then(r => {
+        if (!done && r.status !== 403 && r.status !== 401) { done = true; resolve(r); }
+      }).catch(() => {}).finally(() => {
+        if (--remaining === 0 && !done) { done = true; resolve(null); }
+      });
+    }
+  });
+}
+
 // ─── Route handlers ───────────────────────────────────────────────────────────
 
 export async function OPTIONS() {
@@ -190,16 +207,13 @@ export async function GET(req: NextRequest) {
   // Vercel Hobby functions have a 10s max. Keep total retry budget under 8s.
   // VLC UA is now first — IPTV servers typically whitelist it like end-user players.
   try {
-    // ── Fast parallel probe: try VLC + Chrome UA simultaneously ─────────────
-    const [vlcRes, chromeRes] = await Promise.allSettled([
+    // ── Fast parallel probe: VLC + Chrome UA, return on FIRST acceptable ─────
+    // (was Promise.allSettled, which waited for BOTH — a timing-out UA added up
+    // to 7s of dead time per segment, the main cause of ~20s startup vs VLC's 3s.)
+    res = await raceAcceptable([
       upstream(rawUrl, buildHeadersClean(UA_LIST[0]), 7_000),
       upstream(rawUrl, buildHeadersClean(UA_LIST[1]), 7_000),
     ]);
-    for (const r of [vlcRes, chromeRes]) {
-      if (r.status === 'fulfilled' && r.value.status !== 403 && r.value.status !== 401) {
-        res = r.value; break;
-      }
-    }
 
     if (!res) {
       // ── Sequential fallback: try with Referer headers ─────────────────────

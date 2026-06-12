@@ -8,6 +8,24 @@ const UA_VLC    = 'VLC/3.0.21 LibVLC/3.0.21';
 const UA_CHROME = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36';
 const UA        = UA_VLC;
 
+// Resolve with the FIRST response whose status is acceptable (not 403/401),
+// as soon as it arrives — instead of awaiting every probe. Returns null only
+// once all probes have settled without an acceptable response. This avoids a
+// slow/timing-out UA holding up a fetch that another UA already satisfied.
+function raceAcceptable(promises: Promise<Response | null>[]): Promise<Response | null> {
+  return new Promise((resolve) => {
+    let remaining = promises.length;
+    let done = false;
+    for (const p of promises) {
+      p.then(r => {
+        if (!done && r && r.status !== 403 && r.status !== 401) { done = true; resolve(r); }
+      }).catch(() => {}).finally(() => {
+        if (--remaining === 0 && !done) { done = true; resolve(null); }
+      });
+    }
+  });
+}
+
 // Convert bare Xtream-Codes TS stream URLs to HLS on the fly
 function toHlsUrl(url: string): string {
   if (/\.(m3u8|ts|mp4|mkv)(\?.*)?$/i.test(url)) return url;
@@ -164,11 +182,8 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
         redirect: 'follow',
       }).catch(() => null);
 
-    let res: Response | null = null;
-    const [r1, r2] = await Promise.all([fetchWith(UA_VLC), fetchWith(UA_CHROME)]);
-    for (const r of [r1, r2]) {
-      if (r && r.status !== 403 && r.status !== 401) { res = r; break; }
-    }
+    // Return as soon as the first acceptable probe responds (not after both).
+    let res: Response | null = await raceAcceptable([fetchWith(UA_VLC), fetchWith(UA_CHROME)]);
 
     // On 403: try Referer strategies (sequential, short timeouts)
     if (!res) {
@@ -188,7 +203,7 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
       }
     }
 
-    if (!res) res = r1 ?? r2 ?? await fetchWith(UA_VLC);
+    if (!res) res = await fetchWith(UA_VLC);
     if (!res) return NextResponse.json({ error: 'Stream unreachable' }, { status: 502 });
 
     console.log(`[stream/${id}] status=${res?.status} finalUrl=${res?.url} upstream=${upstream}`);

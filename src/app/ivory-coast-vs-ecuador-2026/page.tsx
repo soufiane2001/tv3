@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/ivory-coast-vs-ecuador-2026`;
 
-export const metadata: Metadata = {
-  title: 'Ivory Coast vs Ecuador LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: "🔴 Watch Ivory Coast vs Ecuador FIFA World Cup 2026 FREE in HD. Group E at Lincoln Financial Field, Philadelphia. Stream on beIN Sport 1, M6. No subscription.",
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Ivory Coast vs Ecuador',
-  startDate: '2026-06-14T23:00:00Z', endDate: '2026-06-15T01:00:00Z',
-  location: { '@type': 'Place', name: "Lincoln Financial Field, Philadelphia" },
-  competitor: [{ '@type': 'SportsTeam', name: 'Ivory Coast' }, { '@type': 'SportsTeam', name: 'Ecuador' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('ivory-coast-vs-ecuador-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('ivory-coast-vs-ecuador-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('ivory-coast-vs-ecuador-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Ivory Coast', flag: 'ci', nickname: 'Les Éléphants', formation: '4-3-3' }}
         away={{ name: 'Ecuador', flag: 'ec', nickname: 'La Tri', formation: '4-3-3' }}

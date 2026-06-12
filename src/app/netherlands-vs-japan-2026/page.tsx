@@ -3,35 +3,19 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
+import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
 
 export const revalidate = 3600;
-const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
-const PAGE_URL = `${SITE}/netherlands-vs-japan-2026`;
 
-export const metadata: Metadata = {
-  title: 'Netherlands vs Japan LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
-  description: '🔴 Watch Netherlands vs Japan FIFA World Cup 2026 FREE in HD. Group F at AT&T Stadium, Dallas. Stream on beIN Sport 1, M6. No subscription.',
-  alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
-};
-
-const jsonLd = {
-  '@context': 'https://schema.org', '@type': 'SportsEvent',
-  name: 'FIFA World Cup 2026 — Netherlands vs Japan',
-  startDate: '2026-06-14T20:00:00Z', endDate: '2026-06-14T22:00:00Z',
-  location: { '@type': 'Place', name: 'AT&T Stadium, Dallas' },
-  competitor: [{ '@type': 'SportsTeam', name: 'Netherlands' }, { '@type': 'SportsTeam', name: 'Japan' }],
-  organizer: { '@type': 'Organization', name: 'FIFA' },
-  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD', url: PAGE_URL },
-};
-
+export const metadata: Metadata = buildMatchMetadata('netherlands-vs-japan-2026');
 
 export default async function Page() {
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
 
   return (
     <>
-      <JsonLd data={jsonLd} />
+      <JsonLd data={buildMatchJsonLd('netherlands-vs-japan-2026')} />
+      <JsonLd data={buildBreadcrumbJsonLd('netherlands-vs-japan-2026')} />
       <WC2026MatchLayout
         home={{ name: 'Netherlands', flag: 'nl', nickname: 'Oranje', formation: '4-3-3' }}
         away={{ name: 'Japan', flag: 'jp', nickname: 'Samurai Blue', formation: '4-2-3-1' }}
