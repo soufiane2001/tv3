@@ -32,6 +32,14 @@ interface StatsData {
   pageGeo: PageGeoEntry[];
   topStreams: { channelId: string; channelName: string; count: number }[];
   recentSessions: RecentSession[];
+  visitors: {
+    total: number; newToday: number; returningToday: number;
+    list: {
+      visitorId: string; short: string; firstSeen: string; lastSeen: string;
+      visits: number; isNew: boolean; country: string; countryCode: string;
+      flag: string; device: string; browser: string; referrer: string | null;
+    }[];
+  };
 }
 
 const DEVICE_ICONS: Record<string, any> = { desktop: Monitor, mobile: Smartphone, tablet: Tablet };
@@ -358,6 +366,56 @@ export default function AnalyticsDashboard({ password }: { password: string }) {
                 </span>
               </div>
             ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Visitors (persistent id) ── */}
+      {d.visitors && (
+        <section className="bg-gray-800/60 border border-white/5 rounded-2xl overflow-hidden">
+          <div className="px-5 py-4 border-b border-white/5 flex items-center justify-between flex-wrap gap-2">
+            <h3 className="text-white font-semibold flex items-center gap-2">
+              <Users className="w-4 h-4 text-purple-400" />
+              Visiteurs
+              <span className="text-gray-500 text-xs font-normal ml-1">{fmt(d.visitors.total)} au total</span>
+            </h3>
+            <div className="flex items-center gap-2 text-xs">
+              <span className="px-2.5 py-1 rounded-full bg-green-500/15 text-green-400 font-semibold">
+                🆕 {d.visitors.newToday} nouveaux aujourd&apos;hui
+              </span>
+              <span className="px-2.5 py-1 rounded-full bg-blue-500/15 text-blue-400 font-semibold">
+                ↩ {d.visitors.returningToday} de retour
+              </span>
+            </div>
+          </div>
+          <div className="divide-y divide-white/5 max-h-[500px] overflow-y-auto">
+            {d.visitors.list.map((v) => {
+              const DevIcon = DEVICE_ICONS[v.device] || Monitor;
+              return (
+                <div key={v.visitorId} className="flex items-center gap-3 px-5 py-3">
+                  <span className="text-xl flex-shrink-0">{v.flag}</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <code className="text-gray-300 text-xs font-mono bg-black/30 px-1.5 py-0.5 rounded">{v.short}</code>
+                      {v.isNew ? (
+                        <span className="text-[10px] font-black uppercase tracking-wide bg-green-500/20 text-green-400 px-2 py-0.5 rounded-full">Nouveau</span>
+                      ) : (
+                        <span className="text-[10px] font-bold uppercase tracking-wide bg-white/5 text-gray-400 px-2 py-0.5 rounded-full">Récurrent</span>
+                      )}
+                      <span className="text-gray-400 text-sm">{v.country}</span>
+                      <span className="text-gray-600 text-xs">{v.browser}</span>
+                    </div>
+                    <div className="flex items-center gap-3 mt-0.5 text-xs text-gray-600">
+                      <span>{v.visits} visite{v.visits !== 1 ? 's' : ''}</span>
+                      <span>1ʳᵉ&nbsp;: {new Date(v.firstSeen).toLocaleDateString([], { day: '2-digit', month: 'short' })}</span>
+                      <span>vu&nbsp;: {new Date(v.lastSeen).toLocaleString([], { day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
+                      {v.referrer && <span className="text-gray-700 truncate">via {v.referrer}</span>}
+                    </div>
+                  </div>
+                  <DevIcon className="w-4 h-4 text-gray-600 flex-shrink-0" />
+                </div>
+              );
+            })}
           </div>
         </section>
       )}

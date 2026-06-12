@@ -78,6 +78,7 @@ model PageView {
   id          String   @id @default(cuid())
   path        String
   sessionId   String
+  visitorId   String?
   country     String   @default("Unknown")
   countryCode String   @default("??")
   city        String?
@@ -90,7 +91,28 @@ model PageView {
   @@index([createdAt])
   @@index([path])
   @@index([sessionId])
+  @@index([visitorId])
   @@index([country])
+}
+
+// One row per persistent browser (localStorage id) — lets us tell new visitors
+// from returning ones and list each user by id.
+model Visitor {
+  id            String   @id @default(cuid())
+  visitorId     String   @unique
+  firstSeen     DateTime @default(now())
+  lastSeen      DateTime @default(now())
+  visits        Int      @default(1)   // distinct sessions
+  lastSessionId String?
+  country       String   @default("Unknown")
+  countryCode   String   @default("??")
+  city          String?
+  device        String   @default("desktop")
+  browser       String   @default("Other")
+  referrer      String?
+
+  @@index([firstSeen])
+  @@index([lastSeen])
 }
 
 model LiveVisitor {

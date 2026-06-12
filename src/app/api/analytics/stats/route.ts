@@ -32,6 +32,10 @@ export async function GET(req: NextRequest) {
     pageGeoRaw,
     topStreams,
     recentSessionsRaw,
+    totalVisitors,
+    newVisitorsToday,
+    returningToday,
+    recentVisitorsRaw,
   ] = await Promise.all([
     // Active right now
     prisma.liveVisitor.findMany({
@@ -132,6 +136,18 @@ export async function GET(req: NextRequest) {
       GROUP BY "sessionId", country, "countryCode", device, browser
       ORDER BY "firstSeen" DESC
       LIMIT 50`,
+    // Persistent visitors — total, new today, returning today, recent list
+    prisma.visitor.count(),
+    prisma.visitor.count({ where: { firstSeen: { gte: todayMidnight } } }),
+    prisma.visitor.count({ where: { lastSeen: { gte: todayMidnight }, firstSeen: { lt: todayMidnight } } }),
+    prisma.visitor.findMany({
+      orderBy: { lastSeen: 'desc' },
+      take: 60,
+      select: {
+        visitorId: true, firstSeen: true, lastSeen: true, visits: true,
+        country: true, countryCode: true, device: true, browser: true, referrer: true,
+      },
+    }),
   ]);
 
   // Fetch which sessions played a stream (24h)
@@ -230,5 +246,24 @@ export async function GET(req: NextRequest) {
       firstSeen: s.firstSeen,
       streamPlayed: streamPlayMap.get(s.sessionId) || [],
     })),
+    visitors: {
+      total: totalVisitors,
+      newToday: newVisitorsToday,
+      returningToday,
+      list: recentVisitorsRaw.map(v => ({
+        visitorId: v.visitorId,
+        short: v.visitorId.slice(0, 8),
+        firstSeen: v.firstSeen,
+        lastSeen: v.lastSeen,
+        visits: v.visits,
+        isNew: v.firstSeen >= todayMidnight,
+        country: v.country,
+        countryCode: v.countryCode,
+        flag: COUNTRY_FLAGS[v.countryCode] || '🌐',
+        device: v.device,
+        browser: v.browser,
+        referrer: v.referrer || null,
+      })),
+    },
   });
 }

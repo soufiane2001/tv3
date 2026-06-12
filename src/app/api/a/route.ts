@@ -10,7 +10,7 @@ export async function POST(req: NextRequest) {
     if (isBot(ua)) return NextResponse.json({ ok: true });
 
     const body = await req.json().catch(() => ({}));
-    const { path = '/', sessionId, referrer, duration, ping, leave, streamPlay, channelId, channelName } = body;
+    const { path = '/', sessionId, visitorId, referrer, duration, ping, leave, streamPlay, channelId, channelName } = body;
     if (!sessionId || !path) return NextResponse.json({ ok: false });
 
     // Ignore internal paths
@@ -51,6 +51,24 @@ export async function POST(req: NextRequest) {
       create: { sessionId, path, country, countryCode, device },
     });
 
+    // Persistent visitor: create on first ever sight (= new visitor), otherwise
+    // bump lastSeen and count a new session when the sessionId changes. Skipped
+    // for keep-alive pings to avoid hammering the DB.
+    if (visitorId && !ping) {
+      const existing = await prisma.visitor.findUnique({ where: { visitorId }, select: { lastSessionId: true } });
+      if (!existing) {
+        await prisma.visitor.create({
+          data: { visitorId, country, countryCode, city: city || null, device, browser, referrer: referrer || null, lastSessionId: sessionId },
+        });
+      } else {
+        const newSession = existing.lastSessionId !== sessionId;
+        await prisma.visitor.update({
+          where: { visitorId },
+          data: { lastSeen: new Date(), ...(newSession && { visits: { increment: 1 }, lastSessionId: sessionId }) },
+        });
+      }
+    }
+
     if (streamPlay && channelId && channelName) {
       await prisma.streamPlay.create({
         data: { sessionId, channelId, channelName, path, country, countryCode, device },
@@ -60,7 +78,7 @@ export async function POST(req: NextRequest) {
     } else if (!duration) {
       // Initial pageview
       await prisma.pageView.create({
-        data: { path, sessionId, country, countryCode, city: city || null, referrer: referrer || null, device, browser },
+        data: { path, sessionId, visitorId: visitorId || null, country, countryCode, city: city || null, referrer: referrer || null, device, browser },
       });
     } else {
       // Duration update on leaving the page

@@ -44,6 +44,19 @@ function getOrCreateSessionId(): string {
   } catch { return 'anon'; }
 }
 
+// Persistent per-browser id (localStorage) — survives across sessions/visits,
+// so we can tell new visitors from returning ones.
+function getOrCreateVisitorId(): string {
+  try {
+    let vid = localStorage.getItem('_avid');
+    if (!vid) {
+      vid = crypto.randomUUID?.() ?? Math.random().toString(36).slice(2) + Date.now().toString(36);
+      localStorage.setItem('_avid', vid);
+    }
+    return vid;
+  } catch { return 'anon'; }
+}
+
 function getReferrer(): string {
   try {
     const ref = document.referrer;
@@ -62,12 +75,16 @@ export default function Tracker() {
   const pathname  = usePathname();
   const startRef  = useRef<number>(Date.now());
   const sidRef    = useRef<string>('');
+  const vidRef    = useRef<string>('');
   const pingRef   = useRef<NodeJS.Timeout | null>(null);
   const isBotRef  = useRef<boolean>(false);
 
   useEffect(() => {
     isBotRef.current = isBotClient();
-    if (!isBotRef.current) sidRef.current = getOrCreateSessionId();
+    if (!isBotRef.current) {
+      sidRef.current = getOrCreateSessionId();
+      vidRef.current = getOrCreateVisitorId();
+    }
   }, []);
 
   useEffect(() => {
@@ -75,13 +92,15 @@ export default function Tracker() {
 
     startRef.current = Date.now();
     const sid  = sidRef.current;
+    const vid  = vidRef.current;
     const path = pathname;
 
-    // Initial pageview
+    // Initial pageview (carries the persistent visitor id so the server can
+    // record the visitor and flag new vs returning).
     fetch('/api/a', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ path, sessionId: sid, referrer: getReferrer() }),
+      body: JSON.stringify({ path, sessionId: sid, visitorId: vid, referrer: getReferrer() }),
       keepalive: true,
     }).catch(() => {});
 
