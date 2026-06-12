@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { ChevronRight } from 'lucide-react';
 import ChannelCard from '@/components/channels/ChannelCard';
 import WC2026StreamClient from '@/components/worldcup/WC2026StreamClient';
+import MatchLinksGrid from '@/components/worldcup/MatchLinksGrid';
 import JsonLd from '@/components/seo/JsonLd';
 import AdBanner from '@/components/ads/AdBanner';
 import AdBanner300 from '@/components/ads/AdBanner300';
@@ -302,6 +303,9 @@ export default async function HomePage() {
 
         <div className="mt-4"><AdBanner /></div>
       </section>
+
+      {/* Crawlable internal links — every match page at depth 1 from home (SEO) */}
+      <MatchLinksGrid />
 
       {/* ══════════════════════════════════════════════════════
           WC2026 HIGHLIGHT — light section (design #2)

@@ -4,6 +4,7 @@ import JsonLd from '@/components/seo/JsonLd';
 import WC2026StreamClient from '@/components/worldcup/WC2026StreamClient';
 import AdBanner from '@/components/ads/AdBanner';
 import { wc2026News } from '@/data/wc2026-news';
+import { matchesByDay } from '@/data/wc2026-matches';
 import { getWcExtraChannels } from '@/lib/wc-channels';
 
 export const revalidate = 3600;
@@ -73,30 +74,8 @@ const faqJsonLd = {
   ],
 };
 
-// Real WC2026 schedule (FIFA final draw 05/12/2025). Times shown in Paris time
-// (CEST, UTC+2); "+1" marks an early-morning kick-off the following day.
-const MATCHES = [
-  { date: 'Thu June 11', matches: [
-    { slug: 'mexico-vs-south-africa-2026', home: 'Mexico', hf: 'mx', away: 'South Africa', af: 'za', time: '21:00', group: 'A' },
-    { slug: 'korea-vs-czechia-2026', home: 'Korea', hf: 'kr', away: 'Czechia', af: 'cz', time: '04:00+1', group: 'A' },
-  ]},
-  { date: 'Fri June 12', matches: [
-    { slug: 'canada-vs-bosnia-2026', home: 'Canada', hf: 'ca', away: 'Bosnia', af: 'ba', time: '21:00', group: 'B' },
-    { slug: 'usa-vs-paraguay-2026', home: 'USA', hf: 'us', away: 'Paraguay', af: 'py', time: '03:00+1', group: 'D' },
-  ]},
-  { date: 'Sat June 13', matches: [
-    { slug: 'qatar-vs-switzerland-2026', home: 'Qatar', hf: 'qa', away: 'Switzerland', af: 'ch', time: '21:00', group: 'B' },
-    { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', time: '00:00+1', group: 'C' },
-    { slug: 'haiti-vs-scotland-2026', home: 'Haiti', hf: 'ht', away: 'Scotland', af: 'gb-sct', time: '03:00+1', group: 'C' },
-    { slug: 'australia-vs-turkiye-2026', home: 'Australia', hf: 'au', away: 'Türkiye', af: 'tr', time: '06:00+1', group: 'D' },
-  ]},
-  { date: 'Sun June 14', matches: [
-    { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', time: '19:00', group: 'E' },
-    { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', time: '22:00', group: 'F' },
-    { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hf: 'ci', away: 'Ecuador', af: 'ec', time: '01:00+1', group: 'E' },
-    { slug: 'sweden-vs-tunisia-2026', home: 'Sweden', hf: 'se', away: 'Tunisia', af: 'tn', time: '04:00+1', group: 'F' },
-  ]},
-];
+// Schedule derived from the single source of truth (wc2026-matches).
+const MATCHES = matchesByDay();
 
 const CAT_COLORS: Record<string, string> = {
   News:     'bg-blue-500 text-white',

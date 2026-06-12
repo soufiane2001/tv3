@@ -1,5 +1,6 @@
 import { MetadataRoute } from 'next';
 import { prisma } from '@/lib/prisma';
+import { WC2026_MATCHES } from '@/data/wc2026-matches';
 
 export const revalidate = 3600; // regenerate at most once per hour
 
@@ -45,19 +46,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     { url: `${base}/world-cup-2026-live`,           lastModified: now, changeFrequency: 'hourly', priority: 1.0 },
     { url: `${base}/wc2026`,                       lastModified: now, changeFrequency: 'daily',  priority: 0.95 },
     { url: `${base}/world-cup-2026`,              lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    // World Cup 2026 — Group Stage match pages
-    { url: `${base}/mexico-vs-south-africa-2026`,  lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/korea-vs-czechia-2026`,        lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/canada-vs-bosnia-2026`,        lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/usa-vs-paraguay-2026`,         lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/haiti-vs-scotland-2026`,       lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/australia-vs-turkiye-2026`,    lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/brazil-vs-morocco-2026`,       lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/qatar-vs-switzerland-2026`,    lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/ivory-coast-vs-ecuador-2026`,  lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/germany-vs-curacao-2026`,      lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/netherlands-vs-japan-2026`,    lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
-    { url: `${base}/sweden-vs-tunisia-2026`,        lastModified: now, changeFrequency: 'daily',  priority: 0.9 },
+    // World Cup 2026 — Group Stage match pages are generated from the single
+    // source (wc2026-matches) and appended below as `matchRoutes`.
     { url: `${base}/belgique-vs-tunisie-2026`,     lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
     // Free broadcast channels for the UCL Final
     { url: `${base}/channel/la-1`,        lastModified: now, changeFrequency: 'hourly', priority: 0.95 },
@@ -95,9 +85,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         : 0.8,
     }));
 
+  const matchRoutes: MetadataRoute.Sitemap = WC2026_MATCHES.map(m => ({
+    url: `${base}/${m.slug}`, lastModified: now, changeFrequency: 'daily' as const, priority: 0.9,
+  }));
+
   // Deduplicate — events section already hard-codes some channel/* URLs
   const seen = new Set<string>();
-  return [...static_, ...events, ...catRoutes, ...chRoutes].filter(entry => {
+  return [...static_, ...events, ...matchRoutes, ...catRoutes, ...chRoutes].filter(entry => {
     if (seen.has(entry.url)) return false;
     seen.add(entry.url);
     return true;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import JsonLd from '@/components/seo/JsonLd';
+import { WC2026_MATCHES, matchesByDay } from '@/data/wc2026-matches';
 
 export const revalidate = 3600;
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
@@ -30,21 +31,11 @@ export const metadata: Metadata = {
 const jsonLd = {
   '@context': 'https://schema.org', '@type': 'ItemList',
   name: 'FIFA World Cup 2026 — All Match Live Stream Pages',
-  url: `${SITE}/wc2026`, numberOfItems: 12,
-  itemListElement: [
-    { '@type': 'ListItem', position: 1,  name: 'Mexico vs South Africa — WC2026',  url: `${SITE}/mexico-vs-south-africa-2026` },
-    { '@type': 'ListItem', position: 2,  name: 'Korea vs Czechia — WC2026',        url: `${SITE}/korea-vs-czechia-2026` },
-    { '@type': 'ListItem', position: 3,  name: 'Canada vs Bosnia — WC2026',        url: `${SITE}/canada-vs-bosnia-2026` },
-    { '@type': 'ListItem', position: 4,  name: 'USA vs Paraguay — WC2026',         url: `${SITE}/usa-vs-paraguay-2026` },
-    { '@type': 'ListItem', position: 5,  name: 'Haiti vs Scotland — WC2026',       url: `${SITE}/haiti-vs-scotland-2026` },
-    { '@type': 'ListItem', position: 6,  name: 'Australia vs Türkiye — WC2026',    url: `${SITE}/australia-vs-turkiye-2026` },
-    { '@type': 'ListItem', position: 7,  name: 'Brazil vs Morocco — WC2026',       url: `${SITE}/brazil-vs-morocco-2026` },
-    { '@type': 'ListItem', position: 8,  name: 'Qatar vs Switzerland — WC2026',    url: `${SITE}/qatar-vs-switzerland-2026` },
-    { '@type': 'ListItem', position: 9,  name: 'Ivory Coast vs Ecuador — WC2026',  url: `${SITE}/ivory-coast-vs-ecuador-2026` },
-    { '@type': 'ListItem', position: 10, name: 'Germany vs Curaçao — WC2026',      url: `${SITE}/germany-vs-curacao-2026` },
-    { '@type': 'ListItem', position: 11, name: 'Netherlands vs Japan — WC2026',    url: `${SITE}/netherlands-vs-japan-2026` },
-    { '@type': 'ListItem', position: 12, name: 'Sweden vs Tunisia — WC2026',       url: `${SITE}/sweden-vs-tunisia-2026` },
-  ],
+  url: `${SITE}/wc2026`, numberOfItems: WC2026_MATCHES.length,
+  itemListElement: WC2026_MATCHES.map((m, i) => ({
+    '@type': 'ListItem', position: i + 1,
+    name: `${m.home} vs ${m.away} — WC2026`, url: `${SITE}/${m.slug}`,
+  })),
 };
 
 const faqJsonLd = {
@@ -60,30 +51,8 @@ const faqJsonLd = {
   ],
 };
 
-// Real WC2026 schedule (FIFA final draw 05/12/2025). Times in Paris time
-// (CEST, UTC+2); "+1" = early-morning kick-off the next day.
-const MATCHES = [
-  { date: 'Thursday June 11', matches: [
-    { slug: 'mexico-vs-south-africa-2026', home: 'Mexico', hc: 'mx', away: 'South Africa', ac: 'za', time: '21:00', group: 'A', venue: 'Estadio Azteca, MX' },
-    { slug: 'korea-vs-czechia-2026', home: 'Korea', hc: 'kr', away: 'Czechia', ac: 'cz', time: '04:00+1', group: 'A', venue: 'Estadio Akron, GDL' },
-  ]},
-  { date: 'Friday June 12', matches: [
-    { slug: 'canada-vs-bosnia-2026', home: 'Canada', hc: 'ca', away: 'Bosnia', ac: 'ba', time: '21:00', group: 'B', venue: 'BMO Field, Toronto' },
-    { slug: 'usa-vs-paraguay-2026', home: 'USA', hc: 'us', away: 'Paraguay', ac: 'py', time: '03:00+1', group: 'D', venue: 'SoFi Stadium, LA' },
-  ]},
-  { date: 'Saturday June 13', matches: [
-    { slug: 'qatar-vs-switzerland-2026', home: 'Qatar', hc: 'qa', away: 'Switzerland', ac: 'ch', time: '21:00', group: 'B', venue: "Levi's Stadium, SF" },
-    { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hc: 'br', away: 'Morocco', ac: 'ma', time: '00:00+1', group: 'C', venue: 'MetLife Stadium, NY' },
-    { slug: 'haiti-vs-scotland-2026', home: 'Haiti', hc: 'ht', away: 'Scotland', ac: 'gb-sct', time: '03:00+1', group: 'C', venue: 'Gillette Stadium, Boston' },
-    { slug: 'australia-vs-turkiye-2026', home: 'Australia', hc: 'au', away: 'Türkiye', ac: 'tr', time: '06:00+1', group: 'D', venue: 'BC Place, Vancouver' },
-  ]},
-  { date: 'Sunday June 14', matches: [
-    { slug: 'germany-vs-curacao-2026', home: 'Germany', hc: 'de', away: 'Curaçao', ac: 'cw', time: '19:00', group: 'E', venue: 'NRG Stadium, Houston' },
-    { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hc: 'nl', away: 'Japan', ac: 'jp', time: '22:00', group: 'F', venue: 'AT&T Stadium, Dallas' },
-    { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hc: 'ci', away: 'Ecuador', ac: 'ec', time: '01:00+1', group: 'E', venue: 'Lincoln Financial Field, Philadelphia' },
-    { slug: 'sweden-vs-tunisia-2026', home: 'Sweden', hc: 'se', away: 'Tunisia', ac: 'tn', time: '04:00+1', group: 'F', venue: 'Estadio BBVA, Monterrey' },
-  ]},
-];
+// Schedule derived from the single source of truth (wc2026-matches).
+const MATCHES = matchesByDay();
 
 export default function WC2026Page() {
   return (
@@ -169,12 +138,12 @@ export default function WC2026Page() {
                     {/* Teams */}
                     <div className="flex-1 flex items-center gap-3 min-w-0">
                       <div className="flex items-center gap-2 min-w-0">
-                        <img src={`https://flagcdn.com/w40/${m.hc}.png`} alt={m.home} width={30} height={20} className="rounded flex-shrink-0 shadow" />
+                        <img src={`https://flagcdn.com/w40/${m.hf}.png`} alt={m.home} width={30} height={20} className="rounded flex-shrink-0 shadow" />
                         <span className="text-white font-bold text-sm truncate">{m.home}</span>
                       </div>
                       <span className="text-white/20 text-xs font-black flex-shrink-0">VS</span>
                       <div className="flex items-center gap-2 min-w-0">
-                        <img src={`https://flagcdn.com/w40/${m.ac}.png`} alt={m.away} width={30} height={20} className="rounded flex-shrink-0 shadow" />
+                        <img src={`https://flagcdn.com/w40/${m.af}.png`} alt={m.away} width={30} height={20} className="rounded flex-shrink-0 shadow" />
                         <span className="text-white font-bold text-sm truncate">{m.away}</span>
                       </div>
                     </div>
@@ -182,7 +151,7 @@ export default function WC2026Page() {
                     {/* Time + venue */}
                     <div className="hidden sm:block text-right flex-shrink-0">
                       <p className="text-white font-black text-sm">{m.time}</p>
-                      <p className="text-white/30 text-[10px]">{m.venue}</p>
+                      <p className="text-white/30 text-[10px]">{m.venueShort}</p>
                     </div>
 
                     {/* Watch CTA */}
