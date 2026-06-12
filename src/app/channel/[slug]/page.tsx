@@ -217,7 +217,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: channel.logo ? [{ url: channel.logo, alt: channel.name }] : [],
     },
     twitter: { card: 'summary_large_image', title: baseTitle, description: baseDesc },
-    robots: { index: true, follow: true },
+    robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
     alternates: {
       canonical: `${SITE}/channel/${slug}`,
     },

@@ -34,7 +34,7 @@ export const metadata: Metadata = {
     type: 'website',
   },
   twitter: { card: 'summary_large_image', title: '🇲🇦 Chaînes Marocaines En Direct Gratuit' },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
   alternates: { canonical: `${SITE}/chaines-marocaines` },
 };
 

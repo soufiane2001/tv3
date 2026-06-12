@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     description: 'Expert prediction, match preview and analysis for the Champions League Final 2026 — Arsenal vs PSG, 30 May.',
     type: 'website',
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

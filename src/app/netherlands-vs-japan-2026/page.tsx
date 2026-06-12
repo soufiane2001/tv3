@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Netherlands vs Japan LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
   description: '🔴 Watch Netherlands vs Japan FIFA World Cup 2026 FREE in HD. Group F at AT&T Stadium, Dallas. Stream on beIN Sport 1, M6. No subscription.',
   alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

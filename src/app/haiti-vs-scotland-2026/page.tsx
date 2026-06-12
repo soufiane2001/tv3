@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Haiti vs Scotland LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
   description: '🔴 Watch Haiti vs Scotland FIFA World Cup 2026 FREE in HD. Group C at Gillette Stadium, Boston. Stream on beIN Sport 1, M6. No subscription.',
   alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

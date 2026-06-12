@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Korea vs Czechia LIVE — World Cup 2026 Free Stream | beIN Sport · M6',
   description: '🔴 Watch Korea vs Czechia FIFA World Cup 2026 FREE in HD. Group A at Estadio Akron, Guadalajara. Stream on beIN Sport 1, M6. No subscription.',
   alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

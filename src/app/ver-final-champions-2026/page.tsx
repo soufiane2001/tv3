@@ -29,7 +29,7 @@ export const metadata: Metadata = {
     description: 'Final Champions League 2026 en directo gratis — La 1, M6 y Canal+ Sport. Sin registro.',
     type: 'website',
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

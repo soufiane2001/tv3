@@ -37,7 +37,7 @@ export const metadata: Metadata = {
     description: 'Full predicted starting XIs for Arsenal and PSG in the Champions League Final 2026.',
     type: 'website',
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

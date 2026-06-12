@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     type: 'website',
     url: `${SITE}/live`,
   },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 export default function LiveLayout({ children }: { children: React.ReactNode }) {

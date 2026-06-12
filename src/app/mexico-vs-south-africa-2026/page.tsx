@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   title: 'Mexico vs South Africa LIVE — World Cup 2026 Free Stream | ETV · M6 · beIN Sport · La 1',
   description: '🔴 Watch Mexico vs South Africa FIFA World Cup 2026 FREE in HD. Group A opener at Estadio Azteca, 19:00 UTC. Stream on ETV, M6, beIN Sport 1. No subscription. مشاهدة مباشرة مجاناً.',
   alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
 };
 
 const jsonLd = {

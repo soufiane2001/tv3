@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     'aigles carthage belgique direct', 'regarder match amical gratuit france',
   ],
   alternates: { canonical: PAGE_URL },
-  robots: { index: true, follow: true },
+  robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-image-preview': 'large', 'max-snippet': -1, 'max-video-preview': -1 } },
   openGraph: {
     title: 'Belgique vs Tunisie EN DIRECT — Match Amical Gratuit | L\'Équipe TV',
     description: 'Regardez Belgique vs Tunisie en direct gratuit sur SportaLive. Match amical 6 juin 2026 — L\'Équipe TV, beIN Sport 1, Arryadia TNT. Sans abonnement.',
