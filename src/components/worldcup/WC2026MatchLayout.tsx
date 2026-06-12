@@ -25,14 +25,15 @@ interface Props {
   away: MatchTeam;
   meta: MatchMeta;
   servers: WCServer[];
-  blog: MatchBlogData;
+  blog?: MatchBlogData;          // rich editorial blog (hand-written matches)
+  preview?: string[];            // factual preview paragraphs (generated matches)
   kickoffTimes: { flag: string; country: string; time: string }[];
   faqs: { q: string; a: string }[];
   relatedLinks: { href: string; label: string }[];
 }
 
 export default function WC2026MatchLayout({
-  home, away, meta, servers, blog, kickoffTimes, faqs, relatedLinks,
+  home, away, meta, servers, blog, preview, kickoffTimes, faqs, relatedLinks,
 }: Props) {
   return (
     <div className="max-w-4xl mx-auto space-y-0">
@@ -244,7 +245,18 @@ export default function WC2026MatchLayout({
           MATCH BLOG
       ═══════════════════════════════════════ */}
       <div className="px-4 md:px-0 pt-6">
-        <MatchBlog data={blog} />
+        {blog ? (
+          <MatchBlog data={blog} />
+        ) : preview && preview.length > 0 ? (
+          <section className="prose-invert max-w-none">
+            <h2 className="text-white text-2xl font-black mb-4">
+              {home.name} vs {away.name} — Match Preview
+            </h2>
+            {preview.map((p, i) => (
+              <p key={i} className="text-gray-300 leading-relaxed mb-4">{p}</p>
+            ))}
+          </section>
+        ) : null}
       </div>
 
       {/* ═══════════════════════════════════════

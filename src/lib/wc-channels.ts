@@ -14,7 +14,13 @@ const EXTRA = [
   { slug: 'bein-global', name: 'beIN SPORTS Global', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/262.ts', sublabel: 'beIN · Global · HD' },
 ] as const;
 
-export async function getWcExtraChannels() {
+// Memoise per process so prerendering 72 match pages doesn't fire the upserts
+// hundreds of times (and so runtime requests reuse one DB round-trip).
+let _cache: Awaited<ReturnType<typeof upsertExtra>> | null = null;
+let _cacheTs = 0;
+const CACHE_TTL = 5 * 60_000;
+
+function upsertExtra() {
   return Promise.all(
     EXTRA.map(ch =>
       prisma.channel.upsert({
@@ -24,4 +30,11 @@ export async function getWcExtraChannels() {
       }).catch(() => null)
     )
   );
+}
+
+export async function getWcExtraChannels() {
+  if (_cache && Date.now() - _cacheTs < CACHE_TTL) return _cache;
+  _cache = await upsertExtra();
+  _cacheTs = Date.now();
+  return _cache;
 }
