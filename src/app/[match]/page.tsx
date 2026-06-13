@@ -5,7 +5,7 @@ import WC2026MatchLayout from '@/components/worldcup/WC2026MatchLayout';
 import { blogs } from '@/data/wc2026-blogs';
 import { getWcExtraChannels } from '@/lib/wc-channels';
 import { buildMatchMetadata, buildMatchJsonLd, buildBreadcrumbJsonLd } from '@/lib/match-seo';
-import { WC2026_MATCHES, getMatch, getTeam, groupMatches, teamSlug } from '@/data/wc2026-matches';
+import { WC2026_MATCHES, getMatch, getTeam, groupMatches, teamSlug, teamI18n } from '@/data/wc2026-matches';
 
 export const revalidate = 3600;
 export const dynamicParams = false; // only the 72 generated slugs are valid; others 404
@@ -47,6 +47,9 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
   const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
   const ht = getTeam(m.home);
   const at = getTeam(m.away);
+  const hI = teamI18n(m.home);
+  const aI = teamI18n(m.away);
+  const altTitle = `${hI.fr} vs ${aI.fr} · ${hI.ar} ضد ${aI.ar}`;
   const blog = (blogs as Record<string, any>)[match.replace(/-2026$/, '')];
 
   // Generated matches (no hand-written blog) get a factual preview instead of
@@ -85,6 +88,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
         ]}
         blog={blog}
         preview={preview}
+        altTitle={altTitle}
         kickoffTimes={kickoffTimes(m.startUtc)}
         faqs={faqs}
         relatedLinks={relatedLinks}

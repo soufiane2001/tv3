@@ -27,13 +27,14 @@ interface Props {
   servers: WCServer[];
   blog?: MatchBlogData;          // rich editorial blog (hand-written matches)
   preview?: string[];            // factual preview paragraphs (generated matches)
+  altTitle?: string;             // multilingual name variants (FR/AR) for SEO
   kickoffTimes: { flag: string; country: string; time: string }[];
   faqs: { q: string; a: string }[];
   relatedLinks: { href: string; label: string }[];
 }
 
 export default function WC2026MatchLayout({
-  home, away, meta, servers, blog, preview, kickoffTimes, faqs, relatedLinks,
+  home, away, meta, servers, blog, preview, altTitle, kickoffTimes, faqs, relatedLinks,
 }: Props) {
   return (
     <div className="max-w-4xl mx-auto space-y-0">
@@ -113,6 +114,15 @@ export default function WC2026MatchLayout({
               </div>
             </div>
           </div>
+
+          {/* SEO H1 + multilingual name variants (captures "maroc vs brésil",
+              "morocco brazil", Arabic, etc. in real indexable content) */}
+          <h1 className="text-center text-white font-black text-base md:text-lg mt-7">
+            {home.name} vs {away.name} — World Cup 2026 Free Live Stream
+          </h1>
+          {altTitle && (
+            <p className="text-center text-white/45 text-xs mt-1.5" dir="auto">{altTitle}</p>
+          )}
         </div>
 
         {/* Ghost text — uses .ghost-text class (Barlow Condensed 28vw) */}

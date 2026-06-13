@@ -160,6 +160,39 @@ export function getTeam(name: string): WcTeam | undefined {
   return WC2026_TEAMS[name];
 }
 
+// Team names in French + Arabic — used to build multilingual SEO keywords/titles
+// so searches like "maroc vs brésil" or "المغرب ضد البرازيل" match the page.
+export const TEAM_I18N: Record<string, { fr: string; ar: string }> = {
+  'Mexico': { fr: 'Mexique', ar: 'المكسيك' }, 'South Africa': { fr: 'Afrique du Sud', ar: 'جنوب أفريقيا' },
+  'Korea': { fr: 'Corée du Sud', ar: 'كوريا الجنوبية' }, 'Czechia': { fr: 'Tchéquie', ar: 'التشيك' },
+  'Canada': { fr: 'Canada', ar: 'كندا' }, 'Bosnia': { fr: 'Bosnie', ar: 'البوسنة' },
+  'Qatar': { fr: 'Qatar', ar: 'قطر' }, 'Switzerland': { fr: 'Suisse', ar: 'سويسرا' },
+  'Brazil': { fr: 'Brésil', ar: 'البرازيل' }, 'Morocco': { fr: 'Maroc', ar: 'المغرب' },
+  'Haiti': { fr: 'Haïti', ar: 'هايتي' }, 'Scotland': { fr: 'Écosse', ar: 'اسكتلندا' },
+  'USA': { fr: 'États-Unis', ar: 'الولايات المتحدة' }, 'Paraguay': { fr: 'Paraguay', ar: 'باراغواي' },
+  'Australia': { fr: 'Australie', ar: 'أستراليا' }, 'Turkiye': { fr: 'Turquie', ar: 'تركيا' },
+  'Germany': { fr: 'Allemagne', ar: 'ألمانيا' }, 'Curacao': { fr: 'Curaçao', ar: 'كوراساو' },
+  'Ivory Coast': { fr: "Côte d'Ivoire", ar: 'ساحل العاج' }, 'Ecuador': { fr: 'Équateur', ar: 'الإكوادور' },
+  'Netherlands': { fr: 'Pays-Bas', ar: 'هولندا' }, 'Japan': { fr: 'Japon', ar: 'اليابان' },
+  'Sweden': { fr: 'Suède', ar: 'السويد' }, 'Tunisia': { fr: 'Tunisie', ar: 'تونس' },
+  'Belgium': { fr: 'Belgique', ar: 'بلجيكا' }, 'Egypt': { fr: 'Égypte', ar: 'مصر' },
+  'Iran': { fr: 'Iran', ar: 'إيران' }, 'New Zealand': { fr: 'Nouvelle-Zélande', ar: 'نيوزيلندا' },
+  'Spain': { fr: 'Espagne', ar: 'إسبانيا' }, 'Cape Verde': { fr: 'Cap-Vert', ar: 'الرأس الأخضر' },
+  'Saudi Arabia': { fr: 'Arabie Saoudite', ar: 'السعودية' }, 'Uruguay': { fr: 'Uruguay', ar: 'أوروغواي' },
+  'France': { fr: 'France', ar: 'فرنسا' }, 'Senegal': { fr: 'Sénégal', ar: 'السنغال' },
+  'Iraq': { fr: 'Irak', ar: 'العراق' }, 'Norway': { fr: 'Norvège', ar: 'النرويج' },
+  'Argentina': { fr: 'Argentine', ar: 'الأرجنتين' }, 'Algeria': { fr: 'Algérie', ar: 'الجزائر' },
+  'Austria': { fr: 'Autriche', ar: 'النمسا' }, 'Jordan': { fr: 'Jordanie', ar: 'الأردن' },
+  'Portugal': { fr: 'Portugal', ar: 'البرتغال' }, 'DR Congo': { fr: 'RD Congo', ar: 'الكونغو الديمقراطية' },
+  'Uzbekistan': { fr: 'Ouzbékistan', ar: 'أوزبكستان' }, 'Colombia': { fr: 'Colombie', ar: 'كولومبيا' },
+  'England': { fr: 'Angleterre', ar: 'إنجلترا' }, 'Croatia': { fr: 'Croatie', ar: 'كرواتيا' },
+  'Ghana': { fr: 'Ghana', ar: 'غانا' }, 'Panama': { fr: 'Panama', ar: 'بنما' },
+};
+
+export function teamI18n(name: string): { fr: string; ar: string } {
+  return TEAM_I18N[name] ?? { fr: name, ar: name };
+}
+
 // URL slug for a team, e.g. 'Ivory Coast' -> 'ivory-coast' (matches the slug
 // component used in match slugs).
 export function teamSlug(name: string): string {
