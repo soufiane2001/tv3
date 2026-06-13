@@ -12,7 +12,7 @@ const EXTRA = [
   { slug: 'bein-max-2',  name: 'beIN SPORTS MAX 2',  label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
   { slug: 'bein-max-1',  name: 'beIN SPORTS MAX 1',  label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
   { slug: 'm6',          name: 'M6',                 label: 'M6',           sublabel: 'France · M6 · FHD',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
-  { slug: 'bein-global', name: 'beIN SPORTS Global', label: 'beIN Global',  sublabel: 'beIN · Global · HD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/262.ts' },
+  { slug: 'bein-global', name: 'beIN SPORTS Global', label: 'beIN Global',  sublabel: 'beIN · Global · HD', streamUrl: 'https://live1.acangroup.org:1929/crtv/crtv_all/playlist.m3u8#origine-1131=https://tvradiozap.eu' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
