@@ -15,7 +15,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
   title: 'SportaLive — Watch World Cup 2026 Live Free | M6 · beIN Sport · RMC',
-  description: '🔴 Watch the FIFA World Cup 2026 LIVE & FREE in HD on SportaLive — every match live stream in one click, no subscription, no registration. beIN Sports, M6, La 1. Regarder la Coupe du Monde 2026 en direct gratuit · Mundial 2026 en vivo gratis · كأس العالم 2026 بث مباشر مجاناً.',
+  description: '🔴 Watch the FIFA World Cup 2026 LIVE & FREE in HD on SportaLive — every match live stream in one click, no subscription, no registration. beIN Sports, M6, La 1. Regarder la Coupe du Monde 2026 en direct gratuit · Mundial 2026 en vivo gratis · Copa do Mundo 2026 ao vivo grátis · كأس العالم 2026 بث مباشر مجاناً.',
   keywords: [
     // French — most searched
     'diffusion direct coupe du monde 2026','coupe du monde 2026 en direct gratuit','coupe du monde 2026 streaming',

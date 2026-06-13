@@ -41,10 +41,10 @@ export function buildMatchMetadata(slug: string): Metadata {
   if (!m) return {};
   const url = `${SITE}/${slug}`;
   const ogImage = `${SITE}/og?slug=${slug}`;
-  const { fr: hFr, ar: hAr } = teamI18n(m.home);
-  const { fr: aFr, ar: aAr } = teamI18n(m.away);
+  const { fr: hFr, ar: hAr, es: hEs, pt: hPt } = teamI18n(m.home);
+  const { fr: aFr, ar: aAr, es: aEs, pt: aPt } = teamI18n(m.away);
   const title = `${m.home} vs ${m.away} (${hFr}-${aFr}) — World Cup 2026 Free Live Stream | beIN · M6`;
-  const description = `🔴 Watch ${m.home} vs ${m.away} (${hFr} vs ${aFr} · ${hAr} ضد ${aAr}) FIFA World Cup 2026 free in HD. Group ${m.group} · ${m.day} · ${m.venue}. ${aFr} ${hFr} streaming gratuit — beIN Sports, M6. No subscription.`;
+  const description = `🔴 Watch ${m.home} vs ${m.away} FIFA World Cup 2026 live free in HD. ${hFr} vs ${aFr} en direct gratuit · ${hEs} vs ${aEs} en vivo gratis · ${hPt} vs ${aPt} ao vivo grátis · ${hAr} ضد ${aAr} بث مباشر. Group ${m.group}, ${m.venue} — beIN Sports, M6, no subscription.`;
   return {
     title,
     description,
