@@ -15,6 +15,8 @@ const EXTRA = [
   { slug: 'sigma-tv',     name: 'SigmaTV',      label: 'SigmaTV',      sublabel: 'HD · Multi-viewer',  streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8' },
   // Only beIN MAX 2 kept from goattv (HTTP .ts, max_connections=1 → 1 viewer).
   { slug: 'bein-max-2',   name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
+  // M6 — HTTP source → served through the proxy (not direct).
+  { slug: 'm6',           name: 'M6', label: 'M6', sublabel: 'France · M6 · HD', streamUrl: 'http://151.80.18.177:86/M6_HD/index.m3u8' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
