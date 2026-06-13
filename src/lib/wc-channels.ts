@@ -8,10 +8,10 @@ import { prisma } from './prisma';
 // so it's the default main. goattv channels are .ts (continuous, mpegts.js):
 // great quality but capped at max_connections=1 (one viewer at a time).
 const EXTRA = [
-  { slug: 'sigma-tv',    name: 'SigmaTV',            label: 'SigmaTV',      sublabel: 'HD · Multi-viewer',  streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8' },
-  { slug: 'bein-max-2',  name: 'beIN SPORTS MAX 2',  label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'https://live1.acangroup.org:1929/crtv/crtv_all/playlist.m3u8#origine-1131=https://tvradiozap.eu' },
+  { slug: 'sigma-tv',    name: 'SigmaTV',            label: 'SigmaTV',      sublabel: 'HD · Multi-viewer',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
+  { slug: 'bein-max-2',  name: 'beIN SPORTS MAX 2',  label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
   { slug: 'bein-max-1',  name: 'beIN SPORTS MAX 1',  label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
-  { slug: 'm6',          name: 'M6',                 label: 'M6',           sublabel: 'France · M6 · FHD',  streamUrl: 'http://151.80.18.177:86/M6_HD/index.m3u8' },
+  { slug: 'm6',          name: 'M6',                 label: 'M6',           sublabel: 'France · M6 · FHD',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
   { slug: 'bein-global', name: 'beIN SPORTS Global', label: 'beIN Global',  sublabel: 'beIN · Global · HD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/262.ts' },
 ] as const;
 
