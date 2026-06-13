@@ -8,7 +8,7 @@ import { prisma } from './prisma';
 // so it's the default main. goattv channels are .ts (continuous, mpegts.js):
 // great quality but capped at max_connections=1 (one viewer at a time).
 const EXTRA = [
-  { slug: 'sigma-tv',    name: 'SigmaTV',            label: 'SigmaTV',      sublabel: 'HD · Multi-viewer',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
+  { slug: 'sigma-tv',    name: 'SigmaTV',            label: 'SigmaTV',      sublabel: 'HD · Multi-viewer',  streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8' },
   { slug: 'bein-max-2',  name: 'beIN SPORTS MAX 2',  label: 'beIN MAX 2',   sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
   { slug: 'bein-max-1',  name: 'beIN SPORTS MAX 1',  label: 'beIN MAX 1',   sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
   { slug: 'm6',          name: 'M6',                 label: 'M6',           sublabel: 'France · M6 · FHD',  streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
