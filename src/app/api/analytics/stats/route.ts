@@ -74,13 +74,13 @@ export async function GET(req: NextRequest) {
       where: { createdAt: { gte: h24 }, duration: { not: null, gt: 0 } },
       _avg: { duration: true },
     }),
-    // Top referrers (24h)
+    // Top referrers (24h) — take many; they get normalised + regrouped below
     prisma.pageView.groupBy({
       by: ['referrer'],
       where: { createdAt: { gte: h24 }, referrer: { not: null } },
       _count: { referrer: true },
       orderBy: { _count: { referrer: 'desc' } },
-      take: 8,
+      take: 60,
     }),
     // Device breakdown (24h)
     prisma.pageView.groupBy({
@@ -200,6 +200,36 @@ export async function GET(req: NextRequest) {
     .sort((a, b) => b.total - a.total)
     .slice(0, 30);
 
+  // Group referrer hosts under a friendly source name (Facebook is split across
+  // l./lm./m./www. + its link shim, etc.) so the real top source is visible.
+  const refName = (host: string): string => {
+    const h = host.toLowerCase();
+    if (h.includes('facebook') || h.includes('fb.')) return 'Facebook';
+    if (h.includes('t.co') || h.includes('twitter') || h === 'x.com' || h.endsWith('.x.com')) return 'X / Twitter';
+    if (h.includes('instagram')) return 'Instagram';
+    if (h.includes('t.me') || h.includes('telegram')) return 'Telegram';
+    if (h.includes('whatsapp')) return 'WhatsApp';
+    if (h.includes('youtube') || h.includes('youtu.be')) return 'YouTube';
+    if (h.includes('tiktok')) return 'TikTok';
+    if (h.includes('reddit')) return 'Reddit';
+    if (h.includes('google')) return 'Google';
+    if (h.includes('brave')) return 'Brave Search';
+    if (h.includes('bing')) return 'Bing';
+    if (h.includes('yahoo')) return 'Yahoo';
+    if (h.includes('duckduckgo')) return 'DuckDuckGo';
+    return host;
+  };
+  const refMap = new Map<string, number>();
+  for (const r of topReferrers) {
+    if (!r.referrer) continue;
+    const name = refName(r.referrer);
+    refMap.set(name, (refMap.get(name) || 0) + r._count.referrer);
+  }
+  const topReferrersGrouped = Array.from(refMap.entries())
+    .map(([referrer, count]) => ({ referrer, count }))
+    .sort((a, b) => b.count - a.count)
+    .slice(0, 10);
+
   return NextResponse.json({
     live: {
       count: liveVisitors.length,
@@ -225,9 +255,7 @@ export async function GET(req: NextRequest) {
       flag: COUNTRY_FLAGS[c.countryCode] || '🌐',
       count: c._count.country,
     })),
-    topReferrers: topReferrers
-      .filter(r => r.referrer)
-      .map(r => ({ referrer: r.referrer!, count: r._count.referrer })),
+    topReferrers: topReferrersGrouped,
     devices: deviceBreakdown.map(d => ({ device: d.device, count: d._count.device })),
     browsers: browserBreakdown.map(b => ({ browser: b.browser, count: b._count.browser })),
     chart24h: chart24h.map(r => ({ hour: r.hour, count: Number(r.count) })),
