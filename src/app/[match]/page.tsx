@@ -49,7 +49,12 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
   const at = getTeam(m.away);
   const hI = teamI18n(m.home);
   const aI = teamI18n(m.away);
-  const altTitle = `${hI.fr} vs ${aI.fr} · ${hI.ar} ضد ${aI.ar}`;
+  // Visible multilingual name variants (FR/ES/PT deduped + AR) — real indexable
+  // content so "maroc vs brésil", "brasil vs marruecos", etc. all match.
+  const latin = Array.from(new Set([
+    `${hI.fr} vs ${aI.fr}`, `${hI.es} vs ${aI.es}`, `${hI.pt} vs ${aI.pt}`,
+  ]));
+  const altTitle = `${latin.join(' · ')} · ${hI.ar} ضد ${aI.ar}`;
   const blog = (blogs as Record<string, any>)[match.replace(/-2026$/, '')];
 
   // Generated matches (no hand-written blog) get a factual preview instead of

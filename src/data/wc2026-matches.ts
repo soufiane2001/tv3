@@ -160,37 +160,63 @@ export function getTeam(name: string): WcTeam | undefined {
   return WC2026_TEAMS[name];
 }
 
-// Team names in French + Arabic — used to build multilingual SEO keywords/titles
-// so searches like "maroc vs brésil" or "المغرب ضد البرازيل" match the page.
-export const TEAM_I18N: Record<string, { fr: string; ar: string }> = {
-  'Mexico': { fr: 'Mexique', ar: 'المكسيك' }, 'South Africa': { fr: 'Afrique du Sud', ar: 'جنوب أفريقيا' },
-  'Korea': { fr: 'Corée du Sud', ar: 'كوريا الجنوبية' }, 'Czechia': { fr: 'Tchéquie', ar: 'التشيك' },
-  'Canada': { fr: 'Canada', ar: 'كندا' }, 'Bosnia': { fr: 'Bosnie', ar: 'البوسنة' },
-  'Qatar': { fr: 'Qatar', ar: 'قطر' }, 'Switzerland': { fr: 'Suisse', ar: 'سويسرا' },
-  'Brazil': { fr: 'Brésil', ar: 'البرازيل' }, 'Morocco': { fr: 'Maroc', ar: 'المغرب' },
-  'Haiti': { fr: 'Haïti', ar: 'هايتي' }, 'Scotland': { fr: 'Écosse', ar: 'اسكتلندا' },
-  'USA': { fr: 'États-Unis', ar: 'الولايات المتحدة' }, 'Paraguay': { fr: 'Paraguay', ar: 'باراغواي' },
-  'Australia': { fr: 'Australie', ar: 'أستراليا' }, 'Turkiye': { fr: 'Turquie', ar: 'تركيا' },
-  'Germany': { fr: 'Allemagne', ar: 'ألمانيا' }, 'Curacao': { fr: 'Curaçao', ar: 'كوراساو' },
-  'Ivory Coast': { fr: "Côte d'Ivoire", ar: 'ساحل العاج' }, 'Ecuador': { fr: 'Équateur', ar: 'الإكوادور' },
-  'Netherlands': { fr: 'Pays-Bas', ar: 'هولندا' }, 'Japan': { fr: 'Japon', ar: 'اليابان' },
-  'Sweden': { fr: 'Suède', ar: 'السويد' }, 'Tunisia': { fr: 'Tunisie', ar: 'تونس' },
-  'Belgium': { fr: 'Belgique', ar: 'بلجيكا' }, 'Egypt': { fr: 'Égypte', ar: 'مصر' },
-  'Iran': { fr: 'Iran', ar: 'إيران' }, 'New Zealand': { fr: 'Nouvelle-Zélande', ar: 'نيوزيلندا' },
-  'Spain': { fr: 'Espagne', ar: 'إسبانيا' }, 'Cape Verde': { fr: 'Cap-Vert', ar: 'الرأس الأخضر' },
-  'Saudi Arabia': { fr: 'Arabie Saoudite', ar: 'السعودية' }, 'Uruguay': { fr: 'Uruguay', ar: 'أوروغواي' },
-  'France': { fr: 'France', ar: 'فرنسا' }, 'Senegal': { fr: 'Sénégal', ar: 'السنغال' },
-  'Iraq': { fr: 'Irak', ar: 'العراق' }, 'Norway': { fr: 'Norvège', ar: 'النرويج' },
-  'Argentina': { fr: 'Argentine', ar: 'الأرجنتين' }, 'Algeria': { fr: 'Algérie', ar: 'الجزائر' },
-  'Austria': { fr: 'Autriche', ar: 'النمسا' }, 'Jordan': { fr: 'Jordanie', ar: 'الأردن' },
-  'Portugal': { fr: 'Portugal', ar: 'البرتغال' }, 'DR Congo': { fr: 'RD Congo', ar: 'الكونغو الديمقراطية' },
-  'Uzbekistan': { fr: 'Ouzbékistan', ar: 'أوزبكستان' }, 'Colombia': { fr: 'Colombie', ar: 'كولومبيا' },
-  'England': { fr: 'Angleterre', ar: 'إنجلترا' }, 'Croatia': { fr: 'Croatie', ar: 'كرواتيا' },
-  'Ghana': { fr: 'Ghana', ar: 'غانا' }, 'Panama': { fr: 'Panama', ar: 'بنما' },
+// Team names in FR / AR / ES / PT — used to build multilingual SEO keywords,
+// titles and a visible variants line so searches like "maroc vs brésil",
+// "brasil vs marruecos", "brasil vs marrocos" or "المغرب ضد البرازيل" all match.
+export interface TeamI18n { fr: string; ar: string; es: string; pt: string; }
+export const TEAM_I18N: Record<string, TeamI18n> = {
+  'Mexico':       { fr: 'Mexique',         ar: 'المكسيك',          es: 'México',          pt: 'México' },
+  'South Africa': { fr: 'Afrique du Sud',  ar: 'جنوب أفريقيا',     es: 'Sudáfrica',       pt: 'África do Sul' },
+  'Korea':        { fr: 'Corée du Sud',    ar: 'كوريا الجنوبية',   es: 'Corea del Sur',   pt: 'Coreia do Sul' },
+  'Czechia':      { fr: 'Tchéquie',        ar: 'التشيك',           es: 'Chequia',         pt: 'Chéquia' },
+  'Canada':       { fr: 'Canada',          ar: 'كندا',             es: 'Canadá',          pt: 'Canadá' },
+  'Bosnia':       { fr: 'Bosnie',          ar: 'البوسنة',          es: 'Bosnia',          pt: 'Bósnia' },
+  'Qatar':        { fr: 'Qatar',           ar: 'قطر',              es: 'Catar',           pt: 'Catar' },
+  'Switzerland':  { fr: 'Suisse',          ar: 'سويسرا',           es: 'Suiza',           pt: 'Suíça' },
+  'Brazil':       { fr: 'Brésil',          ar: 'البرازيل',         es: 'Brasil',          pt: 'Brasil' },
+  'Morocco':      { fr: 'Maroc',           ar: 'المغرب',           es: 'Marruecos',       pt: 'Marrocos' },
+  'Haiti':        { fr: 'Haïti',           ar: 'هايتي',            es: 'Haití',           pt: 'Haiti' },
+  'Scotland':     { fr: 'Écosse',          ar: 'اسكتلندا',         es: 'Escocia',         pt: 'Escócia' },
+  'USA':          { fr: 'États-Unis',      ar: 'الولايات المتحدة', es: 'Estados Unidos',  pt: 'Estados Unidos' },
+  'Paraguay':     { fr: 'Paraguay',        ar: 'باراغواي',         es: 'Paraguay',        pt: 'Paraguai' },
+  'Australia':    { fr: 'Australie',       ar: 'أستراليا',         es: 'Australia',       pt: 'Austrália' },
+  'Turkiye':      { fr: 'Turquie',         ar: 'تركيا',            es: 'Turquía',         pt: 'Turquia' },
+  'Germany':      { fr: 'Allemagne',       ar: 'ألمانيا',          es: 'Alemania',        pt: 'Alemanha' },
+  'Curacao':      { fr: 'Curaçao',         ar: 'كوراساو',          es: 'Curazao',         pt: 'Curaçao' },
+  'Ivory Coast':  { fr: "Côte d'Ivoire",   ar: 'ساحل العاج',       es: 'Costa de Marfil', pt: 'Costa do Marfim' },
+  'Ecuador':      { fr: 'Équateur',        ar: 'الإكوادور',        es: 'Ecuador',         pt: 'Equador' },
+  'Netherlands':  { fr: 'Pays-Bas',        ar: 'هولندا',           es: 'Países Bajos',    pt: 'Países Baixos' },
+  'Japan':        { fr: 'Japon',           ar: 'اليابان',          es: 'Japón',           pt: 'Japão' },
+  'Sweden':       { fr: 'Suède',           ar: 'السويد',           es: 'Suecia',          pt: 'Suécia' },
+  'Tunisia':      { fr: 'Tunisie',         ar: 'تونس',             es: 'Túnez',           pt: 'Tunísia' },
+  'Belgium':      { fr: 'Belgique',        ar: 'بلجيكا',           es: 'Bélgica',         pt: 'Bélgica' },
+  'Egypt':        { fr: 'Égypte',          ar: 'مصر',              es: 'Egipto',          pt: 'Egito' },
+  'Iran':         { fr: 'Iran',            ar: 'إيران',            es: 'Irán',            pt: 'Irã' },
+  'New Zealand':  { fr: 'Nouvelle-Zélande',ar: 'نيوزيلندا',        es: 'Nueva Zelanda',   pt: 'Nova Zelândia' },
+  'Spain':        { fr: 'Espagne',         ar: 'إسبانيا',          es: 'España',          pt: 'Espanha' },
+  'Cape Verde':   { fr: 'Cap-Vert',        ar: 'الرأس الأخضر',     es: 'Cabo Verde',      pt: 'Cabo Verde' },
+  'Saudi Arabia': { fr: 'Arabie Saoudite', ar: 'السعودية',         es: 'Arabia Saudí',    pt: 'Arábia Saudita' },
+  'Uruguay':      { fr: 'Uruguay',         ar: 'أوروغواي',         es: 'Uruguay',         pt: 'Uruguai' },
+  'France':       { fr: 'France',          ar: 'فرنسا',            es: 'Francia',         pt: 'França' },
+  'Senegal':      { fr: 'Sénégal',         ar: 'السنغال',          es: 'Senegal',         pt: 'Senegal' },
+  'Iraq':         { fr: 'Irak',            ar: 'العراق',           es: 'Irak',            pt: 'Iraque' },
+  'Norway':       { fr: 'Norvège',         ar: 'النرويج',          es: 'Noruega',         pt: 'Noruega' },
+  'Argentina':    { fr: 'Argentine',       ar: 'الأرجنتين',        es: 'Argentina',       pt: 'Argentina' },
+  'Algeria':      { fr: 'Algérie',         ar: 'الجزائر',          es: 'Argelia',         pt: 'Argélia' },
+  'Austria':      { fr: 'Autriche',        ar: 'النمسا',           es: 'Austria',         pt: 'Áustria' },
+  'Jordan':       { fr: 'Jordanie',        ar: 'الأردن',           es: 'Jordania',        pt: 'Jordânia' },
+  'Portugal':     { fr: 'Portugal',        ar: 'البرتغال',         es: 'Portugal',        pt: 'Portugal' },
+  'DR Congo':     { fr: 'RD Congo',        ar: 'الكونغو الديمقراطية', es: 'RD Congo',     pt: 'RD Congo' },
+  'Uzbekistan':   { fr: 'Ouzbékistan',     ar: 'أوزبكستان',        es: 'Uzbekistán',      pt: 'Uzbequistão' },
+  'Colombia':     { fr: 'Colombie',        ar: 'كولومبيا',         es: 'Colombia',        pt: 'Colômbia' },
+  'England':      { fr: 'Angleterre',      ar: 'إنجلترا',          es: 'Inglaterra',      pt: 'Inglaterra' },
+  'Croatia':      { fr: 'Croatie',         ar: 'كرواتيا',          es: 'Croacia',         pt: 'Croácia' },
+  'Ghana':        { fr: 'Ghana',           ar: 'غانا',             es: 'Ghana',           pt: 'Gana' },
+  'Panama':       { fr: 'Panama',          ar: 'بنما',             es: 'Panamá',          pt: 'Panamá' },
 };
 
-export function teamI18n(name: string): { fr: string; ar: string } {
-  return TEAM_I18N[name] ?? { fr: name, ar: name };
+export function teamI18n(name: string): TeamI18n {
+  return TEAM_I18N[name] ?? { fr: name, ar: name, es: name, pt: name };
 }
 
 // URL slug for a team, e.g. 'Ivory Coast' -> 'ivory-coast' (matches the slug

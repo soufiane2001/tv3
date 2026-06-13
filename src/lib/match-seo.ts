@@ -9,17 +9,23 @@ export function matchKeywords(slug: string): string[] {
   const m = getMatch(slug);
   if (!m) return [];
   const h = m.home, a = m.away;
-  const { fr: hFr, ar: hAr } = teamI18n(h);
-  const { fr: aFr, ar: aAr } = teamI18n(a);
+  const { fr: hFr, ar: hAr, es: hEs, pt: hPt } = teamI18n(h);
+  const { fr: aFr, ar: aAr, es: aEs, pt: aPt } = teamI18n(a);
   return [
     // English — both orders + intent
     `${h} vs ${a}`, `${a} vs ${h}`,
     `${h} vs ${a} live stream`, `${h} vs ${a} free stream`, `watch ${h} vs ${a} free`,
     `${h} vs ${a} world cup 2026`, `${h} ${a} today`,
     // French — both orders + intent
-    `${hFr} vs ${aFr}`, `${aFr} vs ${hFr}`, `${hFr} ${aFr}`, `${aFr} ${hFr}`,
+    `${hFr} vs ${aFr}`, `${aFr} vs ${hFr}`, `${hFr} ${aFr}`,
     `regarder ${hFr} ${aFr} en direct`, `${hFr} ${aFr} streaming gratuit`,
     `${hFr} ${aFr} coupe du monde 2026`, `match ${hFr} ${aFr} aujourd'hui`,
+    // Spanish — both orders + intent (LATAM)
+    `${hEs} vs ${aEs}`, `${aEs} vs ${hEs}`,
+    `${hEs} ${aEs} en vivo`, `ver ${hEs} ${aEs} gratis`, `${hEs} ${aEs} mundial 2026`,
+    // Portuguese — both orders + intent (Brazil)
+    `${hPt} vs ${aPt}`, `${aPt} vs ${hPt}`,
+    `${hPt} ${aPt} ao vivo`, `assistir ${hPt} ${aPt} grátis`, `${hPt} ${aPt} copa do mundo 2026`,
     // Arabic — both orders
     `${hAr} ضد ${aAr}`, `${aAr} ضد ${hAr}`, `مباراة ${hAr} ${aAr}`,
     // generic
