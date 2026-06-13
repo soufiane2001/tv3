@@ -14,8 +14,8 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
-  title: 'SportaLive — Watch World Cup 2026 Live Free | M6 · beIN Sport · RMC',
-  description: '🔴 Watch the FIFA World Cup 2026 LIVE & FREE in HD on SportaLive — every match live stream in one click, no subscription, no registration. beIN Sports, M6, La 1. Regarder la Coupe du Monde 2026 en direct gratuit · Mundial 2026 en vivo gratis · Copa do Mundo 2026 ao vivo grátis · كأس العالم 2026 بث مباشر مجاناً.',
+  title: '🔴 Brazil vs Morocco LIVE Free Today — World Cup 2026 | SportaLive',
+  description: '🔴 Watch Brazil vs Morocco LIVE & FREE today (Brésil vs Maroc · البرازيل ضد المغرب · Brasil vs Marruecos) — FIFA World Cup 2026 in HD on SportaLive. Group C, MetLife Stadium. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
   keywords: [
     // French — most searched
     'diffusion direct coupe du monde 2026','coupe du monde 2026 en direct gratuit','coupe du monde 2026 streaming',
@@ -41,14 +41,14 @@ export const metadata: Metadata = {
     languages: { 'en': SITE, 'fr': SITE, 'ar': SITE, 'pt': SITE, 'es': SITE, 'x-default': SITE },
   },
   openGraph: {
-    title: '🔴 Diffusion Direct Coupe du Monde 2026 — Gratuit HD | SportaLive',
-    description: 'Regardez tous les matchs de la Coupe du Monde 2026 en direct gratuit sur beIN Sport 1, M6, La 1. World Cup 2026 free live stream — no subscription.',
+    title: '🔴 Brazil vs Morocco EN DIRECT GRATUIT aujourd\'hui — Coupe du Monde 2026',
+    description: 'Brésil vs Maroc en direct gratuit HD sur SportaLive — Coupe du Monde 2026, sans abonnement. beIN Sports, M6. + tous les matchs en direct.',
     type: 'website', url: SITE, siteName: 'SportaLive',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '🔴 World Cup 2026 Live Stream Free — beIN Sport · M6 · La 1',
-    description: 'Watch all 104 WC2026 matches free HD. No subscription, no registration.',
+    title: '🔴 Brazil vs Morocco LIVE Free Today — World Cup 2026',
+    description: 'Watch Brazil vs Morocco (Brésil-Maroc) free HD today on SportaLive. No subscription. + every WC2026 match live free.',
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
 };
@@ -185,24 +185,24 @@ export default async function HomePage() {
             <div className="card-float" style={{ background: '#000' }}>
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
-                  <p className="text-white/40 text-[10px] font-black uppercase tracking-widest">World Cup 2026 · Opening</p>
-                  <p className="text-white font-black text-sm mt-0.5">Mexico vs South Africa — Group A</p>
+                  <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">🔴 Match du jour · Live aujourd'hui</p>
+                  <p className="text-white font-black text-sm mt-0.5">Brazil vs Morocco — Group C</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
-              <Link href="/mexico-vs-south-africa-2026"
+              <Link href="/brazil-vs-morocco-2026"
                 className="flex items-center justify-between px-4 py-4 hover:bg-white/[0.03] transition-colors">
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/mx.png" alt="Mexico" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Mexico</p>
+                  <img src="https://flagcdn.com/w80/br.png" alt="Brazil" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Brazil</p>
                 </div>
                 <div className="text-center">
                   <p className="text-white/20 font-black text-3xl tracking-[0.3em]">VS</p>
-                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">Jun 11 · 21:00</p>
+                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">13 Jun · 22:00 UTC</p>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/za.png" alt="South Africa" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">S. Africa</p>
+                  <img src="https://flagcdn.com/w80/ma.png" alt="Morocco" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Morocco</p>
                 </div>
               </Link>
             </div>
@@ -272,10 +272,10 @@ export default async function HomePage() {
           { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
         ]}
           match={{
-            home: 'Mexico', homeFlag: 'mx',
-            away: 'South Africa', awayFlag: 'za',
-            date: 'Thursday, 11 June 2026',
-            time: '19:00 UTC · Estadio Azteca, Mexico City',
+            home: 'Brazil', homeFlag: 'br',
+            away: 'Morocco', awayFlag: 'ma',
+            date: 'Saturday, 13 June 2026',
+            time: '22:00 UTC · MetLife Stadium, New Jersey',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
