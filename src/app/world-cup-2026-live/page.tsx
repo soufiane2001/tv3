@@ -86,7 +86,7 @@ const CAT_COLORS: Record<string, string> = {
 };
 
 export default async function WorldCup2026LivePage() {
-  const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
+  const wcServers = await getWcExtraChannels();
 
   return (
     <>
@@ -225,12 +225,7 @@ export default async function WorldCup2026LivePage() {
           <h2 className="text-white font-extrabold text-xl">FIFA World Cup 2026 — Live Stream</h2>
         </div>
         <WC2026StreamClient
-          servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2   as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1   as any },
-          { label: 'M6',         sublabel: 'France · M6 · FHD',   channel: m6         as any },
-          { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
-        ]}
+          servers={wcServers}
           match={{ home: 'USA', homeFlag: 'us', away: 'Canada', awayFlag: 'ca', thirdFlag: 'mx', thirdName: 'Mexico', date: 'June 11 – July 19, 2026', time: 'All Matches' }}
         />
         <p className="text-gray-600 text-xs text-center">If server doesn't work, switch to next · Free HD · No registration</p>

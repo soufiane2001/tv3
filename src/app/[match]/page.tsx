@@ -44,7 +44,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
   const m = getMatch(match);
   if (!m) notFound();
 
-  const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
+  const wcServers = await getWcExtraChannels();
   const ht = getTeam(m.home);
   const at = getTeam(m.away);
   const hI = teamI18n(m.home);
@@ -85,12 +85,7 @@ export default async function MatchPage({ params }: { params: Promise<{ match: s
         home={{ name: m.home, flag: m.hf, nickname: ht?.nickname || undefined }}
         away={{ name: m.away, flag: m.af, nickname: at?.nickname || undefined }}
         meta={{ date: m.dateFull, time: `${utcHHMM(m.startUtc)} UTC`, venue: m.venue, group: m.group }}
-        servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2 as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1 as any },
-          { label: 'M6', sublabel: 'France · M6 · FHD', channel: m6 as any },
-          { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
-        ]}
+        servers={wcServers}
         blog={blog}
         preview={preview}
         altTitle={altTitle}

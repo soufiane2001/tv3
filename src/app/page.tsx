@@ -126,7 +126,7 @@ const CAT_GRADIENTS: Record<string, string> = {
 
 export default async function HomePage() {
   const { categories, totalChannels, featured, categoryChannels } = await getHomeData();
-  const [beinMax2, beinMax1, m6, beinGlobal] = await getWcExtraChannels();
+  const wcServers = await getWcExtraChannels();
 
   const topNews = wc2026News.slice(0, 6);
 
@@ -265,12 +265,7 @@ export default async function HomePage() {
         </div>
 
         <WC2026StreamClient
-          servers={[
-          { label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', channel: beinMax2   as any },
-          { label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', channel: beinMax1   as any },
-          { label: 'M6',         sublabel: 'France · M6 · FHD',   channel: m6         as any },
-          { label: 'beIN Global', sublabel: 'beIN · Global · HD', channel: beinGlobal as any },
-        ]}
+          servers={wcServers}
           match={{
             home: 'Brazil', homeFlag: 'br',
             away: 'Morocco', awayFlag: 'ma',
