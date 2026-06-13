@@ -25,10 +25,11 @@ interface VideoPlayerProps {
   onClose?: () => void;
   onError?: () => void;
   autoPlay?: boolean;
+  paused?: boolean;       // externally pause (e.g. during a mid-roll ad)
   className?: string;
 }
 
-export default function VideoPlayer({ channel, onClose, onError, autoPlay = true, className }: VideoPlayerProps) {
+export default function VideoPlayer({ channel, onClose, onError, autoPlay = true, paused = false, className }: VideoPlayerProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const hlsRef = useRef<Hls | null>(null);
   const mpegtsRef = useRef<Mpegts.Player | null>(null);
@@ -251,6 +252,14 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
     if (!video) return;
     video.volume = isMuted ? 0 : volume / 100;
   }, [volume, isMuted]);
+
+  // External pause (mid-roll ad): stop video + audio, resume when ad closes.
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (paused) video.pause();
+    else if (autoPlay) video.play().catch(() => {});
+  }, [paused, autoPlay]);
 
   // If stuck buffering/loading for 40 s, give up and trigger onError for auto-switch
   useEffect(() => {

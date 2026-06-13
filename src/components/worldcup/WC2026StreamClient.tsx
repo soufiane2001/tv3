@@ -3,6 +3,7 @@ import { useState, useCallback, useEffect, useRef } from 'react';
 import { Play, Tv2 } from 'lucide-react';
 import VideoPlayer from '@/components/player/VideoPlayer';
 import AdInterstitial from '@/components/ads/AdInterstitial';
+import MidrollAd from '@/components/ads/MidrollAd';
 import type { Channel } from '@/types';
 
 export interface WCServer {
@@ -30,9 +31,17 @@ interface Props {
 export default function WC2026StreamClient({ servers, match }: Props) {
   const [started, setStarted] = useState(false);
   const [showAd, setShowAd] = useState(false);
+  const [midroll, setMidroll] = useState(false);
   const [activeIdx, setActiveIdx] = useState(0);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  // Mid-roll ad every 5 minutes of watching.
+  useEffect(() => {
+    if (!started) return;
+    const id = setInterval(() => setMidroll(true), 5 * 60_000);
+    return () => clearInterval(id);
+  }, [started]);
 
   const active = servers[activeIdx] ?? servers[0];
   const channel = active?.channel ?? null;
@@ -230,7 +239,8 @@ export default function WC2026StreamClient({ servers, match }: Props) {
             Live
           </span>
         </div>
-        <VideoPlayer channel={channel} autoPlay onError={handleStreamError} className="w-full" />
+        <VideoPlayer channel={channel} autoPlay paused={midroll} onError={handleStreamError} className="w-full" />
+        {midroll && <MidrollAd onClose={() => setMidroll(false)} />}
         {toast && (
           <div className="absolute bottom-14 left-1/2 -translate-x-1/2 flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold text-white shadow-xl pointer-events-none"
             style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,0.15)' }}>
