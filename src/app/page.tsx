@@ -15,7 +15,7 @@ const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
   title: 'SportaLive — Watch World Cup 2026 Live Free | M6 · beIN Sport · RMC',
-  description: 'Watch all 104 FIFA World Cup 2026 matches live free in HD. Stream M6, beIN Sport 1 and RMC Sport — no subscription, no registration. USA · Canada · Mexico · June 11–July 19, 2026. كأس العالم 2026 بث مباشر مجاناً.',
+  description: '🔴 Watch the FIFA World Cup 2026 LIVE & FREE in HD on SportaLive — every match live stream in one click, no subscription, no registration. beIN Sports, M6, La 1. Regarder la Coupe du Monde 2026 en direct gratuit · Mundial 2026 en vivo gratis · كأس العالم 2026 بث مباشر مجاناً.',
   keywords: [
     // French — most searched
     'diffusion direct coupe du monde 2026','coupe du monde 2026 en direct gratuit','coupe du monde 2026 streaming',
@@ -693,11 +693,11 @@ export default async function HomePage() {
               geo-restriction, you can move to the next without losing the match.
             </p>
             <p>
-              Beyond the live player, SportaLive provides predicted lineups for every World Cup 2026 match, kickoff times
-              in every major timezone, head-to-head records, match previews, and in-depth analysis of the tournament's
-              key teams and players. The platform is completely free to use — no account creation, no email required,
-              no subscription. Coverage spans all <strong className="text-white/80">104 FIFA World Cup 2026 matches</strong>,
-              from the Group B opener on June 11 through to the final on July 19.
+              Watch every World Cup 2026 match live and free on SportaLive — full-HD live streams you can start in one
+              click, on mobile or desktop, with no account and no payment. Around the live player you also get predicted
+              lineups, kickoff times in every major timezone, head-to-head records and match previews. Live coverage spans
+              all <strong className="text-white/80">104 FIFA World Cup 2026 matches</strong>, from the Group A opener
+              (Mexico vs South Africa) on June 11 through to the final on July 19.
             </p>
           </div>
 
