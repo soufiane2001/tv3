@@ -11,10 +11,9 @@ import { prisma } from './prisma';
 // directly from the CDN, scale to thousands of viewers for free. THIS is the
 // multi-viewer solution. (The 119 goattv channels live in the DB as a browsable
 // library — 1 viewer each — not here.)
+// beIN MAX 2 only (per request). goattv HTTP .ts, max_connections=1 → 1 viewer.
 const EXTRA = [
-  { slug: 'al-aoula-tnt', name: 'Al Aoula TNT', label: 'Al Aoula TNT', sublabel: 'Maroc · TNT · 1080p · multi', streamUrl: 'https://stream-lb.livemediama.com/alaoula-tnt/hls/master.m3u8' },
-  { slug: 'sigma-tv',     name: 'SigmaTV',      label: 'SigmaTV',      sublabel: 'HD · multi-viewer',          streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8' },
-  { slug: 'm6',           name: 'M6',           label: 'M6',           sublabel: 'France · M6 · HD',            streamUrl: 'http://151.80.18.177:86/M6_HD/index.m3u8' },
+  { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
