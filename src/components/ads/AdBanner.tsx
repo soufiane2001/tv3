@@ -1,5 +1,5 @@
 'use client';
-import { usePathname } from 'next/navigation';
+import { useAdRefresh } from './useAdRefresh';
 
 const KEY = 'df26d38cb80e4c6a441d5b2c6061053d';
 const SRC = `https://www.highperformanceformat.com/${KEY}/invoke.js`;
@@ -14,10 +14,9 @@ const banner = (w: number, h: number) => `<!DOCTYPE html><html><head>
 </body></html>`;
 
 export default function AdBanner() {
-  // Re-keying the iframes on every client-side route change forces React to
-  // remount them, which re-runs the Adsterra script → a fresh, counted
-  // impression on each match navigation (no full page reload needed).
-  const pathname = usePathname();
+  // Re-keying the iframes remounts them → a fresh, counted Adsterra impression.
+  // Happens on every route change AND every ~50s while the tab is visible.
+  const adKey = useAdRefresh();
 
   return (
     <div
@@ -30,7 +29,7 @@ export default function AdBanner() {
 
       {/* Desktop 728×90 */}
       <iframe
-        key={`d:${pathname}`}
+        key={`d:${adKey}`}
         srcDoc={banner(728, 90)}
         width={728}
         height={90}
@@ -44,7 +43,7 @@ export default function AdBanner() {
       />
       {/* Mobile 320×50 */}
       <iframe
-        key={`m:${pathname}`}
+        key={`m:${adKey}`}
         srcDoc={banner(320, 50)}
         width={320}
         height={50}
