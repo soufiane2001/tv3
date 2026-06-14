@@ -49,41 +49,41 @@ export default function AdminPage() {
   const [chLoading, setChLoading]   = useState(false);
   const [editingId, setEditingId]   = useState<string | null>(null);
   const [editUrl, setEditUrl]       = useState('');
-  // Main server picker
-  const [servers, setServers]       = useState<{ slug: string; label: string; sublabel: string }[]>([]);
-  const [mainSlug, setMainSlug]     = useState('');
-  const [savingMain, setSavingMain] = useState(false);
+  // Relay channel picker — which goattv channel the multi-viewer relay broadcasts
+  const [relayOptions, setRelayOptions] = useState<{ slug: string; label: string; sublabel: string }[]>([]);
+  const [relaySlug, setRelaySlug]       = useState('');
+  const [savingRelay, setSavingRelay]   = useState(false);
 
   const authHeader = { 'x-admin-password': password, 'Content-Type': 'application/json' };
 
-  const setMainServer = async (slug: string) => {
-    setSavingMain(true);
-    const prev = mainSlug;
-    setMainSlug(slug); // optimistic
+  const setRelay = async (slug: string) => {
+    setSavingRelay(true);
+    const prev = relaySlug;
+    setRelaySlug(slug); // optimistic
     try {
-      const res = await fetch('/api/admin/main-server', { method: 'POST', headers: authHeader, body: JSON.stringify({ slug }) });
+      const res = await fetch('/api/relay-channel', { method: 'POST', headers: authHeader, body: JSON.stringify({ slug }) });
       const data = await res.json();
-      if (data.ok) toast.success(`Serveur principal : ${servers.find(s => s.slug === slug)?.label || slug}`);
-      else { setMainSlug(prev); toast.error(data.error || 'Échec'); }
-    } catch { setMainSlug(prev); toast.error('Erreur réseau'); }
-    finally { setSavingMain(false); }
+      if (data.ok) toast.success(`Chaîne diffusée : ${relayOptions.find(s => s.slug === slug)?.label || slug} (bascule ~15 s)`);
+      else { setRelaySlug(prev); toast.error(data.error || 'Échec'); }
+    } catch { setRelaySlug(prev); toast.error('Erreur réseau'); }
+    finally { setSavingRelay(false); }
   };
 
   const fetchData = useCallback(async (pwd: string) => {
     setLoadingData(true);
     try {
-      const [chRes, catRes, logsRes, srcRes, mainRes] = await Promise.all([
+      const [chRes, catRes, logsRes, srcRes, relayRes] = await Promise.all([
         fetch('/api/channels?limit=1').then(r => r.json()),
         fetch('/api/categories').then(r => r.json()),
         fetch('/api/sync-m3u', { headers: { 'x-admin-password': pwd } }).then(r => r.json()),
         fetch('/api/sources',  { headers: { 'x-admin-password': pwd } }).then(r => r.json()),
-        fetch('/api/admin/main-server', { headers: { 'x-admin-password': pwd } }).then(r => r.json()).catch(() => null),
+        fetch('/api/relay-channel').then(r => r.json()).catch(() => null),
       ]);
       setStats({ channels: chRes.total || 0, categories: catRes.data?.length || 0 });
       if (catRes.success)  setCategories(catRes.data || []);
       if (logsRes.success) setLogs(logsRes.data || []);
       if (srcRes.success)  setSources(srcRes.data || []);
-      if (mainRes?.servers) { setServers(mainRes.servers); setMainSlug(mainRes.current || ''); }
+      if (relayRes?.options) { setRelayOptions(relayRes.options); setRelaySlug(relayRes.current || ''); }
     } finally {
       setLoadingData(false);
     }
@@ -368,19 +368,19 @@ export default function AdminPage() {
       {/* Overview tab */}
       {activeTab === 'overview' && <div className="space-y-8">
 
-      {/* Main stream picker */}
-      {servers.length > 0 && (
+      {/* Relay channel picker — which goattv channel the multi-viewer relay broadcasts */}
+      {relayOptions.length > 0 && (
         <section className="bg-gray-800/60 border border-white/5 rounded-2xl p-5">
-          <h3 className="text-white font-semibold mb-1">Serveur principal (Main stream)</h3>
-          <p className="text-gray-500 text-xs mb-4">Le serveur choisi s'affiche en premier (lecteur par défaut) sur tout le site.</p>
+          <h3 className="text-white font-semibold mb-1">Chaîne diffusée (relais multi-viewers)</h3>
+          <p className="text-gray-500 text-xs mb-4">Le relais ne peut diffuser qu&apos;<b>une seule</b> chaîne à la fois (limite goattv). Choisis celle présentée sur tout le site — la bascule prend ~15&nbsp;s.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-            {servers.map((s, i) => {
-              const selected = s.slug === mainSlug;
+            {relayOptions.map((s, i) => {
+              const selected = s.slug === relaySlug;
               return (
                 <button
                   key={s.slug}
-                  onClick={() => !savingMain && !selected && setMainServer(s.slug)}
-                  disabled={savingMain}
+                  onClick={() => !savingRelay && !selected && setRelay(s.slug)}
+                  disabled={savingRelay}
                   className={cn(
                     'flex items-center gap-3 px-4 py-3 rounded-xl border text-left transition-colors',
                     selected ? 'border-red-500/60 bg-red-600/15' : 'border-white/10 bg-white/[0.03] hover:bg-white/[0.07]'
@@ -391,7 +391,7 @@ export default function AdminPage() {
                     <p className="text-white text-sm font-bold truncate">{s.label}</p>
                     <p className="text-gray-500 text-[11px] truncate">{s.sublabel}</p>
                   </div>
-                  {selected && <span className="ml-auto text-red-400 text-[10px] font-black uppercase tracking-wide">Principal</span>}
+                  {selected && <span className="ml-auto text-red-400 text-[10px] font-black uppercase tracking-wide">En direct</span>}
                 </button>
               );
             })}

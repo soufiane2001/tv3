@@ -1,66 +1,57 @@
 import { prisma } from './prisma';
 
-// Server lineup shown in the player switcher. Order here = default display order;
-// the admin can promote any server to "main" (it then renders first) via the
-// `mainServer` Setting (admin panel → main server picker).
-//
-// SigmaTV is a public HLS CDN with NO connection limit → scales to many viewers,
-// so it's the default main. goattv channels are .ts (continuous, mpegts.js):
-// great quality but capped at max_connections=1 (one viewer at a time).
-// Match servers = public CDN HLS (HTTPS + CORS, NO connection limit) → play
-// directly from the CDN, scale to thousands of viewers for free. THIS is the
-// multi-viewer solution. (The 119 goattv channels live in the DB as a browsable
-// library — 1 viewer each — not here.)
-// beIN MAX 1 = the multi-viewer relay: an Oracle Cloud box pulls goattv ch.299
-// ONCE (the single allowed connection) and re-serves it as HLS over HTTPS at
-// stream.sportalive.live (ffmpeg -c:v copy -c:a aac → nginx, Let's Encrypt).
-// The browser plays it DIRECTLY (VideoPlayer isDirectHls), so it scales to
-// unlimited viewers. See restream/ for the deploy kit (restream.sh + nginx +
-// wc-restream.service).
-// beIN MAX 2 stays goattv direct (.ts via mpegts proxy) → max_connections=1,
-// 1 viewer at a time (secondary server).
-const EXTRA = [
-  { slug: 'bein-max-1', name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'https://stream.sportalive.live/hls/bein-max-1.m3u8' },
-  { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
+// Single multi-viewer relay (Oracle Cloud → HLS at stream.sportalive.live).
+// goattv allows only ONE connection (max_connections=1), so the relay can carry
+// just ONE channel at a time. The admin picks WHICH goattv channel it broadcasts
+// (beIN MAX 1 = 299, beIN MAX 2 = 301) via the `relayChannel` setting; the
+// Oracle box polls /api/relay-channel every ~15s and switches ffmpeg's source.
+// The output URL never changes, so the site keeps playing across a switch.
+// See restream/ for the deploy kit and project-restream-relay memory.
+const RELAY_URL = 'https://stream.sportalive.live/hls/bein-max-1.m3u8';
+const RELAY_SLUG = 'bein-max-1'; // stable DB slug + matches the HLS filename
+
+export const RELAY_CHANNEL_KEY = 'relayChannel';
+
+// The goattv channels the single relay can broadcast (admin chooses one).
+export const RELAY_OPTIONS = [
+  { slug: 'bein-max-1', channel: 299, name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD' },
+  { slug: 'bein-max-2', channel: 301, name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD' },
 ] as const;
+
+export function relayOption(slug?: string | null) {
+  return RELAY_OPTIONS.find(o => o.slug === slug) ?? RELAY_OPTIONS[0];
+}
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
 
+// Back-compat exports (the legacy /api/admin/main-server route still imports
+// these). The site now shows the single relay, so the "main server" notion is a
+// no-op, but keeping the exports avoids breaking that route.
 export const MAIN_SERVER_KEY = 'mainServer';
+export const WC_SERVER_LINEUP = RELAY_OPTIONS.map(({ slug, label, sublabel }) => ({ slug, label, sublabel }));
 
-// The lineup as defined here (slug + labels), for the admin picker.
-export const WC_SERVER_LINEUP = EXTRA.map(({ slug, label, sublabel }) => ({ slug, label, sublabel }));
-
-// Memoise the upserts (not the ordering) so prerendering many pages doesn't
-// hammer the DB. The main-server setting is read fresh on every call so an admin
-// change takes effect immediately (after the page cache is revalidated).
-let _cache: { slug: string; label: string; sublabel: string; channel: any }[] | null = null;
+// Memoise the relay channel row (one upsert) for 5 min so prerendering many
+// pages doesn't hammer the DB. The selected channel is read fresh every call so
+// an admin switch shows the right label immediately (after ISR revalidation).
+let _channel: any = null;
 let _ts = 0;
 const TTL = 5 * 60_000;
 
-async function upsertAll() {
-  const rows = await Promise.all(
-    EXTRA.map(async ch => {
-      const channel = await prisma.channel.upsert({
-        where:  { slug: ch.slug },
-        update: { streamUrl: ch.streamUrl, isActive: true },
-        create: { slug: ch.slug, name: ch.name, streamUrl: ch.streamUrl, groupTitle: 'Sports', isActive: true, order: 999 },
-      }).catch(() => null);
-      return channel ? { slug: ch.slug, label: ch.label, sublabel: ch.sublabel, channel } : null;
-    })
-  );
-  return rows.filter(Boolean) as { slug: string; label: string; sublabel: string; channel: any }[];
-}
-
-// Returns the servers ordered with the admin-chosen "main" first.
 export async function getWcExtraChannels(): Promise<WcServer[]> {
-  if (!_cache || Date.now() - _ts > TTL) {
-    _cache = await upsertAll();
+  const sel = await prisma.setting.findUnique({ where: { key: RELAY_CHANNEL_KEY } }).catch(() => null);
+  const opt = relayOption(sel?.value);
+
+  if (!_channel || Date.now() - _ts > TTL) {
+    _channel = await prisma.channel.upsert({
+      where:  { slug: RELAY_SLUG },
+      update: { streamUrl: RELAY_URL, isActive: true },
+      create: { slug: RELAY_SLUG, name: 'beIN MAX (relay)', streamUrl: RELAY_URL, groupTitle: 'Sports', isActive: true, order: 999 },
+    }).catch(() => null);
     _ts = Date.now();
   }
-  const main = await prisma.setting.findUnique({ where: { key: MAIN_SERVER_KEY } }).catch(() => null);
-  const mainSlug = main?.value;
-  const list = [..._cache];
-  if (mainSlug) list.sort((a, b) => (b.slug === mainSlug ? 1 : 0) - (a.slug === mainSlug ? 1 : 0));
-  return list;
+  if (!_channel) return [];
+
+  // Same relay URL either way — only the displayed identity follows the choice.
+  const channel = { ..._channel, name: opt.name };
+  return [{ slug: RELAY_SLUG, label: opt.label, sublabel: opt.sublabel, channel }];
 }
