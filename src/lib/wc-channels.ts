@@ -12,11 +12,10 @@ import { prisma } from './prisma';
 // multi-viewer solution. (The 119 goattv channels live in the DB as a browsable
 // library — 1 viewer each — not here.)
 // beIN MAX 2 only (per request). goattv HTTP .ts, max_connections=1 → 1 viewer.
+// Test: beIN MAX 1 only, as .ts (continuous via mpegts — goattv's reliable path;
+// the HLS endpoint 404s on segments).
 const EXTRA = [
-  { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
-  // DAZN via HLS (.m3u8): its HLS is a proper multi-segment stream → hls.js
-  // (better audio handling than mpegts + P2P), unlike beIN's degenerate HLS.
-  { slug: 'dazn-mundial', name: 'DAZN Mundial', label: 'DAZN Mundial', sublabel: 'DAZN · Mundial · ES', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/238.m3u8' },
+  { slug: 'bein-max-1', name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
