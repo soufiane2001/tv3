@@ -40,7 +40,7 @@ while true; do
     -c:a aac -ar 48000 -ac 2 -b:a 128k \
     -f hls \
     -hls_time 3 \
-    -hls_list_size 12 \
+    -hls_list_size 20 \
     -hls_flags delete_segments+omit_endlist+independent_segments \
     -hls_segment_filename "${HLS_DIR}/${NAME}_%03d.ts" \
     "${HLS_DIR}/${NAME}.m3u8" &

@@ -134,6 +134,11 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       const HLS_CONFIG = {
         enableWorker: true,
         lowLatencyMode: false,
+        // Sit ~18s behind the live edge and pre-buffer generously so trans-
+        // Atlantic jitter from the Oracle relay doesn't cause stalls (smoother
+        // playback at the cost of a little latency behind live).
+        liveSyncDurationCount: 6,
+        liveMaxLatencyDurationCount: 15,
         maxBufferLength: 60,
         maxMaxBufferLength: 120,
         maxBufferSize: 60 * 1024 * 1024,
