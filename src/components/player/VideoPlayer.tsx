@@ -123,22 +123,19 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
       return;
     }
 
-    // ── hls.js path: HLS / m3u8 streams ──────────────────────────────────────────
+    // ── hls.js path: HLS / m3u8 streams (with P2P segment sharing) ───────────────
     if (Hls.isSupported()) {
-      const hls = new Hls({
+      const HLS_CONFIG = {
         enableWorker: true,
         lowLatencyMode: false,
-
         maxBufferLength: 60,
         maxMaxBufferLength: 120,
         maxBufferSize: 60 * 1024 * 1024,
         backBufferLength: 30,
-
         maxBufferHole: 2,
         maxStarvationDelay: 10,
         nudgeMaxRetry: 6,
         nudgeOffset: 0.2,
-
         manifestLoadingTimeOut: 15_000,
         manifestLoadingMaxRetry: 5,
         manifestLoadingRetryDelay: 1_000,
@@ -147,64 +144,72 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         fragLoadingTimeOut: 30_000,
         fragLoadingMaxRetry: 8,
         fragLoadingRetryDelay: 500,
-
         abrBandWidthFactor: 0.75,
         abrBandWidthUpFactor: 0.5,
         abrEwmaFastLive: 3,
         abrEwmaSlowLive: 9,
-
         startFragPrefetch: true,
-      });
+      } as const;
 
-      hlsRef.current = hls;
-      hls.loadSource(streamUrl);
-      hls.attachMedia(video);
+      const startHls = (HlsClass: typeof Hls, withP2P: boolean) => {
+        const video = videoRef.current;
+        if (!video) return;
+        const hls = new HlsClass(withP2P ? ({ ...HLS_CONFIG, p2p: { core: {} } } as any) : { ...HLS_CONFIG });
+        hlsRef.current = hls;
+        hls.loadSource(streamUrl);
+        hls.attachMedia(video);
 
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        setState('playing');
-        if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
-        trackStreamPlay();
-      });
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          setState('playing');
+          if (autoPlay) video.play().catch(err => { if (err.name !== 'AbortError') setState('paused'); });
+          trackStreamPlay();
+        });
 
-      let networkRetries = 0;
-      let mediaRetries = 0;
-      hls.on(Hls.Events.ERROR, (_, data) => {
-        if (!data.fatal) {
-          if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
-            hls.startLoad();
-            const video = videoRef.current;
-            if (video && video.buffered.length) {
-              const end = video.buffered.end(video.buffered.length - 1);
-              if (video.currentTime < end - 0.5) {
-                video.currentTime = Math.min(video.currentTime + 0.3, end - 0.1);
+        let networkRetries = 0;
+        let mediaRetries = 0;
+        hls.on(Hls.Events.ERROR, (_, data) => {
+          if (!data.fatal) {
+            if (data.details === Hls.ErrorDetails.BUFFER_STALLED_ERROR) {
+              hls.startLoad();
+              const v = videoRef.current;
+              if (v && v.buffered.length) {
+                const end = v.buffered.end(v.buffered.length - 1);
+                if (v.currentTime < end - 0.5) v.currentTime = Math.min(v.currentTime + 0.3, end - 0.1);
               }
+            } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
+              networkRetries = Math.max(0, networkRetries - 1);
+              hls.startLoad();
+            } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
+              hls.recoverMediaError();
             }
-          } else if (data.type === Hls.ErrorTypes.NETWORK_ERROR) {
-            networkRetries = Math.max(0, networkRetries - 1);
-            hls.startLoad();
-          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR) {
-            hls.recoverMediaError();
+            return;
           }
-          return;
-        }
-        // Fatal errors — exhaust internal retries, then auto-reinit up to 2 times
-        if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
-          networkRetries++;
-          hls.stopLoad();
-          setTimeout(() => hls.startLoad(), 1_500 * networkRetries);
-        } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
-          mediaRetries++;
-          hls.recoverMediaError();
-        } else if (autoRetryRef.current < 2) {
-          autoRetryRef.current++;
-          hls.destroy();
-          hlsRef.current = null;
-          setTimeout(initPlayer, 3_000 * autoRetryRef.current);
-        } else {
-          setState('error');
-          onError?.();
-        }
-      });
+          if (data.type === Hls.ErrorTypes.NETWORK_ERROR && networkRetries < 6) {
+            networkRetries++;
+            hls.stopLoad();
+            setTimeout(() => hls.startLoad(), 1_500 * networkRetries);
+          } else if (data.type === Hls.ErrorTypes.MEDIA_ERROR && mediaRetries < 3) {
+            mediaRetries++;
+            hls.recoverMediaError();
+          } else if (autoRetryRef.current < 2) {
+            autoRetryRef.current++;
+            hls.destroy();
+            hlsRef.current = null;
+            setTimeout(initPlayer, 3_000 * autoRetryRef.current);
+          } else {
+            setState('error');
+            onError?.();
+          }
+        });
+      };
+
+      // P2P: viewers relay HLS segments to each other over WebRTC, so the origin
+      // serves only a fraction of the traffic → scales to large audiences.
+      // Loaded lazily (browser-only, never on the server); falls back to plain
+      // hls.js if the P2P module can't load.
+      import('p2p-media-loader-hlsjs')
+        .then(({ HlsJsP2PEngine }) => startHls(HlsJsP2PEngine.injectMixin(Hls) as unknown as typeof Hls, true))
+        .catch(() => startHls(Hls, false));
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = streamUrl;
       video.addEventListener('loadedmetadata', () => {
