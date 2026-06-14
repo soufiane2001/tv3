@@ -12,10 +12,11 @@ import { prisma } from './prisma';
 // multi-viewer solution. (The 119 goattv channels live in the DB as a browsable
 // library — 1 viewer each — not here.)
 // beIN MAX 2 only (per request). goattv HTTP .ts, max_connections=1 → 1 viewer.
-// Test: beIN MAX 1 only, as .ts (continuous via mpegts — goattv's reliable path;
-// the HLS endpoint 404s on segments).
+// beIN MAX 1 + MAX 2 (goattv .ts, continuous via mpegts — the reliable goattv
+// path; HLS endpoint 404s on segments). max_connections=1 → 1 viewer at a time.
 const EXTRA = [
   { slug: 'bein-max-1', name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
+  { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
