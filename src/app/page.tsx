@@ -14,41 +14,40 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
-  title: '🔴 Netherlands vs Japan LIVE Free Today — World Cup 2026 | SportaLive',
-  description: '🔴 Watch Netherlands vs Japan LIVE & FREE today (Nederland - Japan · オランダ対日本 生中継 · Pays-Bas vs Japon · هولندا ضد اليابان) — FIFA World Cup 2026 in HD on SportaLive. Group F, AT&T Stadium Dallas, 20:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
+  title: '🔴 Ivory Coast vs Ecuador LIVE Free Today — World Cup 2026 | SportaLive',
+  description: '🔴 Watch Ivory Coast vs Ecuador LIVE & FREE today (Côte d\'Ivoire vs Équateur · Costa de Marfil vs Ecuador · ساحل العاج ضد الإكوادور) — FIFA World Cup 2026 in HD on SportaLive. Group E, Lincoln Financial Field Philadelphia, 23:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
   keywords: [
-    // ── Netherlands vs Japan — match of the day (multilingual) ──
+    // ── Ivory Coast vs Ecuador — match of the day (multilingual) ──
     // English
-    'netherlands vs japan live stream free','netherlands japan world cup 2026 live','watch netherlands vs japan free online',
-    'netherlands vs japan live today','netherlands japan free stream hd',
-    // Dutch (Nederlands)
-    'nederland japan live gratis','nederland tegen japan kijken','wk 2026 nederland live gratis',
-    'nederland japan livestream','oranje wk 2026 live','nederland japan gratis kijken online',
-    // Japanese (日本語)
-    'オランダ 日本 ライブ 無料','日本代表 ワールドカップ2026 生中継','サッカー ワールドカップ 2026 無料 視聴',
-    'オランダ対日本 ライブ','ワールドカップ 2026 日本 無料 配信',
-    // French / Arabic / Spanish
-    'pays-bas japon en direct gratuit','regarder pays-bas japon direct','هولندا اليابان بث مباشر',
-    'مشاهدة هولندا ضد اليابان مباشر','países bajos japón en vivo gratis',
+    'ivory coast vs ecuador live stream free','ivory coast ecuador world cup 2026 live','watch ivory coast vs ecuador free online',
+    'ivory coast vs ecuador live today','ivory coast ecuador free stream hd',
+    // French (Côte d'Ivoire)
+    'côte d\'ivoire équateur en direct gratuit','regarder côte d\'ivoire équateur direct','cote ivoire equateur streaming gratuit',
+    'côte d\'ivoire coupe du monde 2026 direct','match côte d\'ivoire en direct',
+    // Spanish (Ecuador / Latam)
+    'ecuador vs costa de marfil en vivo gratis','ver ecuador mundial 2026 en vivo','costa de marfil ecuador en vivo',
+    'ecuador mundial 2026 gratis','ecuador en vivo hoy futbol',
+    // Arabic / Portuguese
+    'ساحل العاج الإكوادور بث مباشر','مشاهدة ساحل العاج ضد الإكوادور','costa do marfim equador ao vivo',
     // ── General World Cup 2026 ──
     'coupe du monde 2026 en direct gratuit','regarder coupe du monde 2026 gratuit','m6 coupe du monde 2026 direct',
     'bein sport coupe du monde 2026','world cup 2026 live stream free','watch world cup 2026 online free',
-    'world cup 2026 match today live','wk 2026 live gratis kijken','ワールドカップ2026 無料',
-    'كأس العالم 2026 بث مباشر مجاناً','mundial 2026 en vivo gratis','copa do mundo 2026 ao vivo grátis',
+    'world cup 2026 match today live','mundial 2026 en vivo gratis','copa do mundo 2026 ao vivo grátis',
+    'كأس العالم 2026 بث مباشر مجاناً',
   ].join(', '),
   alternates: {
     canonical: SITE,
-    languages: { 'en': SITE, 'nl': SITE, 'ja': SITE, 'fr': SITE, 'ar': SITE, 'pt': SITE, 'es': SITE, 'x-default': SITE },
+    languages: { 'en': SITE, 'fr': SITE, 'es': SITE, 'ar': SITE, 'pt': SITE, 'x-default': SITE },
   },
   openGraph: {
-    title: '🔴 Netherlands vs Japan LIVE Free — Nederland-Japan · オランダ対日本 — World Cup 2026',
-    description: 'Netherlands vs Japan live free HD on SportaLive — World Cup 2026, Group F, AT&T Stadium Dallas. Nederland-Japan gratis kijken · オランダ対日本 無料生中継. No subscription.',
+    title: '🔴 Ivory Coast vs Ecuador LIVE Free — Côte d\'Ivoire-Équateur · Costa de Marfil-Ecuador — World Cup 2026',
+    description: 'Ivory Coast vs Ecuador live free HD on SportaLive — World Cup 2026, Group E, Lincoln Financial Field Philadelphia. Côte d\'Ivoire-Équateur en direct gratuit · Ecuador en vivo gratis. No subscription.',
     type: 'website', url: SITE, siteName: 'SportaLive',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '🔴 Netherlands vs Japan LIVE Free Today — World Cup 2026',
-    description: 'Watch Netherlands vs Japan free HD today on SportaLive (Nederland-Japan · オランダ対日本). No subscription. + every WC2026 match live free.',
+    title: '🔴 Ivory Coast vs Ecuador LIVE Free Today — World Cup 2026',
+    description: 'Watch Ivory Coast vs Ecuador free HD today on SportaLive (Côte d\'Ivoire-Équateur · Ecuador en vivo). No subscription. + every WC2026 match live free.',
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
 };
@@ -186,31 +185,31 @@ export default async function HomePage() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
                   <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">🔴 Match du jour · Live aujourd'hui</p>
-                  <p className="text-white font-black text-sm mt-0.5">Netherlands vs Japan — Group F</p>
+                  <p className="text-white font-black text-sm mt-0.5">Ivory Coast vs Ecuador — Group E</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
-              <Link href="/netherlands-vs-japan-2026"
+              <Link href="/ivory-coast-vs-ecuador-2026"
                 className="flex items-center justify-between px-4 py-4 hover:bg-white/[0.03] transition-colors">
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/nl.png" alt="Netherlands" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Netherlands</p>
+                  <img src="https://flagcdn.com/w80/ci.png" alt="Ivory Coast" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Ivory Coast</p>
                 </div>
                 <div className="text-center">
                   <p className="text-white/20 font-black text-3xl tracking-[0.3em]">VS</p>
-                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">14 Jun · 20:00 UTC</p>
+                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">14 Jun · 23:00 UTC</p>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/jp.png" alt="Japan" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Japan</p>
+                  <img src="https://flagcdn.com/w80/ec.png" alt="Ecuador" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Ecuador</p>
                 </div>
               </Link>
             </div>
 
             {[
+              { slug: 'ivory-coast-vs-ecuador-2026', home: 'Ivory Coast', hf: 'ci', away: 'Ecuador', af: 'ec', date: 'Sun Jun 14' },
               { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Sun Jun 14' },
               { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Sat Jun 13' },
-              { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', date: 'Sun Jun 14' },
             ].map(m => (
               <Link key={m.slug} href={`/${m.slug}`}
                 className="card-float flex items-center justify-between px-4 py-3 hover:border-red-600/30 transition-all"
@@ -267,10 +266,10 @@ export default async function HomePage() {
         <WC2026StreamClient
           servers={wcServers}
           match={{
-            home: 'Netherlands', homeFlag: 'nl',
-            away: 'Japan', awayFlag: 'jp',
+            home: 'Ivory Coast', homeFlag: 'ci',
+            away: 'Ecuador', awayFlag: 'ec',
             date: 'Sunday, 14 June 2026',
-            time: '20:00 UTC · AT&T Stadium, Dallas',
+            time: '23:00 UTC · Lincoln Financial Field, Philadelphia',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
@@ -699,40 +698,40 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Match-of-the-day multilingual block — visible, crawlable (Netherlands vs Japan) */}
+      {/* Match-of-the-day multilingual block — visible, crawlable (Ivory Coast vs Ecuador) */}
       <section className="px-4 md:px-0 pt-10 pb-2 border-t border-white/[0.04]">
         <h2 className="text-white font-black text-lg md:text-xl mb-1" style={{ fontFamily: 'var(--font-display)' }}>
-          🔴 Netherlands vs Japan — Live Free Today · Nederland - Japan · オランダ対日本
+          🔴 Ivory Coast vs Ecuador — Live Free Today · Côte d&apos;Ivoire - Équateur · Ecuador en vivo
         </h2>
         <p className="text-white/40 text-sm leading-relaxed mb-5 max-w-3xl">
-          Watch <strong className="text-white/70">Netherlands vs Japan</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
-          Group F, Sunday 14 June 2026 at AT&amp;T Stadium, Dallas (20:00 UTC). No subscription, no registration. Oranje (Virgil van Dijk,
-          Cody Gakpo, Xavi Simons) face the Samurai Blue (Kubo, Mitoma, Kamada) — pick a free server above and watch every minute live.
+          Watch <strong className="text-white/70">Ivory Coast vs Ecuador</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
+          Group E, Sunday 14 June 2026 at Lincoln Financial Field, Philadelphia (23:00 UTC). No subscription, no registration. Les Éléphants
+          (Haller, Kessié, Pépé) face La Tri (Caicedo, Valencia, Plata) — pick a free server above and watch every minute live.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 text-xs text-white/35 leading-relaxed">
           <div>
             <p className="text-white/50 font-bold mb-1">🌍 English</p>
-            <p>Netherlands vs Japan live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
+            <p>Ivory Coast vs Ecuador live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
           </div>
           <div>
-            <p className="text-white/50 font-bold mb-1">🇳🇱 Nederlands</p>
-            <p>Nederland - Japan live gratis kijken op SportaLive — WK 2026, Groep F. Kijk Oranje gratis in HD, zonder abonnement of registratie. Alle WK 2026 wedstrijden live.</p>
+            <p className="text-white/50 font-bold mb-1">🇨🇮 Français</p>
+            <p>Côte d&apos;Ivoire - Équateur en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe E. Suivez les Éléphants en HD : M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
           </div>
           <div>
-            <p className="text-white/50 font-bold mb-1">🇯🇵 日本語</p>
-            <p>オランダ対日本をSportaLiveで無料生中継。ワールドカップ2026、グループF。日本代表の試合をHDで無料視聴 — 登録不要・契約不要。全104試合をライブ配信。</p>
-          </div>
-          <div>
-            <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
-            <p>Pays-Bas vs Japon en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe F. M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
+            <p className="text-white/50 font-bold mb-1">🇪🇨 Español</p>
+            <p>Ecuador vs Costa de Marfil en vivo gratis en SportaLive — Mundial 2026, Grupo E. Mira a La Tri en HD, sin suscripción ni registro. Todos los partidos del Mundial 2026 en directo.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇲🇦 عربي</p>
-            <p>شاهد هولندا ضد اليابان بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة F، بدون اشتراك ولا تسجيل. بث مباشر لجميع 104 مباريات.</p>
+            <p>شاهد ساحل العاج ضد الإكوادور بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة E، بدون اشتراك ولا تسجيل. بث مباشر لجميع 104 مباريات.</p>
           </div>
           <div>
-            <p className="text-white/50 font-bold mb-1">🇧🇷 Português · 🇪🇸 Español</p>
-            <p>Países Baixos vs Japão ao vivo grátis · Países Bajos vs Japón en vivo gratis — Copa do Mundo / Mundial 2026. beIN Sport, M6, La 1. Sin suscripción.</p>
+            <p className="text-white/50 font-bold mb-1">🇧🇷 Português</p>
+            <p>Costa do Marfim vs Equador ao vivo grátis — Copa do Mundo 2026, Grupo E. beIN Sport, M6, La 1. Sem assinatura, sem cadastro.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🌍 World Cup 2026</p>
+            <p>Free HD live streams of all 104 FIFA World Cup 2026 matches on SportaLive — every group, every knockout. No subscription, no registration.</p>
           </div>
         </div>
       </section>
