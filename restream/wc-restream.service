@@ -1,7 +1,7 @@
 # /etc/systemd/system/wc-restream.service
 # Keeps the restream running forever (boot + crash auto-restart).
-#   sudo cp restream.sh /opt/restream.sh && sudo chmod +x /opt/restream.sh
-#   sudo cp wc-restream.service /etc/systemd/system/
+#   scp restream.sh -> /opt/restream.sh ; chmod +x
+#   scp wc-restream.service -> /etc/systemd/system/
 #   sudo systemctl daemon-reload && sudo systemctl enable --now wc-restream
 # Change the channel by editing ExecStart args:  /opt/restream.sh 301 bein-max-2
 [Unit]
@@ -10,12 +10,10 @@ After=network-online.target
 Wants=network-online.target
 
 [Service]
-ExecStart=/opt/restream.sh 301 bein-max-2
+ExecStart=/opt/restream.sh 299 bein-max-1
 Restart=always
 RestartSec=5
-User=www-data
-# ffmpeg + nginx write here
-RuntimeDirectory=hls
+User=root
 
 [Install]
 WantedBy=multi-user.target

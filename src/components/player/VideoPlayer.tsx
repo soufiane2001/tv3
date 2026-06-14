@@ -46,9 +46,15 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
   const [isOnline, setIsOnline] = useState(true);
   const bufferingTimer = useRef<NodeJS.Timeout | null>(null);
 
-  const streamUrl = `/api/stream/${channel.id}`;
+  const rawUrl = channel.streamUrl ?? '';
+  // Restream relay (Oracle): an HTTPS .m3u8 we host ourselves (CORS *). Play it
+  // DIRECTLY from the browser — no Vercel proxy — so it scales to many viewers
+  // and Vercel bandwidth stays out of the hot path. Everything else still goes
+  // through /api/stream (goattv needs the proxy: UA spoof, single connection…).
+  const isDirectHls = /^https:\/\//i.test(rawUrl) && /\.m3u8(\?|$)/i.test(rawUrl);
+  const streamUrl = isDirectHls ? rawUrl : `/api/stream/${channel.id}`;
   // Detect raw TS stream (goattv.store IPTV) — use mpegts.js, one continuous connection like VLC
-  const isTsStream = /\.ts(\?|$)/i.test(channel.streamUrl ?? '');
+  const isTsStream = /\.ts(\?|$)/i.test(rawUrl);
   const lastTimeRef = useRef<number>(0);
   const stallWatchdogRef = useRef<NodeJS.Timeout | null>(null);
 

@@ -11,11 +11,16 @@ import { prisma } from './prisma';
 // directly from the CDN, scale to thousands of viewers for free. THIS is the
 // multi-viewer solution. (The 119 goattv channels live in the DB as a browsable
 // library — 1 viewer each — not here.)
-// beIN MAX 2 only (per request). goattv HTTP .ts, max_connections=1 → 1 viewer.
-// beIN MAX 1 + MAX 2 (goattv .ts, continuous via mpegts — the reliable goattv
-// path; HLS endpoint 404s on segments). max_connections=1 → 1 viewer at a time.
+// beIN MAX 1 = the multi-viewer relay: an Oracle Cloud box pulls goattv ch.299
+// ONCE (the single allowed connection) and re-serves it as HLS over HTTPS at
+// stream.sportalive.live (ffmpeg -c:v copy -c:a aac → nginx, Let's Encrypt).
+// The browser plays it DIRECTLY (VideoPlayer isDirectHls), so it scales to
+// unlimited viewers. See restream/ for the deploy kit (restream.sh + nginx +
+// wc-restream.service).
+// beIN MAX 2 stays goattv direct (.ts via mpegts proxy) → max_connections=1,
+// 1 viewer at a time (secondary server).
 const EXTRA = [
-  { slug: 'bein-max-1', name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/299.ts' },
+  { slug: 'bein-max-1', name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1', sublabel: 'beIN · MAX 1 · FHD', streamUrl: 'https://stream.sportalive.live/hls/bein-max-1.m3u8' },
   { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
 ] as const;
 

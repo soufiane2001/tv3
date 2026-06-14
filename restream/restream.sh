@@ -9,8 +9,8 @@ set -u
 
 USER="6MQDXbURQj"
 PASS="VVdSS4UxyV"
-CHANNEL="${1:-301}"          # 301=beIN MAX2, 299=MAX1, 323=M6, 262=Global
-NAME="${2:-bein-max-2}"      # output file name (matches site slug)
+CHANNEL="${1:-299}"          # 299=beIN MAX1, 301=MAX2, 323=M6, 262=Global
+NAME="${2:-bein-max-1}"      # output file name (matches site slug)
 HLS_DIR="/var/www/hls"
 UA="VLC/3.0.21 LibVLC/3.0.21"
 
