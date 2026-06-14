@@ -275,6 +275,27 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
     else if (autoPlay) video.play().catch(() => {});
   }, [paused, autoPlay]);
 
+  // If the stream stays stuck buffering ~18s straight, auto-reload the page to
+  // grab a fresh live segment window (recovers relay jitter). Guarded so a
+  // truly-dead stream can't loop forever: max 3 reloads per 3 min, after which
+  // the 40s fallback below takes over (server switch).
+  useEffect(() => {
+    if (state !== 'buffering') return;
+    const t = setTimeout(() => {
+      try {
+        const now = Date.now();
+        const raw = sessionStorage.getItem('sl_autoreload');
+        let rec = raw ? JSON.parse(raw) as { n: number; t: number } : { n: 0, t: now };
+        if (now - rec.t > 180_000) rec = { n: 0, t: now };
+        if (rec.n < 3) {
+          sessionStorage.setItem('sl_autoreload', JSON.stringify({ n: rec.n + 1, t: rec.t }));
+          window.location.reload();
+        }
+      } catch { window.location.reload(); }
+    }, 18_000);
+    return () => clearTimeout(t);
+  }, [state]);
+
   // If stuck buffering/loading for 40 s, give up and trigger onError for auto-switch
   useEffect(() => {
     if (state === 'buffering' || state === 'loading') {
