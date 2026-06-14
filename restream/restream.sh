@@ -22,7 +22,8 @@ while true; do
     -user_agent "$UA" \
     -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 \
     -i "http://goattv.store:80/${USER}/${PASS}/${CHANNEL}.ts" \
-    -c copy \
+    -c:v copy \
+    -c:a aac -ar 48000 -ac 2 -b:a 128k \
     -f hls \
     -hls_time 6 \
     -hls_list_size 6 \
