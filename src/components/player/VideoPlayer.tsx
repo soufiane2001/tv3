@@ -209,13 +209,11 @@ export default function VideoPlayer({ channel, onClose, onError, autoPlay = true
         });
       };
 
-      // P2P: viewers relay HLS segments to each other over WebRTC, so the origin
-      // serves only a fraction of the traffic → scales to large audiences.
-      // Loaded lazily (browser-only, never on the server); falls back to plain
-      // hls.js if the P2P module can't load.
-      import('p2p-media-loader-hlsjs')
-        .then(({ HlsJsP2PEngine }) => startHls(HlsJsP2PEngine.injectMixin(Hls) as unknown as typeof Hls, true))
-        .catch(() => startHls(Hls, false));
+      // Plain hls.js. (P2P via p2p-media-loader was removed: it opened a
+      // WebRTC tracker WebSocket — wss://tracker.novage.com.ua — that fails and
+      // disrupts playback, and it's unnecessary now that the Oracle CDN relay
+      // already scales to unlimited viewers.)
+      startHls(Hls, false);
     } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
       video.src = streamUrl;
       video.addEventListener('loadedmetadata', () => {

@@ -14,41 +14,41 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
-  title: '🔴 Brazil vs Morocco LIVE Free Today — World Cup 2026 | SportaLive',
-  description: '🔴 Watch Brazil vs Morocco LIVE & FREE today (Brésil vs Maroc · البرازيل ضد المغرب · Brasil vs Marruecos) — FIFA World Cup 2026 in HD on SportaLive. Group C, MetLife Stadium. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
+  title: '🔴 Netherlands vs Japan LIVE Free Today — World Cup 2026 | SportaLive',
+  description: '🔴 Watch Netherlands vs Japan LIVE & FREE today (Nederland - Japan · オランダ対日本 生中継 · Pays-Bas vs Japon · هولندا ضد اليابان) — FIFA World Cup 2026 in HD on SportaLive. Group F, AT&T Stadium Dallas, 20:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
   keywords: [
-    // French — most searched
-    'diffusion direct coupe du monde 2026','coupe du monde 2026 en direct gratuit','coupe du monde 2026 streaming',
-    'regarder coupe du monde 2026 gratuit','match coupe du monde 2026 direct','m6 coupe du monde 2026 direct',
-    'bein sport coupe du monde 2026','la 1 coupe du monde 2026','rmc sport coupe du monde 2026',
-    'match direct coupe du monde 2026','pronostic coupe du monde 2026','prediction mondial 2026',
-    'actualité coupe du monde 2026','news coupe du monde 2026','open match coupe du monde',
+    // ── Netherlands vs Japan — match of the day (multilingual) ──
     // English
-    'world cup 2026 live stream free','world cup 2026 free broadcast','watch world cup 2026 online free',
-    'world cup 2026 match today live','world cup 2026 prediction','world cup 2026 news',
-    'bein sport 1 world cup 2026 live','m6 world cup 2026 live','la 1 world cup 2026',
-    'world cup 2026 opening match live','world cup 2026 schedule today',
-    // Arabic
-    'كأس العالم 2026 بث مباشر مجاناً','مشاهدة كأس العالم 2026 مباشر','beIN Sport كأس العالم 2026',
-    'أخبار كأس العالم 2026','توقعات كأس العالم 2026','كأس العالم 2026 اليوم',
-    // Portuguese / Brazil
-    'copa do mundo 2026 ao vivo grátis','copa 2026 transmissão ao vivo','brasil copa mundo 2026',
-    // Spanish
-    'mundial 2026 en vivo gratis','ver mundial 2026 gratis','predicciones mundial 2026',
+    'netherlands vs japan live stream free','netherlands japan world cup 2026 live','watch netherlands vs japan free online',
+    'netherlands vs japan live today','netherlands japan free stream hd',
+    // Dutch (Nederlands)
+    'nederland japan live gratis','nederland tegen japan kijken','wk 2026 nederland live gratis',
+    'nederland japan livestream','oranje wk 2026 live','nederland japan gratis kijken online',
+    // Japanese (日本語)
+    'オランダ 日本 ライブ 無料','日本代表 ワールドカップ2026 生中継','サッカー ワールドカップ 2026 無料 視聴',
+    'オランダ対日本 ライブ','ワールドカップ 2026 日本 無料 配信',
+    // French / Arabic / Spanish
+    'pays-bas japon en direct gratuit','regarder pays-bas japon direct','هولندا اليابان بث مباشر',
+    'مشاهدة هولندا ضد اليابان مباشر','países bajos japón en vivo gratis',
+    // ── General World Cup 2026 ──
+    'coupe du monde 2026 en direct gratuit','regarder coupe du monde 2026 gratuit','m6 coupe du monde 2026 direct',
+    'bein sport coupe du monde 2026','world cup 2026 live stream free','watch world cup 2026 online free',
+    'world cup 2026 match today live','wk 2026 live gratis kijken','ワールドカップ2026 無料',
+    'كأس العالم 2026 بث مباشر مجاناً','mundial 2026 en vivo gratis','copa do mundo 2026 ao vivo grátis',
   ].join(', '),
   alternates: {
     canonical: SITE,
-    languages: { 'en': SITE, 'fr': SITE, 'ar': SITE, 'pt': SITE, 'es': SITE, 'x-default': SITE },
+    languages: { 'en': SITE, 'nl': SITE, 'ja': SITE, 'fr': SITE, 'ar': SITE, 'pt': SITE, 'es': SITE, 'x-default': SITE },
   },
   openGraph: {
-    title: '🔴 Brazil vs Morocco EN DIRECT GRATUIT aujourd\'hui — Coupe du Monde 2026',
-    description: 'Brésil vs Maroc en direct gratuit HD sur SportaLive — Coupe du Monde 2026, sans abonnement. beIN Sports, M6. + tous les matchs en direct.',
+    title: '🔴 Netherlands vs Japan LIVE Free — Nederland-Japan · オランダ対日本 — World Cup 2026',
+    description: 'Netherlands vs Japan live free HD on SportaLive — World Cup 2026, Group F, AT&T Stadium Dallas. Nederland-Japan gratis kijken · オランダ対日本 無料生中継. No subscription.',
     type: 'website', url: SITE, siteName: 'SportaLive',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '🔴 Brazil vs Morocco LIVE Free Today — World Cup 2026',
-    description: 'Watch Brazil vs Morocco (Brésil-Maroc) free HD today on SportaLive. No subscription. + every WC2026 match live free.',
+    title: '🔴 Netherlands vs Japan LIVE Free Today — World Cup 2026',
+    description: 'Watch Netherlands vs Japan free HD today on SportaLive (Nederland-Japan · オランダ対日本). No subscription. + every WC2026 match live free.',
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
 };
@@ -186,31 +186,31 @@ export default async function HomePage() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
                   <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">🔴 Match du jour · Live aujourd'hui</p>
-                  <p className="text-white font-black text-sm mt-0.5">Brazil vs Morocco — Group C</p>
+                  <p className="text-white font-black text-sm mt-0.5">Netherlands vs Japan — Group F</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
-              <Link href="/brazil-vs-morocco-2026"
+              <Link href="/netherlands-vs-japan-2026"
                 className="flex items-center justify-between px-4 py-4 hover:bg-white/[0.03] transition-colors">
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/br.png" alt="Brazil" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Brazil</p>
+                  <img src="https://flagcdn.com/w80/nl.png" alt="Netherlands" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Netherlands</p>
                 </div>
                 <div className="text-center">
                   <p className="text-white/20 font-black text-3xl tracking-[0.3em]">VS</p>
-                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">13 Jun · 22:00 UTC</p>
+                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">14 Jun · 20:00 UTC</p>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/ma.png" alt="Morocco" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Morocco</p>
+                  <img src="https://flagcdn.com/w80/jp.png" alt="Japan" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Japan</p>
                 </div>
               </Link>
             </div>
 
             {[
+              { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Sun Jun 14' },
               { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Sat Jun 13' },
               { slug: 'germany-vs-curacao-2026', home: 'Germany', hf: 'de', away: 'Curaçao', af: 'cw', date: 'Sun Jun 14' },
-              { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Sun Jun 14' },
             ].map(m => (
               <Link key={m.slug} href={`/${m.slug}`}
                 className="card-float flex items-center justify-between px-4 py-3 hover:border-red-600/30 transition-all"
@@ -267,10 +267,10 @@ export default async function HomePage() {
         <WC2026StreamClient
           servers={wcServers}
           match={{
-            home: 'Brazil', homeFlag: 'br',
-            away: 'Morocco', awayFlag: 'ma',
-            date: 'Saturday, 13 June 2026',
-            time: '22:00 UTC · MetLife Stadium, New Jersey',
+            home: 'Netherlands', homeFlag: 'nl',
+            away: 'Japan', awayFlag: 'jp',
+            date: 'Sunday, 14 June 2026',
+            time: '20:00 UTC · AT&T Stadium, Dallas',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
@@ -699,24 +699,40 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Multilingual platform description — visible, crawlable, not hidden */}
-      <section className="px-4 md:px-0 pt-10 pb-12 border-t border-white/[0.04]">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs text-white/35 leading-relaxed">
-          <div>
-            <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
-            <p>Regardez la Coupe du Monde 2026 en direct gratuit sur SportaLive — M6, beIN Sport 1 et RMC Sport, sans abonnement ni inscription.</p>
-          </div>
+      {/* Match-of-the-day multilingual block — visible, crawlable (Netherlands vs Japan) */}
+      <section className="px-4 md:px-0 pt-10 pb-2 border-t border-white/[0.04]">
+        <h2 className="text-white font-black text-lg md:text-xl mb-1" style={{ fontFamily: 'var(--font-display)' }}>
+          🔴 Netherlands vs Japan — Live Free Today · Nederland - Japan · オランダ対日本
+        </h2>
+        <p className="text-white/40 text-sm leading-relaxed mb-5 max-w-3xl">
+          Watch <strong className="text-white/70">Netherlands vs Japan</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
+          Group F, Sunday 14 June 2026 at AT&amp;T Stadium, Dallas (20:00 UTC). No subscription, no registration. Oranje (Virgil van Dijk,
+          Cody Gakpo, Xavi Simons) face the Samurai Blue (Kubo, Mitoma, Kamada) — pick a free server above and watch every minute live.
+        </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 text-xs text-white/35 leading-relaxed">
           <div>
             <p className="text-white/50 font-bold mb-1">🌍 English</p>
-            <p>Watch all 104 FIFA World Cup 2026 matches free in HD — beIN Sport UHD 1, M6 France, La 1 RTVE, RMC Sport. No subscription, no sign-up.</p>
+            <p>Netherlands vs Japan live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇳🇱 Nederlands</p>
+            <p>Nederland - Japan live gratis kijken op SportaLive — WK 2026, Groep F. Kijk Oranje gratis in HD, zonder abonnement of registratie. Alle WK 2026 wedstrijden live.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇯🇵 日本語</p>
+            <p>オランダ対日本をSportaLiveで無料生中継。ワールドカップ2026、グループF。日本代表の試合をHDで無料視聴 — 登録不要・契約不要。全104試合をライブ配信。</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
+            <p>Pays-Bas vs Japon en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe F. M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇲🇦 عربي</p>
-            <p>شاهد كأس العالم 2026 مجاناً بجودة HD على SportaLive — beIN Sport 1 وM6 وLa 1، بدون اشتراك ولا تسجيل. بث مباشر لجميع 104 مباريات.</p>
+            <p>شاهد هولندا ضد اليابان بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة F، بدون اشتراك ولا تسجيل. بث مباشر لجميع 104 مباريات.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇧🇷 Português · 🇪🇸 Español</p>
-            <p>Copa do Mundo 2026 ao vivo grátis — beIN Sport, M6, La 1. Sin suscripción. Mundial 2026 en vivo gratis en SportaLive.</p>
+            <p>Países Baixos vs Japão ao vivo grátis · Países Bajos vs Japón en vivo gratis — Copa do Mundo / Mundial 2026. beIN Sport, M6, La 1. Sin suscripción.</p>
           </div>
         </div>
       </section>
