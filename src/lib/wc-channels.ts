@@ -19,6 +19,7 @@ export const RELAY_OPTIONS = [
   { slug: 'bein-max-2', channel: 301, name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2',  sublabel: 'beIN · MAX 2 · FHD' },
   { slug: 'thmanyah-1', channel: 65,  name: 'THMANYAH 1',        label: 'THMANYAH 1',  sublabel: 'الثمانية 1 · FHD' },
   { slug: 'thmanyah-2', channel: 67,  name: 'THMANYAH 2',        label: 'THMANYAH 2',  sublabel: 'الثمانية 2 · FHD' },
+  { slug: 'dazn-mundial', channel: 238, name: 'DAZN Mundial ES', label: 'DAZN Mundial', sublabel: 'DAZN · Mundial ES · FHD' },
 ] as const;
 
 export function relayOption(slug?: string | null) {
