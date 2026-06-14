@@ -1,12 +1,17 @@
 #!/usr/bin/env bash
 # Pull ONE goattv channel (the single allowed connection) and re-serve it as HLS
-# to unlimited viewers. ffmpeg just remuxes (-c:v copy) → almost no CPU, keeps
-# FHD; audio is re-encoded to AAC (goattv MP3 is sometimes corrupt).
+# to unlimited viewers.
 #
-# The channel is NOT hard-coded: it is read from the site every loop
+# Codec handling:
+#  - h264 source  → -c:v copy   (no CPU, keeps FHD).
+#  - HEVC source  → transcode to H.264 720p (browsers can't decode HEVC). This
+#    is CPU-heavy; on a 1-vCPU box it may not keep up → lower the scale to 480p
+#    or move to a bigger (ARM A1) instance if it stutters.
+#  - audio is always re-encoded to AAC (goattv MP3 is sometimes corrupt).
+#
+# The channel is read from the site every loop:
 #   GET https://sportalive.live/api/relay-channel  ->  {"channel":299,...}
-# so the admin can switch beIN MAX 1 (299) <-> MAX 2 (301) from the panel. A
-# watcher polls every 15s and restarts ffmpeg when the choice changes. Output
+# so the admin can switch from the panel; the VM follows within ~15s. Output
 # always goes to bein-max-1.m3u8 so the site URL never changes across a switch.
 #
 # goattv max_connections=1 → only ONE channel can be pulled at a time.
@@ -31,12 +36,26 @@ get_ch() {
 
 while true; do
   CH=$(get_ch)
+  SRC="http://goattv.store:80/${USR}/${PSW}/${CH}.ts"
+
+  # Detect the video codec so HEVC channels get transcoded to playable H.264.
+  VCODEC=$(ffprobe -v error -user_agent "$UA" -analyzeduration 3000000 -probesize 3000000 \
+            -select_streams v:0 -show_entries stream=codec_name -of default=nw=1:nk=1 "$SRC" 2>/dev/null | head -n1)
+
+  if [ "$VCODEC" = "hevc" ] || [ "$VCODEC" = "h265" ]; then
+    echo "[restream] ch=$CH is HEVC → transcoding to H.264 720p"
+    VOPT=(-c:v libx264 -preset ultrafast -vf "scale=-2:720" -b:v 2800k -maxrate 3200k -bufsize 6400k -g 75 -keyint_min 75 -sc_threshold 0 -pix_fmt yuv420p)
+  else
+    echo "[restream] ch=$CH codec=$VCODEC → copy (no transcode)"
+    VOPT=(-c:v copy)
+  fi
+
   echo "[restream] start ch=$CH ($NAME) $(date)"
   ffmpeg -hide_banner -loglevel warning \
     -user_agent "$UA" \
     -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 \
-    -i "http://goattv.store:80/${USR}/${PSW}/${CH}.ts" \
-    -c:v copy \
+    -i "$SRC" \
+    "${VOPT[@]}" \
     -c:a aac -ar 48000 -ac 2 -b:a 128k \
     -f hls \
     -hls_time 3 \
