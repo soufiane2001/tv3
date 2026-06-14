@@ -7,9 +7,14 @@ import { prisma } from './prisma';
 // SigmaTV is a public HLS CDN with NO connection limit → scales to many viewers,
 // so it's the default main. goattv channels are .ts (continuous, mpegts.js):
 // great quality but capped at max_connections=1 (one viewer at a time).
-// Only M6 (per request). HTTP source → served through the proxy.
+// Match servers = public CDN HLS (HTTPS + CORS, NO connection limit) → play
+// directly from the CDN, scale to thousands of viewers for free. THIS is the
+// multi-viewer solution. (The 119 goattv channels live in the DB as a browsable
+// library — 1 viewer each — not here.)
 const EXTRA = [
-  { slug: 'm6', name: 'M6', label: 'M6', sublabel: 'France · M6 · HD', streamUrl: 'http://151.80.18.177:86/M6_HD/index.m3u8' },
+  { slug: 'al-aoula-tnt', name: 'Al Aoula TNT', label: 'Al Aoula TNT', sublabel: 'Maroc · TNT · 1080p · multi', streamUrl: 'https://stream-lb.livemediama.com/alaoula-tnt/hls/master.m3u8' },
+  { slug: 'sigma-tv',     name: 'SigmaTV',      label: 'SigmaTV',      sublabel: 'HD · multi-viewer',          streamUrl: 'https://sl2.sigmatv.com/hls/live.m3u8' },
+  { slug: 'm6',           name: 'M6',           label: 'M6',           sublabel: 'France · M6 · HD',            streamUrl: 'http://151.80.18.177:86/M6_HD/index.m3u8' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
