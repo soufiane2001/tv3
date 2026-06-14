@@ -14,6 +14,7 @@ import { prisma } from './prisma';
 // beIN MAX 2 only (per request). goattv HTTP .ts, max_connections=1 → 1 viewer.
 const EXTRA = [
   { slug: 'bein-max-2', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2', sublabel: 'beIN · MAX 2 · FHD', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/301.ts' },
+  { slug: 'dazn-mundial', name: 'DAZN Mundial', label: 'DAZN Mundial', sublabel: 'DAZN · Mundial · ES', streamUrl: 'http://goattv.store:80/6MQDXbURQj/VVdSS4UxyV/238.ts' },
 ] as const;
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
