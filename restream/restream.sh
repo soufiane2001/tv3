@@ -27,29 +27,20 @@ SCALE="-2:720"                 # change to -2:480 if the CPU can't keep up
 
 mkdir -p "$HLS_DIR"
 
-# One curl per poll: returns "<slug>\t<channel>\t<source>" parsed from the API.
-# `source`, when non-empty, is a full external HLS/TS URL the box pulls directly
-# (e.g. ARD); otherwise we build the goattv URL from the channel number.
-get_sel() {
-  local j
-  j=$(curl -fsS --max-time 8 "$API" 2>/dev/null) || { echo "$DEFAULT_CH	$DEFAULT_CH	"; return; }
-  local slug ch src
-  slug=$(echo "$j" | grep -o '"slug"[: ]*"[^"]*"' | head -n1 | sed 's/.*"slug"[: ]*"\([^"]*\)".*/\1/')
-  ch=$(echo "$j"   | grep -o '"channel"[: ]*[0-9]\+' | grep -o '[0-9]\+' | head -n1)
-  src=$(echo "$j"  | grep -o '"source"[: ]*"[^"]*"' | head -n1 | sed 's/.*"source"[: ]*"\([^"]*\)".*/\1/')
-  [ -n "$ch" ] || ch="$DEFAULT_CH"
-  [ -n "$slug" ] || slug="$ch"
-  echo "${slug}	${ch}	${src}"
+# Fetch the desired channel number from the site (fall back to DEFAULT_CH).
+get_ch() {
+  local c
+  c=$(curl -fsS --max-time 8 "$API" 2>/dev/null | grep -o '"channel"[: ]*[0-9]\+' | grep -o '[0-9]\+' | head -n1)
+  if [ -n "$c" ]; then echo "$c"; else echo "$DEFAULT_CH"; fi
 }
 
 while true; do
-  IFS=$'\t' read -r SEL CH SRC <<< "$(get_sel)"
-  if [ -n "$SRC" ]; then INPUT="$SRC"; else INPUT="http://goattv.store:80/${USR}/${PSW}/${CH}.ts"; fi
-  echo "[restream] start sel=$SEL src=$INPUT ($NAME) 720p $(date)"
+  CH=$(get_ch)
+  echo "[restream] start ch=$CH ($NAME) 720p $(date)"
   ffmpeg -hide_banner -loglevel warning \
     -user_agent "$UA" \
     -reconnect 1 -reconnect_streamed 1 -reconnect_delay_max 5 \
-    -i "$INPUT" \
+    -i "http://goattv.store:80/${USR}/${PSW}/${CH}.ts" \
     -c:v libx264 -preset ultrafast -vf "scale=${SCALE}" \
     -b:v 2200k -maxrate 2600k -bufsize 5200k \
     -g 75 -keyint_min 75 -sc_threshold 0 -pix_fmt yuv420p \
@@ -62,12 +53,12 @@ while true; do
     "${HLS_DIR}/${NAME}.m3u8" &
   FFPID=$!
 
-  # While ffmpeg runs, poll for an admin channel switch (compare by slug).
+  # While ffmpeg runs, poll for an admin channel switch.
   while kill -0 "$FFPID" 2>/dev/null; do
     sleep 15
-    IFS=$'\t' read -r NEW _ _ <<< "$(get_sel)"
-    if [ "$NEW" != "$SEL" ]; then
-      echo "[restream] channel change $SEL -> $NEW, restarting ffmpeg"
+    NEW=$(get_ch)
+    if [ "$NEW" != "$CH" ]; then
+      echo "[restream] channel change $CH -> $NEW, restarting ffmpeg"
       kill "$FFPID" 2>/dev/null
       break
     fi
