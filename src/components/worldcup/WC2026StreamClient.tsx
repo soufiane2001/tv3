@@ -4,6 +4,7 @@ import { Play, Tv2 } from 'lucide-react';
 import VideoPlayer from '@/components/player/VideoPlayer';
 import AdInterstitial from '@/components/ads/AdInterstitial';
 import MidrollAd from '@/components/ads/MidrollAd';
+import PopunderEvery from '@/components/ads/PopunderEvery';
 import type { Channel } from '@/types';
 
 export interface WCServer {
@@ -225,6 +226,8 @@ export default function WC2026StreamClient({ servers, match }: Props) {
   /* ── Active player ── */
   return (
     <div className="space-y-3">
+      {/* Real popunder ad every ~2 min while watching (fires on the viewer's next click). */}
+      <PopunderEvery enabled={started} intervalMs={120_000} />
       <StreamTabs />
       <div className="rounded-2xl overflow-hidden border border-white/10 shadow-2xl shadow-black/60 relative">
         <div className="px-4 py-2 bg-[#080d24] border-b border-white/5 flex items-center justify-between">
