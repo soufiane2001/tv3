@@ -28,6 +28,7 @@ export const RELAY_OPTIONS = [
 // isDirectHls). Picked from the SAME admin list as the relay options.
 export const DIRECT_SOURCES = [
   { slug: 'ard-1', name: 'ARD', label: 'ARD', sublabel: 'ARD · DE · HD', streamUrl: 'https://s6.hopslan.com/ardX/tracks-v1a1/mono.m3u8' },
+  { slug: 'as1-hd', name: 'AS1 HD', label: 'AS1 HD', sublabel: 'AS1 · HD', streamUrl: 'https://nl1.nghk.ai/AS1HRHD/index.m3u8' },
 ] as const;
 
 export function relayOption(slug?: string | null) {
