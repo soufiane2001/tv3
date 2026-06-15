@@ -14,21 +14,21 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
-  title: '🔴 Spain vs Cape Verde LIVE Free Today — World Cup 2026 | SportaLive',
-  description: '🔴 Watch Spain vs Cape Verde LIVE & FREE today (España vs Cabo Verde · Espagne vs Cap-Vert · إسبانيا ضد الرأس الأخضر) — FIFA World Cup 2026 in HD on SportaLive. Group H, Mercedes-Benz Stadium Atlanta, 17:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
+  title: '🔴 Saudi Arabia vs Uruguay LIVE Free Today — World Cup 2026 | SportaLive',
+  description: '🔴 Watch Saudi Arabia vs Uruguay LIVE & FREE today (السعودية ضد أوروغواي · Arabia Saudí vs Uruguay · Arabie Saoudite vs Uruguay) — FIFA World Cup 2026 in HD on SportaLive. Group H, Hard Rock Stadium Miami, 22:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
   keywords: [
-    // ── Spain vs Cape Verde — match of the day (multilingual) ──
+    // ── Saudi Arabia vs Uruguay — match of the day (multilingual) ──
     // English
-    'spain vs cape verde live stream free','spain cape verde world cup 2026 live','watch spain vs cape verde free online',
-    'spain vs cape verde live today','spain cape verde free stream hd',
+    'saudi arabia vs uruguay live stream free','saudi arabia uruguay world cup 2026 live','watch saudi arabia vs uruguay free online',
+    'saudi arabia vs uruguay live today','saudi arabia uruguay free stream hd',
+    // Arabic
+    'السعودية أوروغواي بث مباشر','مشاهدة السعودية ضد أوروغواي مجاناً','مباراة السعودية اليوم بث مباشر',
+    'السعودية كأس العالم 2026 مباشر','الاخضر السعودي بث مباشر',
     // Spanish
-    'españa vs cabo verde en vivo gratis','ver españa mundial 2026 en vivo','españa cabo verde en vivo',
-    'españa mundial 2026 gratis','españa en vivo hoy futbol','la roja en vivo gratis',
-    // French
-    'espagne cap-vert en direct gratuit','regarder espagne cap-vert direct','espagne cap vert streaming gratuit',
-    'espagne coupe du monde 2026 direct','match espagne en direct',
-    // Arabic / Portuguese
-    'إسبانيا الرأس الأخضر بث مباشر','مشاهدة إسبانيا ضد الرأس الأخضر','espanha cabo verde ao vivo',
+    'arabia saudí vs uruguay en vivo gratis','ver uruguay mundial 2026 en vivo','uruguay arabia saudita en vivo',
+    'uruguay en vivo hoy futbol','la celeste en vivo gratis',
+    // French / Portuguese
+    'arabie saoudite uruguay en direct gratuit','regarder uruguay arabie saoudite direct','uruguai arabia saudita ao vivo',
     // ── General World Cup 2026 ──
     'coupe du monde 2026 en direct gratuit','regarder coupe du monde 2026 gratuit','m6 coupe du monde 2026 direct',
     'bein sport coupe du monde 2026','world cup 2026 live stream free','watch world cup 2026 online free',
@@ -40,14 +40,14 @@ export const metadata: Metadata = {
     languages: { 'en': SITE, 'fr': SITE, 'es': SITE, 'ar': SITE, 'pt': SITE, 'x-default': SITE },
   },
   openGraph: {
-    title: '🔴 Spain vs Cape Verde LIVE Free — España-Cabo Verde · Espagne-Cap-Vert — World Cup 2026',
-    description: 'Spain vs Cape Verde live free HD on SportaLive — World Cup 2026, Group H, Mercedes-Benz Stadium Atlanta. España-Cabo Verde en vivo gratis · Espagne-Cap-Vert en direct gratuit. No subscription.',
+    title: '🔴 Saudi Arabia vs Uruguay LIVE Free — السعودية-أوروغواي · Arabia Saudí-Uruguay — World Cup 2026',
+    description: 'Saudi Arabia vs Uruguay live free HD on SportaLive — World Cup 2026, Group H, Hard Rock Stadium Miami. السعودية ضد أوروغواي بث مباشر · Uruguay en vivo gratis. No subscription.',
     type: 'website', url: SITE, siteName: 'SportaLive',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '🔴 Spain vs Cape Verde LIVE Free Today — World Cup 2026',
-    description: 'Watch Spain vs Cape Verde free HD today on SportaLive (España-Cabo Verde en vivo · Espagne-Cap-Vert en direct). No subscription. + every WC2026 match live free.',
+    title: '🔴 Saudi Arabia vs Uruguay LIVE Free Today — World Cup 2026',
+    description: 'Watch Saudi Arabia vs Uruguay free HD today on SportaLive (السعودية ضد أوروغواي · Uruguay en vivo). No subscription. + every WC2026 match live free.',
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
 };
@@ -185,29 +185,29 @@ export default async function HomePage() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
                   <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">🔴 Match du jour · Live aujourd'hui</p>
-                  <p className="text-white font-black text-sm mt-0.5">Spain vs Cape Verde — Group H</p>
+                  <p className="text-white font-black text-sm mt-0.5">Saudi Arabia vs Uruguay — Group H</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
-              <Link href="/spain-vs-cape-verde-2026"
+              <Link href="/saudi-arabia-vs-uruguay-2026"
                 className="flex items-center justify-between px-4 py-4 hover:bg-white/[0.03] transition-colors">
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/es.png" alt="Spain" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Spain</p>
+                  <img src="https://flagcdn.com/w80/sa.png" alt="Saudi Arabia" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Saudi Arabia</p>
                 </div>
                 <div className="text-center">
                   <p className="text-white/20 font-black text-3xl tracking-[0.3em]">VS</p>
-                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">15 Jun · 17:00 UTC</p>
+                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">15 Jun · 22:00 UTC</p>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/cv.png" alt="Cape Verde" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Cape Verde</p>
+                  <img src="https://flagcdn.com/w80/uy.png" alt="Uruguay" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Uruguay</p>
                 </div>
               </Link>
             </div>
 
             {[
-              { slug: 'spain-vs-cape-verde-2026', home: 'Spain', hf: 'es', away: 'Cape Verde', af: 'cv', date: 'Mon Jun 15' },
+              { slug: 'saudi-arabia-vs-uruguay-2026', home: 'Saudi Arabia', hf: 'sa', away: 'Uruguay', af: 'uy', date: 'Mon Jun 15' },
               { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Sun Jun 14' },
               { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Sat Jun 13' },
             ].map(m => (
@@ -266,10 +266,10 @@ export default async function HomePage() {
         <WC2026StreamClient
           servers={wcServers}
           match={{
-            home: 'Spain', homeFlag: 'es',
-            away: 'Cape Verde', awayFlag: 'cv',
+            home: 'Saudi Arabia', homeFlag: 'sa',
+            away: 'Uruguay', awayFlag: 'uy',
             date: 'Monday, 15 June 2026',
-            time: '17:00 UTC · Mercedes-Benz Stadium, Atlanta',
+            time: '22:00 UTC · Hard Rock Stadium, Miami',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
@@ -698,36 +698,36 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Match-of-the-day multilingual block — visible, crawlable (Spain vs Cape Verde) */}
+      {/* Match-of-the-day multilingual block — visible, crawlable (Saudi Arabia vs Uruguay) */}
       <section className="px-4 md:px-0 pt-10 pb-2 border-t border-white/[0.04]">
         <h2 className="text-white font-black text-lg md:text-xl mb-1" style={{ fontFamily: 'var(--font-display)' }}>
-          🔴 Spain vs Cape Verde — Live Free Today · España - Cabo Verde · Espagne - Cap-Vert
+          🔴 Saudi Arabia vs Uruguay — Live Free Today · السعودية ضد أوروغواي · Arabia Saudí - Uruguay
         </h2>
         <p className="text-white/40 text-sm leading-relaxed mb-5 max-w-3xl">
-          Watch <strong className="text-white/70">Spain vs Cape Verde</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
-          Group H, Monday 15 June 2026 at Mercedes-Benz Stadium, Atlanta (17:00 UTC). No subscription, no registration. La Roja
-          (Lamine Yamal, Pedri, Nico Williams) face the Blue Sharks (Ryan Mendes, Garry Rodrigues, Jamiro Monteiro) — pick a free server above and watch every minute live.
+          Watch <strong className="text-white/70">Saudi Arabia vs Uruguay</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
+          Group H, Monday 15 June 2026 at Hard Rock Stadium, Miami (22:00 UTC). No subscription, no registration. The Green Falcons
+          (Salem Al-Dawsari, Firas Al-Buraikan, Mohamed Kanno) face La Celeste (Federico Valverde, Darwin Núñez, Ronald Araújo) — pick a free server above and watch every minute live.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 text-xs text-white/35 leading-relaxed">
           <div>
             <p className="text-white/50 font-bold mb-1">🌍 English</p>
-            <p>Spain vs Cape Verde live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
-          </div>
-          <div>
-            <p className="text-white/50 font-bold mb-1">🇪🇸 Español</p>
-            <p>España vs Cabo Verde en vivo gratis en SportaLive — Mundial 2026, Grupo H. Mira a La Roja en HD, sin suscripción ni registro. Todos los partidos del Mundial 2026 en directo.</p>
-          </div>
-          <div>
-            <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
-            <p>Espagne - Cap-Vert en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe H. Suivez La Roja en HD : M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
+            <p>Saudi Arabia vs Uruguay live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇸🇦 عربي</p>
-            <p>شاهد إسبانيا ضد الرأس الأخضر بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة H، بدون اشتراك ولا تسجيل. بث مباشر لجميع 104 مباريات.</p>
+            <p>شاهد السعودية ضد أوروغواي بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة H، بدون اشتراك ولا تسجيل. تابع الأخضر السعودي مباشرة وكل مباريات المونديال الـ104.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇪🇸 Español</p>
+            <p>Arabia Saudí vs Uruguay en vivo gratis en SportaLive — Mundial 2026, Grupo H. Mira a La Celeste en HD, sin suscripción ni registro. Todos los partidos del Mundial 2026 en directo.</p>
+          </div>
+          <div>
+            <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
+            <p>Arabie Saoudite - Uruguay en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe H. Suivez le match en HD : M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇵🇹 Português</p>
-            <p>Espanha vs Cabo Verde ao vivo grátis — Copa do Mundo 2026, Grupo H. beIN Sport, M6, La 1. Sem assinatura, sem cadastro.</p>
+            <p>Arábia Saudita vs Uruguai ao vivo grátis — Copa do Mundo 2026, Grupo H. beIN Sport, M6, La 1. Sem assinatura, sem cadastro.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🌍 World Cup 2026</p>
