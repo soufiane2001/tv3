@@ -22,15 +22,18 @@ export const RELAY_OPTIONS = [
   { slug: 'dazn-mundial', channel: 238, name: 'DAZN Mundial ES', label: 'DAZN Mundial', sublabel: 'DAZN · Mundial ES · FHD' },
 ] as const;
 
-// Direct multi-viewer HLS sources — already unlimited at the origin, so each
-// viewer's browser plays them straight (no goattv relay box needed). streamUrl
-// must be an HTTPS .m3u8 so the player streams it directly (VideoPlayer
-// isDirectHls). Picked from the SAME admin list as the relay options.
+// Extra selectable sources, picked from the SAME admin list as the relay
+// options. An HTTPS .m3u8 plays DIRECTLY in each viewer's browser (multi-viewer
+// at the origin, no goattv relay box — see VideoPlayer isDirectHls). An HTTP
+// source can't play directly on our HTTPS site (mixed content), so VideoPlayer
+// auto-routes it through /api/stream (proxy, uses Vercel bandwidth).
 export const DIRECT_SOURCES = [
   { slug: 'ard-1', name: 'ARD', label: 'ARD', sublabel: 'ARD · DE · HD', streamUrl: 'https://s6.hopslan.com/ardX/tracks-v1a1/mono.m3u8' },
   { slug: 'as1-hd', name: 'AS1 HD', label: 'AS1 HD', sublabel: 'AS1 · HD', streamUrl: 'https://nl1.nghk.ai/AS1HRHD/index.m3u8' },
   // HRT2 (Croatia) — use the HLS variant; the player can't play the .mpd (DASH).
   { slug: 'hrt-2', name: 'HRT 2', label: 'HRT 2', sublabel: 'HRT 2 · HR · HD', streamUrl: 'https://bpcdnmanprod.nexttv.ht.hr/bpk-tv/HRT2/default/index.m3u8' },
+  // ČT Sport (Czech) — HTTP origin → served via the /api/stream proxy.
+  { slug: 'ct-sport', name: 'ČT Sport', label: 'ČT Sport', sublabel: 'ČT Sport · CZ · HD', streamUrl: 'http://88.212.15.19/live/test_ctsport_25p/playlist.m3u8' },
 ] as const;
 
 export function relayOption(slug?: string | null) {
