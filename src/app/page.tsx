@@ -14,21 +14,19 @@ import type { Metadata } from 'next';
 const SITE = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://sportalive.live';
 
 export const metadata: Metadata = {
-  title: '🔴 Saudi Arabia vs Uruguay LIVE Free Today — World Cup 2026 | SportaLive',
-  description: '🔴 Watch Saudi Arabia vs Uruguay LIVE & FREE today (السعودية ضد أوروغواي · Arabia Saudí vs Uruguay · Arabie Saoudite vs Uruguay) — FIFA World Cup 2026 in HD on SportaLive. Group H, Hard Rock Stadium Miami, 22:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
+  title: '🔴 Iran vs New Zealand LIVE Free Today — World Cup 2026 | SportaLive',
+  description: '🔴 Watch Iran vs New Zealand LIVE & FREE today (إيران ضد نيوزيلندا · Irán vs Nueva Zelanda · Iran vs Nouvelle-Zélande) — FIFA World Cup 2026 in HD on SportaLive. Group G, SoFi Stadium Los Angeles, 04:00 UTC. Plus every WC2026 match live free, no subscription — beIN Sports, M6.',
   keywords: [
-    // ── Saudi Arabia vs Uruguay — match of the day (multilingual) ──
+    // ── Iran vs New Zealand — match of the day (multilingual) ──
     // English
-    'saudi arabia vs uruguay live stream free','saudi arabia uruguay world cup 2026 live','watch saudi arabia vs uruguay free online',
-    'saudi arabia vs uruguay live today','saudi arabia uruguay free stream hd',
+    'iran vs new zealand live stream free','iran new zealand world cup 2026 live','watch iran vs new zealand free online',
+    'iran vs new zealand live today','iran new zealand free stream hd',
     // Arabic
-    'السعودية أوروغواي بث مباشر','مشاهدة السعودية ضد أوروغواي مجاناً','مباراة السعودية اليوم بث مباشر',
-    'السعودية كأس العالم 2026 مباشر','الاخضر السعودي بث مباشر',
-    // Spanish
-    'arabia saudí vs uruguay en vivo gratis','ver uruguay mundial 2026 en vivo','uruguay arabia saudita en vivo',
-    'uruguay en vivo hoy futbol','la celeste en vivo gratis',
-    // French / Portuguese
-    'arabie saoudite uruguay en direct gratuit','regarder uruguay arabie saoudite direct','uruguai arabia saudita ao vivo',
+    'إيران نيوزيلندا بث مباشر','مشاهدة إيران ضد نيوزيلندا مجاناً','مباراة إيران اليوم بث مباشر',
+    'إيران كأس العالم 2026 مباشر','منتخب إيران بث مباشر',
+    // Spanish / French / Portuguese
+    'irán vs nueva zelanda en vivo gratis','ver irán mundial 2026 en vivo','iran nouvelle-zélande en direct gratuit',
+    'regarder iran nouvelle zelande direct','irã nova zelândia ao vivo',
     // ── General World Cup 2026 ──
     'coupe du monde 2026 en direct gratuit','regarder coupe du monde 2026 gratuit','m6 coupe du monde 2026 direct',
     'bein sport coupe du monde 2026','world cup 2026 live stream free','watch world cup 2026 online free',
@@ -40,14 +38,14 @@ export const metadata: Metadata = {
     languages: { 'en': SITE, 'fr': SITE, 'es': SITE, 'ar': SITE, 'pt': SITE, 'x-default': SITE },
   },
   openGraph: {
-    title: '🔴 Saudi Arabia vs Uruguay LIVE Free — السعودية-أوروغواي · Arabia Saudí-Uruguay — World Cup 2026',
-    description: 'Saudi Arabia vs Uruguay live free HD on SportaLive — World Cup 2026, Group H, Hard Rock Stadium Miami. السعودية ضد أوروغواي بث مباشر · Uruguay en vivo gratis. No subscription.',
+    title: '🔴 Iran vs New Zealand LIVE Free — إيران-نيوزيلندا · Irán-Nueva Zelanda — World Cup 2026',
+    description: 'Iran vs New Zealand live free HD on SportaLive — World Cup 2026, Group G, SoFi Stadium Los Angeles. إيران ضد نيوزيلندا بث مباشر · Irán en vivo gratis. No subscription.',
     type: 'website', url: SITE, siteName: 'SportaLive',
   },
   twitter: {
     card: 'summary_large_image',
-    title: '🔴 Saudi Arabia vs Uruguay LIVE Free Today — World Cup 2026',
-    description: 'Watch Saudi Arabia vs Uruguay free HD today on SportaLive (السعودية ضد أوروغواي · Uruguay en vivo). No subscription. + every WC2026 match live free.',
+    title: '🔴 Iran vs New Zealand LIVE Free Today — World Cup 2026',
+    description: 'Watch Iran vs New Zealand free HD today on SportaLive (إيران ضد نيوزيلندا · Irán en vivo). No subscription. + every WC2026 match live free.',
   },
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, 'max-snippet': -1, 'max-image-preview': 'large' } },
 };
@@ -185,29 +183,29 @@ export default async function HomePage() {
               <div className="flex items-center justify-between px-4 py-3 border-b border-white/[0.06]">
                 <div>
                   <p className="text-red-400 text-[10px] font-black uppercase tracking-widest">🔴 Match du jour · Live aujourd'hui</p>
-                  <p className="text-white font-black text-sm mt-0.5">Saudi Arabia vs Uruguay — Group H</p>
+                  <p className="text-white font-black text-sm mt-0.5">Iran vs New Zealand — Group G</p>
                 </div>
                 <span className="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-white/50 text-sm">→</span>
               </div>
-              <Link href="/saudi-arabia-vs-uruguay-2026"
+              <Link href="/iran-vs-new-zealand-2026"
                 className="flex items-center justify-between px-4 py-4 hover:bg-white/[0.03] transition-colors">
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/sa.png" alt="Saudi Arabia" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Saudi Arabia</p>
+                  <img src="https://flagcdn.com/w80/ir.png" alt="Iran" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">Iran</p>
                 </div>
                 <div className="text-center">
                   <p className="text-white/20 font-black text-3xl tracking-[0.3em]">VS</p>
-                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">15 Jun · 22:00 UTC</p>
+                  <p className="text-red-500 text-[10px] font-black uppercase tracking-widest mt-1">16 Jun · 04:00 UTC</p>
                 </div>
                 <div className="flex flex-col items-center gap-2">
-                  <img src="https://flagcdn.com/w80/uy.png" alt="Uruguay" width={48} height={32} className="rounded-md shadow-lg" />
-                  <p className="text-white text-xs font-black uppercase">Uruguay</p>
+                  <img src="https://flagcdn.com/w80/nz.png" alt="New Zealand" width={48} height={32} className="rounded-md shadow-lg" />
+                  <p className="text-white text-xs font-black uppercase">New Zealand</p>
                 </div>
               </Link>
             </div>
 
             {[
-              { slug: 'saudi-arabia-vs-uruguay-2026', home: 'Saudi Arabia', hf: 'sa', away: 'Uruguay', af: 'uy', date: 'Mon Jun 15' },
+              { slug: 'iran-vs-new-zealand-2026', home: 'Iran', hf: 'ir', away: 'New Zealand', af: 'nz', date: 'Mon Jun 15' },
               { slug: 'netherlands-vs-japan-2026', home: 'Netherlands', hf: 'nl', away: 'Japan', af: 'jp', date: 'Sun Jun 14' },
               { slug: 'brazil-vs-morocco-2026', home: 'Brazil', hf: 'br', away: 'Morocco', af: 'ma', date: 'Sat Jun 13' },
             ].map(m => (
@@ -266,10 +264,10 @@ export default async function HomePage() {
         <WC2026StreamClient
           servers={wcServers}
           match={{
-            home: 'Saudi Arabia', homeFlag: 'sa',
-            away: 'Uruguay', awayFlag: 'uy',
+            home: 'Iran', homeFlag: 'ir',
+            away: 'New Zealand', awayFlag: 'nz',
             date: 'Monday, 15 June 2026',
-            time: '22:00 UTC · Hard Rock Stadium, Miami',
+            time: '04:00 UTC · SoFi Stadium, Los Angeles',
           }}
         />
         <div className="flex flex-wrap gap-2 mt-3 items-center justify-between">
@@ -698,36 +696,36 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Match-of-the-day multilingual block — visible, crawlable (Saudi Arabia vs Uruguay) */}
+      {/* Match-of-the-day multilingual block — visible, crawlable (Iran vs New Zealand) */}
       <section className="px-4 md:px-0 pt-10 pb-2 border-t border-white/[0.04]">
         <h2 className="text-white font-black text-lg md:text-xl mb-1" style={{ fontFamily: 'var(--font-display)' }}>
-          🔴 Saudi Arabia vs Uruguay — Live Free Today · السعودية ضد أوروغواي · Arabia Saudí - Uruguay
+          🔴 Iran vs New Zealand — Live Free Today · إيران ضد نيوزيلندا · Irán - Nueva Zelanda
         </h2>
         <p className="text-white/40 text-sm leading-relaxed mb-5 max-w-3xl">
-          Watch <strong className="text-white/70">Saudi Arabia vs Uruguay</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
-          Group H, Monday 15 June 2026 at Hard Rock Stadium, Miami (22:00 UTC). No subscription, no registration. The Green Falcons
-          (Salem Al-Dawsari, Firas Al-Buraikan, Mohamed Kanno) face La Celeste (Federico Valverde, Darwin Núñez, Ronald Araújo) — pick a free server above and watch every minute live.
+          Watch <strong className="text-white/70">Iran vs New Zealand</strong> live and free in HD on SportaLive — FIFA World Cup 2026,
+          Group G, Monday 15 June 2026 at SoFi Stadium, Los Angeles (04:00 UTC). No subscription, no registration. Team Melli
+          (Mehdi Taremi, Sardar Azmoun, Alireza Jahanbakhsh) face the All Whites (Chris Wood, Marco Rojas, Liberato Cacace) — pick a free server above and watch every minute live.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 text-xs text-white/35 leading-relaxed">
           <div>
             <p className="text-white/50 font-bold mb-1">🌍 English</p>
-            <p>Saudi Arabia vs Uruguay live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
+            <p>Iran vs New Zealand live stream free, World Cup 2026. Watch all 104 matches free in HD — beIN Sport UHD 1, M6, La 1 RTVE. No subscription, no sign-up.</p>
           </div>
           <div>
-            <p className="text-white/50 font-bold mb-1">🇸🇦 عربي</p>
-            <p>شاهد السعودية ضد أوروغواي بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة H، بدون اشتراك ولا تسجيل. تابع الأخضر السعودي مباشرة وكل مباريات المونديال الـ104.</p>
+            <p className="text-white/50 font-bold mb-1">🇮🇷 عربي</p>
+            <p>شاهد إيران ضد نيوزيلندا بث مباشر مجاناً بجودة HD على SportaLive — كأس العالم 2026، المجموعة G، بدون اشتراك ولا تسجيل. تابع منتخب إيران مباشرة وكل مباريات المونديال الـ104.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇪🇸 Español</p>
-            <p>Arabia Saudí vs Uruguay en vivo gratis en SportaLive — Mundial 2026, Grupo H. Mira a La Celeste en HD, sin suscripción ni registro. Todos los partidos del Mundial 2026 en directo.</p>
+            <p>Irán vs Nueva Zelanda en vivo gratis en SportaLive — Mundial 2026, Grupo G. Mira el partido en HD, sin suscripción ni registro. Todos los partidos del Mundial 2026 en directo.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇫🇷 Français</p>
-            <p>Arabie Saoudite - Uruguay en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe H. Suivez le match en HD : M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
+            <p>Iran - Nouvelle-Zélande en direct gratuit sur SportaLive — Coupe du Monde 2026, Groupe G. Suivez le match en HD : M6, beIN Sport 1, RMC Sport, sans abonnement ni inscription.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🇵🇹 Português</p>
-            <p>Arábia Saudita vs Uruguai ao vivo grátis — Copa do Mundo 2026, Grupo H. beIN Sport, M6, La 1. Sem assinatura, sem cadastro.</p>
+            <p>Irã vs Nova Zelândia ao vivo grátis — Copa do Mundo 2026, Grupo G. beIN Sport, M6, La 1. Sem assinatura, sem cadastro.</p>
           </div>
           <div>
             <p className="text-white/50 font-bold mb-1">🌍 World Cup 2026</p>
