@@ -12,14 +12,18 @@ const RELAY_SLUG = 'bein-max-1'; // stable DB slug + matches the HLS filename
 
 export const RELAY_CHANNEL_KEY = 'relayChannel';
 
-// The goattv channels the single relay can broadcast (admin chooses ONE — they
-// can't run at once, goattv is max_connections=1). channel = goattv stream id.
+// The sources the single relay can broadcast (admin chooses ONE — goattv is
+// max_connections=1 so they can't run at once). Most are goattv channels
+// (channel = goattv stream id). An option may instead carry `url`, a full
+// external HLS/TS source the box pulls directly (no goattv creds); when `url`
+// is set the box uses it as ffmpeg's input and ignores `channel`.
 export const RELAY_OPTIONS = [
-  { slug: 'bein-max-1', channel: 299, name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1',  sublabel: 'beIN · MAX 1 · FHD' },
-  { slug: 'bein-max-2', channel: 301, name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2',  sublabel: 'beIN · MAX 2 · FHD' },
-  { slug: 'thmanyah-1', channel: 65,  name: 'THMANYAH 1',        label: 'THMANYAH 1',  sublabel: 'الثمانية 1 · FHD' },
-  { slug: 'thmanyah-2', channel: 67,  name: 'THMANYAH 2',        label: 'THMANYAH 2',  sublabel: 'الثمانية 2 · FHD' },
-  { slug: 'dazn-mundial', channel: 238, name: 'DAZN Mundial ES', label: 'DAZN Mundial', sublabel: 'DAZN · Mundial ES · FHD' },
+  { slug: 'bein-max-1', channel: 299, url: '', name: 'beIN SPORTS MAX 1', label: 'beIN MAX 1',  sublabel: 'beIN · MAX 1 · FHD' },
+  { slug: 'bein-max-2', channel: 301, url: '', name: 'beIN SPORTS MAX 2', label: 'beIN MAX 2',  sublabel: 'beIN · MAX 2 · FHD' },
+  { slug: 'thmanyah-1', channel: 65,  url: '', name: 'THMANYAH 1',        label: 'THMANYAH 1',  sublabel: 'الثمانية 1 · FHD' },
+  { slug: 'thmanyah-2', channel: 67,  url: '', name: 'THMANYAH 2',        label: 'THMANYAH 2',  sublabel: 'الثمانية 2 · FHD' },
+  { slug: 'dazn-mundial', channel: 238, url: '', name: 'DAZN Mundial ES', label: 'DAZN Mundial', sublabel: 'DAZN · Mundial ES · FHD' },
+  { slug: 'ard-1', channel: 0, url: 'https://s6.hopslan.com/ardX/tracks-v1a1/mono.m3u8', name: 'ARD', label: 'ARD', sublabel: 'ARD · DE · HD' },
 ] as const;
 
 export function relayOption(slug?: string | null) {

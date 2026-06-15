@@ -15,6 +15,7 @@ export async function GET() {
   return NextResponse.json(
     {
       channel: opt.channel,
+      source: opt.url || '',
       slug: opt.slug,
       label: opt.label,
       current: opt.slug,
