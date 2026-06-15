@@ -23,15 +23,30 @@ export const RELAY_OPTIONS = [
 ] as const;
 
 // Direct multi-viewer HLS sources — already unlimited at the origin, so each
-// viewer's browser plays them straight (no goattv relay box needed). Added as
-// extra server tabs after the relay. streamUrl must be an HTTPS .m3u8 so the
-// player streams it directly (see VideoPlayer isDirectHls).
+// viewer's browser plays them straight (no goattv relay box needed). streamUrl
+// must be an HTTPS .m3u8 so the player streams it directly (VideoPlayer
+// isDirectHls). Picked from the SAME admin list as the relay options.
 export const DIRECT_SOURCES = [
   { slug: 'ard-1', name: 'ARD', label: 'ARD', sublabel: 'ARD · DE · HD', streamUrl: 'https://s6.hopslan.com/ardX/tracks-v1a1/mono.m3u8' },
 ] as const;
 
 export function relayOption(slug?: string | null) {
   return RELAY_OPTIONS.find(o => o.slug === slug) ?? RELAY_OPTIONS[0];
+}
+
+export function directSource(slug?: string | null) {
+  return DIRECT_SOURCES.find(o => o.slug === slug) ?? null;
+}
+
+// The full list the admin picker shows — relay (goattv via Oracle box) AND
+// direct sources, in one list. The admin selects ONE; that's what viewers see.
+export const SOURCE_OPTIONS = [
+  ...RELAY_OPTIONS.map(o => ({ slug: o.slug, label: o.label, sublabel: o.sublabel, kind: 'relay'  as const })),
+  ...DIRECT_SOURCES.map(o => ({ slug: o.slug, label: o.label, sublabel: o.sublabel, kind: 'direct' as const })),
+];
+
+export function isValidSourceSlug(slug?: string | null) {
+  return SOURCE_OPTIONS.some(o => o.slug === slug);
 }
 
 export interface WcServer { slug: string; label: string; sublabel: string; channel: any }
@@ -52,7 +67,8 @@ const TTL = 5 * 60_000;
 
 export async function getWcExtraChannels(): Promise<WcServer[]> {
   const sel = await prisma.setting.findUnique({ where: { key: RELAY_CHANNEL_KEY } }).catch(() => null);
-  const opt = relayOption(sel?.value);
+  const slug = sel?.value;
+  const direct = directSource(slug); // non-null when the admin picked a direct source
 
   if (!_channel || Date.now() - _ts > TTL) {
     _channel = await prisma.channel.upsert({
@@ -62,27 +78,27 @@ export async function getWcExtraChannels(): Promise<WcServer[]> {
     }).catch(() => null);
     // Direct multi-viewer sources (ARD…) — own channel rows so the player gets a
     // real id (analytics + VLC fallback) while playing the .m3u8 directly.
-    const direct: Record<string, any> = {};
+    const d: Record<string, any> = {};
     for (const s of DIRECT_SOURCES) {
-      direct[s.slug] = await prisma.channel.upsert({
+      d[s.slug] = await prisma.channel.upsert({
         where:  { slug: s.slug },
         update: { streamUrl: s.streamUrl, isActive: true },
         create: { slug: s.slug, name: s.name, streamUrl: s.streamUrl, groupTitle: 'Sports', isActive: true, order: 998 },
       }).catch(() => null);
     }
-    _direct = direct;
+    _direct = d;
     _ts = Date.now();
   }
-  if (!_channel) return [];
 
-  // Same relay URL either way — only the displayed identity follows the choice.
-  const channel = { ..._channel, name: opt.name };
-  const servers: WcServer[] = [{ slug: RELAY_SLUG, label: opt.label, sublabel: opt.sublabel, channel }];
-
-  // Append each direct multi-viewer source as its own server tab.
-  for (const s of DIRECT_SOURCES) {
-    const ch = _direct[s.slug];
-    if (ch) servers.push({ slug: s.slug, label: s.label, sublabel: s.sublabel, channel: { ...ch, name: s.name } });
+  // Admin picked a direct source (e.g. ARD): viewers play its .m3u8 directly.
+  if (direct) {
+    const ch = _direct[direct.slug];
+    if (ch) return [{ slug: direct.slug, label: direct.label, sublabel: direct.sublabel, channel: { ...ch, name: direct.name } }];
   }
-  return servers;
+
+  // Otherwise show the goattv relay, labelled by the selected relay option.
+  if (!_channel) return [];
+  const opt = relayOption(slug);
+  const channel = { ..._channel, name: opt.name };
+  return [{ slug: RELAY_SLUG, label: opt.label, sublabel: opt.sublabel, channel }];
 }
